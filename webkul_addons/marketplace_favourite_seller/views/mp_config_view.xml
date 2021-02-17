@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="inherit_mp_settings_form_for_seller_follower" model="ir.ui.view">
+            <field name="name">marketplace.config.setting.seller.follower</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="odoo_marketplace.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='config_mail_notify']/div" position="inside">
+                    <div class="col-12 col-md-6 o_setting_box" title="Enable for notification to followers on new product.">
+                        <separator string="Mail to Followers on New Product"/>
+                        <div class="o_setting_left_pane" title="Enable to notify the followers on new seller product.">
+                            <field name="enable_notify_follower_on_new_product" class="oe_inline" help="Enable for notification to followers on new product."/>
+                        </div>
+                        <div class="o_setting_right_pane" title="Enable for notification to followers on new product.">
+                            <label for="enable_notify_follower_on_new_product" string="Enable Notification for Followers on New Seller Product"/>
+                            <div class="content-group">
+                                <div class="row mt8">
+                                    <label string="Email Template" for="notify_follower_on_new_product_mail_template" class="col-md-3 o_light_label" attrs="{'invisible': [('enable_notify_follower_on_new_product', '=', False)]}"/>
+                                    <field name="notify_follower_on_new_product_mail_template" attrs="{'invisible': [('enable_notify_follower_on_new_product', '=', False)], 'required': [('enable_notify_follower_on_new_product', '=', True)]}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

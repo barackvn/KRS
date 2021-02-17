@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+public_seller_story,public_seller_story_access,model_seller_story,,1,0,0,0
+
+manager_seller_story,manager_seller_story,model_seller_story,odoo_marketplace.marketplace_seller_group,1,1,1,1

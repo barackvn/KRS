@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="search_deafult_subscription" model="ir.ui.view">
+            <field name="name">search.subscription</field>
+            <field name="model">subscription.subscription</field>
+            <field name="arch" type="xml">
+                <search string="Subscriptions">
+                    <field name="name" string="subscription" filter_domain="[('name','ilike',self)]"></field>
+                    <filter name="subscription_open_filter" string="Open" domain="[('state','not in',['close','cancel','renewed'])]"></filter>
+                    <group string="Group By">
+                        <filter string="Group By State" context="{'group_by':'state'}" name="group_by_state"></filter>
+                        <filter string="Group By Source" context="{'group_by':'source'}" name="group_by_source"></filter>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="subscription_subscription_form_view" model="ir.ui.view">
+            <field name="name">subscription.subscription.form</field>
+            <field name="model">subscription.subscription</field>
+            <field name="arch" type="xml">
+            	<form string="Subscription">
+            		<header>
+            			<button name="get_confirm_subscription" string="Confirm" type="object"  class="oe_highlight" states="draft" groups="subscription_management.group_subscription_management_user,subscription_management.group_subscription_management_manager"/>
+            			<button name="subscription_management.subscription_cancel_reason_wizard_action" string="Cancel" type="action" states="draft" class="oe_highlight" groups="subscription_management.group_subscription_management_user,subscription_management.group_subscription_management_manager" context="{'is_cancel':'True'}"/>
+            			<!-- <button name="make_payment" type="object" string="Pay invoice" attrs="{'invisible':['|','|',('invoice_count','=',0),('state','!=','in_progress'),('is_paid','=',False)]}" groups="subscription_management.group_subscription_management_user,subscription_management.group_subscription_management_manager"/> -->
+                        <button name="make_payment" type="object" string="Pay invoice" attrs="{'invisible':['|','|',('invoice_count','=',0),('state','!=','in_progress'),('is_paid','=',False)]}" groups="subscription_management.group_subscription_management_user,subscription_management.group_subscription_management_manager"/>
+
+            			<button name="subscription_management.subscription_cancel_reason_wizard_action" string="Close" type="action" states="in_progress" class="oe_highlight" groups="subscription_management.group_subscription_management_user,subscription_management.group_subscription_management_manager"/>
+            			<button name="renewe_subscription" string="Renew" type="object" states="expired,close" class="oe_highlight" groups="subscription_management.group_subscription_management_user,subscription_management.group_subscription_management_manager"/>
+            			
+            			<field name="state" widget="statusbar" statusbar_visible="draft,in_progress,cancel"/>
+            		</header>
+            		<sheet>
+            			<div class="oe_button_box" name="button_box">
+	                        <button name="action_view_invoice"
+	                            type="object"
+	                            class="oe_stat_button"
+	                            icon="fa-pencil-square-o"
+	                            attrs="{'invisible': [('invoice_count', '=', 0)]}" groups="subscription_management.group_subscription_management_user,subscription_management.group_subscription_management_manager">
+	                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+	                        </button>
+	                    </div>
+            			<div class="oe_title">
+                            <h1><field name="name" attrs="{'invisible':[('name','=',False)]}" />
+                            </h1>
+                            <field name="is_paid" invisible="1"/>
+                            <group><field name="active" attrs="{'readonly': [('state', '!=', 'draft')]}"/></group>
+                        </div>
+                        <group name="customer">
+                            <group name="customer" string="Customer Information">
+                                <field name="customer_name" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                                <field name="customer_billing_address" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                                <field name="old_customer_id" invisible="1" />
+                            </group>
+                            <group name="product" string="Product Information">
+                                <field name="product_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options='{"no_open": True, "no_create": True}'></field>
+                                <field name="tax_id" widget="many2many_tags" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                                <field name="quantity" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                            </group>
+                        </group>
+                        <group name="plan" string="Plan Information">
+                            <group>
+                                <field name="sub_plan_id" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                                <label for='duration' string="Recurrency"></label>
+                                <div name='duration'>
+                                    <field name="duration" class="oe_inline" nolabel="1" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                                    <field name="unit" class="oe_inline" nolabel="1" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                                </div>
+                                <field name="trial_period" attrs="{'readonly':[('state','!=','draft')]}"></field>
+                                <label for='duration' string="Trial Duration" attrs="{'invisible':[('trial_period','=',False)]}"></label>
+                                <div name='trial_duration' attrs="{'invisible':[('trial_period','=',False)]}">
+                                    <field name="trial_duration" class="oe_inline" nolabel="1" attrs="{'required':[('trial_period','=',True)],'readonly':[('state','!=','draft')]}"></field>
+                                    <field name="trial_duration_unit" class="oe_inline" nolabel="1" attrs="{'required':[('trial_period','=',True)],'readonly':[('state','!=','draft')]}"></field>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="price" attrs="{'readonly': [('state', '!=', 'draft')]}" widget='monetary' options="{'currency_field': 'currency_id'}"></field>
+                                <field name="start_date" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                                <field name="end_date" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                                <field name="num_billing_cycle" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                                <field name="start_immediately" readonly="1" attrs="{'invisible':[('start_immediately','=',False)]}"></field>
+                            </group>
+                        </group>
+                        <group name="payment" string="Payment Information">
+                            <group>
+                                <field name="source" string="Source" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                                <field name="subscription_ref" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                            </group>
+                            <group>
+                                <field name="so_origin" attrs="{'readonly': [('state', '!=', 'draft')],'required':[('source','=','so')],'invisible':[('source','in',[False,'pos','api','manual'])]}"></field>
+                                <field name="subscription_id" attrs="{'readonly': [('state', '!=', 'draft')],'invisible':[('subscription_id','=',False)]}"></field>
+                            </group>
+                        </group>
+                        <group>
+                            <label for="next_payment_date" attrs="{'readonly': [('state', '!=', 'draft')]}"></label>
+                            <div>
+                                <field name="next_payment_date" class="oe_inline" attrs="{'readonly': [('state', '!=', 'draft')]}"></field>
+                                <button name="action_invoice_create" string="Generate Invoice" type="object" class="oe_inline oe_link" attrs="{'invisible': ['|',('state', 'in', ['cancel','close']),('active','=',False)]}"></button>
+                            </div>
+                        </group>
+                        <group name="reason">
+                            <field name="reason" attrs="{'invisible': [('reason', '=', False)]}" readonly='1'></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"></field>
+                        <field name="message_ids" widget="mail_thread"></field>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="subscription_tree_view" model="ir.ui.view">
+            <field name="name">subscription.subscription.tree.view</field>
+            <field name="model">subscription.subscription</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state == 'draft'" decoration-danger="state == 'cancel'" decoration-bf="state == 'in_progress'" string="Subscriptions">
+                    <field name="name"></field>
+                    <field name="customer_name"></field>
+                    <field name="product_id"></field>
+                    <field name="quantity"></field>
+                    <field name="sub_plan_id"></field>
+                    <field name="duration"></field>
+                    <field name="unit"></field>
+                    <field name='state'></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_subscription" model="ir.actions.act_window">
+            <field name="name">Subscriptions</field>
+            <field name="res_model">subscription.subscription</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="subscription_tree_view"></field>
+            <field name="search_view_id" ref="search_deafult_subscription"></field>
+            <field name="context">{"search_default_subscription_open_filter":1}</field>
+        </record>
+
+        <menuitem name="Subscription" id="menu_sale_subscription_submenu2" parent="menu_sale_subscription" action="action_subscription" groups="subscription_management.group_subscription_management_user,subscription_management.group_subscription_management_manager"></menuitem>
+    </data>
+</odoo>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<template id="mp_ajax_frontend" inherit_id="website.assets_frontend" name="MP Ajax assets_frontend">
+			<xpath expr="." position="inside">
+				<link href="/marketplace_ajax_login/static/src/css/marketplace_login.css" rel="stylesheet"/>
+				<script src="/marketplace_ajax_login/static/src/js/marketplace_login.js" type="text/javascript"/>
+			</xpath>
+		</template>
+		<template id="mp_custom_ajax_login" inherit_id="website_ajax_login.wk_ajax_login_modals">
+			<xpath expr="//div[hasclass('login-btn-div')]" position="inside">
+				<span class="ml4 mr4">or</span>
+				<a class="btn btn-success btn-xs mp_ajax_form_button" href="/shop" id="wk_shop_button">Shop</a>
+			</xpath>
+			<xpath expr="//input[@id='signup_confirm_password']/.." position="after">
+				<div style="text-align:left;">
+					<div class="col-md-12" style="margin-bottom: 20px;">
+						<div>
+							<input type="checkbox" name="is_seller" id="is_seller"/>
+							<label for="is_seller" class="control-label" style="display:inline;">Do you want to become seller/vendor? </label>
+                            <div id="mp_seller_details" style="margin-top:10px;">
+                                <div class="form-group field-country">
+                                    <t t-set="countries" t-value="website.get_mp_ajax_seller_countries()"/>
+                                    <t t-set="country" t-value="website.user_id.sudo().partner_id.company_id.country_id"/>
+                                    <label class="control-label" for="country_id">Country</label>
+                                    <select id="country_id" name="country_id" class="form-control">
+                                        <option value="">Country...</option>
+                                        <t t-foreach="countries" t-as="c">
+                                            <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
+                                                <t t-esc="c.name" />
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="form-group has-feedback">
+                                    <label for="profile_url" class="control-label">Profile URL</label>
+                                    <span class="fa fa-info-circle text-info pull-right ajax_url_info" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="This will be used to display your public profile."/>
+                                    <input type="text" name="url_handler" id="profile_url" class="form-control" placeholder="Unique Seller Profile URL handler.."/>
+                                    <span class="fa fa-pencil form-control-feedback pull-right" style="margin-top:-24px;margin-right: 10px;"></span>
+                                    <div class="text-danger" id="profile_url_error" style="display:none;"></div>
+                                    <input type="hidden" name="valid_profile_url" id="valid_profile_url"/>
+                                </div>
+                                <input type="checkbox" name="mp_terms_conditions" id="mp_terms_conditions"/>
+                				<label for="mp_terms_conditions" class="form-group control-label">&#160;I Accept <a data-toggle="modal1" href="#mp_t_and_c_modal" id="mp_t_and_c">Terms &amp; Conditions</a></label>
+                				<data id="mp_t_and_c_data" t-att-data-terms="website.mp_term_and_condition"/>
+                            </div>
+						</div>
+						<data id="mp_terms_conditions_for_mp_ajax" t-att-data-terms="website.mp_term_and_condition"/>
+						<div><label id="mp_ajax_t_and_c_label" class="" style="display:none;color:#337ab7;">Terms &amp; Conditions</label></div>
+						<div id="mp_ajax_mp_t_and_c" style="display:none; border: 1px solid; border-color: #CCCCCC; padding:8px;border-top-left-radius: 5px;border-bottom-left-radius: 5px;width: auto;height: 150px;overflow: auto;"/>
+					</div>
+				</div>
+			</xpath>
+		</template>
+	</data>
+</odoo>

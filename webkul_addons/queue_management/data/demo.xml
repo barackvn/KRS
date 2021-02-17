@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+
+    <data noupdate="1">
+
+        <record id="queue_department_1" forcecreate='True' model="department.department">
+            <field name="name">Mobile</field>
+        </record>
+        
+        <record id="queue_counter_main" forcecreate='True' model="queue.counter">
+            <field name="name">Counter Main</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="group_queue_manager_id" ref="queue_management.group_queue_manager" />
+            <field name="group_queue_user_id" ref="queue_management.group_queue_user" />
+        </record>
+
+        <record id="token_sequence_1" forcecreate='True' model="token.sequence">
+            <field name="name">SEQ1</field>
+            <field name="prefix">SEQ</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" ref="base.main_company" />
+        </record>
+        
+        <record id="token_interface_1" forcecreate='True' model="token.interface">
+            <field name="name">Token Main Interface</field>
+            <field name="token_seq" ref="queue_management.token_sequence_1" />
+            <field name="group_queue_manager_id" ref="queue_management.group_queue_manager" />
+            <field name="group_queue_user_id" ref="queue_management.group_queue_user" />
+            <field name="company_id" ref="base.main_company" />
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+
+        <record id= "inherit_website_ad_block_form_view" model= "ir.ui.view">
+            <field name= "name">product.template.form.mp.inherit</field>
+            <field name= "model">product.template</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="website_advertisement_manager.website_ad_block_form_view"/>
+            <field name= "arch" type= "xml">
+                <xpath expr="//form/sheet//field[@name='block_position']" position="after">
+                    <field name="allow_prod_carousel" string="Allow Product Slider"
+                        help="Enable to allow product carousel for this ad block position."/>
+                    <field name="max_prod" attrs="{'invisible': [('allow_prod_carousel','=',False)],
+                        'required': [('allow_prod_carousel','!=', False)]}" string="Maximum Products"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,19 @@
+
+.btndownload{
+color: white;
+font-size: 16px;
+cursor: pointer;
+font-size: 19px;
+}
+
+
+.btndelete{
+border: none;
+color: white;
+font-size: 16px;
+cursor: pointer;
+font-size: 19px;
+}
+.card-body{
+background-color: transparent !important;
+}

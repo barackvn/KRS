@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+  <!-- See LICENSE file for full copyright and licensing details. -->
+    <data>
+
+      <template id="assets_common" name="tour" inherit_id="web.assets_common">
+      		<xpath expr="." position="inside">
+      				<script type="text/javascript" src="/website_product_brands/static/src/js/web_tour.js"></script>
+      		</xpath>
+      </template>
+
+    <template id="website_product_brand_assets_frontend" name="website product  brand assets frontend" inherit_id="website.assets_frontend">
+      <xpath expr="." position="inside">
+
+            <script type="text/javascript" src="/website_product_brands/static/src/js/website_product_brands.js"></script>
+               <link rel='stylesheet' href='/website_product_brands/static/src/css/website_product_brands.css'/>
+        </xpath>
+    </template>
+    <template id="inherited_website_sale_cart_website_product_brands_wk" name="website product brand" inherit_id="website_sale.product"  active="True" >
+      <xpath expr="//hr" position="before">
+                <t t-if="product.product_brand_id">
+                <hr/>
+                <div t-if="product.product_brand_id"><b>Brand:<span t-field="product.product_brand_id" class="text-muted"/></b></div>
+                </t>
+      </xpath>
+    </template>
+
+    <template id="wk_horizontal_brands" name="Brand list" inherit_id="website_sale.products"  active="True" customize_show="True" >
+      <xpath expr="//div[hasclass('products_pager')]" position="after">
+          <div class = "horizontal_category" >
+            <div class="row">
+              <div class="col-md-12">
+                <center>
+                  <ul class="list-inline nav nav-pills justify-content-center">
+                    <t t-set="wk_brands"
+                      t-value="brand_set and website.get_wk_brands(brand_set)"/>
+                    <li class="horizontal_category_unlink_list" style="display:none" >
+                      <ul class="list-inline nav nav-pills justify-content-center" t-if='wk_brands'>
+
+                          <t t-foreach="wk_brands" t-as="b">
+                          <li t-att-class="'active mr8 mb8' if b.id == int(brand or 0) else ' mr8 mb8'">
+                          <a href="#" class="btn btn-primary wk_brand" t-att-data-wk_brand='b.id'> <t t-esc="b.name"/>
+                                <i class="fa fa-trash" ></i>
+                            </a>
+                          </li>
+                          </t>
+                      </ul>
+                    </li>
+                  </ul>
+              </center>
+              </div>
+            </div>
+          </div>
+      </xpath>
+    </template>
+
+    <template id="products_attributes" inherit_id="website_sale.products"  priority="100"  name="Product Brand's Filters" active="True" customize_show="True">
+        <xpath expr="//div[@id='products_grid_before']" position="before">
+            <t t-set="enable_left_column" t-value="True"/>
+        </xpath>
+        <xpath expr="//div[@id='products_grid_before']//form" position="inside">
+                <ul t-if="brand_rec" class="nav nav-pills nav-stacked mt16">
+                    <li>
+                        <t t-set="filter_brand" t-value="str()"/>
+                         <t t-foreach="brands or []" t-as="b">
+                          <t t-set="filter_brand" t-value="filter_brand+str(b.id)"/>
+                        </t>
+                          <div><b>Brands</b></div >
+                           <div t-att-data-brand_set='brand_set' class="products_brands_filter" t-attf-data-brands="#{filter_brand}">
+                          <ul class="nav nav-pills nav-stacked">
+                             <t t-foreach="brand_rec" t-as="b">
+                               <li>
+                                <label style="margin: 0 35px;">
+                                  <input type="checkbox" name="attrib_brand"
+                                    t-att-value="'%s-%s' % (b.id,b.id)"
+                                    t-att-checked="'checked' if b.id in brand_set else False"
+                                    t-attf-data-brand="#{b.id}"/>
+                                  <span style="font-weight: normal" t-field="b.name"/>
+
+                                </label>
+                              </li>
+                            </t>
+                        </ul>
+                        </div>
+                    </li>
+              </ul>
+          </xpath>
+    </template>
+
+    <template id="inherited_products_description_website_product_brands" inherit_id="website_sale.products_description"  active="True"  >
+      <xpath expr="//div[hasclass('oe_subdescription')]" position="inside">
+            <b t-if='product.product_brand_id'>Brand:<span t-field="product.product_brand_id" class="text-muted"/></b>
+      </xpath>
+    </template>
+    </data>
+</odoo>

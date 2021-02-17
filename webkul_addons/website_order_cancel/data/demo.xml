@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+       <record id="order_cancel1" model="order.cancel.reason">
+            <field name="name">I changed my mind</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="order_cancel2" model="order.cancel.reason">
+            <field name="name">Order by mistake</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="order_cancel3" model="order.cancel.reason">
+            <field name="name">My issue is not listed here</field>
+            <field name="sequence">99</field>
+        </record>
+    </data>
+</odoo>

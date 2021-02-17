@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data>
+        <record id="stock_wizard_message_form" model="ir.ui.view">
+            <field name="name">Message wizard</field>
+            <field name="model">stock.inventory.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Infromation">
+                    <separator string="Infromation" colspan="6" />
+                    <field name="text" nolabel="1" readonly="1" widget="html" />
+                    <newline/>
+                    <separator colspan="6" />
+                    <footer>
+                        <button type="object" name="view_inventory" class="oe_highlight" string="Done" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_message_action" model="ir.actions.act_window">
+            <field name="name">stock.inventory.wizard</field>
+            <field name="res_model">stock.inventory.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

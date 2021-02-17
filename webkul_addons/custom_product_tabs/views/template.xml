@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+    <template id="tab_content">
+          <div t-att-id="'info%s'%(tabs[0].id)"
+            class="tab-pane active"
+              >
+            <t t-raw='tabs[0].content'/>
+          </div>
+           <t t-if='len(tabs)&gt;1'>
+              <t t-foreach="tabs[1:]"
+               t-as="product_tab_id" >
+                <div t-att-id="'info%s'%(product_tab_id.id)"
+                 class="tab-pane">
+                <t t-raw='product_tab_id.content'/>
+                </div>
+              </t>
+            </t>
+     </template>
+
+      <template id="nav_pills">
+            <li class="nav-item active">
+               <a class="nav-link active" data-toggle="tab"
+                t-att-href="'#info%s'%(tabs[0].id)">
+                <t t-esc='tabs[0].name'/>
+              </a>
+            </li>
+            <t t-if='len(tabs)&gt;1'>
+              <t t-foreach="tabs[1:]"
+             t-as="product_tab_id">
+                <li class="nav-item">
+                <a class="nav-link" data-toggle="tab"
+                 t-att-href="'#info%s'%(product_tab_id.id)" style="overflow: hidden;text-overflow: ellipsis;">
+                  <t t-esc='product_tab_id.name'/></a>
+                </li>
+              </t>
+            </t>
+     </template>
+
+     <template id="vertical_tab">
+        <div class="row">
+           <div class="col-md-3 mt16">
+            <ul class="nav nav-pills flex-column">
+              <t t-call='custom_product_tabs.nav_pills'/>
+            </ul>
+          </div>
+          <div class="tab-content col-md-9 mt16">
+            <t t-call='custom_product_tabs.tab_content'/>
+          </div>
+      </div>
+     </template>
+
+      <template id="horizontal_tab">
+           <div class="mt16">
+            <ul class="nav nav-tabs">
+              <t t-call='custom_product_tabs.nav_pills'/>
+            </ul>
+          </div>
+          <div class="tab-content mt16 mb16">
+            <t t-call='custom_product_tabs.tab_content'/>
+          </div>
+     </template>
+
+      <template id="product"
+        inherit_id="website_sale.product"
+        customize_show="True"
+        name="Product Tabs">
+        <!-- <xpath expr="//div[@id='product_full_description']" position="attributes">-->
+        <!--  <attribute name="style">display:none</attribute>-->
+        <!--</xpath>-->
+        <xpath expr="//div[@t-field='product.website_description']" position="before">
+          <div class="oe_structure"/>
+          <t t-set="tabs" t-value="product.wk_product_tab_ids and product.wk_product_tab_ids.filtered(lambda t:t.active == True)"/>
+          <div class="container mt16" t-if='tabs'>
+              <t t-if='product.product_tab_type=="horizontal"'>
+                <t t-call='custom_product_tabs.horizontal_tab'/>
+              </t>
+              <t t-if='product.product_tab_type=="vertical"'>
+                <t t-call='custom_product_tabs.vertical_tab'/>
+              </t>
+          </div>
+          <div class="oe_structure"/>
+        </xpath>
+
+      </template>
+</data>
+</openerp>

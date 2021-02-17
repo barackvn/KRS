@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+
+    <template id="exlusive_link_in_header" inherit_id="portal.portal_show_sign_in">
+			<xpath expr="//li[hasclass('divider')]" position="after">
+                <t t-set="partner" t-value="request.env.user.partner_id if request.session.uid else False"/>
+				<t t-if="partner">
+                    <t t-set="speciality" t-value="partner.partner_speciality_id"/>
+                </t>
+                <t t-if="request.session.uid and partner and speciality">
+                    <t t-set="sell_page_label" t-value="website.mp_sell_page_label"/>
+					<li class="nav-item">
+						<a t-attf-class="nav-link #{'active' if request.httprequest.path == '/exclusive_products' else ''}" role="menuitem" href="/exclusive_products" >
+                            Exclusively for you
+                        </a>
+					</li>
+					<li class="divider hello hidden-xs"/>
+				</t>
+			</xpath>
+	</template>
+
+    <template id="categories_recursive_inherit_mp"  inherit_id="website_sale.categories_recursive">
+        <xpath expr="//a[@t-att-href]" position="replace"> 
+            <t t-set="url_r" t-value="request.httprequest.url"/>
+            <a t-att-href="keep('/exclusive_products/category/' + slug(c), category=0) if 'exclusive_products' in url_r else keep('/shop/category/' + slug(c), category=0)" t-attf-class="nav-link #{'active' if c.id == category.id else ''}">
+                <span t-field="c.name"/>
+            </a>
+        </xpath>
+    </template>
+
+    <template id="products_categories_inherit_mp" inherit_id="website_sale.products_categories">
+        <xpath expr="//div[@id='wsale_products_categories_collapse']//a[@t-att-href]" position="replace"> 
+            <t t-set="url_r" t-value="request.httprequest.url"/>
+            <a t-att-href="keep('/exclusive_products', category=0) if 'exclusive_products' in url_r else keep('/shop', category=0)" t-attf-class="nav-link #{'' if category else 'active'} o_not_editable">All Products
+            </a>
+        </xpath>
+    </template>
+
+    <template id="sort_inherit_mp" inherit_id="website_sale.sort">
+        <xpath expr="//a[@t-att-href]" position="replace">
+            <t t-set="url_r" t-value="request.httprequest.url"/>
+            <a role="menuitem" rel="noindex,nofollow" t-att-href="keep('/exclusive_products', order=sortby[1]) if 'exclusive_products' in url_r else keep('/shop', order=sortby[1])" class="dropdown-item">
+             <span t-raw="sortby[0]"/>
+            </a>
+        </xpath>
+    </template>
+
+</odoo>

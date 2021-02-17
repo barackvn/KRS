@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+  <data>
+    <template id="assets_frontend_collection" inherit_id="website.assets_frontend" name="Collectional Page">
+      <xpath expr="." position="inside">
+        <link rel="stylesheet" href="/website_collectional_page/static/src/css/collection.css"/>
+        <script type="text/javascript" src="/website_collectional_page/static/src/js/wk_collection.js"></script>
+      </xpath>
+    </template>
+
+    <template id="wk_layout" inherit_id="website.layout" name="collection layout">
+      <xpath expr="//meta[@name='description']" position="replace">
+        <t t-if="collectional_obj">
+          <meta name="description" t-att-content="collectional_obj.meta_description"/>
+        </t>
+      </xpath>
+    </template>
+
+    <template id="wk_collection_product_view_website_sale" name="collection Page">
+      <t t-set="additional_title" t-value="collectional_obj.page_title"/>
+      <t t-call="website_collectional_page.wk_layout">
+        <t t-if="collectional_obj.state == 'pub'">
+          <div id="wrap">
+            <t t-if="collectional_obj.sudo().image">
+                <div style="min-height: 320px;max-height: 320px;">
+                <div class="carousel-inner" style="max-height: 320px;">
+                        <img t-if="collectional_obj.image" class="item oe_img_bg oe_custom_bg active"
+                            t-attf-src="data:image/jpg;base64,{{ collectional_obj.image }}" alt="Not found"
+                            t-att-style="'width:100%;height:100%;min-height: 320px;max-height: 320px;' if collectional_obj.image and not collectional_obj.display_block else 'position:absolute;width:100%;height:100%;'"/>
+                        <img t-else="" class="item oe_img_bg oe_custom_bg active"
+                            src="/web/static/src/img/placeholder.png" alt="Not found"
+                            style="position:absolute;width:100%;height:100%;"/>
+                        <div t-if="collectional_obj.display_block and collectional_obj.block_pos == 'left'">
+                            <div class="col-md-4 collectionName">
+                                <div class="col-md-12">
+                                    <center>
+                                        <t t-esc="collectional_obj.name"/>
+                                    </center>
+                                </div>
+                                <div class="col-md-12" style="font-size: initial;font-weight: 100;">
+                                    <center>
+                                        <t t-raw="collectional_obj.description"/>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                        <div t-if="collectional_obj.display_block and collectional_obj.block_pos == 'right'">
+                            <div class="col-md-4 collectionName" style="float:right;">
+                                <div class="col-md-12">
+                                    <center>
+                                        <t t-esc="collectional_obj.name"/>
+                                    </center>
+                                </div>
+                                <div class="col-md-12" style="font-size: initial;font-weight: 100;">
+                                    <center>
+                                        <t t-raw="collectional_obj.description"/>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                </div>
+            </t>
+            <div class="container">
+                <div class="products_pager form-inline flex-md-nowrap justify-content-between justify-content-md-center">
+                    <t t-call="website_sale.search">
+                        <t t-set="_classes">w-100 w-md-auto mt-2</t>
+                    </t>
+                    <t t-call="website_sale.pricelist_list">
+                        <t t-set="_classes">mt-2 ml-md-2</t>
+                    </t>
+                    <t t-call="website.pager">
+                        <t t-set="_classes">mt-2 ml-md-2</t>
+                    </t>
+                </div>
+
+              <div class="row o_wsale_products_main_row">
+                        <div t-if="enable_left_column" id="products_grid_before" class="col-lg-3"/>
+                        <div id="products_grid" t-attf-class="col #{'o_wsale_layout_list' if layout_mode == 'list' else ''}">
+                            <t t-if="category">
+                                <t t-set='editor_msg'>Drag building blocks here to customize the header for "<t t-esc='category.name'/>" category.</t>
+                                <div class="mb16" id="category_header" t-att-data-editor-message="editor_msg" t-field="category.website_description"/>
+                            </t>
+                            <div t-if="bins" class="o_wsale_products_grid_table_wrapper">
+                                <table class="table table-borderless m-0" t-att-data-ppg="ppg" t-att-data-ppr="ppr">
+                                    <colgroup t-ignore="true">
+                                        <!-- Force the number of columns (useful when only one row of (x < ppr) products) -->
+                                        <col t-foreach="ppr" t-as="p"/>
+                                    </colgroup>
+                                    <tbody>
+                                        <tr t-foreach="bins" t-as="tr_product">
+                                            <t t-foreach="tr_product" t-as="td_product">
+                                                <t t-if="td_product">
+                                                    <t t-set="product" t-value="td_product['product']" />
+                                                    <td t-att-colspan="td_product['x'] != 1 and td_product['x']"
+                                                        t-att-rowspan="td_product['y'] != 1 and td_product['y']"
+                                                        t-attf-class="oe_product #{td_product['class']}">
+                                                        <div t-attf-class="o_wsale_product_grid_wrapper o_wsale_product_grid_wrapper_#{td_product['x']}_#{td_product['y']}">
+                                                            <t t-call="website_sale.products_item">
+                                                                <t t-set="product_image_big" t-value="td_product['x'] + td_product['y'] &gt; 2"/>
+                                                            </t>
+                                                        </div>
+                                                    </td>
+                                                </t>
+                                                <td t-else=""/>
+                                            </t>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <t t-else="">
+                                <div class="text-center text-muted">
+                                    <t t-if="not search">
+                                        <h3 class="mt8">No product defined</h3>
+                                        <p t-if="category">No product defined in category "<strong t-esc="category.display_name"/>".</p>
+                                    </t>
+                                    <t t-else="">
+                                        <h3 class="mt8">No results</h3>
+                                        <p>No results for "<strong t-esc='search'/>"<t t-if="category"> in category "<strong t-esc="category.display_name"/>"</t>.</p>
+                                    </t>
+                                    <p t-ignore="true" groups="sales_team.group_sale_manager">Click <i>'New'</i> in the top-right corner to create your first product.</p>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                <div class="products_pager form-inline justify-content-center mt-3">
+                    <t t-call="website.pager"/>
+                </div>
+            </div>
+            <div class="oe_structure mb32" id="oe_structure_website_sale_products_2"/>
+          </div>
+        </t>
+        <t t-if="collectional_obj.state == 'unpub'">
+          <div class="text-center text-muted">
+            <h1 class="css_editable_display">This collection page is not published yet.</h1>
+          </div>
+        </t>
+      </t>
+    </template>
+
+    <template id="collections_page_banner">
+        <div class="container">
+            <div class="col-md-12 mt16 mb16 collec_page_banner" style="padding:0;">
+                <a t-attf-href="/collections/#{page.url_handler}?#{keep_query()}">
+                    <img t-if="page.image" t-attf-src="data:image/jpg;base64,{{ page.image }}" alt="Not found" style="position:absolute;width:100%;height:100%;"/>
+                    <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" style="position:absolute;width:100%;height:100%;"/>
+                    <t t-if="page.display_block">
+                        <div t-if="page.block_pos == 'left'">
+                            <div class="col-md-4 bannerName" style="float:left; left:3%;">
+                                <div class="row justify-content-center col-md-12">
+                                    <t t-esc="page.name"/>
+                                </div>
+                                <div class="row justify-content-center col-md-12">
+                                    <div class="viewMoreButton">View More</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div t-if="page.block_pos == 'right'">
+                            <div class="col-md-4 bannerName" style="float:right;">
+                                <div class="row justify-content-center col-md-12">
+                                    <t t-esc="page.name"/>
+                                </div>
+                                <div class="row justify-content-center col-md-12">
+                                    <div class="viewMoreButton">View More</div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </a>
+            </div>
+        </div>
+    </template>
+
+
+    <template id="collections_page_product">
+        <div class="container  d-none d-md-block">
+            <div class="col-md-12 mt16 mb16" style="background-color:#f7f9fc;padding:16px 16px;display: inline-flex;">
+                <div class="col-md-1 ml8 mr8" style="background-color:#f7f9fc;padding: 0;display:table;height:150px;">
+                    <div style="display: table-cell;vertical-align: middle;">
+                        <div class="pageProductName text-center">
+                            <t t-esc="page.name"/>
+                        </div>
+                        <div class="text-center">
+                            <a t-attf-href="/collections/#{page.url_handler}?#{keep_query()}" class="btn btn-success pull-left mt8 pageProductButton">View More</a>
+                        </div>
+                    </div>
+                </div>
+                <t t-set="count" t-value="1"/>
+                <t t-foreach="page.template_ids" t-as="prod_tmpl">
+                    <t t-if="count &lt;= 5">
+                    <div class="col-md-2 ml8 mr8" style="background-color:white;height:180px;">
+                        <a t-attf-href="/shop/product/#{ slug(prod_tmpl) }" style="text-decoration:none;">
+                            <div class="text-center">
+                                <img t-if="prod_tmpl.image_512" t-attf-src="data:image/jpg;base64,{{ prod_tmpl.image_512 }}" alt="Not found" style="width: 128px; height: 128px;"/>
+                                <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" style="width: 128px; height: 128px;"/>
+                            </div>
+                            <div class="productName text-center line-clampin-2">
+                                <t t-esc="prod_tmpl.name"/>
+                            </div>
+                        </a>
+                    </div>
+                    <t t-set="count" t-value="count+1"/>
+                    </t>
+                </t>
+            </div>
+        </div>
+        <div class="container d-block d-md-none d-lg-none">
+            <div class="col-md-12" style="margin-bottom:20px;background-color:#f7f9fc;">
+                <div class="col-md-3" style="background-color:#f7f9fc;">
+                    <div class="col-md-12 pageProductName">
+                        <center>
+                            <t t-esc="page.name"/>
+                        </center>
+                    </div>
+                    <div class="col-md-12 " style="margin-left:-15px;">
+                        <center>
+                            <a t-attf-href="/collections/#{page.url_handler}?#{keep_query()}" class="btn btn-success mt8 mb16 pageProductButton">View More</a>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="collections_group_carousel">
+        <div class="container" id="coll_group_container">
+            <div class="mt16 mb16" style="">
+                <div t-att-id="'myCarousel_%s' % group.id" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <t t-set="i" t-value="0"/>
+                        <t t-foreach="group.collectional_page_ids" t-as="collection_page">
+                            <t t-if="i == 0">
+                                <li t-att-data-target="'#myCarousel_%s' % group.id" data-slide-to="0" class="active"></li>
+                            </t>
+                            <t t-if="not i == 0">
+                                <li t-att-data-target="'#myCarousel_%s' % group.id" t-att-data-slide-to="i"></li>
+                            </t>
+                            <t t-set="i" t-value="i+1"/>
+                        </t>
+                    </ol>
+                    <div class="carousel-inner" >
+                        <t t-set="i" t-value="0"/>
+                        <t t-foreach="group.collectional_page_ids" t-as="collection_page">
+                            <t t-if="i == 0">
+                                <div class="carousel-item active" style="height:250px;">
+                                    <a t-attf-href="/collections/#{collection_page.url_handler}?#{keep_query()}">
+                                        <img t-if="collection_page.image" t-attf-src="data:image/jpg;base64,{{ collection_page.image }}" alt="Not found" style="position:absolute;width:100%;height:100%; "/>
+                                        <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" style="position:absolute;width:100%;height:100%;"/>
+                                        <div t-if="collection_page.display_block and collection_page.block_pos == 'left'">
+                                            <div class="col-md-4 carouselName" style="float:left;">
+                                                <div class="row justify-content-center col-md-12 ml16">
+                                                    <t t-esc="collection_page.name"/>
+                                                </div>
+                                                <div class="row justify-content-center col-md-12 ml16">
+                                                    <div class="groupCarouselButton">Shop Now</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div t-if="collection_page.display_block and collection_page.block_pos == 'right'">
+                                            <div class="col-md-4 carouselName" style="float:right;">
+                                                <div class="row col-md-12 ml16">
+                                                    <center>
+                                                        <t t-esc="collection_page.name"/>
+                                                    </center>
+                                                </div>
+                                                <div class="row col-md-12 ml16">
+                                                    <center>
+                                                        <div class="groupCarouselButton">Shop Now</div>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </t>
+                            <t t-if="not i == 0">
+                                <div class="carousel-item" style="height:250px;">
+                                    <a t-attf-href="/collections/#{collection_page.url_handler}?#{keep_query()}">
+                                        <img t-if="collection_page.image" t-attf-src="data:image/jpg;base64,{{ collection_page.image }}" alt="Not found" style="position:absolute;width:100%;height:100%; "/>
+                                        <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" style="position:absolute;width:100%;height:100%;"/>
+                                        <div t-if="collection_page.display_block and collection_page.block_pos == 'left'">
+                                            <div class="col-md-4 carouselName" style="float:left;">
+                                                <div class="row justify-content-center col-md-12 mr16">
+                                                    <t t-esc="collection_page.name"/>
+                                                </div>
+                                                <div class="row justify-content-center col-md-12 mr16">
+                                                    <div class="groupCarouselButton">Shop Now</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div t-if="collection_page.display_block and collection_page.block_pos == 'right'">
+                                            <div class="col-md-4 carouselName" style="float:right;">
+                                                <div class="row justify-content-center col-md-12 mr16">
+                                                    <t t-esc="collection_page.name"/>
+                                                </div>
+                                                <div class="row justify-content-center col-md-12 mr16">
+                                                    <div class="groupCarouselButton">Shop Now</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </t>
+                            <t t-set="i" t-value="i+1"/>
+                        </t>
+                    </div>
+                    <a class="carousel-control-prev" t-att-href="'#myCarousel_%s' % group.id" style="width:40px;" data-slide="prev">
+                        <i class="fa fa-chevron-left fa-2x" aria-hidden="false"></i>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" t-att-href="'#myCarousel_%s' % group.id" style="width:40px;" data-slide="next">
+                        <i class="fa fa-chevron-right fa-2x" aria-hidden="false"></i>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                </div>
+            </div>
+    </template>
+
+    <template id="collections_group_simple">
+        <div class="container">
+            <div class="mt16 mb16 collec_group_simple" style="background-color:#f7f9fc;">
+                <div class="carousel slide multi-item-carousel" t-att-id="'simpleCarousel_%s' % group.id" data-ride="carousel" data-interval="6000">
+                    <div class="carousel-inner row ml0 mr0" role="listbox">
+                        <t t-set="i" t-value="0"/>
+                        <t t-foreach="group.collectional_page_ids" t-as="collection_page">
+                            <t t-if="i == 0">
+                                <div class="carousel-item active">
+                                    <figure class="col-12 col-lg-4 d-md-inline-block">
+                                        <a t-attf-href="/collections/#{collection_page.url_handler}?#{keep_query()}" style="text-decoration:none;">
+                                            <img t-if="collection_page.image" t-attf-src="data:image/jpg;base64,{{ collection_page.image }}" alt="Not found" class="block img-responsive" />
+                                            <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" class="block img-responsive" />
+                                            <div class="simpleName  d-none d-md-block">
+                                                <center><t t-esc="collection_page.name"/></center>
+                                            </div>
+                                        </a>
+                                    </figure>
+                                </div>
+                            </t>
+                            <t t-if="not i == 0">
+                                <div class="carousel-item ">
+                                    <figure class="col-12 col-lg-4 d-md-inline-block">
+                                        <a t-attf-href="/collections/#{collection_page.url_handler}?#{keep_query()}" style="text-decoration:none;">
+                                            <img t-if="collection_page.image" t-attf-src="data:image/jpg;base64,{{ collection_page.image }}" alt="Not found" class="block img-responsive" />
+                                            <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" class="block img-responsive" />
+                                            <div class="simpleName  d-none d-md-block">
+                                                <center><t t-esc="collection_page.name"/></center>
+                                            </div>
+                                        </a>
+                                    </figure>
+                                </div>
+                            </t>
+                            <t t-set="i" t-value="i+1"/>
+                        </t>
+                    </div>
+                    <a class="fa fa-chevron-left carousel-control-prev d-none d-md-block" t-att-href="'#simpleCarousel_%s' % group.id" data-slide="prev"
+                        style="top:45%;width: 3%;color:#80fce9;">
+                    </a>
+                    <a class="fa fa-chevron-right carousel-control-next d-none d-md-block" t-att-href="'#simpleCarousel_%s' % group.id" data-slide="next"
+                        style="top:45%;width: 3%;color:#80fce9;">
+                    </a>
+                    <a class="fa fa-chevron-left carousel-control-prev d-block d-md-none d-lg-none" t-att-href="'#simpleCarousel_%s' % group.id" data-slide="prev"
+                        style="top:13%;color:#80fce9;">
+                    </a>
+                    <a class="fa fa-chevron-right carousel-control-next d-block d-md-none d-lg-none" t-att-href="'#simpleCarousel_%s' % group.id" data-slide="next"
+                        style="top:13%;color:#80fce9;">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="website_collectional_page_n_groups" name="Website Collections">
+        <t t-call="website.layout">
+            <div class="oe_structure"/>
+            <div class="mt16 mb16 oe_website_sale">
+                <t t-if="not collections_page and not collections_group">
+                    <h2 class="text-center" style="color:grey;">No Collections Published Yet</h2>
+                </t>
+                <t t-if="collections_group">
+                    <t t-foreach="collections_group" t-as="group">
+                        <t t-if="group.group_type == 'carousel'">
+                            <t t-call="website_collectional_page.collections_group_carousel"/>
+                        </t>
+                        <t t-if="group.group_type == 'simple'">
+                            <t t-call="website_collectional_page.collections_group_simple"/>
+                        </t>
+                    </t>
+                </t>
+                <t t-if="collections_page">
+                    <t t-foreach="collections_page" t-as="page">
+                        <t t-if="page.page_type == 'banner'">
+                            <t t-call="website_collectional_page.collections_page_banner"/>
+                        </t>
+                        <t t-if="page.page_type == 'product'">
+                            <t t-call="website_collectional_page.collections_page_product"/>
+                        </t>
+                    </t>
+                </t>
+            </div>
+            <div class="oe_structure"/>
+        </t>
+    </template>
+  </data>
+</odoo>

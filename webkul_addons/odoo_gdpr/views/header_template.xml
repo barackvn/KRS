@@ -1,0 +1,25 @@
+<odoo>
+
+  <template id="assets_frontend_odoo_gdpr" inherit_id="website.assets_frontend" name="Website Odoo GDPR">
+  <xpath expr="." position="inside">
+      <link rel='stylesheet' href='/odoo_gdpr/static/src/css/custom.css'/>
+      <script type="text/javascript" src='/odoo_gdpr/static/src/js/custom.js'></script>
+
+  </xpath>
+
+</template>
+
+    <template id="footer_append" inherit_id="portal.frontend_layout" name="Website Footer">
+        <!--<xpath expr="//div[@id='footer']" position="before">-->
+        <xpath expr="//footer" position="before">
+          <t t-if="website.footerGdprData().allow_gdpr_message">
+            <div class="mt16" style="background-color: dimgrey;color: white;">
+                <center>
+                    <t t-esc="website.footerGdprData().gdpr_message"/>
+                </center>
+            </div>
+          </t>
+        </xpath>
+    </template>
+
+</odoo>

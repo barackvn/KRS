@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="form_view_website_360degree_view_config_settings" model="ir.ui.view">
+            <field name="name">Website 360° View Settings</field>
+            <field name="model">website.360.view.config</field>
+            <field name="arch" type="xml">
+                <form string="360° view Configuration" class="oe_form_configuration">
+                    <group>
+                        <group>
+                            <field name="website_id"/>
+                        </group>
+                        <group>
+                            <field name="enable_360_view"/>
+                        </group>
+                        <group name="review_help" class="oe_grey" col="1">
+                            <div class="oe_inline">
+                                Enable 360° view of product and disable default view.
+                            </div>
+                        </group>
+                    </group>
+                    <div class="">
+                       Note : This setting is applicable for all products. 360° view is applicable when you have uploaded images for it, otherwise default view will appear.
+                    </div>
+                    <footer>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" type="button" special="cancel" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_website_360degree_view_configuration" model="ir.actions.act_window">
+            <field name="name">Product 360° View Configuration</field>
+            <field name="res_model">website.360.view.config</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="product_review_configuration_installer_todo" model="ir.actions.todo">
+            <field name="action_id" ref="website_360degree_view.action_website_360degree_view_configuration"/>
+            <field name="sequence">15</field>
+        </record>
+    </data>
+</odoo>

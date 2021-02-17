@@ -1,0 +1,382 @@
+
+#wrap.inmp_seller_profile{
+    .carousel-inner,.oe_custom_bg{
+        height: 100%;
+    }
+    .container.seller_profile{
+
+        .s_profile{
+            &>.row{
+                margin-top: 0 !important;
+            }
+            .mp_wrap_content{
+                p{
+                    margin-bottom: 5px;
+                }
+            }
+            .badge-secondary {
+                background-color: white;
+                color: #555555;
+                font-size: 15px;
+            }
+            .fa-tags:before{
+                background-position: center;
+                background-size: 15px;
+                background-repeat: no-repeat;
+                height: 15px;
+                width: 15px;
+                display: inline-block;
+                font-size: 0 !important;
+            }
+            .fa-tags{
+                display: flex;
+                align-items: center;
+                &:before{
+                    background-image: url('/theme_marketplace_inventive/static/src/lib/Union.svg');
+                }
+            }
+            .contactus{
+                text-decoration: none;
+            }
+        }
+        .seller_profile_image{
+            @include media-breakpoint-down(md){
+                flex: 25%;
+                max-width: 25% !important;
+                .seller-profile-pic{
+                    height: 130px;
+                    width: 130px;
+                }
+            }
+            @include media-breakpoint-down(sm){
+                flex: 33.33%;
+                max-width: 33.333% !important;
+                .seller-profile-pic{
+                    height: 120px;
+                    width: 120px;
+                }
+            }
+            @include media-breakpoint-down(xs){
+                .seller-profile-pic{
+                    height: 90px;
+                    width: 80px;
+                    top: -43px;
+                }
+            }
+        }
+        #seller_name_and_rating{
+            span[title="Seller Name"]{
+                font-size: 40px !important;
+            }
+            div.d-md-none{
+              margin: 0 !important;
+            }
+            @include media-breakpoint-down(md){
+                flex: 50%;
+                max-width: 50% !important;
+                span[title="Seller Name"]{
+                    font-size: 30px !important;
+                }
+            }
+            @include media-breakpoint-down(sm){
+                flex: 66.66%;
+                max-width: 66.666% !important;
+                span[title="Seller Name"]{
+                    font-size: 20px !important;
+                }
+            }
+        }
+        #vacant_div{
+            display: none !important;
+        }
+
+    }
+    .seller-profile-pic{
+        border: 0;
+        height: 150px;
+        width: 150px;
+        top: -65px;
+        border-radius: 8px;
+        background-size: cover !important;
+        background-position: center;
+    }
+    #seller-info-pannel{
+        .nav-tabs {
+            .nav-item{
+                .nav-link{
+                    font-size: 12px;
+                }
+                @include media-breakpoint-down(sm){
+                  margin-bottom: 5px !important;
+                }
+            }
+        }
+
+    }
+    #return_policy_tab,#shipping_policy_tab,#contact_us_tab{
+        padding: 20px 40px;
+    }
+}
+#wrap.inmp_sellers_list{
+    &>.container{
+        &>br{display: none;}
+        &>.row:first-of-type{
+            align-items: center;
+            padding: 16px 0 !important;
+            border-bottom:  2px solid rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px ;
+            .row{
+                &>div{
+                    flex: 100%;
+                    max-width: 100%;
+                    margin: 0 !important;
+                }
+                .all-seller-count{
+                    box-shadow: 0 0 2px 2px rgba(0,0,0,.1);
+                    border: unset !important;
+                }
+            }
+        }
+    }
+    #seller_table{
+        .oe_product{
+            border: 0 !important;
+        }
+        div[itemscope="itemscope"]{
+            margin: 5px;
+            box-shadow: 0 0 2px 2px rgba(0,0,0,0.1);
+            padding-bottom: 20px;
+            &>.row{
+                img{
+                    border-radius: 0 !important;
+                    border: 0 !important;
+                    margin-right: 5px;
+                }
+            }
+            .fa-line-chart:before,
+            .fa-cubes:before,
+            .fa-home:before{
+                background-position: center;
+                background-size: 12px;
+                background-repeat: no-repeat;
+                height: 12px;
+                width: 12px;
+                display: inline-block;
+                margin-right: 5px;
+                font-size: 0 !important;
+            }
+            .fa-line-chart{
+                display: flex;
+                align-items: center;
+                &:before{
+                    background-image: url('/theme_marketplace_inventive/static/src/lib/stats.svg');
+                }
+            }
+            .fa-cubes{
+                display: flex;
+                align-items: center;
+                &:before{
+
+                    background-image: url('/theme_marketplace_inventive/static/src/lib/Union.svg');
+                }
+            }
+            .fa-home{
+                display: flex;
+                align-items: center;
+                &:before{
+                    background-size: 15px;
+                    background-repeat: no-repeat;
+                    height: 16px;
+                    width: 16px;
+                    background-image: url('/theme_marketplace_inventive/static/src/lib/shop.svg');
+                }
+            }
+        }
+        a.view-profile{
+            margin-right: 10px;
+        }
+        #seller_shop{
+            .container-fluid{
+                background-color: whitesmoke !important ;
+            }
+            .shop-tag-line{
+                margin-top: 5px;
+                color: #555555;
+            }
+        }
+    }
+}
+#wrap.inmp_seller_shop_list{
+    &>.container{
+        &>br{display: none;}
+        &>.row{
+            align-items: center;
+            margin: 0;
+            padding: 16px 0;
+            margin-bottom: 20px ;
+            .all-seller-label{padding: 0 !important;}
+        }
+        #products_grid{
+            padding: 0;
+            .oe_product{
+                padding: 5px;
+                a[itemprop="url" ] img{
+                    max-height: 170px;
+                    width: 100%;
+                    object-fit: cover;
+                }
+                #mp_shop_content{
+                    position: static;
+                    flex-direction: column;
+                    justify-content:center;
+                    align-items: flex-start;
+                    // &>div{width: 100%;}
+                    #seller-shop-name{
+                        font-weight: normal !important;
+                        text-align: left !important;
+                        strong{ font-size: 16px;}
+                        div{
+                            color: #555555;
+                        }
+                    }
+                    .col-md-12.text-center{
+                      text-align: left !important;
+                    }
+                    #shop_products_sales{
+                        position: static;
+                        margin: 0;
+                        &>div{
+                            padding: 0;
+                        }
+                        .badge-secondary{
+                            color: #555555;
+                            background-color: white;
+                            font-size: 15px ;
+                        }
+                        .fa-line-chart:before,
+                        .fa-tags:before{
+                            background-position: center;
+                            background-size: 13px;
+                            background-repeat: no-repeat;
+                            height: 14px;
+                            width: 14px;
+                            display: inline-block;
+                            margin-right: 5px;
+                            font-size: 0 !important;
+                        }
+                        .fa-line-chart{
+                            text-align: right;
+                            display: flex;
+                            align-items: center;
+                            font-size: 14px;
+                            justify-content: flex-end;
+                            &:before{
+                                background-image: url('/theme_marketplace_inventive/static/src/lib/stats.svg');
+                            }
+                        }
+                        .fa-tags{
+                            text-align: left;
+                            display: flex;
+                            align-items: center;
+                            &:before{
+                                background-image: url('/theme_marketplace_inventive/static/src/lib/Union.svg');
+                            }
+                        }
+                    }
+                    #btn_seller_shop{
+                        margin-top: 5px;
+                        visibility: visible;
+                        &>div{
+                            padding:  0 !important;
+                            &:first-of-type{
+                              text-align: left;
+                            }
+                            &:last-of-type{
+                              text-align: right;
+                            }
+                        }
+                    }
+                    &:hover{
+                        background: rgba(0, 0, 0, 0.1);
+                        color: inherit;
+                        #shop_products_sales{
+                            visibility: visible;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+#wrap.inmp_seller_shop{
+    .oe_product_image{
+      background: white !important;
+    }
+    .fa-tags{
+      margin-left: 0 !important;
+    }
+    .fa-line-chart:before,
+    .fa-tags:before{
+        background-position: center;
+        background-size: 13px;
+        background-repeat: no-repeat;
+        height: 14px;
+        width: 14px;
+        display: inline-block;
+        margin-right: 5px;
+        font-size: 0 !important;
+        line-height: 23px;
+    }
+    .fa-line-chart{
+        text-align: right;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        justify-content: flex-end;
+        &:before{
+            background-image: url('/theme_marketplace_inventive/static/src/lib/stats.svg');
+        }
+    }
+    .fa-tags{
+        text-align: left;
+        display: flex;
+        align-items: center;
+        &:before{
+            background-image: url('/theme_marketplace_inventive/static/src/lib/Union.svg');
+        }
+    }
+    .carousel-inner,.oe_custom_bg{
+        height: 100%;
+    }
+    .nav-tabs{
+        justify-content: flex-start;
+        .nav-link{
+            .badge-secondary{
+                margin-left: 10px;
+            }
+            font-size: 12px;
+        }
+    }
+    #pink_panther{
+        .theme_products_pager{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            #shop_all_product{
+                &> .dropdown{
+                    margin: 0 10px;
+                }
+                .oe_search_box{
+                    height: 33px;
+                }
+            }
+        }
+    }
+}
+#shop-nav-tabs{
+    .nav-link{
+        .badge-secondary{
+            margin-left: 10px;
+        }
+    }
+}

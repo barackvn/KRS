@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+    <data>
+        <record id="Wk_wishlist_partner" model="ir.ui.view">
+        <field name="name">res.partner_form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <notebook position='inside'>
+                    <page string='Wishlist'>
+                        <field name="website_wishlist">
+                            <tree string='wishlist' editable='bottom'>
+                                <field name='product_id'/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record id="view_wishlist_filter" model="ir.ui.view">
+            <field name="name">website.wishlist.select</field>
+            <field name="model">website.wishlist</field>
+            <field name="arch" type="xml">
+                <search string="Product Wishlist">
+                    <field name="product_id"/>
+                    <field name="partner_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Customer" name="group_customer" context="{'group_by': 'partner_id'}"/>
+                        <!-- <filter string="Product" name="group_product" context="{'group_by': 'product_id'}"/> -->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="wk_wishlist_tree" model="ir.ui.view">
+            <field name="name">wk_wishlist.tree</field>
+            <field name="model">website.wishlist</field>
+            <field name="type">tree</field>
+                <field name="arch" type="xml">
+                <tree string="Product Wishlist" editable='top'>
+                    <field name="product_id"/>
+                    <field name="partner_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="wk_wishlist_action" model="ir.actions.act_window">
+            <field name="name">Product Wishlist</field>
+            <field name="res_model">website.wishlist</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="domain">[('user_id','=',uid)]</field> -->
+            <field name="view_id" ref="wk_wishlist_tree"/>
+            <field name="context">{'search_default_group_product':1}</field>
+        </record>
+        <menuitem name="Product Wishlist" id="portal_wk_wishlist" parent="sale.sale_menu_root" sequence="7"/>
+        <menuitem name="Wishlist" id="portal_wk_wishlist_menu" parent="portal_wk_wishlist" action="wk_wishlist_action"/>
+    </data>
+</odoo>

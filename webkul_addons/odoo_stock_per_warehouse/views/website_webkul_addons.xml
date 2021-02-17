@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data>
+    <record id="config_webkul_website_addons_form" model="ir.ui.view">
+        <field name="name">Webkul Website Addons Setting Inherit</field>
+        <field name="model">webkul.website.addons</field>
+        <field name="inherit_id" ref="website_webkul_addons.config_webkul_website_addons_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//td[@name='module_odoo_stock_per_warehouse']" position="replace">
+                <td name="module_odoo_stock_per_warehouse">
+                    <button
+                        string="Configuration"
+                        type="action"
+                        name="%(warehouse_stock_config_settings_action)d"
+                        class="oe_link"
+                    />
+                </td>
+            </xpath>
+        </field>
+    </record>
+    </data>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <template id="inherit_patient_report_for_digital_sign" inherit_id="wk_pathology_management.patient_report">
+            <xpath expr="//div[hasclass('page')]/div[last()]" position="attributes">
+                <attribute name="style">display:none;</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('page')]//t[@t-foreach='o.patho_test_report_ids']" position="inside">
+                <div class="row">
+                    <div class="col-3  text-left">
+                        <img t-if="line.lab_technician.patho_digital_sign"
+                            t-att-src="'data:image/png;base64,%s' % to_text(line.lab_technician.patho_digital_sign)"
+                             width="170px" height="80px;"/>
+                        <div t-if="not line.lab_technician.patho_digital_sign" style="width:170px;height:80px;">
+                        </div>
+                        <center t-if="line.lab_technician">
+                            <h4><span style="text-transform: capitalize;"
+                                t-field="line.lab_technician.name"/></h4>
+                            <h4><span t-field="line.lab_technician.function"/></h4>
+                            <h4 t-if="not line.lab_technician.function">Technician</h4>
+                        </center>
+                    </div>
+                    <div class="col-3 offset-6 text-right">
+                        <img t-if="line.collection_center_id.primary_lab_pathologist.patho_digital_sign"
+                            t-att-src="'data:image/png;base64,%s' % to_text(line.collection_center_id.primary_lab_pathologist.patho_digital_sign)"
+                             width="170px" height="80px;"/>
+                        <div t-if="not line.collection_center_id.primary_lab_pathologist.patho_digital_sign" style="width:170px;height:80px;">
+                        </div>
+                        <center t-if="line.collection_center_id.primary_lab_pathologist">
+                            <h4><span style="text-transform: capitalize;"
+                                t-field="line.collection_center_id.primary_lab_pathologist.name"/></h4>
+                            <h4><span t-field="line.collection_center_id.primary_lab_pathologist.function"/></h4>
+                            <h4 t-if="not line.collection_center_id.primary_lab_pathologist.function">Pathologist</h4>
+                        </center>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,277 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+#wrapwrap .inventive_header_7 {
+    nav.navbar {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        background-color: #232323 !important;
+        flex-direction: column;
+        padding: 0;
+        &>.container {
+            max-width: 100%;
+            padding: 0;
+            flex-wrap: wrap !important;
+            & > .navbar-brand {
+                display: none;
+            }
+        }
+    }
+    &>.main_div{
+        background: #232323;
+    }
+    .inventive_header_top {
+        padding: 5px 10px;
+        width: 100%;
+        background: #F7F7F7;
+        font-size: 0.875rem;
+        .container {
+            align-items: center;
+        }
+        .th_header_lang,
+        .th_header_pricelist {
+            color: #555555;
+            display: flex;
+            order: 1;
+            cursor: pointer;
+            padding: 0 5px;
+
+            span {
+                padding: 0 5px;
+            }
+
+            a.dropdown-toggle {
+                font-weight: 600;
+
+                &::after {
+                    margin: 0 5px;
+                }
+            }
+        }
+        .th_header_top_menu {
+            order: 3;
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .user_icon {
+            background-image: url("/#{$user_black_svg}") !important;
+            @include theme_icon(16px,16px,"",16px,16px)
+        }
+    }
+    .inventive_header_middle {
+        width: 100%;
+        max-width: 1140px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        .header_search_bar{
+            display: none;
+        }
+        .header_middle_icons{
+            @include flex_space_between();
+            .header_icon{
+                height: 20px;
+                width: 20px;
+                position: relative;
+                margin: 0 20px;
+                .fa{display: none;}
+                .badge{
+                    position: absolute;
+                    background-color: $primary;
+                    color: white;
+                    border-radius: 50px;
+                    right: -8px;
+                    font-size: 10px;
+                }
+                a{
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                }
+                &.wish_icon{
+                    @include background_image($line_wish_white_svg, 18px);
+
+                }
+                &.th_cart_icon{
+                    @include background_image($line_bag_white_svg, 18px);
+
+                }
+                &.user{
+                    @include background_image($line_setting_white_svg, 18px);
+                    margin-right: 0px;
+                    &:after{
+                        display: none;
+                    }
+                }
+            }
+            .th_d_menu {
+                left: unset !important;
+                right: 0;
+                margin-top: 15px;
+                min-width: 260px;
+                box-shadow: 0px 0 15px -5px rgba(0, 0, 0, 0.5);
+                transform:  unset !important;
+                top: 33px !important;
+            }
+
+        }
+    }
+
+    #top_menu_collapse {
+        max-width: 1140px;
+        margin: auto;
+        padding: 0 15px;
+        line-height: 1;
+        position: relative;
+        .header_search_bar{
+            order: 2;
+            .input-group {
+                flex-direction: row-reverse;
+                align-items: center;
+                width: 230px;
+                .form-control.oe_search_box {
+                    height: 25px !important;
+                    border: none !important;
+                    border-bottom: 1px solid white !important;
+                    border-radius: 0 !important;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                    background-color: transparent;
+                }
+            }
+            .input-group-append {
+                margin-left: unset;
+            }
+            .oe_search_button {
+                color: white !important;
+                background-color: transparent;
+                padding: 5px;
+                &:hover {
+                    color: black;
+                    background-color: unset !important;
+                }
+            }
+        }
+    }
+    #top_menu {
+        align-items: center;
+        margin-left: 0 !important;
+        width: 100%;
+        .o_wsale_my_cart,
+        .o_wsale_my_wish,
+        .divider,
+        a[href="/web/login"],
+        .dropdown:not(.o_extra_menu_items):not(.inventive_mega_menu):not(.dropdown_menu) {
+            display: none !important;
+        }
+        &>.nav-item {
+            padding: 5px 0;
+            &>a.nav-link{
+                font-size: 14px;
+                color: #FFFFFF;
+                &.active{
+                    font-weight: bold;
+                    color: $primary;
+                }
+            }
+        }
+        .dropdown-toggle:after{
+            color: #aaa;
+        }
+    }
+    .navbar-toggler-icon{
+        position: relative;
+        background-image: none !important;
+        padding: 7px 12px;
+        &:after{
+            content: "\f0c9";
+            @include absolute_cover();
+            color: white;
+            display: inline-block;
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: 21px;
+            text-rendering: auto;
+        }
+    }
+    .mobile_search_bar{
+        .oe_search_button{
+            color: #FFFFFF !important
+        }
+        .input-group {
+            .form-control{
+              border-bottom:  1px solid white !important;
+            }
+        }
+    }
+    // Media Query......................................................................]
+    @include media-breakpoint-down(md) {
+        .inventive_header_middle {
+            .navbar-brand.logo {
+                img {
+                    max-height: 40px;
+                    height: 40px;
+                }
+            }
+            .header_search_bar{
+                display: inline-block;
+                .input-group {
+                    padding: 0px;
+                    flex-direction: row;
+                    align-items: center;
+                    border:$theme-border;
+                    width: 230px;
+                    .form-control.oe_search_box {
+                        height: 25px !important;
+                        border: none !important;
+                        border-radius: 0 !important;
+                        background-color: transparent;
+                    }
+                }
+                .input-group-append {
+                    margin-left: unset;
+                }
+                .oe_search_button {
+
+                    color: #FFFFFF !important;
+                    background-color: transparent;
+                    padding: 3px 5px;
+                    font-size: 1.125rem;
+                    &:hover {
+                        color: black;
+                        background-color: unset !important;
+                    }
+                }
+            }
+        }
+        #top_menu_collapse {
+            #top_menu{
+                border-right: 0;
+                justify-content: center;
+            }
+            .header_search_bar{
+                display: none;
+            }
+        }
+    }
+    @include media-breakpoint-down(sm){
+        .inventive_header_middle {
+            padding: 5px 15px;
+            .navbar-brand.logo {
+                img {
+                    max-height: 30px;
+                    height: 30px;
+                }
+            }
+            .header_search_bar{
+                display: none;
+
+            }
+        }
+        #top_menu_collapse {
+            background: #232323;
+        }
+    }
+}

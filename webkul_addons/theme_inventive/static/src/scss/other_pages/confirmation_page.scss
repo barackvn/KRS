@@ -1,0 +1,18 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.th_confirmation_page{
+    &>h1{margin-top: 35px !important;}
+}
+.inventive_confirmation_page{
+    background-color: #F9F9F9;
+    .oe_website_sale_tx_status{
+        .card.bg-info{
+            padding: 0;
+
+        }
+        .card-body{
+            padding: 15px;
+        }
+    }
+}

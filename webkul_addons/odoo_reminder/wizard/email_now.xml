@@ -1,0 +1,27 @@
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<record id="email_now_wizard" model="ir.ui.view">
+			<field name="name">Email Now Wizard</field>
+			<field name="model">email.now</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<field name="mail_template" domain="[('model','=','reminder.reminder')]"/>
+					</group>
+					<footer>
+						<button
+							name  ="emailNow"
+							string="Email now"
+							type  ="object"
+							class ="btn-primary"
+						/>
+						<button string="Cancel" class="btn-default" special="cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+	</data>
+</odoo>

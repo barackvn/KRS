@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="add_mp_membership_field_in_mp_settings" model="ir.ui.view">
+            <field name="name">mp.config.settings.adaptive.paypal</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="odoo_marketplace.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='config_product_terms']" position="inside">
+                    <group name="mp_membership_group" string="Marketplace Membership">
+                        <group>
+                            <label for="mp_no_of_product" string="Product Limit For Free Membership"/>
+                            <div>
+                                <label for="mp_no_of_product"/>
+                                <field name="mp_no_of_product" required="1" class="oe_inline" help="If seller is free member than this value of product seller will allowed to create."/>
+                            </div>
+                        </group>
+                        <group name="mp_membership_help" class="oe_grey" col="1">
+                            <h6 class="oe_inline">
+                                ⇒ Product defined here will be applicable to free membership seller. You can also set it seller wise from seller profile.
+                            </h6>
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//div[@id='mp_website_settings']" position="inside">
+                    <!-- <group name="mp_membership_group" string="Marketplace Membership">
+                        <field name="mp_membership_plan_link_label" help="Label for seller membership plan page."/>
+                    </group> -->
+                    <div class="col-12 col-lg-6 o_setting_box" title="Label for seller membership plan page.">
+                        <separator string="Marketplace Membership"/>
+                        <div class="o_setting_right_pane">
+                            <div><label for="mp_membership_plan_link_label"/></div>
+                            <div class="text-muted">
+                                ⇒ This is label for the seller membership plan page which will display on website.
+                            </div>
+                            <field name="mp_membership_plan_link_label" help="This is label for the seller membership plan page which will display on website." style="width: 100%;"/>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

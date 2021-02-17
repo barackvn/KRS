@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="patho_mgmt_lab_test_unit_tree_view">
+			<field name="name">Pathology Lab Test Unit</field>
+			<field name="model">patho.lab.testunit</field>
+            <field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Pathology Lab Test Unit">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+		<record model="ir.ui.view" id="patho_mgmt_lab_test_unit_form_view">
+			<field name="name">Pathology Lab Test Unit</field>
+			<field name="model">patho.lab.testunit</field>
+            <field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Pathology Lab Test Unit">
+                    <sheet>
+											<field name="active" invisible="True"/>
+						<div class="oe_button_box" name="button_box">
+							<button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-danger" attrs="{'invisible':[('active', '=', True)]}">
+									<span class="o_stat_text">Active</span>
+								</button>
+								<button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-success" attrs="{'invisible':[('active', '!=', True)]}">
+									<span class="o_stat_text">Archive</span>
+								</button>
+						</div>
+					    <group>
+							<group string="Lab Test Unit">
+			                    <field name="name" placeholder="Unit.." required="1"/>
+			                    <field name="code" placeholder="Code.." required="1"/>
+							</group>
+					    </group>
+                    </sheet>
+            	</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="patho_mgmt_lab_test_unit_action">
+			<field name="name">Lab Test Unit</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">patho.lab.testunit</field>
+
+            <field name="view_mode">tree,form</field>
+		</record>
+		<menuitem name="Tests"
+			id="patho_mgmt_config_tests_menu"
+			parent="patho_mgmt_config_menu"
+			sequence="4"
+			groups="wk_pathology_management.patho_mgmt_technician_group"
+			/>
+
+		<menuitem name="Units"
+			id="patho_mgmt_lab_test_unit_menu"
+			parent="patho_mgmt_config_tests_menu"
+			sequence="1"
+			action="patho_mgmt_lab_test_unit_action"
+			groups="wk_pathology_management.patho_mgmt_technician_group"
+			/>
+	</data>
+</odoo>

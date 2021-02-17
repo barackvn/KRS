@@ -1,0 +1,74 @@
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<record id="reminder_list_history" model="ir.ui.view">
+			<field name="name">reminder history list</field>
+			<field name="model">reminder.history</field>
+			<field name="arch" type="xml">
+				<tree
+					decoration-muted  ="state=='draft'"
+					decoration-info   ="state=='scheduled'"
+					decoration-success="state=='sent'"
+					decoration-danger ="state=='fail'"
+				>
+					<field name="create_date"/>
+					<field name="name"/>
+					<field name="date"/>
+					<field name="repeat"/>
+					<field name="state"/>
+					<button
+						name  ="retryEmail"
+						string="Retry"
+						type  ="object"
+						icon  ="fa-repeat text-muted"
+						states='fail'
+					/>
+				</tree>
+			</field>
+		</record>
+
+		<act_window
+			id       ="getReminderHistory"
+			name     ="History"
+			res_model="reminder.history"
+			view_mode="tree"
+			domain   ="[('reminder.id','=',active_id)]"
+		/>
+
+		<act_window
+			id       ="reminder_action_history"
+			name     ="Reminder History"
+			res_model="reminder.history"
+			view_mode="tree"
+			context  ="{'group_by':'state'}"
+		/>
+
+		<menuitem
+			parent="reminder_menu"
+			id    ="reminder_submenu_history"
+			name  ="History"
+			action="reminder_action_history"
+		/>
+
+		<record id="reminder_form_add_button_box" model="ir.ui.view">
+			<field name="name">Reminder Form Add Button Box</field>
+			<field name="model">reminder.reminder</field>
+			<field name="inherit_id" ref="reminder_form"/>
+			<field name="arch" type="xml">
+				<xpath expr ="//sheet/group[1]" position="before">
+					<div class="oe_button_box oe_read_only" name="history_button_box">
+						<button
+							name  ="%(getReminderHistory)d"
+							type  ="action"
+							string="History"
+							icon  ="fa-history"
+							class ="oe_stat_button"
+						/>
+					</div>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data>
+        <record id="seller_profile_tabs_form_view" model="ir.ui.view">
+            <field name="name">wk.seller.profile.tabs.form</field>
+            <field name="model">seller.profile.tabs</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="profile_tab_id"/>
+                                <field name="sequence"/>
+                            </group>
+                            <group>
+                                <field name="website_published"/>
+                                <field name="marketplace_seller_id" required="1" domain="[('seller', '=', True), ('state', '=', 'approved')]" options="{'no_create': True}" groups="odoo_marketplace.marketplace_officer_group"/>
+                            </group>
+                        </group>
+                        <group>
+                             <field name="content"/>
+                        </group>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+       <record id="profile_tab_form_view" model="ir.ui.view">
+            <field name="name">wk.profile.tab.form</field>
+            <field name="model">profile.tab</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                          <group>
+                             <field name="name"/>
+                          </group>
+                          <group>
+                            <field name="active"/>
+                          </group>
+                       </group>
+                   </sheet>
+               </form>
+           </field>
+        </record>
+
+        <record id="seller_profile_tabs_tree_view" model="ir.ui.view">
+            <field name="name">wk.seller.profile.tabs.tree</field>
+            <field name="model">seller.profile.tabs</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sequence"/>
+                    <field name="profile_tab_id"/>
+                    <field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <field name="website_published"/>
+                    <button name="toggle_website_published" class="oe_highlight" string="Publish Now" attrs="{'invisible' : [('website_published', '=', True)]}" type="object"/>
+                    <button name="toggle_website_published" class="oe_highlight" string="UnPublish Now" attrs="{'invisible' : [('website_published', '=', False)]}" type="object"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="profile_tab_tree_view" model="ir.ui.view">
+            <field name="name">wk.profile.tab.tree</field>
+            <field name="model">profile.tab</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Filters -->
+        <record id="wk_seller_profile_tabs_filter" model="ir.ui.view">
+            <field name="name">Sellers Tabs</field>
+            <field name="model">seller.profile.tabs</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="profile_tab_id" />
+                    <field name="sequence"/>
+                    <field name="website_published"/>
+                    <field name="marketplace_seller_id"/>
+                    <group  string="Group By">
+                        <filter string="Seller" context="{'group_by':'marketplace_seller_id'}"  name="seller_by_filter" groups="odoo_marketplace.marketplace_officer_group"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="seller_profile_tabs_action" model="ir.actions.act_window">
+            <field name="name">Seller Profile Tabs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">seller.profile.tabs</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_seller_by_filter': 1}</field>
+            <field name="view_id" ref="seller_profile_tabs_tree_view"/>
+        </record>
+
+        <record id="profile_tab_action" model="ir.actions.act_window">
+            <field name="name">Profile Tabs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">profile.tab</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">['|', ('active', '=',True), ('active', '=',False)]</field>
+            <field name="view_id" ref="profile_tab_tree_view"/>
+        </record>
+
+        <menuitem id="mp_seller_profile_tab_setting" parent="odoo_marketplace.wk_seller_dashboard_menu8" name="Seller Profile Tabs" groups="odoo_marketplace.marketplace_officer_group"/>
+        <menuitem id="mp_seller_profile_tabs"
+            parent="mp_seller_profile_tab_setting"
+            sequence="1"
+            name="Sellers Profile Tabs" string="Sellers Profile Tabs"
+            action="seller_profile_tabs_action"/>
+        <menuitem id="mp_profile_tab"
+            parent="mp_seller_profile_tab_setting"
+            sequence="2"
+            name="Profile Tabs"
+            string="Profile Tabs"
+            action="profile_tab_action"/>
+    </data>
+</odoo>

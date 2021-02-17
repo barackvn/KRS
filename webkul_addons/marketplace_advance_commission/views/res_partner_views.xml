@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+
+        <record id="inherit_wk_seller_form_view" model="ir.ui.view">
+            <field name="name">seller.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]//group[@name='payment_terms']" position="replace">
+                    <group>
+                        <group>
+                            <label for="comm_method" string="Commission Method"/>
+                            <div>
+                                <field name="comm_method" options="{'horizontal': true}"
+                                    style="width: 157px;height: 24px;"
+                                    class="oe_inline"
+                                    attrs="{'readonly':[('set_seller_wise_settings','=',False)],'required':[('set_seller_wise_settings','!=',False)]}"
+                                    readonly="1"
+                                    help="Select the type of commission to be applied in the products of sellers in the marketplace"/>
+                            </div>
+                            <label for="commission" string="Percent Commission" attrs="{'invisible':['|',('comm_method','=','fix'),('comm_method','=',False)]}" />
+                            <div attrs="{'invisible':['|',('comm_method','=','fix'),('comm_method','=',False)]}">
+                                <field name="commission"  class="oe_inline" attrs="{'readonly':[('set_seller_wise_settings','=',False)],'required':['|',('comm_method','!=','fix'),('set_seller_wise_settings','!=',False)]}"/>
+                                <span attrs="{'invisible':['|',('comm_method','=','fix'),('comm_method','=',False)]}"> %</span>
+                            </div>
+                            <label for="fix_commission" string="Fixed Commission" attrs="{'invisible':['|',('comm_method','=','percent'),('comm_method','=',False)]}" />
+                            <div attrs="{'invisible':['|',('comm_method','=','percent'),('comm_method','=',False)]}">
+                                <field name="fix_commission" class="oe_inline"
+                                    attrs="{'readonly':[('set_seller_wise_settings','=',False)],'required':['|',('comm_method','!=','percent'),('set_seller_wise_settings','!=',False)]}"
+                                    readonly="1"
+                                    help="Set fix commission, You can manage this commission seller wise from seller account"
+                                    widget="monetary" options="{'currency_field': 'seller_currency_id'}"
+                                    />
+                            </div>
+                        </group>
+                        <group col="1">
+                            <div class="alert alert-info alert-normal-info" role="alert" style="margin-left: -70px;margin-top: -3px;border: none;border-radius: 0px;border-left-style: solid;border-left-width: 4px;border-left-color: #31708f;"
+                                attrs="{'invisible': [('comm_method','=',False)]}">
+                                <ul style="list-style-type:square;margin-left: -30px;margin-top: -6px;margin-bottom: -4px;">
+                                    <li>
+                                        <strong>Percent(%)</strong>
+                                        ⇒ In this type of commission, the percentage amount will be deducted from the base price of the product.
+                                    </li>
+                                    <li>
+                                        <strong>Fixed</strong>
+                                        ⇒ In this type of commission, a fixed amount will be deducted from the base price of the product.
+                                    </li>
+                                    <li>
+                                        <strong>% + Fixed</strong>
+                                        ⇒ In this type of commission, first the percentage amount will be deducted from the base price of the product and then a fixed amount will be deducted from the remaining amount.
+                                    </li>
+                                    <li>
+                                        <strong>Fixed + %</strong>
+                                        ⇒ In this type of commission, first a fixed amount will be deducted from the base price of the product and then the percentage amount will be deducted from the remaining price.
+                                    </li>
+                                </ul>
+                            </div>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="commission_fields_not_readonly_to_officer" model="ir.ui.view">
+            <field name="name">Make Readable Commission</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="marketplace_advance_commission.inherit_wk_seller_form_view"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
+            <field name="arch" type="xml">
+                <field name='comm_method' position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </field>
+                <field name='fix_commission' position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </field>
+            </field>
+        </record>
+
+        <!-- <record id="inherit_wk_seller_kanban_view" model="ir.ui.view">
+            <field name="name">seller.kanban.inherit.comm</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_kanban_view"/>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='tags']/ul//field[@name='commission']/.." position="replace">
+                    <span t-if="record.comm_method.raw_value">
+                        <li><b>Commission: </b><field name="comm_method"/></li>
+                    </span>
+                    <span t-if="record.comm_method.raw_value == 'percent'">
+                        <li>( <field name="commission"/>% )</li>
+                    </span>
+                    <span t-if="record.comm_method.raw_value == 'fix'">
+                        <li>( <field name="fix_commission" widget="monetary" options="{'currency_field': 'seller_currency_id'}"/> )</li>
+                    </span>
+                    <span t-if="record.comm_method.raw_value == 'percent_and_fix'">
+                        <li>( <field name="commission"/>% + <field name="fix_commission" widget="monetary" options="{'currency_field': 'seller_currency_id'}"/> )</li>
+                    </span>
+                    <span t-if="record.comm_method.raw_value == 'fix_and_percent'">
+                        <li>( <field name="fix_commission" widget="monetary" options="{'currency_field': 'seller_currency_id'}"/> + <field name="commission"/>% )</li>
+                    </span>
+                </xpath>
+            </field>
+        </record> -->
+
+    </data>
+</odoo>

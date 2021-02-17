@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- =============1. Inventive_Contactus_Page                           ==================-->
+        <record id="inventive_contactus_page" model="ir.ui.view">
+           <field name="name">Contact Us inherit</field>
+           <field name="type">qweb</field>
+           <field name="inherit_id" ref="website.contactus"/>
+           <field name="arch" type="xml">
+                <div id="wrap" position="before">
+                    <div class="oe_structure"/>
+
+                </div>
+                <div id="wrap" position="attributes">
+                    <attribute name="class">th_contact_us</attribute>
+                </div>
+                <section class="pt8 pb8" position="replace">
+                    <div class="container">
+                       <ol class="breadcrumb">
+                           <li class="breadcrumb-item"><a href="/" class="active" >Home</a></li>
+                           <li class="breadcrumb-item" >Contact Us</li>
+                       </ol>
+                    </div>
+               </section>
+               <xpath expr="//div[hasclass('row')]/div[hasclass('col-lg-8')]/div[hasclass('oe_structure')]" position="before">
+                    <div class="row s_nb_column_fixed">
+                        <div class="col-lg-12 s_title pt16 pb16">
+                            <h1>Contact us</h1>
+                        </div>
+                    </div>
+               </xpath>
+           </field>
+        </record>
+        <record id="inventive_aboutus_page" model="ir.ui.view">
+           <field name="name">About Us inherit</field>
+           <field name="type">qweb</field>
+           <field name="inherit_id" ref="website.aboutus"/>
+           <field name="arch" type="xml">
+                <div id="wrap" position="before">
+                    <div class="oe_structure"/>
+                    <div class="container">
+                       <ol class="breadcrumb">
+                           <li class="breadcrumb-item"><a href="/" class="active" >Home</a></li>
+                           <li class="breadcrumb-item" >About Us</li>
+                       </ol>
+                    </div>
+                </div>
+                <div id="wrap" position="attributes">
+                    <attribute name="class">inventive_about_us</attribute>
+                </div>
+           </field>
+        </record>
+    </data>
+    <!-- =============2. Inventive_Cart_Inherit                          ==================-->
+    <template id="cart_summary" inherit_id="website_sale.cart_summary" name="Cart right column">
+        <xpath expr="//td[hasclass('td-img')]" position="attributes">
+            <attribute name="class" add="col-2" separator=" "/>
+        </xpath>
+        <xpath expr="//td[hasclass('td-product_name')]" position="attributes">
+            <attribute name="class" add="col-2" separator=" "/>
+        </xpath>
+    </template>
+    <template id="cart" inherit_id="website_sale.cart" name="Inventive Shopping Cart Inherit">
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="attributes">
+            <attribute name="class" add="th_cart_page" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+            <div class="oe_structure"/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+            <div class="container">
+               <ol class="breadcrumb">
+                   <li class="breadcrumb-item"><a href="/" class="active" >Home</a></li>
+                   <li class="breadcrumb-item" > Cart</li>
+               </ol>
+            </div>
+        </xpath>
+        <!-- short_cart_summary replaced from cart -->
+        <xpath expr="//t[@t-call='website_sale.short_cart_summary']" position="replace"/>
+
+        <xpath expr="//t[@t-call='website_sale.cart_lines']" position="after">
+            <div class="th_cart_total js_cart_summary text-right" t-if="website_sale_order and website_sale_order.website_order_line" >
+                <t t-call="website_sale.total">
+                    <t t-set='no_rowspan'>1</t>
+                </t>
+           </div>
+        </xpath>
+    </template>
+
+    <!-- =============3. Inventive_Cart_Lines                                    ==================-->
+    <template id="cart_lines" inherit_id="website_sale.cart_lines" name="Inventive Shopping Cart Lines" priority="1">
+        <xpath expr="//table[hasclass('table')]/thead" position="replace">
+            <thead>
+                <tr>
+                    <th class="td-img"><h6>Product Image</h6></th>
+                    <th class="td-product_name"><h6>Product Name</h6></th>
+                    <th class="text-center td-unit-price"><h6>Unit Price</h6></th>
+                    <th class="text-center td-qty"><h6>Quantity</h6></th>
+                    <th class="text-center td-price"><h6>Total Price</h6></th>
+                </tr>
+            </thead>
+        </xpath>
+        <xpath expr="//table[hasclass('table')]//tbody//td[hasclass('td-img')]/span" position="replace">
+            <span t-field="line.product_id.image_512" t-options="{'widget': 'image', 'class': 'rounded'}" />
+        </xpath>
+
+        <xpath expr="//table[hasclass('table')]//tbody//td[hasclass('td-qty')]" position="before">
+            <td class="text-center td-unit-price">
+                <t t-set="combination" t-value="line.product_id.product_template_attribute_value_ids + line.product_no_variant_attribute_value_ids"/>
+                <t t-set="combination_info" t-value="line.product_id.product_tmpl_id._get_combination_info(combination)"/>
+
+                <t t-set="list_price_converted" t-value="website.currency_id._convert(combination_info['list_price'], website_sale_order.currency_id, website_sale_order.company_id, date)"/>
+                <t groups="account.group_show_line_subtotals_tax_excluded" t-if="(website_sale_order.pricelist_id.discount_policy == 'without_discount' and website_sale_order.currency_id.compare_amounts(list_price_converted, line.price_reduce_taxexcl) == 1) or website_sale_order.currency_id.compare_amounts(line.price_unit, line.price_reduce) == 1" name="order_line_discount">
+                    <del t-attf-class="#{'text-danger mr8'}" style="white-space: nowrap;" t-esc="list_price_converted" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" />
+                </t>
+                <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
+                <t groups="account.group_show_line_subtotals_tax_included" t-if="(website_sale_order.pricelist_id.discount_policy == 'without_discount' and website_sale_order.currency_id.compare_amounts(list_price_converted, line.price_reduce_taxinc) == 1) or website_sale_order.currency_id.compare_amounts(line.price_unit, line.price_reduce) == 1" name="order_line_discount">
+                    <del t-attf-class="#{'text-danger mr8'}" style="white-space: nowrap;" t-esc="list_price_converted" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" />
+                </t>
+                <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
+            </td>
+        </xpath>
+        <xpath expr="//table[hasclass('table')]//tbody//td[hasclass('td-price')]" position="replace">
+            <td class="text-center td-price">
+                <span t-field="line.price_subtotal"/>
+            </td>
+        </xpath>
+        <!-- td-action  replace -->
+        <xpath expr="//table[hasclass('table')]//tbody//td[hasclass('td-action')]" position="replace"/>
+    </template>
+
+    <!--  short_cart_summary override-->
+    <template id="short_cart_summary" inherit_id="website_sale.short_cart_summary" name="Inventive Short Cart right column" priority="1">
+        <div class="card js_cart_summary" position="replace">
+            <div class="th_cart_total js_cart_summary text-right" t-if="website_sale_order and website_sale_order.website_order_line" >
+                <t t-call="website_sale.total">
+                  <t t-set='no_rowspan'>1</t>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <!-- =============4. Inventive_Coupon_Form                          ==================-->
+    <template id="inventive_coupon_form" inherit_id="website_sale.coupon_form" name="Inventive Reduction_code" priority="1">
+        <div class="input-group w-100" position="replace">
+            <div class="d-flex w-100">
+                <input name="promo" class="form-control" type="text" placeholder="code..." t-att-value="website_sale_order.pricelist_id.code or None"/>
+                <div class="input-group-append ml8">
+                    <a href="#" role="button" class="btn btn-primary a-submit ">Apply</a>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!--==============5. Inventive_Payment_Page           ==================-->
+    <template id="payment_page" inherit_id="website_sale.payment" name="Inventive Payment" priority="1">
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+            <div class="oe_structure"/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="attributes">
+            <attribute name="class" add="th_payment_page" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+            <div class="container">
+               <ol class="breadcrumb">
+                   <li class="breadcrumb-item"><a href="/" class="active" >Home</a></li>
+                   <li class="breadcrumb-item"><a href="/shop/cart" class="active" >Cart</a></li>
+                   <li class="breadcrumb-item" >Payment</li>
+               </ol>
+            </div>
+        </xpath>
+        <xpath expr="//t[@t-call='website_sale.wizard_checkout']//ancestor::div[hasclass('col-12')]" position="replace">
+        </xpath>
+    </template>
+
+    <template id="payment_tokens_list_inherit" inherit_id="payment.payment_tokens_list" name="theme inherit payment_tokens_list" priority="1">
+        <xpath expr="//div[hasclass('card-body')]//span[hasclass('payment_option_name')]" position="before">
+            <span class="aquirer_image img img-fluid" t-field="acq.image_128" t-options="{'widget': 'image'}"/>
+        </xpath>
+        <xpath expr="//div[hasclass('card-body')]//ul[hasclass('payment_icon_list')]" position="replace"/>
+        <xpath expr="//div[hasclass('card-body')]//span[hasclass('payment_option_name')]" position="replace">
+            <div class ="payment_option_name">
+                <h6 class="h_tag" t-esc="acq.name"/>
+                <ul class="float-right list-inline payment_icon_list">
+                    <t t-set="i" t-value="0"/>
+                    <t t-foreach="acq.payment_icon_ids" t-as="pm_icon">
+                        <li t-attf-class="list-inline-item#{'' if (i &lt; MAX_BRAND_LINE) else ' d-none'}">
+                            <span t-field="pm_icon.image_payment_form"
+                                  t-options='{"widget": "image", "alt-field": "name"}'/>
+                        </li>
+                        <li t-if="i==MAX_BRAND_LINE" style="display:block;" class="list-inline-item">
+                            <span class="float-right more_option text-info">
+                                <a href="#" class="o_payment_form_pay_icon_more" data-toggle="tooltip" t-att-title="', '.join([opt.name for opt in acq.payment_icon_ids[MAX_BRAND_LINE:]])">and more</a>
+                            </span>
+                        </li>
+                        <t t-set="i" t-value="i+1"/>
+                    </t>
+                </ul>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- =============6. Inventive_Confirmation_Page                ==================-->
+    <template id="inventive_confirmation_page" inherit_id="website_sale.confirmation" name="Inventive confirmation Page" priority="1">
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class" add="inventive_confirmation_page" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+            <div class="container">
+               <ol class="breadcrumb">
+                   <li class="breadcrumb-item"><a href="/" class="active" >Home</a></li>
+                   <li class="breadcrumb-item" >Cart</li>
+                   <li class="breadcrumb-item" >Payment</li>
+                   <li class="breadcrumb-item" >Confirmation</li>
+               </ol>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- =============7. Inventive_Checkout_Page                    ==================-->
+    <template id="inventive_checkout_page" inherit_id="website_sale.checkout" name="Inventive checkout Page" priority="1">
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="attributes">
+            <attribute name="class" add="th_checkout_page" separator=" "/>
+        </xpath>
+        <!-- <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+            <div class="oe_structure"/>
+        </xpath> -->
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+            <div class="container">
+               <ol class="breadcrumb">
+                   <li class="breadcrumb-item"><a href="/" class="active" >Home</a></li>
+                   <li class="breadcrumb-item"><a href="/shop/cart" class="active" >Cart</a></li>
+                   <li class="breadcrumb-item"><a href="/shop/payment" class="active" >Payment</a></li>
+                   <li class="breadcrumb-item">Checkout</li>
+               </ol>
+            </div>
+        </xpath>
+        <xpath expr="//t[@t-call='website_sale.wizard_checkout']//ancestor::div[hasclass('col-12')]" position="replace">
+        </xpath>
+    </template>
+
+    <!-- =============8. Inventive_Address_Page                ==================-->
+    <template id="inventive_address_page" inherit_id="website_sale.address" name="Inventive Address Page" priority="1">
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="attributes">
+            <attribute name="class" add="th_address_page" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+            <div class="oe_structure"/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+            <div class="container">
+               <ol class="breadcrumb">
+                   <li class="breadcrumb-item"><a href="/" class="active" >Home</a></li>
+                   <li class="breadcrumb-item"><a href="/shop/cart" class="active" >Cart</a></li>
+                   <li class="breadcrumb-item"><a href="/shop/payment" class="active">Payment</a></li>
+                   <li class="breadcrumb-item"><a href="/shop/checkout" class="active">Checkout</a></li>
+                   <li class="breadcrumb-item">Address</li>
+               </ol>
+            </div>
+        </xpath>
+        <xpath expr="//t[@t-call='website_sale.wizard_checkout']//ancestor::div[hasclass('row')]" position="replace">
+        </xpath>
+    </template>
+
+    <!-- =============9. Inventive_Portal_Page                ==================-->
+    <template id="inventive_portal_page" inherit_id="portal.portal_layout" name="Inventive Portal Page" priority="1">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div class="oe_structure"/>
+            <div id="wrap" class='o_portal_wrap'>
+                <div class="oe_structure">
+                    <section class="my_details">
+                        <div class="container mb64">
+                            <t t-if="my_details">
+                                <div class="row justify-content-between">
+                                    <div t-attf-class="col-12 col-md-12">
+                                        <t t-raw="0"/>
+                                    </div>
+                                </div>
+                                <div id="o_my_sidebar" class="col-12 col-md col-lg-4 col-xl-3 o_my_sidebar d-none">
+                                    <div class="o_my_contact" t-if="sales_user">
+                                        <t t-call="portal.portal_contact"/>
+                                    </div>
+                                    <div class="o_portal_my_details">
+                                        <h4>Your Details <a role="button" href="/my/account" class="btn btn-sm btn-link"><i class="fa fa-pencil"/> Edit</a></h4>
+                                        <hr class="mt-1 mb-0"/>
+                                        <div t-field="user_id.partner_id" t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+                                    </div>
+                                    <div class="o_my_archives" t-if="archive_groups">
+                                        <t t-call="portal.portal_archive_groups"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <t t-raw="0"/>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </xpath>
+    </template>
+    <template id="portal_my_home_inherit" inherit_id="portal.portal_my_home" name="Inventive portal_my_home" priority="1">
+        <div class="o_portal_my_home" position="replace">
+            <div class="o_portal_my_home" style="background-image:url('/theme_inventive/static/src/img/backgrounds/background_01.jpg')">
+                <div class="oe_structure" id="oe_structure_portal_my_home_1"/>
+                <h3 class="d-none">Your Documents</h3>
+                <div class="o_portal_docs list-group">
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title">My Profile</t>
+                        <t t-set="url" t-value="'/my/account'"/>
+                    </t>
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title">Reset Password</t>
+                        <t t-set="url" t-value="'/web/reset_password'"/>
+                    </t>
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title">Address Book</t>
+                        <t t-set="url" t-value="'/shop/address'"/>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="portal_docs_entry_inherit" name="My Portal Docs Entry" inherit_id="portal.portal_docs_entry" priority="1">
+        <xpath expr="//a" position="replace">
+            <a t-att-href="url" t-att-title="title" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                <div class="th_portal_doc">
+                    <span class="img_icon"/>
+                    <div class="doc_title">
+                        <span t-esc="title"/>
+                        <span class="badge badge-secondary badge-pill" t-esc="count"/>
+                    </div>
+                </div>
+            </a>
+        </xpath>
+    </template>
+    <template id="portal_my_details_inherit" inherit_id="portal.portal_my_details" name="inventive portal_my_details inherit" priority="1">
+        <t t-call="portal.portal_layout" position="replace">
+            <t t-set="additional_title">Your Contact Details</t>
+            <t t-call="portal.portal_layout">
+                <div class="th_user_details">
+                    <h3>Your Details</h3>
+                    <form action="/my/account" method="post">
+                        <div class="row th_row">
+                            <div class="col-12 col-md-8 user_form">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="row o_portal_details">
+                                    <div class="col-md-12">
+                                        <div t-if="error_message" class="alert alert-danger" role="alert">
+                                            <t t-foreach="error_message" t-as="err"><t t-esc="err"/><br /></t>
+                                        </div>
+                                    </div>
+                                    <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-xl-6">
+                                        <label class="col-form-label" for="name">Your Name</label>
+                                        <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="name or partner.name" />
+                                    </div>
+                                    <div t-attf-class="form-group #{error.get('email') and 'o_has_error' or ''} col-xl-6">
+                                        <label class="col-form-label" for="email">Email</label>
+                                        <input type="email" name="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" t-att-value="email or partner.email" />
+                                    </div>
+                                    <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-xl-6">
+                                        <label class="col-form-label" for="phone">Phone</label>
+                                        <input type="tel" name="phone" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="phone or partner.phone" />
+                                    </div>
+
+                                    <div class="clearfix" />
+                                    <div t-attf-class="form-group #{error.get('company_name') and 'o_has_error' or ''} col-xl-6">
+                                        <label class="col-form-label label-optional" for="company_name">Company Name</label>
+                                        <p t-if="partner.commercial_partner_id.is_company" t-attf-class="form-control #{error.get('company_name') and 'is-invalid' or ''}" t-esc="partner.commercial_company_name"/>
+                                        <input t-else="" type="text" name="company_name" t-attf-class="form-control #{error.get('company_name') and 'is-invalid' or ''}" t-att-value="company_name or partner.company_name" t-att-readonly="None if partner.can_edit_vat() else '1'" t-att-title="None if partner.can_edit_vat() else 'Changing company name is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.'"/>
+                                    </div>
+                                    <div t-attf-class="form-group #{error.get('vat') and 'o_has_error' or ''} col-xl-6">
+                                        <label class="col-form-label label-optional" for="vat">VAT Number</label>
+                                        <input type="text" name="vat" t-attf-class="form-control #{error.get('vat') and 'is-invalid' or ''}" t-att-value="vat or partner.vat" t-att-readonly="None if partner.can_edit_vat() else '1'" t-att-title="None if partner.can_edit_vat() else 'Changing VAT number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.'" />
+                                    </div>
+
+                                    <div class="clearfix" />
+                                    <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-xl-6">
+                                        <label class="col-form-label" for="street">Street</label>
+                                        <input type="text" name="street" t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}" t-att-value="street or partner.street"/>
+                                    </div>
+                                    <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-xl-6">
+                                        <label class="col-form-label" for="city">City</label>
+                                        <input type="text" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="city or partner.city" />
+                                    </div>
+                                    <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-xl-6">
+                                        <label class="col-form-label" for="zipcode">Zip / Postal Code</label>
+                                        <input type="text" name="zipcode" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="zipcode or partner.zip" />
+                                    </div>
+                                    <div t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-xl-6">
+                                        <label class="col-form-label" for="country_id">Country</label>
+                                        <select name="country_id" t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}">
+                                            <option value="">Country...</option>
+                                            <t t-foreach="countries or []" t-as="country">
+                                                <option t-att-value="country.id" t-att-selected="country.id == int(country_id) if country_id else country.id == partner.country_id.id">
+                                                    <t t-esc="country.name" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-xl-6">
+                                        <label class="col-form-label label-optional" for="state_id">State / Province</label>
+                                        <select name="state_id" t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}">
+                                            <option value="">select...</option>
+                                            <t t-foreach="states or []" t-as="state">
+                                                <option t-att-value="state.id" style="display:none;" t-att-data-country_id="state.country_id.id" t-att-selected="state.id == partner.state_id.id">
+                                                    <t t-esc="state.name" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="redirect" t-att-value="redirect"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 user_image">
+                                <div id="o_my_sidebar" class="o_my_sidebar">
+                                    <div class="o_my_contact" t-if="sales_user">
+                                        <t t-call="portal.portal_contact"/>
+                                    </div>
+                                    <div class="u_image">
+                                        <span itemprop="image" t-field="request.env.user.image_256" t-options="{'widget': 'image'}" t-att-alt="request.env.user.name"
+                                            t-attf-content="{{request.httprequest.url_root}}web/image/res.users/{{request.env.user.id}}/image">
+                                        </span>
+                                        <div class="wk_open">
+                                            <span type="button" class="edit_icon fa fa-pencil" data-toggle="modal" data-target="#confirmationModal"/>
+                                            <span class="delete_icon fa fa-trash"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_portal_my_details">
+                                        <hr class="mt-3 mb-0"/>
+                                        <div t-field="user_id.partner_id" t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+                                    </div>
+                                    <div class="o_my_archives" t-if="archive_groups">
+                                        <t t-call="portal.portal_archive_groups"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 user_form">
+                                <div class="clearfix">
+                                    <button type="submit" class="btn btn-primary float-right mb32 ">
+                                        Confirm
+                                        <span class="fa fa-long-arrow-right" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="confirmationModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">
+                                    Please Choose Image
+                                </h4>
+                                <button type="button" class="close" data-dismiss="modal">X</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input id="file" type="file" class="form-control-file"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="apply_image" type="button" class="btn btn-primary">Apply</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- =============10. Inventive_404_template                ==================-->
+    <template id="inventive_404_template" inherit_id="http_routing.404" name="Inventive 404" priority="10">
+        <xpath expr="//div[hasclass('container')]" position="replace">
+            <div class="container inventive_404 pt32 pb8 mt8">
+                <div class="card">
+                    <div class="row text-center flex-column align-items-center">
+                        <div class="col-sm_12 col-md-6">
+                            <span><img class="404_img_span img img-fluid" src="/theme_inventive/static/src/img/404.png" alt="404" style="max-width:75%;"/></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 pt8">
+                            <div>
+                                <h2 style="display:inline-block;">Oops!!</h2>
+                                <span style="display:inline-block;"> We were unable to find what you were looking for</span>
+                                <p>This page does not exist, but you can create it as you are administrator of this site.</p>
+                            </div>
+                            <p> Please click the below button to go back to the Home Page.</p>
+                        </div>
+                        <div class="col-sm-12 col-md-6 pb24 ">
+                            <a href="/" class="btn btn-primary"><b>Go Back To Home</b></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class" add="inventive_404_page" separator=" "/>
+        </xpath>
+    </template>
+
+    <!-- =============11. Inventive_403_template                ==================-->
+    <!-- <template id="inventive_403_template" inherit_id="website.403" name="Inventive 403">
+        <xpath expr="//div[hasclass('container')]" position="replace">
+            <div class="container inventive_403 pt32 pb8 mt8">
+                <div class="card">
+                    <div class="row text-center flex-column align-items-center">
+                        <div class="col-sm_12 col-md-6">
+                            <span><img class="403_img_span img img-fluid" src="/theme_inventive/static/src/img/403.png" alt="403" style="max-width:75%;"/></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 pt8">
+                            <div>
+                                <h2 style="display:inline-block;">Oops!!</h2>
+                                <span style="display:inline-block;"> We were unable to find what you were looking for</span>
+                            </div>
+                            <p> Please click the below button to go back to the Home Page.</p>
+                        </div>
+                        <div class="col-sm-12 col-md-6 pb24 ">
+                            <a href="/" class="btn btn-primary"><b>Go Back To Home</b></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class" add="inventive_403_page" separator=" "/>
+        </xpath>
+    </template> -->
+
+    <!-- <template id="inventive_payment_process_page" inherit_id="payment.payment_process_page" name="Inventive Payment processing page" priority="1000">
+        <xpath expr="//div[hasclass('o_payment_processing')]" position="attributes">
+            <attribute name="class" add="card mt32 mb32 pb32 pt32" separator=" "/>
+        </xpath>
+    </template> -->
+
+    <!-- =============12. Inventive_congratulations_page                ==================-->
+    <template id="inventive_congratulations_page" name="Inventive_congratulations Page" >
+        <t t-call="website.layout">
+            <div class="oe_structure"/>
+            <div id="wrap" class="inventive_congo_page">
+                <div class="container  pt32 pb8 mt8">
+                    <div class="card">
+                        <div class="row text-center flex-column align-items-center">
+                            <div class="col-sm_12 col-md-6">
+                                <span><img class="403_img_span img img-fluid" src="/theme_inventive/static/src/img/congrats.png" alt="congrats" style="max-width:75%;"/></span>
+                            </div>
+                            <div class="col-sm-12 col-md-8 pt8">
+                                <div>
+                                    <span> Your order have been successfully placed. You can view your order details by clicking on the button below</span>
+                                </div>
+                                <div>
+                                    <span>Please click the below button to go back to check Order Details. </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 pb24 ">
+                                <a t-att-href="redirect " class="btn btn-primary"><b>Order Details</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+
+
+    <!-- =============13. Inventive_wishlist_page                ==================-->
+    <template id="rd_website_sale_wishlist_inherit" inherit_id="website_sale_wishlist.product_wishlist" priority="20">
+        <xpath expr="//div[@id='wrap']" position ="attributes">
+            <attribute name="class" add="inventive_wishlist_page" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']//div[hasclass('oe_website_sale')]" position ="before">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/" class="active" >Home</a></li>
+                    <li class="breadcrumb-item"><a href="/shop" class="active" >Shop</a></li>
+                    <li class="breadcrumb-item" t-if="not category">Wishlist</li>
+                    <t t-foreach="categories" t-as="c">
+                        <t t-call="theme_inventive.inventive_category_recursive"/>
+                    </t>
+                </ol>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('oe_website_sale')]//table" position ="replace">
+            <div id="products_grid" class="row">
+                <div class="col-12 four_column_view"  t-if="wishes">
+                    <t t-foreach="wishes" t-as="wish">
+                        <t t-set="combination_info" t-value="wish.product_id.product_tmpl_id._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
+                        <div class="oe_product oe_product_cart" t-if="wish" t-att-data-wish-id='wish.id' t-att-data-product-id='wish.product_id.id'>
+                            <form action="" method="post" disable="disabled" class="card oe_product_cart">
+                                <div class="card-body p-1 oe_product_image">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                    <a t-att-href="'/shop/product/%s' % slug(wish.product_id.product_tmpl_id)">
+                                        <span t-field="wish.product_id.image_1920"
+                                            t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256'}"
+                                            class="d-flex h-100 justify-content-center align-items-center"/>
+                                        <span class="mask"/>
+                                    </a>
+                                    <t t-set="show_quick_view_btn" t-value="request.env['ir.config_parameter'].sudo().get_param('theme_inventive.product_quick_view')"/>
+                                    <span t-if="show_quick_view_btn" class="btn inventive_product_quick_view"  title="Quick View" t-att-product-template-id="wish.product_id.product_tmpl_id.id" data-type="quick"><span class="fa fa-search" role="img"/></span>
+                                </div>
+                                <div class="card-body p-0 text-center o_wsale_product_information">
+                                    <div class="p-2 o_wsale_product_information_text">
+                                       <h6 class="o_wsale_products_item_title">
+                                           <a itemprop="name" t-att-href="'/shop/product/%s' % slug(wish.product_id.product_tmpl_id)" t-att-content="wish.product_id.display_name"><t t-esc="wish.product_id.display_name"/></a>
+                                       </h6>
+                                       <t t-call="theme_inventive.inventive_product_rating_star_template">
+                                           <t t-set="product" t-value="wish.product_id.product_tmpl_id"/>
+                                       </t>
+                                       <div class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+                                            <del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                                            <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                            <span itemprop="price" style="display:none;" t-esc="combination_info['price']" />
+                                            <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+                                       </div>
+                                    </div>
+                                    <div class="o_wsale_product_btn">
+                                        <button type="button" role="button" class="d-none d-md-inline-block btn btn-secondary  o_add_compare" title="Compare" aria-label="Compare" t-att-data-product-product-id="wish.product_id.id" data-action="o_comparelist"><span class="fa fa-exchange"/></button>
+                                        <div class="btn-cart">
+                                             <a href="#" class="btn btn-primary o_wish_add" aria-label="Shopping cart" title="Shopping cart">
+                                                 <span class="text ">Add To Cart</span>
+                                             </a>
+                                         </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn o_wish_rm">X</button>
+                            </form>
+                        </div>
+                    </t>
+                </div>
+            </div>
+            <a href="/shop" class="btn btn-primary mb32">
+                <span class="d-none d-md-inline-block">Continue Shopping</span>
+                <span class="d-md-none d-inline-block">Continue</span>
+            </a>
+        </xpath>
+    </template>
+
+
+</odoo>

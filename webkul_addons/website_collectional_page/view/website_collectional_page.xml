@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+        <record id="website_collectional_page_formview" model="ir.ui.view">
+            <field name="name">Website Collection Page Form</field>
+            <field name="model">website.collectional.page</field>
+            <field name="arch" type="xml">
+                <form string="Website Collection Page">
+                    <header>
+                        <button name="website_publish_button" class="oe_highlight" string="Publish On Website" states="unpub" icon="fa-globe" type="object" />
+                        <button name="website_unpublish_button" class="oe_highlight" string="Unpublish On Website" states="pub" type="object" icon="fa-globe" />
+                        <field name="state" widget="statusbar" statusbar_visible="pub,unpub"/>
+                    </header>
+                    <sheet string="Product Review">
+                        <div class="oe_button_box " name="publish_date_box">
+                            <group class="oe_right">
+                                <field name="publish_date" readonly="1" attrs="{'invisible': [('state','=','unpub')]}"/>
+                            </group>
+                        </div>
+                        <div class="oe_title">
+                            <label class="" for="name"/>
+                            <h1><field name="name" placeholder="Title" default_focus="1"/></h1>
+                        </div>
+						<group>
+							<group>
+								<field name="page_type" widget="radio" help="Select the type of display on website."/>
+							</group>
+							<group>
+								<label for="display_block" string="Display Info Block"/>
+								<div>
+									<field name="display_block" help="Select whether to display information block on banner or not."/>
+									<label for="display_block" string="Display info block on banner"/>
+								</div>
+								<field name="block_pos" string="Info Block Position" help="Select position where to display block on banner."
+									attrs= "{'invisible' : [('display_block','=', False )], 'required' : [('display_block','=',True)]}"/>
+							</group>
+						</group>
+                        <group>
+                            <div class="">
+                                <label for="image" string="Banner" style="font-weight:600"/>
+                            </div>
+                        </group>
+                        <group>
+                            <div>
+                                <field name="image" widget="image" options="{'size': [825, 250]}"
+									help="Banner should be of size 1110 X 250 for a perfect view."/>
+                            </div>
+                        </group>
+                        <label class="" for="description"/>
+                        <field name="description" placeholder="Description..." default_focus="0"/>
+                    </sheet>
+                    <sheet>
+                        <separator string="Parameters For Conditions"/>
+                        <group>
+                            <field name="option" widget="radio" options="{'horizontal': true}"/>
+
+                            <field name="condition_match" widget="radio" attrs="{'invisible' : [('option', '=', 'manually')]}" options="{'horizontal': true}"/>
+                        </group>
+                        <separator string="Conditions" attrs="{'invisible' : [('option', '=', 'manually')]}"/>
+                        <field name="product_condition_ids" attrs="{'invisible' : [('option', '=', 'manually')], 'required': [('option', '=', 'conditionally')]}">
+                            <form>
+                                <group>
+                                    <field name="collectional_id" invisible="1"/>
+                                    <field name="field"/>
+                                    <field name="operator" options="{'no_create': True}" widget="selection"/>
+                                    <field name="value"/>
+	                                <field name="field_type" invisible="1"/>
+									<field name="name" invisible="1"/>
+									<field name="active" invisible="1"/>
+                                </group>
+                            </form>
+                            <tree>
+								<field name="collectional_id" invisible="1"/>
+                                <field name="field" required="1" placeholder="---Select Product Field---"/>
+                                <field name="operator" required="1" widget="selection" placeholder="---Select Operator---"/>
+                                <field name="value"/>
+                                <field name="field_type" invisible="1"/>
+								<field name="name" invisible="1"/>
+								<field name="active" invisible="1"/>
+                            </tree>
+                        </field>
+                        <button name="add_products_on_condition" icon="fa-refresh" type="object" string="Refresh Product List" attrs="{'invisible' : ['|',('option', '=', 'manually'),('product_condition_ids', '=', False)], 'required': [('option', '=', 'conditionally')]}" class="oe_highlight oe_center"/>
+                        <div class="col-md-12" style="margin: 0px !important;padding: 0px !important;">
+                            <separator string="Choose Products" class="oe_edit_only col-md-7" attrs="{'invisible' : [('option', '=', 'conditionally')]}" style="margin: 0px !important;padding: 0px !important;"/>
+                            <separator string="Selected Products" class="oe_read_only col-md-7" attrs="{'invisible' : [('option', '=', 'conditionally')]}" style="margin: 0px !important;padding: 0px !important;"/>
+                            <separator string="Selected Products On Conditions" class=" col-md-7" attrs="{'invisible' : [('option', '=', 'manually')]}" style="margin: 0px !important;padding: 0px !important;"/>
+                            <div class="col-md-3 pull-right" >
+                                <button name="remove_products_on_condition" icon="fa-trash-o" type="object" string="Remove All Products" attrs="{'invisible' : ['|',('option', '=', 'conditionally'),('product_condition_ids', '=', False)]}" class="oe_highlight oe_edit_only"/>
+                            </div>
+                            <div class="pull-right label label-info label-text-align col-md-2" style="padding:5px;">
+                                <span class="fa fa-tags"><label for="product_count" class="oe_inline"/></span>
+                                <field name="product_count" class="oe_inline" style="font-weight:600; font-size:10px;color:black"/>
+                            </div>
+                        </div>
+
+
+                        <field name="template_ids" widget="many2many_kanban" attrs="{'readonly' : [('option', '=', 'conditionally')]}" domain="[('sale_ok','=',True),('website_published','=',True)]"
+                            options="{'no_create':True}">
+                            <kanban>
+                                <field name="image_128" style="width: 128px; height: 128px;"/>
+                                <field name="lst_price"/>
+                                <field name="default_code"/>
+                                <field name="product_variant_count"/>
+                                <field name="product_variant_ids"/>
+                                <field name="currency_id"/>
+								<field name="id"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div class="oe_kanban_global_click">
+                                            <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right"/>
+                                            <div class="o_kanban_image">
+                                                <img t-att-src="kanban_image('product.template', 'image_128', record.id.value)"/>
+                                            </div>
+                                            <div class="oe_kanban_details">
+                                                <strong>
+                                                    <span t-if="record.default_code.value">[<field name="default_code"/>]</span>
+                                                    <field name="name"/>
+                                                </strong>
+                                                <div t-if="record.product_variant_count.value &gt; 1">
+                                                    <strong>
+                                                        <t t-esc="record.product_variant_count.value"/> Variants
+                                                    </strong>
+                                                </div>
+                                                <div name="tags"/>
+                                                <ul>
+                                                    <li>Price: <field name="lst_price" widget="monetary"/></li>
+                                                </ul>
+                                                <div name="tags"/>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </sheet>
+                    <sheet>
+                        <separator string="SEO Meta Information"/>
+                        <group>
+                            <field name="page_title" required="1" placeholder="Page Title..."/>
+                            <field name="meta_description" help="Meta Description should not be more than 160 characters." required="1" placeholder="Meta Description..."/>
+                        </group>
+                        <group col="2">
+                            <label for="url" class="oe_center oe_grey pull-right" string="Meta Description can be 160 characters long."/>
+                        </group>
+                        <group>
+                            <label for="url" string="Custom Url"/>
+                                <div>
+                                    <field name="url" widget="url" style="width: 61%%" readonly="1"/>
+                                    <field name="url_handler" class="oe_edit_only" style="width: 38%%" required="1"/>
+                                </div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="website_collectional_page_operator_formview" model="ir.ui.view">
+            <field name="name">Website Collection Page</field>
+            <field name="model">condition.operator</field>
+            <field name="arch" type="xml">
+                <form string="Operators">
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="operator"/>
+                    </group>
+                    <separator string="Operator Applicable on"/>
+                    <group col="6">
+                        <field name="wk_boolean"/>
+                        <field name="wk_char"/>
+                        <field name="wk_text"/>
+                        <field name="wk_selection"/>
+                        <field name="wk_integer"/>
+                        <field name="wk_float"/>
+                        <field name="wk_html"/>
+                        <field name="wk_many2one"/>
+                        <field name="wk_one2many"/>
+                        <field name="wk_many2many"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="website_collectional_page_treeview" model="ir.ui.view">
+            <field name="name">Website Collection Page</field>
+            <field name="model">website.collectional.page</field>
+            <field name="arch" type="xml">
+                <tree string="Product 360 View Images">
+                    <field name="name"/>
+                    <field name="product_count"/>
+                    <field name="url"/>
+                    <field name="create_date"/>
+					<field name="state"/>
+                    <field name="publish_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="website_collectional_page_operator_treeview" model="ir.ui.view">
+            <field name="name">Website Collection Page</field>
+            <field name="model">condition.operator</field>
+            <field name="arch" type="xml">
+                <tree string="Operators">
+                    <field name="name"/>
+                    <field name="operator"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="website_collectional_page_action" model="ir.actions.act_window">
+            <field name="name">Website Collection Page</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">website.collectional.page</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="website_collectional_page_operator_action" model="ir.actions.act_window">
+            <field name="name">Operators For  Collection Page</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">condition.operator</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="website_collectional_condition_action" model="ir.actions.act_window">
+            <field name="name">Conditions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.condition</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="website_collectional_page_action" id="menu_website_collectional_page" parent="sale.product_menu_catalog" name="Collection Page" sequence="101" groups="collectional_user_access"/>
+		<!-- <menuitem action="website_collectional_page_operator_action" id="menu_website_collectional_page_operator" parent="sales_team.menu_sales" name="Operators" sequence="102" />
+		<menuitem action="website_collectional_condition_action" id="menu_website_collectional_page_condition_line" parent="sales_team.menu_sales" name="Condition" sequence="103"/> -->
+
+		<!-- ~~~~~~~~~~~~~~~~~~~ COLLECTIONAL GROUP MENU ~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+		<record id="website_collectional_group_treeview" model="ir.ui.view">
+			<field name="name">Website Collectional Group Tree</field>
+			<field name="model">website.collectional.group</field>
+			<field name="arch" type="xml">
+				<tree string="Website Collection Group">
+					<field name="name"/>
+					<field name="group_type"/>
+					<field name="collectional_page_ids"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="website_collectional_group_formview" model="ir.ui.view">
+			<field name="name">Website Collectional Group Form</field>
+			<field name="model">website.collectional.group</field>
+			<field name="arch" type="xml">
+				<form string="Website Collection Group">
+					<header>
+						<button name="website_published_button" class="oe_highlight" string="Publish On Website" icon="fa-globe" type="object" attrs="{'invisible':[('state','=','published')]}"/>
+						<button name="website_unpublished_button" class="oe_highlight" string="Unpublish On Website" type="object" icon="fa-globe" attrs="{'invisible':[('state','=','unpublished')]}"/>
+						<field name="state" widget="statusbar" statusbar_visible="published,unpublished"/>
+					</header>
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+								<field name="group_type" widget="radio" help="Select the type of display on website."/>
+								<field name="published_date" readonly="1" attrs="{'invisible': [('state','=','unpublished')]}"/>
+							</group>
+						</group>
+						<label for="collectional_page_ids" string="Collection Page"/>
+						<field name="collectional_page_ids"  options="{'no_create': True}">
+							<tree>
+								<field name="name"/>
+			                    <field name="product_count"/>
+			                    <field name="url"/>
+			                    <field name="create_date"/>
+							</tree>
+						</field>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="website_collectional_group_action" model="ir.actions.act_window">
+            <field name="name">Website Collection Group</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">website.collectional.group</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+		<menuitem action="website_collectional_group_action" id="menu_website_collectional_group" parent="sale.product_menu_catalog" name="Collection Group" sequence="102" groups="collectional_user_access"/>
+
+	</data>
+</odoo>

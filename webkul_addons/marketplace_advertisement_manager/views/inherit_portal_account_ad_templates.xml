@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+
+    <template id="mp_ad_inherit_portal_ad_blocks_report" inherit_id="website_advertisement_manager.portal_ad_blocks_report">
+        <xpath expr="//div[@id='ad_block_banner_content']" position="after">
+            <div class="container mb32 mt16" t-att-style="'' if ad_block.ad_display_type == 'ad_products' and ad_block.product_id.allow_prod_carousel else 'display:none;'"
+                id="ad_block_products_content" groups="odoo_marketplace.marketplace_seller_group">
+                <div class="row mt16">
+                    <div class="offset-md-1 col-md-2">
+                            <span class="" style="font-size:15px;color:#222222;font-weight:bold;"> Select Products : </span>
+                    </div>
+                    <div class="col-md-6" style="padding:0px;">
+                        <select id="select_ad_products_ids"
+                            name="ad_products_select"
+                            class="selectpicker show-menu-arrow form-control"
+                            multiple="1"
+                            data-live-search="true"
+                            t-att-data-max-options="ad_block.product_id.max_prod"
+                            data-live-search-placeholder="Search" data-actions-box="true">
+                            <t t-foreach="ad_products" t-as="product">
+                                <option t-att-value="product.id" t-att-selected="'1' if product.id in ad_block.ad_product_ids.ids else None">
+                                    <span t-esc="product.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb16">
+                    <div class="offset-md-3 col-md-6 text-muted" style="padding:0px;font-size:14px;">
+                        <span>
+                            <em><i class="fa fa-info-circle" aria-hidden="false"/>
+                            You can choose maximum <span t-esc="ad_block.product_id.max_prod"/> images for slider.</em>
+                        </span>
+                    </div>
+                </div>
+                <div t-if="ad_block.ad_block_status != 'expire'" class="row mt16 mb16">
+                    <div class="offset-md-3 col-md-6" style="padding:0px;">
+                        <div class="alert alert-danger" id="show_req_prod_panel" style="display:none;padding:10px;">
+                            <button type="button" class="close" data-dismiss="alert" style="margin-top: -3px;">&#160; x </button>
+                            <strong> Atleast 3 products required..!! </strong>
+                        </div>
+                        <div class="alert alert-danger" id="show_rem_prod_panel" style="display:none;padding:10px;">
+                            <button type="button" class="close" data-dismiss="alert" style="margin-top: -3px;">&#160; x </button>
+                            <strong> Please remove some products... </strong>
+                        </div>
+                        <div class="alert alert-success" id="product_success_upd" style="display:none;padding:10px;">
+                            <button type="button" class="close" data-dismiss="alert" style="margin-top: -3px;">&#160; x </button>
+                            <strong> Products successfully added..!! </strong>
+                        </div>
+                        <button id="portal_add_products" class="btn btn-lg pull-right"
+                            t-att-data-block-id="ad_block.id" title="Click to add the products"
+                            t-att-data-max-products="ad_block.product_id.max_prod">
+                            <span t-if="not request.env['ir.default'].sudo().get('res.config.settings', 'auto_approve_ad_block')">
+                                Save and Request To Approve
+                            </span>
+                            <span t-else="">
+                                Save Products
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='ad_block_banner_content']" position="attributes">
+            <attribute name="t-att-style">'' if ad_block.ad_display_type == 'banner' or not ad_block.product_id.allow_prod_carousel else 'display:none'</attribute>
+        </xpath>
+        <xpath expr="//div[2]/div/div[2]" position="before">
+            <div class="container mt16 mb16 ad_display_type_div " t-att-style="'display:none' if not ad_block.product_id.allow_prod_carousel else ''"
+                groups="odoo_marketplace.marketplace_seller_group">
+                <div class="row well">
+                    <div class="offset-md-1 col-md-2" style="padding-top:1%;">
+                        <span class="" style="font-size:15px;color:#222222;font-weight:bold;"> Display Type : </span>
+                    </div>
+                    <div class="col-md-3" style="padding:0px;" >
+                        <ul class="nav nav-pills display_type nav-justified" style="cursor:pointer;">
+                            <li class="banner nav-item">
+                                <a class="mb0 nav-link" data-toggle="tab" >
+                                    <strong>BANNER</strong>
+                                    <input type="radio" name="ad_display_type" value="banner" id="display_type_banner"
+                                        t-att-checked="1 if ad_block.ad_display_type == 'banner' else None" style="display:none;"/>
+                                </a>
+                            </li>
+                            <li class="slider nav-item" style="margin-left:0px;" >
+                                <a class="mb0 nav-link" data-toggle="tab" >
+                                    <strong>SLIDER</strong>
+                                    <input type="radio" name="ad_display_type" value="ad_products" id="display_type_products"
+                                        t-att-checked="1 if ad_block.ad_display_type == 'ad_products' else None" style="display:none;"/>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,0 +1,14 @@
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data noupdate="1">
+        <record id="warehouse_stock_config_default" model="warehouse.stock.config.settings">
+            <field name="name">Default Warehouse Stock Config</field>
+            <field name="is_active">True</field>
+            <field name="qty_type">virtual_available</field>
+            <field name="user_visibility">public</field>
+            <field name="show_qty">True</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="inherit_report_financial" inherit_id="accounting_pdf_reports.report_financial">
+
+            <xpath expr='//div[hasclass("page")]/div[1]' position="inside">
+                <div class="col-4">
+                    <p>
+                        <t t-if="data['analytic_account_ids']">
+                            <strong>Analytic Accounts :</strong>
+                            <p>
+                            <span t-esc="', '.join([ lt or '' for lt in data['analytic_account'] ])"/></p>
+                            <br/>
+                        </t>
+                    </p>
+                </div>
+            </xpath>
+
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- Footer option 1 -->
+
+    <template id="footer_common_colums" name="theme inventive footer common columns">
+        <t t-set="classes" t-value="classes or 'col-12 col-sm-6 col-md-3'"/>
+        <div t-attf-class="categories #{classes}">
+            <t t-set="categories" t-value="request.env['product.public.category'].search([('parent_id','=',False)])"/>
+            <t t-set="keep" t-value="request.website.get_keep_reference()[0]"/>
+            <t t-set="slug" t-value="request.website.get_keep_reference()[1]"/>
+            <h5>CATEGORIES</h5>
+            <ul class="list-unstyled">
+                <t t-foreach="categories" t-as="c">
+                    <li t-att-class="'active' if c.id == int(category or 0) else None">
+                        <a t-att-href="keep('/shop/category/' + slug(c), category=0)" t-esc="c.name"></a>
+                    </li>
+                </t>
+            </ul>
+        </div>
+        <div t-attf-class="about_us #{classes}">
+            <h5>ABOUT US</h5>
+            <ul class="list-unstyled">
+                <li><a href="/aboutus" >Who We Are</a></li>
+                <li><a href="/contactus" >Contact Us</a></li>
+                <li><a href="/" >Sitemap</a></li>
+                <li><a href="/" >Policies</a></li>
+                <li><a href="/" >Terms &amp; Conditions </a></li>
+                <li><i class="fa fa-phone"/> <span t-field="res_company.phone"/></li>
+                <li><i class="fa fa-envelope"/>  <span t-field="res_company.email"/></li>
+            </ul>
+        </div>
+        <div t-attf-class="customer_service #{classes}">
+            <h5>CUSTOMER SERVICE</h5>
+            <ul class="list-unstyled">
+                <li><a href="/" >FAQ</a></li>
+                <li><a href="/" >Shipping</a></li>
+                <li><a href="/" >Cancellation</a></li>
+                <li><a href="/" >Return</a></li>
+                <li><a href="/" >Track Order</a></li>
+                <li><a href="/" >Bulk Order</a></li>
+            </ul>
+        </div>
+        <div t-attf-class="company_summary #{classes}">
+            <h5>
+                <span t-field="res_company.name"/>
+                <small> - <a href="/aboutus">About us</a></small>
+            </h5>
+            <p> We are a team of passionate people whose goal is to improve everyone's
+                life through disruptive products. We build great products to solve your
+                business problems.
+            </p>
+            <p> Our products are designed for small to medium size companies willing to optimize
+                their performance.
+            </p>
+        </div>
+    </template>
+    <template id="footer_news_letter" name="theme inventive footer News Letter">
+        <div t-attf-class="news_letter col-10 col-sm-10 col-md-6">
+            <h5 class="h_tag"><span>SUBSCRIBE FOR</span> NEWSLETTER</h5>
+            <p class="p_tag">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            <div class="input-group js_subscribe" data-list-id="2" data-subscribe="on">
+                <input type="email" name="email" class="js_subscribe_email form-control" placeholder="your email..."/>
+                    <span class="input-group-append">
+                        <a role="button" href="#" class="btn btn-primary js_subscribe_btn o_default_snippet_text">Subscribe</a>
+                        <a role="button" href="#" class="btn btn-success js_subscribed_btn d-none o_default_snippet_text" disabled="disabled">Thanks</a>
+                    </span>
+                <div class="alert alert-success d-none o_default_snippet_text" role="status">Thanks for your subscription!</div>
+            </div>
+        </div>
+    </template>
+    <template id="footer_follow_icons" name="theme inventive footer follow_icons">
+        <div class="col-md-4 col-sm-6 col-12 follow_icons">
+            <h5 class="h_tag" style="margin:0;">FOLLOW INVENTIVE :</h5>
+            <div>
+                <a t-if="website.social_facebook" t-att-href="website.social_facebook" class="btn btn-sm btn-link"><i class="fa fa-2x fa-facebook-square"/></a>
+                <a t-if="website.social_twitter" t-att-href="website.social_twitter" class="btn btn-sm btn-link"><i class="fa fa-2x fa-twitter"/></a>
+                <a t-if="website.social_linkedin" t-att-href="website.social_linkedin" class="btn btn-sm btn-link"><i class="fa fa-2x fa-linkedin"/></a>
+                <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="btn btn-sm btn-link"><i class="fa fa-2x fa-youtube-play"/></a>
+                <a t-if="website.social_github" t-att-href="website.social_github" class="btn btn-sm btn-link"><i class="fa fa-2x fa-github"/></a>
+                <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="btn btn-sm btn-link"><i class="fa fa-2x fa-instagram"/></a>
+                <!-- <a t-if="website.social_googleplus" t-att-href="website.social_googleplus" class="btn btn-sm btn-link googleplus" rel="publisher"><i class="fa fa-2x fa-google-plus"/></a> -->
+            </div>
+        </div>
+    </template>
+    <template id="inventive_footer_copyright" name="theme inventive footer_copyright">
+        <div class="col-lg-6 c_name">
+            <span>Copyright &amp;copy;</span> <span t-field="res_company.name" itemprop="name">Company name</span>
+        </div>
+        <div class="col-lg-6 o_not_editable b_promotion" t-if="not editable">
+            <t t-call="website.brand_promotion"/>
+        </div>
+    </template>
+    <template id="layout_footer_copyright_inherit" inherit_id="website.layout" name="Hide Default Footer Copyright" priority="20">
+        <xpath expr="//div[hasclass('o_footer_copyright')]" position='attributes'>
+            <attribute name="class" add="d-none" separator=" "/>
+        </xpath>
+    </template>
+    <template id="footer_1" inherit_id="website.footer_custom" priority="17" name="Theme Inventive Footer 1" active="True">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block" style="background-image:url('/theme_inventive/static/src/img/backgrounds/background_01.jpg')">
+                    <div id="footer_main" class="pt32">
+                        <div class="container">
+                            <div class="row">
+                                <t t-call="theme_inventive.footer_common_colums"/>
+                            </div>
+                        </div>
+                        <div id="footer_middle">
+                            <div class="container">
+                                <div class="row">
+                                    <t t-call="theme_inventive.footer_news_letter"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="footer_copyright">
+                            <div class="row m-0">
+                                <t t-call="theme_inventive.footer_follow_icons"/>
+                            </div>
+                            <div class="row m-0">
+                                <t t-call="theme_inventive.inventive_footer_copyright"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+    <template id="footer_5" inherit_id="website.footer_custom" priority="17" name="Theme Inventive Footer 5" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block">
+                    <div id="footer_main" class="pt32">
+                        <div class="container">
+                            <div class="row">
+                                <t t-call="theme_inventive.footer_common_colums"/>
+                            </div>
+                        </div>
+                        <div id="footer_middle">
+                            <div class="container">
+                                <div class="row">
+                                    <t t-call="theme_inventive.footer_news_letter"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="footer_copyright">
+                            <div class="container">
+                                <div class="row">
+                                    <t t-call="theme_inventive.footer_follow_icons"/>
+                                    <t t-call="theme_inventive.inventive_footer_copyright"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+    <template id="footer_2" inherit_id="website.footer_custom" priority="17" name="Theme Inventive Footer 2" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block">
+                    <div id="footer_top" class="pt16 pb16">
+                        <div class="container ">
+                            <div class="row">
+                                <div class="col-sm-4 col-12">
+                                    <a href="/" class="navbar-brand logo">
+                                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                                    </a>
+                                </div>
+                                <t t-call="theme_inventive.footer_follow_icons"/>
+                                <t t-call="theme_inventive.footer_news_letter"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_main" class="pb16 pt16">
+                        <div class="container">
+                            <div class="row">
+                                <t t-call="theme_inventive.footer_common_colums"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_copyright">
+                        <div class="container pt8 pb8">
+                            <div class="row">
+                                <t t-call="theme_inventive.inventive_footer_copyright"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+    <template id="footer_4" inherit_id="website.footer_custom" priority="17" name="Theme Inventive Footer 4" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block">
+                    <div id="footer_top" class="pt16 pb16">
+                        <div class="container ">
+                            <div class="row">
+                                <div class="col-sm-6 col-12">
+                                    <a href="/" class="navbar-brand logo">
+                                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-12">
+                                    <t t-call="theme_inventive.footer_follow_icons"/>
+                                    <t t-call="theme_inventive.footer_news_letter"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_main" class="pb16 pt16">
+                        <div class="container">
+                            <div class="row">
+                                <t t-call="theme_inventive.footer_common_colums"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_copyright">
+                        <div class="container pt8 pb8">
+                            <div class="row">
+                                <t t-call="theme_inventive.inventive_footer_copyright"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+    <template id="footer_7" inherit_id="website.footer_custom" priority="17" name="Theme Inventive Footer 7" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block">
+                    <div id="footer_top" class="pt16 pb16">
+                        <div class="container ">
+                            <div class="row">
+                                <div class="col-12">
+                                    <a href="/" class="navbar-brand logo">
+                                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                                    </a>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <t t-call="theme_inventive.footer_news_letter"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row ">
+                            <div class="col-12">
+                                <div class="row justify-content-center">
+                                    <t t-call="theme_inventive.footer_follow_icons"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_main" class="pb16 pt16">
+                        <div class="container">
+                            <div class="row">
+                                <t t-call="theme_inventive.footer_common_colums"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_copyright">
+                        <div class="container pt8 pb8">
+                            <div class="row">
+                                <t t-call="theme_inventive.inventive_footer_copyright"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+    <template id="footer_3" inherit_id="website.footer_custom" priority="17" name="Theme Inventive Footer 3" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block">
+                    <div id="footer_main" class="pb16 pt16">
+                        <div class="container">
+                            <div class="row">
+                                <t t-call="theme_inventive.footer_common_colums"/>
+                                <t t-call="theme_inventive.footer_news_letter"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_copyright">
+                        <div class="container pt24 pb24">
+                            <div class="row">
+                                <t t-call="theme_inventive.footer_follow_icons"/>
+                                <t t-call="theme_inventive.inventive_footer_copyright"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+    <template id="footer_8" inherit_id="website.footer_custom" priority="17" name="Theme Inventive Footer 8" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block">
+                    <div id="footer_main" class="pb16 pt16">
+                        <div class="container">
+                            <div class="row">
+                                <t t-call="theme_inventive.footer_common_colums"/>
+                                <div class="col-6 footer_news_letter">
+                                    <div class="row">
+                                        <t t-call="theme_inventive.footer_follow_icons"/>
+                                    </div>
+                                    <div class="row">
+                                        <t t-call="theme_inventive.footer_news_letter"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_copyright">
+                        <div class="container pt8 pb8">
+                            <div class="row">
+                                <t t-call="theme_inventive.inventive_footer_copyright"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+    <template id="footer_6" inherit_id="website.footer_custom" priority="17" name="Theme Inventive Footer 6" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block" style="background-image:url('/theme_inventive/static/src/img/backgrounds/background_02.jpg'); background-position: 69.58% 64.03%;">
+                    <div id="footer_main" class="pb16 pt16">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6 footer_news_letter">
+                                    <div class="row">
+                                        <t t-call="theme_inventive.footer_follow_icons"/>
+                                    </div>
+                                    <div class="row">
+                                        <t t-call="theme_inventive.footer_news_letter"/>
+                                    </div>
+                                </div>
+                                <t t-call="theme_inventive.footer_common_colums"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_copyright">
+                        <div class="container pt16 pb16">
+                            <div class="row">
+                                <t t-call="theme_inventive.inventive_footer_copyright"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+    <template id="footer_9" inherit_id="website.footer_custom" priority="17" name="Theme Inventive Footer 9" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block">
+                    <div id="footer_main" class="pb16 pt16">
+                        <div class="container">
+                            <div class="row">
+
+                                <t t-call="theme_inventive.footer_common_colums"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_middle">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-md-8 col-sm-10 pb16 pt16">
+                                    <div class="row">
+                                        <t t-call="theme_inventive.footer_news_letter"/>
+                                    </div>
+                                    <div class="row">
+                                        <t t-call="theme_inventive.footer_follow_icons"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_copyright">
+                        <div class="container">
+                            <div class="row">
+                                <t t-call="theme_inventive.inventive_footer_copyright"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+    <template id="footer_10" inherit_id="website.footer_custom" priority="17" name="Theme Inventive Footer 10" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block">
+                    <div id="footer_main" class="pb16 pt16">
+                        <div class="container">
+                            <div class="row">
+                                <t t-call="theme_inventive.footer_common_colums"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_middle">
+                        <div class="container">
+                            <div class="row">
+                                <t t-call="theme_inventive.footer_follow_icons"/>
+                                <t t-call="theme_inventive.footer_news_letter"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer_copyright">
+                        <div class="container">
+                            <div class="row">
+                                <t t-call="theme_inventive.inventive_footer_copyright"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+</odoo>

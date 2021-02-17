@@ -1,0 +1,200 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.three_column_view{
+    font-size: 0;
+    padding: 0 5px;
+    .oe_product {
+        font-size: 1rem;
+        display: inline-block;
+        width: 33.3333%;
+        padding: 10px;
+        box-shadow: none !important;
+        form.oe_product_cart {
+            position: relative;
+            padding: 0;
+            box-shadow:none;
+            border-radius: 0;
+            height: 400px;
+        }
+        .o_wsale_product_information {
+            background-color: white !important;
+            h6 {
+                font-size: 1rem;
+                color:  #333333;
+                margin: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                a {
+                    font-weight: 700;
+                }
+            }
+            .product_name{
+                display: flex;
+                flex-direction: column;
+            }
+            .product_price{
+                color: #07268c;
+                font-size: 0.9375rem;
+            }
+            .oe_subdescription {
+                display: none;
+            }
+            .o_wsale_product_btn{
+                padding-bottom: 2.625rem;
+                z-index: 5;
+                .btn-secondary {
+                    height: 26px;
+                    width: 27px;
+                    margin: 0 5px;
+                    font-size: 0.875rem;
+                    background: #333333;
+                    box-shadow: 0 0 4px 0 rgba(0,0,0,0.16);
+                    color: $primary;
+                    opacity: 0;
+                    z-index: 1;
+                    transition-delay: 0s !important;
+                    border-radius: 2px;
+                    padding: 0;
+                    span.text{display: none;}
+                }
+                .btn-cart {
+                    width: 100%;
+                    position: absolute;
+                    left: 0;
+                    bottom: -60%;
+                    transition: all 0.2s linear;
+                    opacity: 0;
+                    .btn{
+                        transform: scale(1) ;
+                    }
+                    :hover {
+                        z-index: 0;
+                    }
+                    &:after {
+                        content: " ";
+                        @include absolute_cover();
+                        background-color: white;
+                        transition: 0.2s top linear;
+                    }
+                    .btn-primary {
+                        font-size: 1rem;
+                        padding:.4375rem;
+                        border-radius: 0;
+                        background-color: rgba(0,0,0,.8);
+                        width: 100%;
+                        text-transform: uppercase;
+                        .fa{display: none;}
+                        &:hover,&:focus {
+                            background-color: rgba($secondary,1) !important;
+                            transition-delay: 0 !important;
+                        }
+                    }
+                }
+                .inventive_product_quick_view {
+                    position: absolute;
+                    color:black;
+                    font-size: 1rem;
+                    padding: 0.5rem 0.5rem;
+                    @include flex_center();
+                    background-color: rgba(255,255,255,0.45);
+                    border-radius: 50px;
+                    width:2.5rem;
+                    height: 2.5rem;
+                    opacity: 0;
+                    z-index: 1;
+                }
+            }
+        }
+        &:hover {
+            form{
+                box-shadow: 0 2px 6px 0 rgba(0,0,0,0.07);
+            }
+            .oe_product_image{
+                .mask{
+                    background-color:rgba(0,0,0,.1);
+                }
+                .inventive_product_quick_view {
+                    animation: fadeIn .1s linear forwards;
+                    .fa{
+                        animation: zoomIn .2s linear forwards,fadeIn .1s linear forwards;
+                    }
+                }
+            }
+            .o_wsale_product_information {
+                .btn-cart {
+                    bottom: 0;
+                    opacity: 1;
+                    z-index: 1;
+                    &:after {
+                        top: 100%;
+                    }
+                }
+                .btn-secondary,.inventive_product_quick_view {
+                    animation: zoomIn .2s linear forwards,fadeIn .1s linear forwards;
+                }
+            }
+        }
+        .shop_css_quantity {
+            display: none;
+        }
+    }
+    @include media-breakpoint-down(md){
+        .oe_product {
+            width: 33.33% !important;
+            min-width: unset;
+            max-width: 33.333% !important;
+            form.oe_product_cart {
+                height:300px;
+            }
+            .o_wsale_product_information{
+                height: 25%;
+                .o_wsale_product_btn{
+                    .btn-secondary {
+                        display: none !important;
+                    }
+                    .btn-cart {
+                        bottom: 0%;
+                        opacity: 1 !important;
+                        .btn-primary{
+                            font-size: 12px;
+                        }
+                        &:after {
+                            top: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @include media-breakpoint-down(sm){
+        .oe_product {
+            width: 50% !important;
+            min-width: unset;
+            max-width: 50% !important;
+            form.oe_product_cart {
+                height:300px;
+            }
+        }
+    }
+    @include media-breakpoint-down(xs){
+        .oe_product {
+            width: 100% !important;
+            min-width: unset;
+            max-width: 100% !important;
+            form.oe_product_cart {
+                height:500px;
+            }
+        }
+
+    }
+    @media (max-width: 375px){
+        .oe_product {
+            form.oe_product_cart {
+                height:400px;
+            }
+        }
+    }
+
+}

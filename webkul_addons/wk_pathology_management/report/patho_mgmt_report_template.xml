@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+
+        <template id="pathology_inherit_report_external_layout_demo" inherit_id="web.external_layout_standard">
+            <xpath expr="//div[@name='company_address']/.." position="attributes">
+                 <attribute name="t-att-style">'display:None;' if o._name=='patho.testrequest' and o._context.get('diagnosis') else ''</attribute>
+           </xpath>
+            <xpath expr="//div" position="inside">
+                <div t-if="o._name=='patho.testrequest' and o._context.get('diagnosis')"
+                    class="row ml0 mr0 mt16 mb8" style="background-color:rgba(105, 105, 105, 0.05);padding-top:3px;padding-bottom:3px;border:1px solid gainsboro;">
+                    <div class="col-8">
+                        <div class="row" style="margin-top:3px;margin-bottom:3px;">
+                            <div class="col-2">
+                                <b>Name </b>
+                            </div>
+                            <div class="col-8">
+                                : &#160;&#160;&#160;&#160;<span t-field="o.customer_id.name"/>
+                            </div>
+                        </div>
+                        <div t-if="o.customer_id.age" class="row" style="margin-top:3px;margin-bottom:3px;">
+                            <div class="col-2">
+                                <b>Age </b>
+                            </div>
+                            <div class="col-8">
+                                <t t-set="patient_age" t-value="o.customer_id.age.rsplit(' ', 3)[0]"/>
+                                : &#160;&#160;&#160;&#160;<span t-esc="patient_age"/>
+                            </div>
+                        </div>
+                        <div t-if="o.customer_id.gender" class="row" style="margin-top:3px;margin-bottom:3px;">
+                            <div class="col-2" style="white-space:nowrap;">
+                                <b>Gender </b>
+                            </div>
+                            <div class="col-8">
+                                : &#160;&#160;&#160;&#160;<span t-field="o.customer_id.gender"/>
+                            </div>
+                        </div>
+                        <div class="row" t-if="o.customer_id.mobile" style="margin-top:3px;margin-bottom:3px;">
+                            <div class="col-2">
+                                <b>Mobile </b>
+                            </div>
+                            <div class="col-8">
+                                :  &#160;&#160;&#160;&#160;<span t-field="o.customer_id.mobile"/>
+                            </div>
+                        </div>
+                        <div class="row" t-if="o.customer_id.email" style="margin-top:3px;margin-bottom:3px;">
+                            <div class="col-2">
+                                <b>Email </b>
+                            </div>
+                            <div class="col-8">
+                                :  &#160;&#160;&#160;&#160;<span t-field="o.customer_id.email"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row" style="margin-top:3px;margin-bottom:3px;">
+                            <span class="col-5">
+                                <b>Report Id </b>
+                            </span>
+                            <span class="col-7">
+                                : &#160;<span t-field="o.name"/>
+                            </span>
+                        </div>
+                        <div class="row" t-if="o.report_collection_date" style="margin-top:3px;margin-bottom:3px;">
+                            <span class="col-5">
+                                <b>Collected </b>
+                            </span>
+                            <span class="col-7">
+                                :  &#160;<span t-field="o.report_collection_date"/>
+                            </span>
+                        </div>
+                        <div class="row" style="margin-top:3px;margin-bottom:3px;">
+                            <span class="col-5">
+                                <b>Received </b>
+                            </span>
+                            <span class="col-7">
+                                :  &#160;<span t-field="o.test_date"/>
+                            </span>
+                        </div>
+                        <div class="row" style="margin-top:3px;margin-bottom:3px;">
+                            <span class="col-5">
+                                <b>Reported </b>
+                            </span>
+                            <span class="col-7">
+                                :  &#160;<span t-field="o.create_date"  t-field-options='{"widget": "date"}'/>
+                            </span>
+                        </div>
+                        <div t-if="o.ref_by" class="row" style="margin-top:3px;margin-bottom:3px;">
+                            <span class="col-5">
+                                <b>Ref By </b>
+                            </span>
+                            <span class="col-7">
+                                :  &#160;<span t-field="o.ref_by"/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+
+        </template>
+
+        <template id="patient_report">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="o" t-value="o.with_context({'diagnosis':'True'})" />
+                <t t-call="web.html_container">
+                    <t t-call="web.external_layout">
+                        <div class="page" >
+                            <t t-set="flag" t-value="1"/>
+                            <t t-foreach="o.patho_test_report_ids" t-as="line">
+                                <div t-if="flag!=1">
+                                    <p style="page-break-before:always;"> </p>
+                                </div>
+                                <t t-set="flag" t-value="0"/>
+                                <!-- <div class="row" style="height:80px;">
+                                </div> -->
+                                <table class="pagebreak table table-bordered">
+                                    <col width="150px"/>
+                                    <col width="40px"/>
+                                    <col width="20px"/>
+                                    <col width="20px"/>
+                                    <col width="15px"/>
+                                    <col width="200px"/>
+                                    <thead>
+                                        <tr class="active">
+                                            <td colspan="6">
+                                                <b><span t-field="line.labtest.name"/></b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">Test</th>
+                                            <th class="text-center">Range</th>
+                                            <th class="text-center">Normal</th>
+                                            <th class="text-center">Obtained</th>
+                                            <th class="text-center">Units</th>
+                                            <th class="text-center">Remark</th>
+                                        </tr>
+                                    </thead>
+                                    <t t-foreach="line.testreport_lines" t-as="l">
+                                        <tr>
+                                            <td class="text-center"><span t-field="l.parameter_name.name"/></td>
+                                            <td class="text-center"><span t-field="l.test_min_value"/> - <span t-field="l.test_max_value"/></td>
+                                            <td class="text-center"><span t-field="l.test_normal_value"/></td>
+                                            <td class="text-center"><span t-field="l.obt_val"/></td>
+                                            <td class="text-center"><span t-field="l.test_unit.code"/></td>
+                                            <td class="text-center">
+                                                <span t-field="l.test_desc"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </table>
+
+                                <div t-if="line.labtest.test_note">
+                                    <h4>
+                                        <b><div style="background-color:rgba(105, 105, 105, 0.05);padding:5px;">Note</div></b>
+                                    </h4>
+                                    <div class="container" style="padding:8px;" >
+                                        <span t-raw="line.labtest.test_note"/>
+                                    </div>
+                                </div>
+
+                                <div t-if="line.report_comment">
+                                    <h4>
+                                        <b><div style="background-color:rgba(105, 105, 105, 0.05);padding:5px;">Comments</div></b>
+                                    </h4>
+                                    <div class="container" style="padding:8px;" >
+                                        <span t-field= "line.report_comment"/>
+                                    </div>
+                                </div>
+
+                                <div t-if="line.increase_level">
+                                    <h4>
+                                        <b><div style="background-color:rgba(105, 105, 105, 0.05);padding:5px;">Increased Level</div></b>
+                                    </h4>
+                                    <div class="container" style="padding:8px;" >
+                                        <span t-raw= "line.increase_level"/>
+                                    </div>
+                                </div>
+
+                                <div t-if="line.decrease_level">
+                                    <h4>
+                                        <b><div style="background-color:rgba(105, 105, 105, 0.05);padding:5px;">Decreased Level</div></b>
+                                    </h4>
+                                    <div class="container" style="padding:8px;" >
+                                        <span t-raw="line.increase_level"/>
+                                    </div>
+                                </div>
+
+                                <div t-if="line.clinical_use">
+                                    <h4>
+                                        <b><div style="background-color:rgba(105, 105, 105, 0.05);padding:5px;">Clinical Use</div></b>
+                                    </h4>
+                                    <div class="container" style="padding:8px;" >
+                                        <span t-raw="line.clinical_use"/>
+                                    </div>
+                                </div>
+
+                            </t>
+                            <div class="oe_right" style="float:right;">
+                                <center>
+                                    <h5>(<span t-field="o.create_uid.company_id.partner_id.name"/>)</h5>
+                                    <h3 style="margin:0px;">Signature</h3>
+                                </center>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="patho_paperformat_euro" model="report.paperformat">
+            <field name="name">Pathology Patient Report Paper Format</field>
+            <field name="default" eval="True"/>
+            <field name="margin_top">60</field>
+            <field name="margin_bottom">30</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_spacing">60</field>
+            <field name="orientation">Portrait</field>
+        </record>
+
+        <report id="patho_mgmt_patient_report"
+            model="patho.testrequest"
+            string="Diagnosis Report"
+            report_type="qweb-pdf"
+            name="wk_pathology_management.patient_report"
+            file="wk_pathology_management.patient_report"
+            print_report_name="(object.customer_id.name)"
+            paperformat="wk_pathology_management.patho_paperformat_euro"
+            />
+
+    </data>
+</odoo>

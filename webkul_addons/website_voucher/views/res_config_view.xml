@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="id_parent_voucher_voucher" name="Vouchers &amp; Coupons" sequence="50" parent="website.menu_website_configuration" groups="base.group_system"/>
+		<menuitem  id="voucher_voucher_tree_menu_id" name="All Vouchers" parent="id_parent_voucher_voucher" action="voucher_voucher_action_tree" sequence="1"/>
+</odoo>

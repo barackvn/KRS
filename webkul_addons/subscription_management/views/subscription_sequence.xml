@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+       <record id="seq_subscription" model="ir.sequence">
+            <field name="name">Subscription</field>
+            <field name="code">subscription.subscription</field>
+            <field name="prefix">SUB-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+    </data>
+</openerp>

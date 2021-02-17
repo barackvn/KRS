@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record forcecreate="False" id="project_stage_data_13" model="project.task.type">
+            <field name="sequence">14</field>
+            <field name="name">Hold</field>
+        </record>
+
+        <record forcecreate="False" id="project_stage_data_5" model="project.task.type">
+            <field name="sequence">5</field>
+            <field name="name">Understanding Flow</field>
+        </record>
+
+        <record forcecreate="False" id="project_stage_data_6" model="project.task.type">
+            <field name="sequence">6</field>
+            <field name="name">Testing</field>
+        </record>
+
+        <record forcecreate="False" id="project_stage_data_7" model="project.task.type">
+            <field name="sequence">7</field>
+            <field name="name">Flow Analysis</field>
+        </record>
+
+        <record forcecreate="False" id="project_stage_data_8" model="project.task.type">
+            <field name="sequence">8</field>
+            <field name="name">Development</field>
+        </record>
+
+        <record forcecreate="False" id="project_stage_data_9" model="project.task.type">
+            <field name="sequence">9</field>
+            <field name="name">Blog/Video </field>
+        </record>
+
+        <record forcecreate="False" id="project_stage_data_10" model="project.task.type">
+            <field name="sequence">11</field>
+            <field name="name">Work in progress</field>
+        </record>
+
+        <record forcecreate="False" id="project_stage_data_4" model="project.task.type">
+            <field name="sequence">98</field>
+            <field name="name">Pending</field>
+        </record>
+<!-- 
+        <record forcecreate="False" id="project_stage_data_11" model="project.task.type">
+            <field name="sequence">110</field>
+            <field name="name">Cancel</field>
+        </record> -->
+        
+        <!-- <record forcecreate="False" id="project_stage_data_12" model="project.task.type">
+            <field name="sequence">101</field>
+            <field name="name">Done</field>
+        </record> -->
+
+         <record forcecreate="False" id="project_stage_group_data_0" model="project.stage.group">
+            <field name="sequence">1</field>
+            <field name="name">General</field>
+            <field name="default">True</field>
+            <field name="stages_ids" eval="[(6,0,[ref('project_advance_team.project_stage_data_13'),ref('project_advance_team.project_stage_data_10'),ref('project_advance_team.project_stage_data_4')])]"/>
+        </record>
+
+         <record forcecreate="False" id="project_stage_group_data_1" model="project.stage.group">
+            <field name="sequence">2</field>
+            <field name="name">Development</field>
+            <field name="stages_ids" eval="[(6,0,[ref('project_advance_team.project_stage_data_13'),ref('project_advance_team.project_stage_data_6'),ref('project_advance_team.project_stage_data_4')])]"/>
+        </record>
+         <record forcecreate="False" id="project_stage_group_data_2" model="project.stage.group">
+            <field name="sequence">3</field>
+            <field name="name">Testing</field>
+            <field name="stages_ids" eval="[(6,0,[ref('project_advance_team.project_stage_data_13'),ref('project_advance_team.project_stage_data_6'),ref('project_advance_team.project_stage_data_5'),ref('project_advance_team.project_stage_data_7'),ref('project_advance_team.project_stage_data_8'),ref('project_advance_team.project_stage_data_4')])]"/>
+        </record>
+
+
+    </data>
+</odoo>

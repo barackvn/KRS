@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        <template id="mp_membership_header_add_intentive_footer_custom2" inherit_id="website.footer_custom"-->
+<!--                  name="Footer Seller Membership Plan Link">-->
+<!--            <xpath expr="//div[hasclass('col-lg-4')][1]//ul" position="inside">-->
+<!--                <li t-if="website.env.user and website.env.user.partner_id.seller">-->
+<!--                    <a href="/seller-membership-plan" target="_blank">-->
+<!--                        <t t-esc="website.sudo().mp_membership_plan_link_label"/>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </xpath>-->
+<!--        </template>-->
+        <template id="mp_seller_signup_registration_question" inherit_id="odoo_marketplace.mp_seller_signup"
+                  name="Seller Sign up login Registration Questions">
+            <xpath expr="//div[@id='mp_seller_details']" position="after">
+                <input type="checkbox" name="register_questions" id="register_questions" />
+                <label for="register_questions" class="form-group control-label">&#160; Registration question for the seller.</label>
+                <label class="control-label" for="company">Company Name</label>
+                <input class="form-control" type="text" placeholder="Enter company Name...." name="company" id="company"/>
+                <label class="control-label" for="vat_no">VAT number</label>
+                <input class="form-control" type="text" placeholder="Enter Your VAT Number ...." name="vat_no" id="vat_no"/>
+                <label class="control-label" for="company_web">Company website</label>
+                <input class="form-control" type="text" placeholder="Enter Your Company Website ...." name="company_web" id="company_web"/>
+
+            </xpath>
+        </template>
+    </data>
+</odoo>

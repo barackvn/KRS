@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="scheduler_survey_kanban">
+            <field name="name">Kanban view for survey</field>
+            <field name="model">survey.survey</field>
+            <field name="inherit_id" ref="survey.survey_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='answer_done_count']" position='after'>
+                    <field name="enable_scheduler"/>
+                    <field name="schedule_date" />
+                    <field name="cron_status" />
+                </xpath>
+                <xpath expr="//div[hasclass('o_kanban_record_top')]" position='after'>
+                <t t-if="record.enable_scheduler.raw_value">
+                    <span class="font-weight-bold">Scheduled on:</span>
+                    <span><field name="schedule_date"/></span>
+                    <br/>
+                    <span class="font-weight-bold">Cron Status:</span>
+                    <span><field name="cron_status"/></span>
+                </t>
+            </xpath>
+            </field>
+        </record>
+
+         <record model="ir.ui.view" id="scheduler_survey_form">
+            <field name="name">Form view for survey</field>
+            <field name="model">survey.survey</field>
+            <field name="inherit_id" ref="survey.survey_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position='attributes'>
+                    <attribute name="groups">survey.group_survey_user</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_test_survey']" position='attributes'>
+                    <attribute name="groups">survey.group_survey_manager</attribute>
+                </xpath>
+                <xpath expr="//field[@name='state']" position='attributes'>
+                    <attribute name="groups">survey.group_survey_manager</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_send_survey']" position='replace'>
+                    <button name="action_send_survey" string="Share and invite by email" type="object" class="oe_highlight"  attrs="{'invisible': ['|',('id', '=', False),('enable_scheduler' ,'=', True)]}" groups="survey.group_survey_manager"/>
+                </xpath>
+                <xpath expr="//div[hasclass('oe_title')]" position="after">
+                    <group >
+                        <field name="authorised_user_ids" widget="many2many_tags"/>
+                    </group>
+                    <div name="enable_scheduler">
+                        <field name="enable_scheduler"/><label for="enable_scheduler"/>
+                    </div>
+                    <group >
+                        <group name="cron-status" attrs="{'invisible':[('enable_scheduler','=',False)]}">
+                            <field name="schedule_date" attrs="{'required':[('enable_scheduler','=',True)],'readonly':[('cron_status','=','done')]}"/>
+                            <field name="cron_status" widget="statusbar"/>
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                     <div name="enable_follow" attrs="{'invisible':[('enable_scheduler','=',False)]}">
+                        <field name="enable_follow"/><label for="enable_follow" />
+                    </div>
+
+                    <div  attrs="{'invisible':['|',('enable_scheduler','=',False),('enable_follow','=',False)]}">
+                        <label for="days" string="Take follow-up" attrs="{'invisible':[('enable_follow','=',False)]}" class="oe_inline"/><field name="repeative" attrs="{'required':[('enable_follow','=',True)],'invisible':[('enable_follow','=',False)]}" class="oe_inline"/> <label for="days" string=" after" attrs="{'invisible':[('enable_follow','=',False)]}" class="oe_inline"/> <field name="days" attrs="{'required':[('enable_follow','=',True)],'invisible':[('enable_follow','=',False)]}" class="oe_inline"/> <label for="days" string=" days" attrs="{'invisible':[('enable_follow','=',False)]}" class="oe_inline"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="followup_date" attrs="{'invisible':['|',('enable_scheduler','=',False),('enable_follow','=',False)]}"  readonly="0"/>
+                        </group>
+                    </group>
+                    <!-- </div> -->
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Sharing Options" attrs="{'invisible':[('enable_scheduler','=',False)]}" >
+                        <group class="o_label_nowrap">
+                            <field name="access_mode" widget="radio"  />
+                        </group>
+                            <group col="1" attrs="{'invisible':['|',('access_mode','in',['public',False])]}">
+                            <group col="2">
+                                <field name="partner_ids" widget="many2many_tags_email" placeholder="Add list of existing contacts..."  attrs="{'invisible':[('enable_scheduler','=',False)],'required':[('enable_scheduler','=',True)]}"/>
+                                <field name="emails" placeholder="Add list of email of recipients (will not converted in partner), separated by commas, semicolons or newline..."/>
+                            </group>
+                            <group col="2">
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="survey_followup_history_tree" model="ir.ui.view">
+            <field name="name">survey.followup.history.tree</field>
+            <field name="model">survey.followup.history</field>
+            <field name="type">tree</field>
+            <field name='arch' type='xml'>
+                <tree  string="Survey Follow-ups" create="0" edit="0">
+                    <field name="name"/>
+                    <field name="survey_id" />
+                    <field name="followup_date" />
+                </tree>
+            </field>
+        </record>
+
+
+
+
+        <record id="survey_followup_history_form" model="ir.ui.view">
+            <field name="name">survey.followup.history.form</field>
+            <field name="model">survey.followup.history</field>
+            <field name="type">form</field>
+            <field name='arch' type='xml'>
+                <form string="Survey Follow-ups" create="0" edit="0">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Name"/>
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="survey_id" />
+                            </group>
+                            <group>
+                                <field name="followup_date" readonly="1" />
+                            </group>
+                        </group>
+                        <label for="user_input_ids" string="User"/>
+                        <field name="user_input_ids" />
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="survey_followup_history_filter" model="ir.ui.view">
+            <field name="name">survey.followup.history</field>
+            <field name="model">survey.followup.history</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search  string="Follow-up History">
+                    <field name="name"/>
+                    <field name="survey_id"/>
+                    <field name="followup_date"/>
+                    <group expand="0" string="Group By...">
+                        <filter name="group_survey" string="Survey" context="{'group_by':'survey_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="survey_followup_action" model="ir.actions.act_window">
+            <field name="name">Follow-up History</field>
+            <field name="res_model">survey.followup.history</field>
+            <field name="domain"></field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_group_survey': 1}</field>
+            <field name="view_id" ref="survey_followup_history_tree"/>
+        </record>
+        <menuitem name="Follow-up History" id="menu_survey_followup" action="survey_followup_action" parent="survey.menu_surveys" sequence="2"/>
+
+        <template id="retake_survey_button_name" inherit_id="survey.retake_survey_button">
+            <xpath expr="//span[1]" position="replace">
+                <span>Number of attempts left</span>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

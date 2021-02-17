@@ -1,0 +1,151 @@
+/* Copyright (c) 2019-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+#wrapwrap .o_footer {
+    background: #003152 !important;
+    color: white;
+    &.text-muted {
+        color: white !important;
+    }
+    a[href*="/"]:not(.btn) {
+        color: white;
+        transition: all .2s linear;
+        &:active,
+        &:focus,
+        &:hover {
+            color: $primary;
+            padding-left: 4px;
+        }
+    }
+    h5 {
+        margin-bottom: 10px;
+        color: white;
+    }
+    #footer_main{
+        background-color:  rgba(0,0,0,.55);
+        .about_us,
+        .categories,
+        .company_summary,
+        .customer_service {
+        }
+        .categories{
+             ul{
+                 overflow-y: auto;
+                 max-height: 200px;
+             }
+        }
+    }
+    #footer_middle {
+        border-top: 1px solid #555;
+        border-bottom: 1px solid #555;
+        min-height: 100px;
+        .row{
+            justify-content: center;
+            align-items: center;
+        }
+        .news_letter{
+            padding: 16px 0;
+            text-align: center;
+        }
+        // background-color: #3b3335;   // font-family: "source sans pro", sans-serif ;
+        .js_subscribe {
+            .btn-primary,
+            .btn-success {
+                display: flex;
+                align-items: center;
+                margin: 0 10px;
+                border-radius: 4px;
+            }
+
+            .form-control {
+                border-radius: 4px !important;
+            }
+        }
+    }
+    #footer_copyright {
+        .follow_icons{
+            .h_tag{display: none;}
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            & > div {
+                display: flex;
+                flex-wrap: inherit;
+                justify-content: center;
+            }
+            a.btn-link {
+                background-color: white;
+                color: red;
+                margin: 0 3px;
+                @include flex_center();
+                height: 30px;
+                width: 30px;
+                font-size: 10px;
+                border-radius: 50px;
+                transition: all ease-in-out 0.3s;
+                transition-delay: 0s !important;
+                &.facebook:hover {
+                    background-color: #3B5998;
+                }
+                &.twitter:hover {
+                    background-color: #1DA1F2;
+                }
+                &.linkedin:hover {
+                    background-color: #0077B5;
+                }
+                &.youtube:hover {
+                    background-color: #c4302b;
+                }
+                &.googleplus:hover {
+                    background-color: #DB4437;
+                }
+                &.github:hover {
+                    background-color: #211F1F;
+                }
+                &.instagram:hover {
+                    background-color: #3f729b;
+                }
+                &:hover {
+                    border-radius: .2rem;
+                    & > .fa {
+                        color: white !important;
+                    }
+                }
+            }
+            a.facebook .fa-facebook {
+                color: #3B5998;
+            }
+            a.twitter .fa-twitter {
+                color: #1DA1F2;
+            }
+            a.linkedin .fa-linkedin {
+                color: #0077B5;
+            }
+            a.youtube .fa-youtube-play {
+                color: #c4302b;
+            }
+            a.googleplus .fa-google-plus {
+                color: #DB4437;
+            }
+            a.github .fa-github {
+                color: #211F1F;
+            }
+            a.instagram .fa-instagram {
+                color: #3f729b;
+            }
+        }
+
+        .container {
+            padding: 15px;
+            .row {
+                display: flex;
+                justify-content: center;
+            }
+            .js_language_selector,.o_not_editable {
+                display: none !important;
+            }
+        }
+    }
+    
+}

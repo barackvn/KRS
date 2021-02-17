@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+
+        <function 
+            model="ir.default"
+            name="set"
+            eval="('res.config.settings', 'collectional_page_label', 'Collection')"
+            />
+
+        <function 
+            model="ir.default"
+            name="set"
+            eval="('res.config.settings', 'show_collectional_menu', 'header')"
+            />
+
+        <!-- ~~~~~~~~~~~~~~~~~ Website collectional Page ~~~~~~~~~~~~~~~~~~~ -->
+
+        <record id="wk_collectional_page_1" model="website.collectional.page">
+            <field name="name">Top Collections of Bags and Purses</field>
+            <field name="page_type">product</field>
+            <field name="display_block">True</field>
+            <field name="block_pos">left</field>
+            <field name="image" type="base64" file="website_collectional_page/static/img/wk_collectional_page1.png"/>
+            <field name="description">Start your day with extra 40% off on bags and purses</field>
+            <field name="page_title">TopCollectionsofBagsandPurses</field>
+            <field name="meta_description">Startyourdaywithextra40%offonbagsandpurses</field>
+            <field name="option">manually</field>
+            <field name="url_handler">TopCollectionsofBagsandPurses</field>
+            <field name="template_ids" eval="[(6,0,[ref('product.product_product_1_product_template'),
+                                                    ref('product.product_product_2_product_template'),
+                                                    ref('product.product_product_3_product_template'),
+                                                    ref('product.product_product_6_product_template'),
+                                                    ref('product.product_product_7_product_template')])]"
+                                                    />
+        </record>
+
+        <record id="wk_collectional_page_2" model="website.collectional.page">
+            <field name="name">Winter Collections</field>
+            <field name="page_type">banner</field>
+            <field name="display_block">True</field>
+            <field name="block_pos">right</field>
+            <field name="image" type="base64" file="website_collectional_page/static/img/wk_collectional_page2.png"/>
+            <field name="description">Offer upto 70% off</field>
+            <field name="page_title">WinterCollections</field>
+            <field name="meta_description">Offeruptoseventypercent</field>
+            <field name="option">manually</field>
+            <field name="url_handler">WinterCollections</field>
+            <field name="template_ids" eval="[(6,0,[ref('product.product_product_1_product_template'),
+                                                    ref('product.product_product_2_product_template'),
+                                                    ref('product.product_product_3_product_template'),
+                                                    ref('product.product_product_6_product_template'),
+                                                    ref('product.product_product_7_product_template')])]"
+                                                    />
+        </record>
+
+        <record id="wk_collectional_page_3" model="website.collectional.page">
+            <field name="name">Offer upto 50% off in cameras</field>
+            <field name="page_type">product</field>
+            <field name="display_block">True</field>
+            <field name="block_pos">right</field>
+            <field name="image" type="base64" file="website_collectional_page/static/img/wk_collectional_page3.png"/>
+            <field name="description">Hurry Up!!</field>
+            <field name="page_title">Offerupto50%offincameras</field>
+            <field name="meta_description">HurryUp!!</field>
+            <field name="option">manually</field>
+            <field name="url_handler">Offerupto50%offincameras</field>
+            <field name="template_ids" eval="[(6,0,[ref('product.product_product_6_product_template'),
+                                                    ref('product.product_product_7_product_template'),
+                                                    ref('product.product_product_8_product_template'),
+                                                    ref('product.product_product_9_product_template'),
+                                                    ref('product.product_product_5_product_template')])]"
+                                                    />
+        </record>
+
+        <record id="wk_collectional_page_4" model="website.collectional.page">
+            <field name="name">Brand Mobiles</field>
+            <field name="page_type">banner</field>
+            <field name="display_block">False</field>
+            <field name="image" type="base64" file="website_collectional_page/static/img/wk_collectional_page4.png"/>
+            <field name="description">Extra 30% off</field>
+            <field name="page_title">BrandMobiles</field>
+            <field name="meta_description">Extra30%Off</field>
+            <field name="option">manually</field>
+            <field name="url_handler">BrandMobiles</field>
+            <field name="template_ids" eval="[(6,0,[ref('product.product_product_1_product_template'),
+                                                    ref('product.product_product_2_product_template'),
+                                                    ref('product.product_product_3_product_template'),
+                                                    ref('product.product_product_6_product_template'),
+                                                    ref('product.product_product_7_product_template')])]"
+                                                    />
+        </record>
+
+        <record id="wk_collectional_page_5" model="website.collectional.page">
+            <field name="name">Discount On Laptops</field>
+            <field name="page_type">banner</field>
+            <field name="display_block">False</field>
+            <field name="block_pos">right</field>
+            <field name="image" type="base64" file="website_collectional_page/static/img/wk_collectional_page5.png"/>
+            <field name="description">Extra 20% off</field>
+            <field name="page_title">DiscountOnLaptops</field>
+            <field name="meta_description">Extra20%Off</field>
+            <field name="option">manually</field>
+            <field name="url_handler">DiscountOnLaptops</field>
+            <field name="template_ids" eval="[(6,0,[ref('product.product_product_1_product_template'),
+                                                    ref('product.product_product_2_product_template'),
+                                                    ref('product.product_product_3_product_template'),
+                                                    ref('product.product_product_6_product_template'),
+                                                    ref('product.product_product_7_product_template')])]"
+                                                    />
+        </record>
+
+        <record model="product.condition" id="product_condition_record1">
+            <field name="field">list_price</field>
+            <field name="operator" ref="wk_operator_greater"/>
+            <field name="value">10</field>
+        </record>
+
+        <record id="wk_collectional_page_6" model="website.collectional.page">
+            <field name="name">Top Collections Of Bags</field>
+            <field name="page_type">product</field>
+            <field name="display_block">False</field>
+            <field name="block_pos">left</field>
+            <field name="image" type="base64" file="website_collectional_page/static/img/wk_collectional_page6.png"/>
+            <field name="description">Extra 75% off</field>
+            <field name="page_title">TopCollectionsofBags</field>
+            <field name="meta_description">Extra75%Off</field>
+            <field name="option">conditionally</field>
+            <field name="condition_match">and</field>
+            <field name="product_condition_ids" eval="[(6,0,[ref('website_collectional_page.product_condition_record1')])]"/>
+            <field name="url_handler">TopCollectionsOfBags</field>
+            <field name="template_ids" eval="[(6,0,[ref('product.product_product_1_product_template'),
+                                                    ref('product.product_product_2_product_template'),
+                                                    ref('product.product_product_3_product_template'),
+                                                    ref('product.product_product_6_product_template'),
+                                                    ref('product.product_product_7_product_template')])]"
+                                                    />
+        </record>
+
+        <function model="website.collectional.page" name="website_publish_button"
+            eval="[ref('website_collectional_page.wk_collectional_page_1')]"/>
+        <function model="website.collectional.page" name="website_publish_button"
+            eval="[ref('website_collectional_page.wk_collectional_page_2')]"/>
+        <function model="website.collectional.page" name="website_publish_button"
+            eval="[ref('website_collectional_page.wk_collectional_page_3')]"/>
+        <function model="website.collectional.page" name="website_publish_button"
+            eval="[ref('website_collectional_page.wk_collectional_page_4')]"/>
+        <function model="website.collectional.page" name="website_publish_button"
+            eval="[ref('website_collectional_page.wk_collectional_page_5')]"/>
+        <function model="website.collectional.page" name="website_publish_button"
+            eval="[ref('website_collectional_page.wk_collectional_page_6')]"/>
+
+        <!-- ~~~~~~~~~~~~~~~~~ Website collectional Group ~~~~~~~~~~~~~~~~~~~ -->
+
+        <record id="wk_collectional_group_1" model="website.collectional.group">
+            <field name="name">Collection Group 1</field>
+            <field name="group_type">carousel</field>
+            <field name="collectional_page_ids" eval="[(6,0,[ref('website_collectional_page.wk_collectional_page_3'),
+                ref('website_collectional_page.wk_collectional_page_2'),
+                ref('website_collectional_page.wk_collectional_page_1')])]"
+                />
+        </record>
+
+        <record id="wk_collectional_group_2" model="website.collectional.group">
+            <field name="name">Collection Group 2</field>
+            <field name="group_type">simple</field>
+            <field name="collectional_page_ids" eval="[(6,0,[ref('website_collectional_page.wk_collectional_page_4'),
+                ref('website_collectional_page.wk_collectional_page_5'),
+                ref('website_collectional_page.wk_collectional_page_6'),
+                ref('website_collectional_page.wk_collectional_page_2')])]"
+                />
+        </record>
+
+        <function model="website.collectional.group" name="website_published_button"
+            eval="[ref('website_collectional_page.wk_collectional_group_1')]"/>
+        <function model="website.collectional.group" name="website_published_button"
+            eval="[ref('website_collectional_page.wk_collectional_group_2')]"/>
+
+    </data>
+</odoo>

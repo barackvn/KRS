@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_website_collection_public,website.collection,website_collectional_page.model_website_collectional_page,,1,0,0,0
+access_website_collection_group_public,website.collection_group,website_collectional_page.model_website_collectional_group,,1,0,0,0
+
+access_website_collection_user1,website.collection1,model_website_collectional_page,collectional_user_access,1,1,1,1
+access_website_collection_group_user1,website.collection1_group,model_website_collectional_group,collectional_user_access,1,1,1,1
+
+access_website_collection_user2,website.collection2,model_product_condition,collectional_user_access,1,1,1,1
+
+access_website_collection_user3,website.collection3,model_condition_operator,collectional_user_access,1,1,1,0
+

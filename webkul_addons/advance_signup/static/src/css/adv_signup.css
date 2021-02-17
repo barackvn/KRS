@@ -1,0 +1,55 @@
+/* Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+/* License URL : https://store.webkul.com/license.html/ */
+
+.oe_adv_login_form > .alert-danger::before, .oe_adv_signup_form > .alert-danger::before, .oe_adv_reset_password_form > .alert-danger::before {
+    content: url(/advance_signup/static/src/img/alert-icon.png);
+    display: inline-block;
+    vertical-align: middle;
+    width: 23px;
+    height: 23px;
+}
+
+.adv_signup_loader{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url(/advance_signup/static/src/img/adv_signup_loader.gif) center no-repeat rgba(255, 255, 255, 0.5);
+    text-shadow: 0 1px 1px white;
+}
+
+.adv_signup_link{
+    font-size: 14px;
+    color: #3E66E5;
+}
+.adv_signup_link:hover{
+    color: #3E66E5;
+}
+.adv_signup_link:focus{
+    color: #3E66E5;
+}
+.adv_signup_link:visited{
+    color: #3E66E5;
+}
+
+.adv_light_text{
+    font-size: 14px;
+    color: #525252;
+}
+#adv_signup_t_n_c{
+    position: absolute !important;
+}
+.adv_input_row .custom-control-label{
+    cursor: pointer;
+}
+.adv_input_row .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before{
+    background-color: rgba(65, 111, 237, 1);
+}
+
+
+.th_signup_form{
+    margin: 25px 0;
+}

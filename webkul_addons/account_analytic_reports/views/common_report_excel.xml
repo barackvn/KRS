@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="accounting_report_view" model="ir.ui.view">
+            <field name="name">Accounting Report</field>
+            <field name="model">accounting.report</field>
+            <field name="inherit_id" ref="accounting_pdf_reports.accounting_report_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="before">
+                    <group>
+                        <field name="analytic_account_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_account_report" model="ir.actions.act_window">
+            <field name="name">Financial Reports</field>
+            <field name="res_model">accounting.report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="accounting_report_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_financial_account_report" name="Financial Report" action="action_account_report" parent="accounting_pdf_reports.menu_finance_legal_statement" sequence="100" groups="account.group_account_user"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+
+        <!-- 360 degree images for car1 -->
+
+        <record id="product_360_demo_data1" model="product.template">
+            <field name="name">Swift Dezire Car</field>
+            <field name="list_price">7150</field>
+            <field name="product_360_view">True</field>
+            <field name="product_default_view">False</field>
+            <field name="number_of_images_for_360">36</field>
+            <field name="image_1920" type="base64" file="website_360degree_view/static/img/car1/23.jpg"/>
+            <field name="website_published" eval="True"/>
+        </record>
+
+        <record id="360_car1_img1" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img1</field>
+            <field name="sequence">1</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/1.jpg"/>
+        </record>
+        <record id="360_car1_img2" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img2</field>
+            <field name="sequence">2</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/2.jpg"/>
+        </record>
+        <record id="360_car1_img3" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img3</field>
+            <field name="sequence">3</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/3.jpg"/>
+        </record>
+        <record id="360_car1_img4" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img4</field>
+            <field name="sequence">4</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/4.jpg"/>
+        </record>
+        <record id="360_car1_img5" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img5</field>
+            <field name="sequence">5</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/5.jpg"/>
+        </record>
+        <record id="360_car1_img6" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img6</field>
+            <field name="sequence">6</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/6.jpg"/>
+        </record>
+        <record id="360_car1_img7" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img7</field>
+            <field name="sequence">7</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/7.jpg"/>
+        </record>
+        <record id="360_car1_img8" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img8</field>
+            <field name="sequence">8</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/8.jpg"/>
+        </record>
+        <record id="360_car1_img9" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img9</field>
+            <field name="sequence">9</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/9.jpg"/>
+        </record>
+        <record id="360_car1_img10" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img10</field>
+            <field name="sequence">10</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/10.jpg"/>
+        </record>
+        <record id="360_car1_img11" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img11</field>
+            <field name="sequence">11</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/11.jpg"/>
+        </record>
+        <record id="360_car1_img12" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img12</field>
+            <field name="sequence">12</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/12.jpg"/>
+        </record>
+        <record id="360_car1_img13" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img13</field>
+            <field name="sequence">13</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/13.jpg"/>
+        </record>
+        <record id="360_car1_img14" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img14</field>
+            <field name="sequence">14</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/14.jpg"/>
+        </record>
+        <record id="360_car1_img15" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img15</field>
+            <field name="sequence">15</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/15.jpg"/>
+        </record>
+        <record id="360_car1_img16" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img16</field>
+            <field name="sequence">16</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/16.jpg"/>
+        </record>
+        <record id="360_car1_img17" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img17</field>
+            <field name="sequence">17</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/17.jpg"/>
+        </record>
+        <record id="360_car1_img18" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img18</field>
+            <field name="sequence">18</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/18.jpg"/>
+        </record>
+        <record id="360_car1_img19" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img19</field>
+            <field name="sequence">19</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/19.jpg"/>
+        </record>
+        <record id="360_car1_img20" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img20</field>
+            <field name="sequence">20</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/20.jpg"/>
+        </record>
+        <record id="360_car1_img21" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img21</field>
+            <field name="sequence">21</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/21.jpg"/>
+        </record>
+        <record id="360_car1_img22" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img22</field>
+            <field name="sequence">22</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/22.jpg"/>
+        </record>
+        <record id="360_car1_img23" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img23</field>
+            <field name="sequence">23</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/23.jpg"/>
+        </record>
+        <record id="360_car1_img24" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img24</field>
+            <field name="sequence">24</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/24.jpg"/>
+        </record>
+        <record id="360_car1_img25" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img25</field>
+            <field name="sequence">25</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/25.jpg"/>
+        </record>
+        <record id="360_car1_img26" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img26</field>
+            <field name="sequence">26</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/26.jpg"/>
+        </record>
+        <record id="360_car1_img27" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img27</field>
+            <field name="sequence">27</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/27.jpg"/>
+        </record>
+        <record id="360_car1_img28" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img28</field>
+            <field name="sequence">28</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/28.jpg"/>
+        </record>
+        <record id="360_car1_img29" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img29</field>
+            <field name="sequence">29</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/29.jpg"/>
+        </record>
+        <record id="360_car1_img30" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img30</field>
+            <field name="sequence">30</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/30.jpg"/>
+        </record>
+        <record id="360_car1_img31" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img31</field>
+            <field name="sequence">31</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/31.jpg"/>
+        </record>
+        <record id="360_car1_img32" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img32</field>
+            <field name="sequence">32</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/32.jpg"/>
+        </record>
+        <record id="360_car1_img33" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img33</field>
+            <field name="sequence">33</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/33.jpg"/>
+        </record>
+        <record id="360_car1_img34" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img34</field>
+            <field name="sequence">34</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/34.jpg"/>
+        </record>
+        <record id="360_car1_img35" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img35</field>
+            <field name="sequence">35</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/35.jpg"/>
+        </record>
+        <record id="360_car1_img36" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data1"/>
+            <field name="name">img36</field>
+            <field name="sequence">36</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car1/36.jpg"/>
+        </record>
+
+
+        <!-- 360 images for car2  -->
+
+        <record id="product_360_demo_data2" model="product.template">
+            <field name="name">Honda Civic Car</field>
+            <field name="list_price">8520</field>
+            <field name="product_default_view">True</field>
+            <field name="product_360_view">False</field>
+            <field name="number_of_images_for_360">52</field>
+            <field name="image_1920" type="base64" file="website_360degree_view/static/img/car2/31.png"/>
+            <field name="website_published" eval="True"/>
+        </record>
+
+
+        <record id="360_car2_img1" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img1</field>
+            <field name="sequence">1</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/1.png"/>
+        </record>
+        <record id="360_car2_img2" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img2</field>
+            <field name="sequence">2</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/2.png"/>
+        </record>
+        <record id="360_car2_img3" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img3</field>
+            <field name="sequence">3</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/3.png"/>
+        </record>
+        <record id="360_car2_img4" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img4</field>
+            <field name="sequence">4</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/4.png"/>
+        </record>
+        <record id="360_car2_img5" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img5</field>
+            <field name="sequence">5</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/5.png"/>
+        </record>
+        <record id="360_car2_img6" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img6</field>
+            <field name="sequence">6</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/6.png"/>
+        </record>
+        <record id="360_car2_img7" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img7</field>
+            <field name="sequence">7</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/7.png"/>
+        </record>
+        <record id="360_car2_img8" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img8</field>
+            <field name="sequence">8</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/8.png"/>
+        </record>
+        <record id="360_car2_img9" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img9</field>
+            <field name="sequence">9</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/9.png"/>
+        </record>
+        <record id="360_car2_img10" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img10</field>
+            <field name="sequence">10</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/10.png"/>
+        </record>
+        <record id="360_car2_img11" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img11</field>
+            <field name="sequence">11</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/11.png"/>
+        </record>
+        <record id="360_car2_img12" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img12</field>
+            <field name="sequence">12</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/12.png"/>
+        </record>
+        <record id="360_car2_img13" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img13</field>
+            <field name="sequence">13</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/13.png"/>
+        </record>
+        <record id="360_car2_img14" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img14</field>
+            <field name="sequence">14</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/14.png"/>
+        </record>
+        <record id="360_car2_img15" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img15</field>
+            <field name="sequence">15</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/15.png"/>
+        </record>
+        <record id="360_car2_img16" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img16</field>
+            <field name="sequence">16</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/16.png"/>
+        </record>
+        <record id="360_car2_img17" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img17</field>
+            <field name="sequence">17</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/17.png"/>
+        </record>
+        <record id="360_car2_img18" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img18</field>
+            <field name="sequence">18</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/18.png"/>
+        </record>
+        <record id="360_car2_img19" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img19</field>
+            <field name="sequence">19</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/19.png"/>
+        </record>
+        <record id="360_car2_img20" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img20</field>
+            <field name="sequence">20</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/20.png"/>
+        </record>
+        <record id="360_car2_img21" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img21</field>
+            <field name="sequence">21</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/21.png"/>
+        </record>
+        <record id="360_car2_img22" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img22</field>
+            <field name="sequence">22</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/22.png"/>
+        </record>
+        <record id="360_car2_img23" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img23</field>
+            <field name="sequence">23</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/23.png"/>
+        </record>
+        <record id="360_car2_img24" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img24</field>
+            <field name="sequence">24</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/24.png"/>
+        </record>
+        <record id="360_car2_img25" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img25</field>
+            <field name="sequence">25</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/25.png"/>
+        </record>
+        <record id="360_car2_img26" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img26</field>
+            <field name="sequence">26</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/26.png"/>
+        </record>
+        <record id="360_car2_img27" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img27</field>
+            <field name="sequence">27</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/27.png"/>
+        </record>
+        <record id="360_car2_img28" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img28</field>
+            <field name="sequence">28</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/28.png"/>
+        </record>
+        <record id="360_car2_img29" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img29</field>
+            <field name="sequence">29</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/29.png"/>
+        </record>
+        <record id="360_car2_img30" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img30</field>
+            <field name="sequence">30</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/30.png"/>
+        </record>
+        <record id="360_car2_img31" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img31</field>
+            <field name="sequence">31</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/31.png"/>
+        </record>
+        <record id="360_car2_img32" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img32</field>
+            <field name="sequence">32</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/32.png"/>
+        </record>
+        <record id="360_car2_img33" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img33</field>
+            <field name="sequence">33</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/33.png"/>
+        </record>
+        <record id="360_car2_img34" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img34</field>
+            <field name="sequence">34</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/34.png"/>
+        </record>
+        <record id="360_car2_img35" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img35</field>
+            <field name="sequence">35</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/35.png"/>
+        </record>
+        <record id="360_car2_img36" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img36</field>
+            <field name="sequence">36</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/36.png"/>
+        </record>
+        <record id="360_car2_img37" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img37</field>
+            <field name="sequence">37</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/37.png"/>
+        </record>
+        <record id="360_car2_img38" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img38</field>
+            <field name="sequence">38</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/38.png"/>
+        </record>
+        <record id="360_car2_img39" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img39</field>
+            <field name="sequence">39</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/39.png"/>
+        </record>
+        <record id="360_car2_img40" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img40</field>
+            <field name="sequence">40</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/40.png"/>
+        </record>
+        <record id="360_car2_img41" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img41</field>
+            <field name="sequence">41</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/41.png"/>
+        </record>
+        <record id="360_car2_img42" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img42</field>
+            <field name="sequence">42</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/42.png"/>
+        </record>
+        <record id="360_car2_img43" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img43</field>
+            <field name="sequence">43</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/43.png"/>
+        </record>
+        <record id="360_car2_img44" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img44</field>
+            <field name="sequence">44</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/44.png"/>
+        </record>
+        <record id="360_car2_img45" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img45</field>
+            <field name="sequence">45</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/45.png"/>
+        </record>
+        <record id="360_car2_img46" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img46</field>
+            <field name="sequence">46</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/46.png"/>
+        </record>
+        <record id="360_car2_img47" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img47</field>
+            <field name="sequence">47</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/47.png"/>
+        </record>
+        <record id="360_car2_img48" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img48</field>
+            <field name="sequence">48</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/48.png"/>
+        </record>
+        <record id="360_car2_img49" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img49</field>
+            <field name="sequence">49</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/49.png"/>
+        </record>
+        <record id="360_car2_img50" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img50</field>
+            <field name="sequence">50</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/50.png"/>
+        </record>
+        <record id="360_car2_img51" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img51</field>
+            <field name="sequence">51</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/51.png"/>
+        </record>
+        <record id="360_car2_img52" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data2"/>
+            <field name="name">img52</field>
+            <field name="sequence">52</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/car2/52.png"/>
+        </record>
+
+
+        <!-- 360 images for shoe  -->
+
+        <record id="product_360_demo_data3" model="product.template">
+            <field name="name">White Shoe</field>
+            <field name="list_price">500</field>
+            <field name="product_360_view">True</field>
+            <field name="product_default_view">False</field>
+            <field name="number_of_images_for_360">18</field>
+            <field name="image_1920" type="base64" file="website_360degree_view/static/img/shoe/image1_3.jpg"/>
+            <field name="website_published" eval="True"/>
+        </record>
+        <record id="360_shoe_img1" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img1</field>
+            <field name="sequence">1</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_1.jpg"/>
+        </record>
+        <record id="360_shoe_img2" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img2</field>
+            <field name="sequence">2</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_2.jpg"/>
+        </record>
+        <record id="360_shoe_img3" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img3</field>
+            <field name="sequence">3</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_3.jpg"/>
+        </record>
+        <record id="360_shoe_img4" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img4</field>
+            <field name="sequence">4</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_4.jpg"/>
+        </record>
+        <record id="360_shoe_img5" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img5</field>
+            <field name="sequence">5</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_5.jpg"/>
+        </record>
+        <record id="360_shoe_img6" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img6</field>
+            <field name="sequence">6</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_6.jpg"/>
+        </record>
+        <record id="360_shoe_img1" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img1</field>
+            <field name="sequence">1</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_1.jpg"/>
+        </record>
+        <record id="360_shoe_img7" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img7</field>
+            <field name="sequence">7</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_7.jpg"/>
+        </record>
+        <record id="360_shoe_img8" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img8</field>
+            <field name="sequence">8</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_8.jpg"/>
+        </record>
+        <record id="360_shoe_img9" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img9</field>
+            <field name="sequence">9</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_9.jpg"/>
+        </record>
+        <record id="360_shoe_img10" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img10</field>
+            <field name="sequence">10</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_10.jpg"/>
+        </record>
+        <record id="360_shoe_img11" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img11</field>
+            <field name="sequence">11</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_11.jpg"/>
+        </record>
+        <record id="360_shoe_img12" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img12</field>
+            <field name="sequence">12</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_12.jpg"/>
+        </record>
+        <record id="360_shoe_img13" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img13</field>
+            <field name="sequence">13</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_13.jpg"/>
+        </record>
+        <record id="360_shoe_img14" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img14</field>
+            <field name="sequence">14</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_14.jpg"/>
+        </record>
+        <record id="360_shoe_img15" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img15</field>
+            <field name="sequence">15</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_15.jpg"/>
+        </record>
+        <record id="360_shoe_img16" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img16</field>
+            <field name="sequence">16</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_16.jpg"/>
+        </record>
+        <record id="360_shoe_img17" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img17</field>
+            <field name="sequence">17</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_17.jpg"/>
+        </record>
+        <record id="360_shoe_img18" model="product.360.view">
+            <field name="template_id" ref="website_360degree_view.product_360_demo_data3"/>
+            <field name="name">img18</field>
+            <field name="sequence">18</field>
+            <field name="image" type="base64" file="website_360degree_view/static/img/shoe/image1_18.jpg"/>
+        </record>
+
+
+    </data>
+</odoo>

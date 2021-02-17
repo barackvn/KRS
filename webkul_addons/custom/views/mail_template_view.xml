@@ -1,0 +1,156 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <!--Email template for Thank you for register seller-->
+        <record id="template_thnk_register_seller" model="mail.template">
+            <field name="name">Notification Mail to New Seller for Register</field>
+            <field name="email_from">admin@sophiesgarden.be</field>
+            <field name="subject">Thank you for Register</field>
+            <field name="email_to">${object.email or ''}</field>
+            <field name="model_id" ref="custom.model_res_partner"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                        <p>Dear, ${object.name},</p><br/><br/>
+                        <p>Thank you for seller request, your request has been sent for approval we'll process your request as soon as possible.</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="template_thnk_register_buyer" model="mail.template">
+            <field name="name">Notification Mail to New Buyer for Register</field>
+            <field name="email_from">admin@sophiesgarden.be</field>
+            <field name="subject">Thank you for Register</field>
+            <field name="email_to">${object.email or ''}</field>
+            <field name="model_id" ref="custom.model_res_partner"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                        <p>Dear, ${object.name},</p><br/><br/>
+                        <p>Thank you for buyer request, your request has been sent for approval we'll process your request as soon as possible.</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="template_reject_register_seller" model="mail.template">
+            <field name="name">Notification Mail to Seller for Rejection</field>
+            <field name="email_from">admin@sophiesgarden.be</field>
+            <field name="subject">Lead Rejected</field>
+            <field name="email_to">${object.email_from or ''}</field>
+            <field name="model_id" ref="custom.model_crm_lead"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                        <p>Dear ${object.partner_id.name},</p><br/><br/>
+                        <p>Your Seller membership request has be rejected due to ${object.reason}.</p>
+                        <br/>
+                        <br/>
+                        <p>Best regards,</p>
+                        <p>Admin</p>
+
+                ]]>
+            </field>
+        </record>
+
+        <record id="template_reject_register_buyer" model="mail.template">
+            <field name="name">Notification Mail to Buyer for Rejection</field>
+            <field name="email_from">admin@sophiesgarden.be</field>
+            <field name="subject">Lead Rejected</field>
+            <field name="email_to">${object.email_from or ''}</field>
+            <field name="model_id" ref="custom.model_crm_lead"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                        <p>Dear ${object.partner_id.name},</p><br/><br/>
+                        <p>Your Buyer Register request has be rejected due to ${object.reason}.</p>
+                        <br/>
+                        <br/>
+                        <p>Best regards,</p>
+                        <p>Admin</p>
+
+                ]]>
+            </field>
+        </record>
+        <record id="template_accept_register_seller" model="mail.template">
+            <field name="name">Notification Mail to Seller for Acceptance</field>
+            <field name="email_from">admin@sophiesgarden.be</field>
+            <field name="subject">Accepted Lead of Seller</field>
+            <field name="email_to">${object.email_from or ''}</field>
+            <field name="model_id" ref="custom.model_crm_lead"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                        <p>Dear ${object.partner_id.name},</p><br/><br/>
+                        <p>Your Seller Profile is accepted by KRS,Please take the Marketplace membership from your profile.</p>
+                        <br/>
+                        <br/>
+                        <p>${ctx['url']}</p>
+                        <p>Best regards,</p>
+                        <p>Admin</p>
+
+                ]]>
+            </field>
+        </record>
+
+        <record id="template_accept_register_buyer" model="mail.template">
+            <field name="name">Notification Mail to Buyer for Acceptance</field>
+            <field name="email_from">admin@sophiesgarden.be</field>
+            <field name="subject">Accepted Lead of Buyer</field>
+            <field name="email_to">${object.email_from or ''}</field>
+            <field name="model_id" ref="custom.model_crm_lead"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                        <p>Dear ${object.partner_id.name},</p><br/><br/>
+                        <p>Your Buyer Profile is accepted by KRS.</p>
+                        <br/>
+                        <br/>
+                        <p>Best regards,</p>
+                        <p>Admin</p>
+
+                ]]>
+            </field>
+        </record>
+
+        <record id="template_seller_certification_exp" model="mail.template">
+            <field name="name">Notification Mail to Seller for Certificate Expiry</field>
+            <field name="email_from">admin@sophiesgarden.be</field>
+            <field name="subject">Notify Certificate Expiry</field>
+            <field name="email_to">${object.email or ''}</field>
+            <field name="model_id" ref="custom.model_res_partner"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                        <p>Dear ${object.name},</p><br/><br/>
+                        <p>Please renew your Certificate before expired on ${object.certificate_end_date}.</p>
+                        <br/>
+                        <br/>
+                        <p>Best regards,</p>
+                        <p>KRS</p>
+
+                ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

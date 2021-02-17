@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+  <data>
+        <record id="addtechnician_wizard_form_view" model="ir.ui.view">
+            <field name="name">AddTechnician Wizard FormView</field>
+            <field name="model">pathology.addtechnician</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Start Diagnosis">
+                <group>
+                    <group>
+                        <field name="technician" options="{'no_create_edit':True, 'no_open': True}" required="1"/>
+                        <field name="add_comment" placeholder="Write comment here..." string="Add Comment for Technician"/>
+                    </group>
+                </group>
+                <newline/>
+                <footer>
+                <button name="button_addtechnician" class="oe_highlight" type="object" string="Add"/>
+                <button special="cancel" string="Cancel"/>
+                </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="addtechnician_wizard_action">
+    			<field name="name">Start Diagnosis</field>
+    			<field name="res_model">pathology.addtechnician</field>
+    			<field name="view_mode">form</field>
+    			
+    			<field name="view_id" ref="addtechnician_wizard_form_view"/>
+                <field name="target">new</field>
+        </record>
+  </data>
+</odoo>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="product_mass_upload_search_view" model="ir.ui.view">
+			<field name="name">product.search.view</field>
+			<field name="model">mass.product.upload</field>
+			<field name="arch" type="xml">
+				<search string="Search History">
+                    <field name="name" string="Filename" filter_domain="[('name','ilike',self)]"/>
+                    <field name="seller_id" />
+                    <group expand="0" name="product_search" string="Group By">
+                        
+					</group>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_mass_upload_search_view_inherit" model="ir.ui.view">
+            <field name="name">product.mass.upload.search.view</field>
+            <field name="model">mass.product.upload</field>
+            <field name="inherit_id" ref="marketplace_mass_upload.product_mass_upload_search_view"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
+            <field name="arch" type="xml">
+                <group expand="0" name="product_search" position="inside">
+					<filter string="Seller" context="{'group_by':'seller_id'}" name="by_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+				</group>				
+            </field>
+        </record>
+
+        <record id="product_mass_upload_form_view" model="ir.ui.view">
+            <field name="name">product.form.view</field>
+            <field name="model">mass.product.upload</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Mass Uplaod Product" create="false" edit="false">
+                    <header>                        
+                        <field name="state" widget="statusbar" statusbar_visible="new,success,fail"/>
+                    </header>
+                    <sheet>
+                        <div class="alert alert-info" role="alert" style="border-radius:6px; padding: 10px 20px;" attrs="{'invisible':[('state','not in',('new'))]}">
+                            <strong >Note:</strong>
+                            <ul>
+                                <li>Zip File must contain a folder named 'images' and a CSV File, all the images of product should be in the 'images' folder.</li>
+                                <li>Download a sample Zip file from below download link and fill comma separated values in sample Csv file.</li>
+                                <li>Column 'name' and 'image' cannot have blank values.</li>
+                                <li>'name' must be the first column and 'image' must be the last column in CSV file.</li>
+                                <li>
+                                    name,public_categ_ids,categ_id,image<br/>
+                                    Leather Shoe,"[1,5,3,6]",5,img.png</li>
+                            </ul>
+                        </div>
+                        <div class="oe_title" attrs="{'invisible':[('state','in',('new'))]}">
+							<label class="oe_edit_only" for="name" string="Product Name"/>
+                            <field name="name" invisible="1"/>
+							<h1><field name="zip_file" filename="name"/></h1>
+						</div>
+                        <group>
+                            <group>                                
+                                <field name="name" invisible="1"/>
+							    <field name="zip_file" filename="name" attrs="{'invisible':[('state','not in',('new'))]}"/>
+                                <field name="seller_id" options="{'no_create': True}" domain="[('seller', '=', True), ('state', '=', 'approved')]" context="{'tree_view_ref': 'odoo_marketplace.wk_seller_tree_view'}" groups="odoo_marketplace.marketplace_officer_group" />
+                                <field name="passes" string="Records Created" class="oe_read_only" attrs="{'invisible':[('state','in',('new'))]}"/>
+                            </group>
+                            <group>
+                                <a href="/download/sample/product/zip" class="text-primary pull-right" attrs="{'invisible':[('state','not in',('new'))]}"><i class="fa fa-download"></i>&#x2063;<strong style="margin-left: 2px;">Download Sample Zip</strong></a>
+                                <field name="create_date" string="Uploaded On" widget="date"   options="{'format':'dd/MM/yyyy'}" class="oe_read_only" attrs="{'invisible':[('state','in',('new'))]}"/>
+                                <field name="fails" string="Records Failed" class="oe_read_only" attrs="{'invisible':[('state','in',('new'))]}"/>
+                            </group>
+                        </group>
+                        <group >
+                            <field name="note" placeholder="Add a note (if needed)..."/>
+                        </group>
+                        <notebook attrs="{'invisible':[('fails','=',0)]}">
+                            <page string="Details">
+                                <field name="description" string="Details" class="oe_read_only" attrs="{'invisible':[('fails','=',0)]}" style="color:#FF0000;"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button special="cancel" class="pull-right" string="Cancel" invisible="context.get('mass_upload_view') is True"/>
+                        <button name="upload_products" string="Upload Now" class="btn-primary pull-right" type="object" invisible="context.get('mass_upload_view') is True"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_mass_upload_tree_view" model="ir.ui.view">
+            <field name="name">product.tree.view</field>
+            <field name="model">mass.product.upload</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Mass Uplaod Product" create="false" edit="false" decoration-success="state=='success'" decoration-danger="state=='fail'" decoration-warning="state=='partial'">
+                    <field name="name"/>
+                    <field name="seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <field name="state"/>
+                    <field name="create_date" string="Uploaded On" widget="date" options="{'format':'dd/MM/yyyy'}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_mass_product_upload" model="ir.actions.act_window">
+            <field name="name">Import Product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mass.product.upload</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="marketplace_mass_upload.product_mass_upload_form_view" />
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_history_mass_product_upload" model="ir.actions.act_window">
+            <field name="name">Import History</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mass.product.upload</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_by_seller_id': 1, 'mass_upload_view': True }</field>
+            <field name="search_view_id" ref="marketplace_mass_upload.product_mass_upload_search_view"/>
+            <field name="view_ids" eval="[(5, 0),
+					(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('marketplace_mass_upload.product_mass_upload_tree_view')}),
+					(0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('marketplace_mass_upload.product_mass_upload_form_view')})
+				]"/>
+        </record>
+    
+
+        <menuitem id="wk_seller_dashboard_menu2_sub_menu_heaading" name="Mass Upload" parent="odoo_marketplace.wk_seller_dashboard_menu2" groups="marketplace_mass_upload.group_marketplace_mass_upload,odoo_marketplace.marketplace_officer_group" />
+
+            <menuitem action="action_mass_product_upload" name="Import Products" id="wk_seller_dashboard_menu2_sub_menu_heaading_sub_menu0" parent="marketplace_mass_upload.wk_seller_dashboard_menu2_sub_menu_heaading" 
+            groups="odoo_marketplace.marketplace_seller_group" sequence="1"
+           />
+            <menuitem id="wk_seller_dashboard_menu2_sub_menu_heaading_sub_menu1" name="Import History" parent="marketplace_mass_upload.wk_seller_dashboard_menu2_sub_menu_heaading" action="action_history_mass_product_upload" groups="odoo_marketplace.marketplace_seller_group" sequence="2"/>
+    </data>
+</odoo>

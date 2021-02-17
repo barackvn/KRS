@@ -1,0 +1,119 @@
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+  <data>
+      <template id="assets_frontend" inherit_id="website.assets_frontend" name="Website Product Multi Image">
+        <xpath expr="." position="inside">
+        <script type="text/javascript" src="/website_360degree_view/static/src/js/threesixty.js"></script>
+        <script type="text/javascript" src="/website_360degree_view/static/src/js/360degree_view.js"></script>
+        <link rel='stylesheet' href='/website_360degree_view/static/src/css/website_360_view.css'/>
+    </xpath>
+  </template>
+  <template id="website_product_360_view_website_sale" inherit_id="website_sale.product" name="test360">
+    <xpath expr="//section[@id='product_detail']/div[2]/div[hasclass('col-md-6')]" position="attributes">
+      <attribute name="t-att-style">'display:none;' if product.product_360_view and product.template_360_images else '' </attribute>
+    </xpath>
+
+    <xpath expr="//div/div[hasclass('col-md-6')]" position="before">
+      <t t-if="product.template_360_images and product.product_default_view">
+        <div class="col-md-12 d-none d-md-inline d-xl-inline" style="height: 50px;width: 100px;border-radius: 25px;padding: 0px;">
+          <a type="button"  id="360degree_btn" data-toggle="modal" style="cursor:pointer;">
+            <input type='hidden' class="360_product_id" name="360_product_id" t-att-value="int(product.id)" />
+            <img alt="Not Found" src="/website_360degree_view/static/description/360_icon.png" style="width:100px; height:50px;"/>
+          </a>
+        </div>
+        <div class="col-md-12 d-block d-md-none d-lg-none d-xl-none" style="height: 50px;width: 100px;border-radius: 25px;padding: 0px;margin-top: 10px;">
+          <a type="button"  id="360degree_btn2" data-toggle="modal" style="cursor:pointer;">
+            <input type='hidden' class="360_product_id" name="360_product_id" t-att-value="int(product.id)" />
+            <img alt="Not Found" src="/website_360degree_view/static/description/360_icon.png" style="width:100px; height:50px;"/>
+          </a>
+        </div>
+      </t>
+    </xpath>
+    <xpath expr="//section[@id='product_detail']/div[2]/div[hasclass('col-md-6')]" position="after">
+      <t t-if="product.template_360_images and product.product_360_view">
+        <data id="product_360_view" data-page='product'/>
+        <data id="no_of_images" t-att-data-image-count='product.number_of_images_for_360'/>
+        <div class="col-md-6">
+          <div style="" class="d-none d-xl-block">
+            <img alt="Not Found" src="/website_360degree_view/static/description/360_icon.png" style="width:100px; height:50px;"/>
+          </div>
+           <div class="row justify-content-center">
+              <div class="col-sm-12 col-md-12 col-lg-7 rotation">
+                <t t-foreach="product.template_360_images" t-as="image_obj">
+                  <span itemprop="image" t-field="image_obj.image"
+                      t-options='{"widget": "image", "class": "product_detail_img", "alt-field": "name"}'/>
+                </t>
+              </div>
+           </div>
+          <div class="row justify-content-center" style="padding-bottom: 10px; padding-top: 10px">
+            <button class="btn btn-default btn-cycle active" style="display : none;">Cycle</button>
+            <button class="btn btn-default btn-reverse" style="display : none;">Reverse</button>
+            <button class="btn btn-primary btn-prev">Previous</button>
+            <button id="btn-play" class="btn btn-primary btn-play btn-round"><span><i class="fa fa-play"></i></span></button>
+            <button class="btn btn-primary btn-next">Next</button>
+            <button class="btn btn-default btn-play-to" style="display : none;">Play to 0</button>
+          </div>
+        </div>
+      </t>
+    </xpath>
+  </template>
+  <!-- Product 360 Degree View Model-->
+  <template id="modal_product_360degree_view" name="Product 360 Degree View">
+    <div id="360degree_modal" class="modal fade" tabindex="-1" role="dialog" >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="head-close">
+                <span style="font-size: 25px;font-weight: 600;" class="d-none d-md-inline d-xl-inline">
+                  <img alt="Not Found" src="/website_360degree_view/static/description/360_icon.png" style="width:80px; height:40px;"/>
+                  <t t-esc="product.name"  class="alert alert-info" />
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </span>
+              <div class="d-flex d-md-none d-lg-none d-xl-none">
+                <span>
+                  <img alt="Not Found" src="/website_360degree_view/static/description/360_icon.png" style="width:80px; height:40px;"/>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </span>
+                <div  style="font-weight: 600;margin-top: 10px;margin-left: 10px;"><t t-esc="product.name"  class="alert alert-info"/></div>
+              </div>
+            </div>
+
+            </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+
+              <div class="row ml0 mr0">
+                <data id="product_360_view" data-page='product'/>
+                <data id="no_of_images" t-att-data-image-count='product.number_of_images_for_360'/>
+                <div class="container text-center">
+                  <div class="col-sm-12 col-md-6 offset-md-3 rotation ">
+                    <t t-foreach="product.template_360_images" t-as="image_obj">
+                      <span itemprop="image" t-field="image_obj.image" t-options='{"widget": "image", "class": "product_detail_img"}'/>
+                      <!-- <span itemprop="image" t-field="image_obj.image"
+                          t-options='{"widget": "image", "class": "product_detail_img", "alt-field": "name"}'/> -->
+                    </t>
+                  </div>
+                </div>
+                <div class="container text-center" style="padding-bottom: 10px; padding-top: 10px">
+                  <button class="btn btn-default btn-cycle active" style="display : none;">Cycle</button>
+                  <button class="btn btn-default btn-reverse" style="display : none;">Reverse</button>
+                  <button class="btn btn-primary btn-prev">Previous</button>
+                  <button id="btn-play" class="btn btn-primary btn-play btn-round"><span><i class="fa fa-play"></i></span></button>
+                  <button class="btn btn-primary btn-next">Next</button>
+                  <button class="btn btn-default btn-play-to" style="display : none;">Play to 0</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    <script type="text/javascript" src="/website_360degree_view/static/src/js/threesixty.js"></script>
+    </div>
+  </template>
+  </data>
+</odoo>

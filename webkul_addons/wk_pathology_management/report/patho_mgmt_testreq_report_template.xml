@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<template id="wk_pathology_management.patho_testreq_report">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="web.external_layout">
+						<div class="page">
+							<div class="oe_structure"/>
+							<div class="row " style="height:10px"/>
+							<div class="row mt16 mb16">
+								<div class="col-6">
+									<span t-field="o.customer_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+								</div>
+								<div class="col-6">
+									<p>
+										<strong> Booking Date : </strong>
+										<span t-field="o.create_date" t-field-options='{"format": "d MMM, y"}'/>
+									</p>
+									<p>
+										<strong> Sample Collected On : </strong>
+										<t t-set="day_of_date" t-esc="datetime.datetime.strptime(str(o.test_date) ,'%Y-%m-%d').date().strftime('%A')"/>,
+										<span t-field="o.test_date" t-field-options='{"format": "d MMM, y"}'/>
+									</p>
+									<p t-if="o.report_collection_date">
+										<strong> Report Collected On : </strong>
+										<t t-set="day_of_date" t-esc="datetime.datetime.strptime(str(o.report_collection_date) ,'%Y-%m-%d').date().strftime('%A')"/>,
+										<span t-field="o.report_collection_date" t-field-options='{"format": "d MMM, y"}'/>
+									</p>
+								</div>
+							</div>
+							<h2>
+								<span> Test Id # </span> <span t-field="o.name"/>
+							</h2>
+							<t t-set="display_discount" t-value="any([l.discount for l in o.patho_line_ids])"/>
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th>Description</th>
+										<th class="text-right">Unit Price</th>
+										<th t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">Disc.(%)</th>
+										<th class="text-right">Taxes</th>
+										<th class="text-right">Amount</th>
+									</tr>
+								</thead>
+								<tbody>
+									<t t-foreach="o.patho_line_ids" t-as="l">
+
+										<tr>
+											<td><span t-field="l.name"/></td>
+											<td class="text-right">
+												<span t-field="l.price_unit"/>
+											</td>
+											<td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
+			                                    <span t-field="l.discount"/>
+			                                </td>
+											<td class="text-right">
+												<span t-esc="', '.join(map(lambda x: x.description or x.name, l.tax_id))"/>
+											</td>
+											<td class="text-right">
+												<span t-field="l.price_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+											</td>
+										</tr>
+									</t>
+									<tr t-foreach="range(max(4-len(o.patho_line_ids),0))" t-as="l">
+					                    <td>&amp;nbsp;</td>
+					                    <td/>
+										<td t-if="display_discount"/>
+					                    <td/>
+					                    <td/>
+					                </tr>
+									<div class="clearfix">
+										<div class="row text-right" name="total">
+											<div>
+												<table class="table-condensed" style="min-width: 200px;max-width: 350px; float:right;">
+													<tr class=" border-black" style="border-bottom:1px solid #dddddd;">
+														<td><strong>Subtotal</strong></td>
+														<td class="text-right">
+															<span t-field="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}"/>
+														</td>
+													</tr>
+													<tr class=" border-black">
+														<td><strong>Total</strong></td>
+														<td class="text-right">
+															<span t-field="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}"/>
+														</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+								</tbody>
+							</table>
+							<div class="row mt32 mb32">
+								<div t-if="o.description" class="col-6 ">
+									<p>
+										<span t-field="o.description"/>
+									</p>
+								</div>
+							</div>
+							<div t-if="o.invoice_status">
+								<p>
+									<strong>Invoice Status: </strong>
+									<span t-field="o.invoice_status"/>
+								</p>
+							</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+		<report
+			id="patho_mgmt_testreq_report"
+			model="patho.testrequest"
+			string="Test Request Report"
+			report_type="qweb-pdf"
+			name="wk_pathology_management.patho_testreq_report"
+			file="wk_pathology_management.patho_testreq_report"
+			print_report_name="(object.customer_id.name)"
+		/>
+
+	</data>
+</odoo>

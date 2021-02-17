@@ -1,0 +1,3 @@
+"auto_email","create_uid/id","description","write_uid/id","mail_template/id","recipients/id","date","repeat","end_date","name"
+"True","base.user_admin","<p>Hi,</p><p><br></p><p><i>All employees</i> are granted <b>half day leave</b> <i>today</i>.</p><p><br></p><p>Regards,</p><p>Admin<br></p>","base.user_admin","odoo_reminder.mail_reminder","base.user_admin,base.user_demo","2119-06-20","Monthly","2120-05-01","Half day leave"
+"False","base.user_admin","<ol><li><p>Create new accounts.</p></li><li><p>Prepare monthly report.</p></li><li><p>Meet with hr manager.<br></p></li></ol>","base.user_admin","odoo_reminder.mail_reminder","base.user_admin","","Once","","My Todo List"

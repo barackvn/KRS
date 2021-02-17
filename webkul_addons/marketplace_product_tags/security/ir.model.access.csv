@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+website_product_tags_seller_id,website_product_tags_seller,website_product_tags.model_wk_website_product_tags,odoo_marketplace.marketplace_seller_group,1,0,0,0
+
+website_product_tags_officer_id,website_product_tags_officer,website_product_tags.model_wk_website_product_tags,odoo_marketplace.marketplace_officer_group,1,1,1,0
+
+website_product_tags_manager_id,website_product_tags_manager,website_product_tags.model_wk_website_product_tags,odoo_marketplace.marketplace_manager_group,1,1,1,1

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+    <template id="queue_status" name="QMS Index">&lt;!DOCTYPE html&gt;
+        <html>
+            <head>
+                <title>Queue Management System</title>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+                <meta http-equiv="content-type" content="text/html, charset=utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <meta name="apple-mobile-web-app-capable" content="yes"/>
+                <meta name="mobile-web-app-capable" content="yes"/>
+
+                <link rel="shortcut icon" href="/web/static/src/img/favicon.ico" type="image/x-icon"/>
+
+
+                <t t-call-assets="web.assets_common" t-css="false"/>
+                <t t-call-assets="web.assets_frontend"/>
+                <t t-call-assets="web_editor.summernote" t-css="false"/>
+                <t t-call-assets="web_editor.assets_wysiwyg" t-css="false"/>
+                <t t-call-assets="queue_management.display_assets"/>
+            </head>
+            <body>
+                <div class="o_main_content">
+                    <div t-if="company" class="company_logo">
+                        <span t-field="company.logo" 
+                            t-options="{'widget': 'image', 'style':'width: 158px;height:30px'}"
+                        />
+                    </div>
+                    <div class='row qs_div'>
+                        <t t-foreach="to_display" t-as="dept">
+                            <t t-set="counters" t-value="dept['counters']" />
+                            <div t-attf-id="#{dept['id']}" class="dept_div">
+                                <div style="text-align:center;">
+                                    <label class="dept_label"><t t-esc="dept['department']"/></label>
+                                </div>
+                                <t t-foreach="counters" t-as="counter">
+                                    <div class="dep_counter">
+                                        <div class="dep_counter_token">
+                                                <span  class="counter_tokenno">
+                                                    <t t-esc="counter['token']"/>
+                                                </span>
+                                        </div>
+                                        <div class="dep_counter_name">
+                                            <t t-esc="counter['counter']"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                        <input  type="hidden" id="dept_offset" name="dept_offset" value="0" />
+                        <hr class="qms_hr"/>
+                    </div>
+                </div>
+                <div class="topcorner">
+                    <div>
+                        <a t-attf-href="/status/close">
+                            <!-- <span> -->
+                                <!-- <i class="fa fa-stop-circle"></i> -->
+                                <button type="button" id="qms_close">Close</button>
+                            <!-- </span> -->
+                        </a>
+                        <a><button type="button" id="qms_enter" class="qms_fs">Full Sceen</button></a>
+                        <a>
+                            <button type="button" id="qms_leave" class="qms_fs" style="display:none">
+                                Leave Full Sceen
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </template>
+
+</odoo>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="patho_mgmt_lab_test_parameters_tree_view">
+			<field name="name">Pathology Lab Test Parameters</field>
+			<field name="model">patho.test.parameters</field>
+            <field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Pathology Lab Test Parameters">
+                    <field name="name"/>
+                    <field name="sequence"/>
+                </tree>
+            </field>
+        </record>
+		<record model="ir.ui.view" id="patho_mgmt_lab_test_parameters_form_view">
+			<field name="name">Pathology Lab Test Parameters</field>
+			<field name="model">patho.test.parameters</field>
+            <field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Pathology Lab Test Parameters">
+                    <sheet>
+											<field name="active" widget="boolean_toggle" invisible="True"/>
+						<div class="oe_button_box" name="button_box">
+							<button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-danger" attrs="{'invisible':[('active', '=', True)]}">
+									<span class="o_stat_text">Active</span>
+								</button>
+								<button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-success" attrs="{'invisible':[('active', '!=', True)]}">
+									<span class="o_stat_text">Archive</span>
+								</button>
+						</div>
+					    <group>
+							<group>
+			                    <field name="name" string="Name" placeholder="Parameter Name.."/>
+								<field name="sequence" placeholder="1,2,3.."/>
+                            </group>
+					    </group>
+						<separator string="Standard Specification"/>
+						<group>
+							<group>
+								<field name="min_value"/>
+								<field name="max_value"/>
+							</group>
+							<group>
+								<field name="normal_value"/>
+								<field name="unit"/>
+							</group>
+						</group>
+                        <separator string="Description"/>
+                        <field name="description" placeholder="Description about parameter.."/>
+                    </sheet>
+            	</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="patho_mgmt_lab_test_parameters_action">
+			<field name="name">Lab Test Parameters</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">patho.test.parameters</field>
+
+            <field name="view_mode">tree,form</field>
+		</record>
+		<menuitem name="Parameters"
+			id="patho_mgmt_lab_test_parameters_menu"
+			parent="patho_mgmt_config_tests_menu"
+			sequence="2"
+			action="patho_mgmt_lab_test_parameters_action"
+			groups="wk_pathology_management.patho_mgmt_technician_group,wk_pathology_management.patho_mgmt_manager_group"
+			/>
+	</data>
+</odoo>

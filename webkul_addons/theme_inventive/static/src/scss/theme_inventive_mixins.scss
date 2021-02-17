@@ -1,0 +1,132 @@
+
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+@mixin background_image($url,$size){
+    background-image: url("/#{$url}");
+    background-repeat: no-repeat;
+    background-position: center;
+    @if($size){
+        background-size:$size;
+    }
+}
+@mixin theme_icon($width,$height,$icon_url,$size-x,$size-y) {
+  width: $width;
+  height: $height;
+  background-image: url(#{$icon_url});
+  background-repeat: no-repeat;
+  background-size: $size-x $size-y ;
+  background-position: center;
+  display: inline-block;
+}
+@mixin text_ellipsis(){
+    max-width: 100%;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin verticaly_center(){
+    position: absolute;
+    top: 50%;
+    transform: translate(0%,-50%);
+}
+@mixin absolute_cover(){
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+@mixin absolute_center(){
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+}
+
+@mixin flex_center(){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@mixin flex_column(){
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+}
+@mixin flex_column_center(){
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+@mixin flex_space_between(){
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+@mixin flex_space_evenly(){
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+@mixin flex_space_around(){
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+@mixin border_design{
+    background: #FFFFFF;
+    border: 1px solid #E8E8E8;
+    border-radius: 2px;
+    overflow: hidden;
+    &:hover{
+        box-shadow: 0 2px 6px 0 rgba(0,0,0,0.07);
+    }
+}
+
+@mixin translateY($val){
+    webkit-transform: translateY(#{$val});
+    -moz-transform: translateY(#{$val});
+    -o-transform: translateY(#{$val});
+    -ms-transform: translateY(#{$val});
+}
+
+
+
+// Flex Mixins ..........................
+@mixin flex_center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@mixin flex_column{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+}
+@mixin flex_column_center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+@mixin flex_between{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin flex_evenly{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+@mixin flex_around{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}

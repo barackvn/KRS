@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+
+        <record id="wk_operator_equal" model="condition.operator">
+            <field name="name">is equal to</field>
+            <field name="operator">=</field>
+
+            <field name="wk_many2one" eval="False"/>
+            <field name="wk_many2many" eval="False"/>
+            <field name="wk_one2many" eval="False"/>
+            <field name="wk_boolean" eval="True"/>
+            <field name="wk_char" eval="True"/>
+            <field name="wk_text" eval="True"/>
+            <field name="wk_selection" eval="False"/>
+            <field name="wk_integer" eval="True"/>
+            <field name="wk_float" eval="True"/>
+            <field name="wk_html" eval="True"/>
+        </record>
+
+        <record id="wk_operator_not_equal" model="condition.operator">
+            <field name="name">is not equal to</field>
+            <field name="operator">!=</field>
+
+            <field name="wk_many2one" eval="False"/>
+            <field name="wk_many2many" eval="False"/>
+            <field name="wk_one2many" eval="False"/>
+            <field name="wk_boolean" eval="True"/>
+            <field name="wk_char" eval="True"/>
+            <field name="wk_text" eval="True"/>
+            <field name="wk_selection" eval="False"/>
+            <field name="wk_integer" eval="True"/>
+            <field name="wk_float" eval="True"/>
+            <field name="wk_html" eval="True"/>
+        </record>
+
+        <record id="wk_operator_less" model="condition.operator">
+            <field name="name">less than</field>
+            <field name="operator">&lt;</field>
+
+            <field name="wk_many2one" eval="False"/>
+            <field name="wk_many2many" eval="False"/>
+            <field name="wk_one2many" eval="False"/>
+            <field name="wk_boolean" eval="False"/>
+            <field name="wk_char" eval="False"/>
+            <field name="wk_text" eval="False"/>
+            <field name="wk_selection" eval="False"/>
+            <field name="wk_integer" eval="True"/>
+            <field name="wk_float" eval="True"/>
+            <field name="wk_html" eval="False"/>
+        </record>
+        <record id="wk_operator_greater" model="condition.operator">
+            <field name="name">greater than</field>
+            <field name="operator">&gt;</field>
+
+            <field name="wk_many2one" eval="False"/>
+            <field name="wk_many2many" eval="False"/>
+            <field name="wk_one2many" eval="False"/>
+            <field name="wk_boolean" eval="False"/>
+            <field name="wk_char" eval="False"/>
+            <field name="wk_text" eval="False"/>
+            <field name="wk_selection" eval="False"/>
+            <field name="wk_integer" eval="True"/>
+            <field name="wk_float" eval="True"/>
+            <field name="wk_html" eval="False"/>
+        </record>
+
+        <record id="wk_operator_contains" model="condition.operator">
+            <field name="name">contains</field>
+            <field name="operator">ilike</field>
+
+            <field name="wk_many2one" eval="True"/>
+            <field name="wk_many2many" eval="True"/>
+            <field name="wk_one2many" eval="True"/>
+            <field name="wk_boolean" eval="True"/>
+            <field name="wk_char" eval="True"/>
+            <field name="wk_text" eval="True"/>
+            <field name="wk_selection" eval="True"/>
+            <field name="wk_integer" eval="False"/>
+            <field name="wk_float" eval="False"/>
+            <field name="wk_html" eval="True"/>
+        </record>
+        <record id="wk_operator_not_contains" model="condition.operator">
+            <field name="name">not contains</field>
+            <field name="operator">not ilike</field>
+
+            <field name="wk_many2one" eval="True"/>
+            <field name="wk_many2many" eval="True"/>
+            <field name="wk_one2many" eval="True"/>
+            <field name="wk_boolean" eval="True"/>
+            <field name="wk_char" eval="True"/>
+            <field name="wk_text" eval="True"/>
+            <field name="wk_selection" eval="True"/>
+            <field name="wk_integer" eval="False"/>
+            <field name="wk_float" eval="False"/>
+            <field name="wk_html" eval="True"/>
+        </record>
+        <record id="wk_operator_less_equal" model="condition.operator">
+            <field name="name">less than or equal to</field>
+            <field name="operator">&gt;=</field>
+
+            <field name="wk_many2one" eval="False"/>
+            <field name="wk_many2many" eval="False"/>
+            <field name="wk_one2many" eval="False"/>
+            <field name="wk_boolean" eval="False"/>
+            <field name="wk_char" eval="False"/>
+            <field name="wk_text" eval="False"/>
+            <field name="wk_selection" eval="False"/>
+            <field name="wk_integer" eval="True"/>
+            <field name="wk_float" eval="True"/>
+            <field name="wk_html" eval="False"/>
+        </record>
+
+        <record id="wk_operator_greater_equal" model="condition.operator">
+            <field name="name">greater than or equal to</field>
+            <field name="operator">&lt;=</field>
+
+            <field name="wk_many2one" eval="False"/>
+            <field name="wk_many2many" eval="False"/>
+            <field name="wk_one2many" eval="False"/>
+            <field name="wk_boolean" eval="False"/>
+            <field name="wk_char" eval="False"/>
+            <field name="wk_text" eval="False"/>
+            <field name="wk_selection" eval="False"/>
+            <field name="wk_integer" eval="True"/>
+            <field name="wk_float" eval="True"/>
+            <field name="wk_html" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+      <!-- See LICENSE URL <https://store.webkul.com/license.html/> for full copyright and licensing details. -->
+<odoo>
+  <data>
+    <record id="view_maintenance_mode_form" model="ir.ui.view">
+      <field name="name">Maintenance Mode Form</field>
+      <field name="model">maintenance.mode</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Maintenance Mode" create="0" edit="0" delete="0">
+          <header>
+            <button string="Save" type="object" name="save" class="oe_highlight"/>
+            <button string="Cancel" type="button" special="cancel" name="cancel" class="oe_link"/>
+          </header>
+          <sheet>
+            <separator string="Configuration for restricted users"/>
+            <!--  <field name="image" widget="image" nolabel="1" options='{"size": [200, 200]}'/>-->
+            <field name="image" widget="image" class="oe_avatar" />
+            <div class="oe_title">
+              <label class="oe_edit_only" for="" string="Website template image to be displayed during maintenance mode for restricted users."/>
+              <div name="options" groups="base.group_user">
+                <p class="oe_grey oe_inline">The size of the image should be approximately = 600 X 600 - 700 X 700</p>
+              </div>
+            </div>
+            <group>
+              <field name="page_header" placeholder="Title of the page"/>
+              <field name="login_message" />
+              <field name="page_message" />
+            </group>
+            <group string="Configuration for accessible users">
+              <field name="display_admin_mesage" />
+              <field name="admin_message" />
+            </group>
+            <group></group>
+            <group string="Notification feature" col="4">
+              <field name="display_email_field" class=" oe_inline"/>
+              <button string="Send notification to pending emails" type="object" name="wk_send_email_to_notifiers" class="oe_highlight oe_inline"  help="send email to the users who have who have opted for the email notification." attrs="{'invisible': [('display_email_field','=',False)]}"/>
+            </group>
+            <group>
+              <field name="email_notif_title"/>
+              <field name="email_valid_msg"/>
+              <field name="email_error_msg"/>
+              <field name="email_exists"/>
+            </group>
+            <group attrs="{'invisible': [('display_email_field','=',False)]}">
+              <div>
+                <label for="" class="oe_edit_only" string="Emails need to be notified after maintenance mode"/>
+                <field name="subscriber_email_ids" nolabel="1">
+                  <tree colors="green:state == 'sent';" editable="bottom">
+                    <field name="email"/>
+                    <field name="state"/>
+                    <field name="create_date" />
+                    <field name="write_date" />
+                  </tree>
+                </field>
+              </div>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="subscriber_emails_form" model="ir.ui.view">
+      <field name="name">wk.subscriber.emails.form</field>
+      <field name="model">wk.subscriber.emails</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Subscriber Emails">
+          <header>
+            <field name="state" widget="statusbar"/>
+          </header>
+          <group>
+            <field name="email"/>
+            <field name="create_date" />
+            <field name="write_date" />
+          </group>
+        </form>
+      </field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data noupdate="1">
+        <record id="mass_upload_settings_demo_data" model="mass.upload.settings" context="{'mass_upload_default_settings':1}">
+            <field name="name">Default Settings</field>
+            <field name="is_required" eval="False"/>
+            <field name="website_id" ref="website.default_website" />
+        </record>
+    </data>
+</odoo>

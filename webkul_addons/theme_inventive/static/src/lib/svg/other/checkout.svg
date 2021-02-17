@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="110px" viewBox="0 0 125 110" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon-easy-checkout</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Secure-icons/easy-checkout">
+            <g id="Icon-easy-checkout">
+                <path d="M27.4800773,7.84360579 C8.29734572,25.4917188 68.9800773,53.5 18.4800773,71.5 C-32.0199227,89.5 32.9800773,112 70.4800773,109 C107.980077,106 127.980077,92 124.262393,58.3436058 C120.544708,24.6872116 82.7623926,7.84360579 82.7623926,7.84360579 C82.7623926,7.84360579 46.6628088,-9.80450724 27.4800773,7.84360579 Z" id="bg" fill-opacity="0.09" fill="#FB4A26" fill-rule="nonzero"></path>
+                <g id="Checkout" transform="translate(34.000000, 27.000000)" stroke="#FB4A26" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                    <circle id="Oval" cx="19.7377049" cy="51.8688525" r="4.13114754"></circle>
+                    <circle id="Oval" cx="51.8688525" cy="51.8688525" r="4.13114754"></circle>
+                    <path d="M0,0 L10.1818182,0 L17.0036364,36.056986 C17.4840577,38.6157974 19.6289773,40.4424266 22.0945455,40.3924414 L46.8363636,40.3924414 C49.3019318,40.4424266 51.4468514,38.6157974 51.9272727,36.056986 L56,13.4641471 L12.7272727,13.4641471" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

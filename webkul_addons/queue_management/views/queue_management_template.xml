@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+    <template id="assets_backend" name="QMS assets" inherit_id="web.assets_backend">
+
+        <xpath expr="//link[last()]" position="after">
+            <link rel="stylesheet" href="/queue_management/static/src/scss/qms_dashboard.scss"/>
+            <link rel="stylesheet" href="/queue_management/static/src/scss/qms_backend_dashboard.scss"/>
+        </xpath>
+        <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/queue_management/static/src/js/dashboard.js"/>
+        </xpath>
+    </template>
+
+
+    <template id="assets" name="queue_management assets">
+        <script type="text/javascript" src="/queue_management/static/src/js/main.js"></script>
+        <link rel="stylesheet" href="/queue_management/static/src/scss/token_screen.scss"/>
+    </template>
+
+    <template id="display_assets" name="queue_management display assets">
+        <script type="text/javascript" src="/queue_management/static/src/js/qms_display.js"></script>
+        <link rel="stylesheet" href="/queue_management/static/src/scss/token_screen.scss"/>
+    </template>
+
+
+</odoo>

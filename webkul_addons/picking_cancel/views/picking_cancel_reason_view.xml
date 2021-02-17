@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data>
+        <record id="picking_cancel_reasons_filter" model="ir.ui.view">
+            <field name="name">Picking Cancel Reasons</field>
+            <field name="model">picking.cancel.reasons</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Picking Cancel Reasons">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="picking_cancel_reasons_tree" model="ir.ui.view">
+            <field name="name">Picking Cancel Reasons</field>
+            <field name="model">picking.cancel.reasons</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Picking Cancel Reasons" editable="bottom">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="create_uid" readonly="1"/>
+                    <field name="create_date" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="picking_cancel_reasons_form" model="ir.ui.view">
+            <field name="name">Picking Cancel Reasons</field>
+            <field name="model">picking.cancel.reasons</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Cancel Reasons">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="picking_cancel_reasons_action" model="ir.actions.act_window">
+            <field name="name">Picking Cancel Reasons</field>
+            <field name="res_model">picking.cancel.reasons</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="picking_cancel_reasons_tree"/>
+        </record>
+
+        <menuitem id="picking_cancel_reason_menu" action="picking_cancel_reasons_action" parent="stock.menu_stock_config_settings" string="Picking Cancel Reasons"/>
+    </data>
+</odoo>

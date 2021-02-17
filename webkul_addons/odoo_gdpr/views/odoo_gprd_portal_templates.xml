@@ -1,0 +1,243 @@
+<odoo>
+
+
+<template id="odoo_grd__link" inherit_id="portal.portal_layout">
+        <xpath expr="//div[hasclass('o_portal_my_details')]" position="inside">
+              <t>
+                <div class='manage_payment_method mt16'><a href="/my/personal_details">Manage your Personal Data</a></div>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="config_odoo_grpd" name="Odoo Gdpr">
+        <t t-call="portal.frontend_layout">
+            <div class="wrap">
+                <div class="container">
+                  <div class="row">
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb mt8">
+                                <li class="breadcrumb-item"><a href="/my/home"><i class="fa fa-home"/></a></li>
+                                <li class="breadcrumb-item">Manage Personal Data</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h2><t t-raw="gdpr.gdpr_title"/></h2>
+                                <t t-raw="gdpr.title_info"/>
+                                <br/>
+
+
+                                <!-- Modal content-->
+                                <div class="modal fade" id="myModal" role="dialog">
+                                  <div class="modal-dialog">
+
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h4 class="modal-title">Remove all your Personal Data</h4>
+                                        <button type="button" class="close" data-dismiss="modal">x</button>
+                                      </div>
+                                        <div class="modal-body">
+                                            <t t-raw="gdpr.modal_desc"/>
+                                            <form class="oe_agree_form"  id="delete_form" role="form" t-attf-action="/delete/personal_data" method="post" >
+                                               <input type="hidden" name="partner_id" t-att-value="request.env.user.partner_id.id"/>
+                                               <input type="hidden" name="operation_type" value="all"/>
+                                               <input type="hidden" name="action_type" value="delete"/>
+                                                <label>
+                                                    <input type="checkbox" id="tc-agree-checkbox"  name="agree_checkbox" required="required"/>
+                                                     <!-- <a href='#' class="terms_link terms_condition"> -->
+                                                      <span>Are you sure you want to delete all your personal information?</span>
+                                                     <!-- </a> -->
+                                                </label>
+                                                <div class="modal-footer">
+                                                <button type="submit"  class="btn btn-default">Remove</button>
+                                                <button type="button" class="btn btn-default" id="modalCancelBtn" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- Modal content Finish-->
+
+                                <!-- Modal alert content-->
+                                <div class="modal fade" id="myModalalert" role="dialog" >
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h4 class="modal-title">Message</h4>
+                                        <button type="button" class="close modalClose" data-dismiss="modal">x</button>
+                                      </div>
+                                      <div class="modal-body">
+                                         <div class="alert_div_msg" id="gdpr-request-popup" >
+                                             Your request has been recieved, you can track the state of your request under "Your Requests" tab.
+                                         </div>
+                                      </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default modalClose" data-dismiss="modal">Ok</button>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- Finish Modal alert content-->
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <h1><t t-esc="show_alert"/></h1>
+
+                    <div class="container">
+                         <ul class="nav nav-tabs" role="tablist">
+                           <li role="presentation" class="nav-item">
+                             <a class="active nav-link" href="#home" aria-controls="home" role="tab" data-toggle="tab">
+                                Information About You
+                                 <i class="fa fa-info-circle fa-lg" style="color:#3a62bb" data-toggle="tooltip" title="Your personal Data." />
+                             </a>
+                           </li>
+                            <li role="presentation" class="nav-item" >
+                                <a class="nav-link" href="#office" aria-controls="profile" role="tab" data-toggle="tab">Your Requests <span class="badge badge-secondary"><t t-esc="len(gdprRequest)"/></span></a>
+                            </li>
+                         </ul>
+
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="home">
+                                <br/>
+                                  <t t-set="i" t-value="1"/>
+                                  <t t-foreach="gdpr_data_tmpl" t-as="tmpl_id">
+                                  <div class="card-group" style="margin-bottom:20px;">
+                                      <div t-att-class="'card bg-warning' if i%2 == 0 else 'card bg-light'">
+                                      <div class="card-body" >
+                                        <div class="row">
+                                          <div class="col-sm-1" style="text-align: center;">
+                                            <img t-attf-src="data:image/jpg;base64,{{ tmpl_id.icon }}"  class="img-circle" alt="Cinque Terre" width="50" height="50"/>
+                                          </div>
+                                          <div class="col-sm-9">
+                                              <div>
+                                                  <a t-attf-href="#{tmpl_id.redirect_url}">
+                                                     <b> <t t-esc="tmpl_id.name"/></b>
+                                                  </a>
+                                              </div>
+
+                                            <t t-esc="tmpl_id.small_desc"/>
+                                          </div>
+                                          <div class="col-sm-2">
+                                                  <div style="text-align: center;">
+                                                      <form style="display: inline-block; " id="download_form" role="form" t-attf-action="/download/personal_data" method="post" >
+                                                          <input type="hidden" name="partner_id" t-att-value="request.env.user.partner_id.id"/>
+                                                          <input type="hidden" name="operation_type" value="object"/>
+                                                          <input type="hidden" name="object_id" t-att-value="tmpl_id.id"/>
+                                                          <input type="hidden" name="action_type" value="download"/>
+                                                          <input type="hidden" name="type" t-att-value="tmpl_id.type"/>
+                                                          <button type="submit"  class="btn btndownload download_submit_form"><i type="submit" class="fa fa-download" style="color:DodgerBlue;"></i> </button>
+                                                      </form>
+                                                      <form style="display: inline-block; " id="delete_form" role="form" t-attf-action="/delete/personal_data" method="post" >
+                                                          <input type="hidden" name="partner_id" t-att-value="request.env.user.partner_id.id"/>
+                                                          <input type="hidden" name="operation_type" value="object"/>
+                                                          <input type="hidden" name="object_id" t-att-value="tmpl_id.id"/>
+                                                          <input type="hidden" name="action_type" value="delete"/>
+                                                          <input type="hidden" name="type" t-att-value="tmpl_id.type"/>
+                                                          <button type="submit"  class="btn btndelete delete_submit_form"><i class="fa fa-trash-o" style="color:red;"></i> </button>
+                                                      </form>
+                                              </div>
+                                          </div>
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                   <t t-set="i" t-value="i+1"/>
+                                  </t>
+                                    <!--<h3>Remove all your Personal Data</h3>-->
+                                    <!--<p class="text-danger">* This action is irreversible.</p>-->
+                                    <div>
+                                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Remove all Data</button>
+                                        <form style="display: inline-block; " id="download_form" role="form" t-attf-action="/download/personal_data" method="post" >
+                                          <input type="hidden" name="partner_id" t-att-value="request.env.user.partner_id.id"/>
+                                          <input type="hidden" name="operation_type" value="all"/>
+                                          <input type="hidden" name="action_type" value="download"/>
+                                         <button type="submit"  class="btn btn-primary download_submit_form">Download all Data</button>
+                                        </form>
+
+                                    </div>
+
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="office">
+                                <br/>
+                                <t t-call="odoo_gdpr.your_requests_list">
+                                    <t t-set='gdprRequest' t-value="gdprRequest.sudo()"/>
+                                 </t>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <br/>
+        </t>
+    </template>
+
+    <template id="your_requests_list" name="Your Request list">
+        <div>
+            <t t-set="i" t-value="1"/>
+            <t t-foreach="gdprRequest" t-as="request">
+              <div class="card bg-light" style="margin-bottom:5px;">
+                  <div class="card-body">
+                      <div class="row">
+                            <div class="col-sm-8">
+                              <div>
+                                  <b><t t-esc="request.name"/></b>
+                                  <span style="padding-left: 10px;">
+                                      (<i><t t-esc="request.website_action_type"/></i>)
+                                  </span>
+                              </div>
+                              <div>
+                                  Created On :<span style="padding-left: 10px;"><t t-esc="request.created_on"/></span>
+                              </div>
+                              <div>
+                                  Status :
+                                  <span style="padding-left: 10px;">
+                                    <span t-if="request.state == 'pending'">
+                                      <!-- <t t-esc="request.state"/> -->
+                                      <span class="badge badge-info">
+                                        <i class="fa fa-fw fa-clock-o"/> Waiting for Process
+                                      </span>
+                                    </span>
+                                    <span t-if="request.state == 'done'" >
+                                        <!-- <t t-esc="request.state"/> -->
+                                        <span class="badge badge-success">
+                                          <i class="fa fa-fw fa-check"/> Complete
+                                        </span>
+                                    </span>
+                                    <span t-if="request.state == 'cancel'" >
+                                      <!-- <t t-esc="request.state"/> -->
+                                      <span class="badge badge-light">
+                                        <i class="fa fa-fw fa-close"/> Cancelled
+                                      </span>
+                                    </span>
+                                  </span>
+                              </div>
+                            </div>
+                          <div class="col-sm-4" style="text-align: right;">
+                            <t t-if="request.action_type == 'download' and request.state == 'done'">
+                                <br/>
+                                <a type="button" t-att-href="'/web/content/%s?download=true'%request.sudo().attach_id.id if request.attach_id else '#' " ><i  class="fa fa-download fa-2x" style="color:DodgerBlue;"/> </a>
+                            </t>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+              <t t-set="i" t-value="i+1"/>
+            </t>
+        </div>
+   </template>
+
+
+</odoo>

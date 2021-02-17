@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="patho_mgmt_lab_test_pre_info_tree_view">
+			<field name="name">Pathology Lab Test Pre Info</field>
+			<field name="model">patho.test.preinfo</field>
+            <field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Pathology Lab Test Pre Info" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+		<record model="ir.ui.view" id="patho_mgmt_lab_test_pre_info_form_view">
+			<field name="name">Pathology Lab Test Pre Info</field>
+			<field name="model">patho.test.preinfo</field>
+            <field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Pathology Lab Test Pre Info">
+                    <sheet>
+					    <group>
+							<group string="Lab Test Pre Info">
+			                    <field name="name" placeholder="Pre Info.."/>
+							</group>
+					    </group>
+                    </sheet>
+            	</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="patho_mgmt_lab_test_pre_info_action">
+			<field name="name">Lab Test Pre Info</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">patho.test.preinfo</field>
+            
+            <field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Pre Information"
+			id="patho_mgmt_lab_test_pre_info_menu"
+			parent="patho_mgmt_config_tests_menu"
+			sequence="3"
+			action="patho_mgmt_lab_test_pre_info_action"
+			groups="wk_pathology_management.patho_mgmt_technician_group"
+			/>
+	</data>
+</odoo>

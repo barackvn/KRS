@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<templates id="template" xml:space="preserve">
+
+    <t t-name="queue_management.QMSDashboardMain">
+        <div class="o_qms_dashboards">
+            <div class="container-fluid o_qms_website_dashboard">
+                <t t-call="queue_management.dashboard_header"/>
+                <div class="o_qms_dashboard_content"/>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="queue_management.dashboard_header">
+        <div class="row o_dashboard_common">
+            <div class="o_box">
+                <a href="#" class="o_box_item o_dashboard_action" 
+                   name="queue_management.action_token_token"
+                   data-extra="td_queue" title="Today's Queue">
+                    <div class="o_inner_box o_td_queue">
+                        <i class="fa fa-users fa-3x"></i><br/>
+                        Today's Queue :
+                        <span><t t-esc="widget.tokens.inqueue[1]"/></span>
+                    </div>
+                </a>
+                <a href="#" class="o_box_item o_dashboard_action" 
+                   name="queue_management.action_token_token"
+                   data-extra="cancel" title="Cancelled Tokens">
+                    <div class="o_inner_box o_td_missed">
+                        <i class="fa fa-user-times fa-3x"></i><br/>
+                        Today Missed :
+                        <span><t t-esc="widget.tokens.cancel[1]"/></span>
+                    </div>
+                </a>
+                <a href="#" class="o_box_item o_dashboard_action" 
+                   name="queue_management.action_token_token"
+                   data-extra="served" title="Tokens Served">
+                    <div class="o_inner_box o_td_served">
+                        <i class="fa fa-phone fa-3x"></i><br/>
+                        Total Served :
+                        <span><t t-esc="widget.tokens.served[1]"/></span>
+                    </div>
+                </a>
+                <a href="#" class="o_box_item o_dashboard_action" 
+                   name="queue_management.action_token_token"
+                   data-extra="left" title="Total left">
+                   <input  type="hidden" id="token_left" name="token_left" t-att-value="widget.tokens.left[1]" />
+                    <div class="o_inner_box o_td_left">
+                        <i class="fa fa-address-card fa-3x"></i><br/>
+                        Total Left :
+                        <span><t t-esc="widget.tokens.left[1]"/></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="queue_management.dashboard_qms">
+        <div class="row o_dashboard_graph">
+            <div class="o_box" style="padding: 12px;">
+                <div t-if="widget.dashboards_data.qms.tokens" class="row">
+                    <div class="col-6" style="padding-left: 26px;">
+                        <t t-if="widget.date_range">
+                            <div class="btn-group" style="width:100%;">
+                                <button class="btn btn-secondary fa fa-pie-chart o_graph_button active o_chart_action" 
+                                        data-extra="pie" id="pi_button"
+                                        data-mode="pie" title="Pie Chart" data-original-title="Pie Chart">
+                                </button>
+                                <button class="btn btn-secondary fa fa-line-chart o_graph_button o_chart_action"
+                                        data-extra="line" id="line_button"
+                                        data-mode="line" title="Line Chart" data-original-title="Line Chart">
+                                </button>
+                                <h2 style="margin-left:12px;">Customer Visit Since Last <t t-esc="widget.date_range"></t></h2>
+                            </div>
+                        </t>
+                        <t t-else=""><h2>Queue</h2></t>
+                        <div class="o_graph_pi_qms" id="o_graph_pi" data-type="qms">
+                            <svg></svg>
+                        </div>
+                        <div class="o_graph_qms" style="margin-top:84px"   data-type="qms">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <t t-call="queue_management.tokens_table"/>
+                    </div>
+                </div>
+                <div t-if="! widget.dashboards_data.qms.tokens" class="row">
+                    <div class="col-lg-12">
+                        <!-- <div class="o_demo_background"> -->
+                            <div class="content o_buttons text-center">
+                                <h2>There is no recent queue. Start by configuring the department and token generation</h2>
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="queue_management.tokens_table">
+        <div class="row">
+            <div class="col-12">
+                <h4 style="margin-top: 20px;">Brief Summary</h4>
+                <div class="row">
+                    <a href="#" class="col-4 o_dashboard_action" 
+                       name="queue_management.action_token_token" data-extra="all_token">
+                        <div class=" o_link_enable" title="All Tokens">
+                            <div class="o_highlight">
+                                <t t-esc="widget.dashboards_data.at_glance.all_tokens"/>
+                            </div>
+                            Token Till Today
+                        </div>
+                    </a>
+                    <a href="#" class="col-4 o_dashboard_action"
+                       name="queue_management.action_token_token" data-extra="all_served">
+                        <div class=" o_link_enable" title="Total Served">
+                            <div class="o_highlight">
+                                <t t-esc="widget.dashboards_data.at_glance.served"/>
+                            </div>
+                            Total Served
+                        </div>
+                    </a>
+                    <a href="#" class="col-4 o_dashboard_action"
+                       name="queue_management.action_token_token" data-extra="all_cancel">
+                        <div class=" o_link_enable o_invisible_border" title="all_cancel">
+                            <div class="o_highlight">
+                                <t t-esc="widget.dashboards_data.at_glance.cancel"/>
+                            </div>
+                            Total Cancelled
+                        </div>
+                    </a>
+                    <a class="col-4">
+                        <div class=" o_link_disable" title="Tokens/Day">
+                            <div class="o_highlight">
+                                <t t-esc="widget.dashboards_data.at_glance.token_ratio"/>
+                            </div>
+                            Tokens/Day
+                        </div>
+                    </a>
+                    <a href="#" class="col-4 o_dashboard_action"
+                       name="queue_management.action_queue_counter_kanban" data-extra="to_counter">
+                        <div class=" o_link_enable" title="Total Counter">
+                            <div class="o_highlight">
+                                <t t-esc="widget.dashboards_data.at_glance.to_counter"/>
+                            </div>
+                            Total Counter
+                        </div>
+                    </a>
+                    <a href="#" class="col-4 o_dashboard_action"
+                       name="queue_management.action_queue_process" data-extra="cu_session">
+                        <div class=" o_link_enable o_invisible_border" title="Current Sessions">
+                            <div class="o_highlight">
+                                <t t-esc="widget.dashboards_data.at_glance.cu_session"/>
+                            </div>
+                            Current Sessions
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 o_top_margin">
+                <h4>At Top</h4>
+                <div style="margin-top:10px;">
+                    <table class="table table-responsive-md table-hover" style="width:95%;">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>DEPARTMENT</th>
+                            <th class="text-right">SERVED</th>
+                            <th class="text-right">CANCELLED</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="o_token_dept o_product_template" t-foreach="widget.dashboards_data.best_dept"
+                                t-as="dept" t-att-data-deptartment-id="dept.id">
+                                <td><t t-esc="dept.name"/></td>
+                                <td class="text-right"><t t-esc="dept.served"/></td>
+                                <td class="text-right"><t t-esc="dept.cancel"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="queue_management.DateRangeButtons">
+        <div class="btn-group o_date_range_buttons d-none d-md-inline-flex float-right">
+            <button class="btn btn-secondary js_date_range active" data-date="week">Last Week</button>
+            <button class="btn btn-secondary js_date_range" data-date="month">Last Month</button>
+            <button class="btn btn-secondary js_date_range" data-date="year">Last Year</button>
+        </div>
+    </t>
+
+</templates>

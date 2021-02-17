@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data noupdate="1">
+        <record id="mp_fav_seller_email_template_to_followers" model="mail.template">
+            <field name="name">Notify Mail to Followers on New Product</field>
+            <field name="email_from">${object.marketplace_seller_id.email or '' | safe}</field>
+            <field name="subject">New Product Added from ${object.marketplace_seller_id.name}</field>
+            <field name="email_to">${object.customer_id.email or '' | safe}</field>
+            <field name="model_id" ref="marketplace_favourite_seller.model_marketplace_seller_followers"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html"><![CDATA[
+                    Hello ${object.customer_id.name},
+                    <p>&nbsp;</p>
+                    <p>
+                        Some new products are added by ${object.marketplace_seller_id.name}.
+                        You can visit the shop and have a look at them.
+                    </p>
+                    <p>&nbsp;</p>
+                    <p>Thank you,</p>
+                    <p style="color:#eeeeee;">
+                        % if object.marketplace_seller_id.user_ids and object.marketplace_seller_id.user_ids[0].signature:
+                            ${object.marketplace_seller_id.user_ids[0].signature | safe}
+                        % endif
+                    </p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="mp_fav_seller_email_template_info" model="mail.template">
+            <field name="name">Notify Mail to Followers Info</field>
+            <field name="email_from">${object.marketplace_seller_id.email or '' | safe}</field>
+            <field name="subject"></field>
+            <field name="email_to">${object.customer_id.email or '' | safe}</field>
+            <field name="model_id" ref="marketplace_favourite_seller.model_marketplace_seller_followers"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html"><![CDATA[
+                    Hello ${object.customer_id.name},
+                    <p>&nbsp;</p>
+
+                    <p>Thank you,</p>
+                    <p style="color:#eeeeee;">
+                        % if object.marketplace_seller_id.user_ids and object.marketplace_seller_id.user_ids[0].signature:
+                            ${object.marketplace_seller_id.user_ids[0].signature | safe}
+                        % endif
+                    </p>
+                ]]>
+            </field>
+        </record>
+
+    </data>
+</odoo>

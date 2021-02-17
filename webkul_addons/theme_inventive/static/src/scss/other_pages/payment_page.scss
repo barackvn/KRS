@@ -1,0 +1,97 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+
+// Payment Pages ..................................................
+.o_payment_processing {
+    &>.row{
+        flex-direction: column;
+        align-items: center;
+    }
+}
+.th_payment_page{
+    
+    #payment_method{
+        .card{
+            flex-direction: row !important;
+            flex-wrap: wrap;
+            padding: 0 ;
+            margin-right: -15px;
+            margin-left: -15px;
+            border: 0;
+            box-shadow:unset;
+            .card-body{
+                max-width: 50%;
+                label{
+                    display: flex;
+                    background: #F1F1F1;
+                    width: 100%;
+                    min-height: 100px;
+                    margin: 0;
+                    padding: 15px;
+                    border: 1px solid transparent;
+
+                    input{
+                        display: none;
+                    }
+                    img{
+                        margin-right: 10px;
+                        max-width: 100px;
+                        max-height: 70px;
+                        height: 70px;
+                    }
+                    &.active{
+                        background: #FFFFFF;
+                        border: 1px solid $primary;
+                    }
+                    .payment_option_name{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    }
+                    .payment_icon_list{
+                        display: flex;
+                        flex-wrap: wrap;
+                        li{
+                            padding: 2px 0;
+                            .more_option{
+                                position: static;
+                            }
+                        }
+                        img{
+                            max-height: 20px;
+                            margin-right: 0;
+
+                        }
+                    }
+                }
+            }
+            .alert-danger{
+                margin: 0 15px;
+            }
+            @include media-breakpoint-down(sm){
+                flex-direction: column;
+                .card-body{
+                    max-width: 100%;
+                }
+
+            }
+        }
+    }
+}
+#cart_total{
+    border-top: 1px solid #D8D8D8;
+    tbody{
+        tr{
+            td{
+                padding: 5px 0;
+            }
+            td:first-of-type{
+                text-align: left !important;
+            }
+            &:not(#order_total){
+                color: #777777;
+            }
+        }
+    }
+}

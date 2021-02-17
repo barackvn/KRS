@@ -1,0 +1,14 @@
+<svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>cross</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="Shop-page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Quick-view-with-more-products" transform="translate(-1240.000000, -297.000000)" stroke="#FFFFFF" stroke-width="1.5">
+            <g id="cross" transform="translate(1241.000000, 298.000000)">
+                <path d="M8,0 L0,8" id="Shape"/>
+                <path d="M0,0 L8,8" id="Shape"/>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="product.pricelist.item" id="theme_demo_pricelist_item_1">
+            <field name="name">Item_1</field>
+            <field name="applied_on">1_product</field>
+            <field name="min_quantity">1</field>
+            <field name="product_tmpl_id" ref="theme_product_product_jwel_1_product_template"></field>
+            <field name="compute_price">percentage</field>
+            <field name="percent_price">20</field>
+        </record>
+         <record model="product.pricelist.item" id="theme_demo_pricelist_item_2">
+            <field name="name">Item_2</field>
+            <field name="applied_on">1_product</field>
+            <field name="min_quantity">1</field>
+            <field name="product_tmpl_id" ref="theme_product_product_jwel_2_product_template"></field>
+            <field name="compute_price">percentage</field>
+            <field name="percent_price">20</field>
+        </record>
+         <record model="product.pricelist.item" id="theme_demo_pricelist_item_3">
+            <field name="name">Item_3</field>
+            <field name="applied_on">1_product</field>
+            <field name="min_quantity">1</field>
+            <field name="product_tmpl_id" ref="theme_product_product_bk1_product_template"></field>
+            <field name="compute_price">percentage</field>
+            <field name="percent_price">20</field>
+        </record>
+         <record model="product.pricelist.item" id="theme_demo_pricelist_item_4">
+            <field name="name">Item_4</field>
+            <field name="applied_on">1_product</field>
+            <field name="min_quantity">1</field>
+            <field name="product_tmpl_id" ref="theme_product_product_bk2_product_template"></field>
+            <field name="compute_price">percentage</field>
+            <field name="percent_price">20</field>
+        </record>
+         <record model="product.pricelist.item" id="theme_demo_pricelist_item_5">
+            <field name="name">Item_5</field>
+            <field name="applied_on">1_product</field>
+            <field name="min_quantity">1</field>
+            <field name="product_tmpl_id" ref="theme_product_product_jwel_3_product_template"></field>
+            <field name="compute_price">percentage</field>
+            <field name="percent_price">20</field>
+        </record>
+         <record model="product.pricelist.item" id="theme_demo_pricelist_item_6">
+            <field name="name">Item_6</field>
+            <field name="applied_on">1_product</field>
+            <field name="min_quantity">1</field>
+            <field name="product_tmpl_id" ref="theme_product_product_jwel_4_product_template"></field>
+            <field name="compute_price">percentage</field>
+            <field name="percent_price">20</field>
+        </record>
+        <record model="product.pricelist.item" id="theme_demo_pricelist_item_7">
+            <field name="name">Item_7</field>
+            <field name="applied_on">1_product</field>
+            <field name="min_quantity">1</field>
+            <field name="product_tmpl_id" ref="theme_product_product_jwel_5_product_template"></field>
+            <field name="compute_price">percentage</field>
+            <field name="percent_price">10</field>
+        </record>
+
+        <!-- <record model="product.pricelist.item" id="theme_demo_pricelist_item_8">
+           <field name="name">Item_8</field>
+           <field name="applied_on">1_product</field>
+           <field name="min_quantity">1</field>
+           <field name="product_tmpl_id" ref="theme_product_product_jwel_5_product_template"></field>
+           <field name="compute_price">percentage</field>
+           <field name="percent_price">10</field>
+         </record>
+         <record model="product.pricelist.item" id="theme_demo_pricelist_item_9">
+            <field name="name">Item_9</field>
+            <field name="applied_on">1_product</field>
+            <field name="min_quantity">1</field>
+            <field name="product_tmpl_id" ref="theme_product_product_jwel_5_product_template"></field>
+            <field name="compute_price">percentage</field>
+            <field name="percent_price">10</field>
+        </record>
+        <record model="product.pricelist.item" id="theme_demo_pricelist_item_10">
+           <field name="name">Item_10</field>
+           <field name="applied_on">1_product</field>
+           <field name="min_quantity">1</field>
+           <field name="product_tmpl_id" ref="theme_product_product_jwel_5_product_template"></field>
+           <field name="compute_price">percentage</field>
+           <field name="percent_price">10</field>
+        </record>
+        <record model="product.pricelist.item" id="theme_demo_pricelist_item_11">
+          <field name="name">Item_11</field>
+          <field name="applied_on">1_product</field>
+          <field name="min_quantity">1</field>
+          <field name="product_tmpl_id" ref="theme_product_product_jwel_5_product_template"></field>
+          <field name="compute_price">percentage</field>
+          <field name="percent_price">10</field>
+        </record>
+        <record model="product.pricelist.item" id="theme_demo_pricelist_item_12">
+           <field name="name">Item_12</field>
+           <field name="applied_on">1_product</field>
+           <field name="min_quantity">1</field>
+           <field name="product_tmpl_id" ref="theme_product_product_jwel_5_product_template"></field>
+           <field name="compute_price">percentage</field>
+           <field name="percent_price">10</field>
+        </record>
+        <record model="product.pricelist.item" id="theme_demo_pricelist_item_13">
+            <field name="name">Item_13</field>
+            <field name="applied_on">1_product</field>
+            <field name="min_quantity">1</field>
+            <field name="product_tmpl_id" ref="theme_product_product_jwel_5_product_template"></field>
+            <field name="compute_price">percentage</field>
+            <field name="percent_price">10</field>
+        </record>
+        <record model="product.pricelist.item" id="theme_demo_pricelist_item_14">
+           <field name="name">Item_14</field>
+           <field name="applied_on">1_product</field>
+           <field name="min_quantity">1</field>
+           <field name="product_tmpl_id" ref="theme_product_product_jwel_5_product_template"></field>
+           <field name="compute_price">percentage</field>
+           <field name="percent_price">10</field>
+       </record> -->
+    </data>
+</odoo>

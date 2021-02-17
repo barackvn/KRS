@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+	<data>
+      <record id="mp_rma_product_return_wizard_id" model="ir.ui.view">
+  			<field name="name">mp.rma.product.return.wizard.form</field>
+  			<field name="model">product.return.wizard</field>
+        <field name="priority" eval="200"/>
+  			<field name="arch" type="xml">
+  				<form string="" version="7.0">
+  					<group col="4">
+  						<field name="sale_order_id" options="{'no_open':True}" readonly="1" force_save="1"/>
+  						<field name="rma_id" options="{'no_open':True}" readonly="1" force_save="1"/>
+  						<field name="product_id" options="{'no_open':True}" readonly="1" force_save="1"/>
+  						<field name="picking_type_id" domain="[('code','=','incoming')]" options="{'no_create': True,'no_open':True}" readonly="1" force_save="1"/>
+  						<field name="product_qty" readonly="1" force_save="1"/>
+  						<field name="source_location_id" options="{'no_open':True}" readonly="1" force_save="1"/>
+  						<field name="priority" readonly="1" force_save="1"/>
+  						<field name="des_location_id" options="{'no_open':True}" readonly="1" force_save="1"/>
+  						<field name="marketplace_seller_id" force_save="1" groups="odoo_marketplace.marketplace_officer_group"/>
+  					</group>
+  				<footer>
+  					<button name="apply" string="Return" type="object" class="oe_highlight"/>
+  					<button string="Cancel" class="oe_link" special="cancel" />
+  				</footer>
+  			</form>
+  		</field>
+  	 </record>
+
+       <record id="mp_action_rma_product_return_wizard_id" model="ir.actions.act_window">
+          <field name="name">Return Product</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">product.return.wizard</field>
+          <field name="view_mode">form</field>
+          <field name="view_id" ref="mp_rma_product_return_wizard_id"/>
+          <field name="target">new</field>
+      </record>
+
+      <record id="mp_rma_product_return_wizard_id_inherit" model="ir.ui.view">
+  			<field name="name">mp.rma.product.return.wizard.form.inherit</field>
+        <field name="model">product.return.wizard</field>
+  			<field name="inherit_id" ref="mp_rma_product_return_wizard_id"/>
+        <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
+  			<field name="arch" type="xml">
+          <xpath expr="//field[@name='sale_order_id']" position="attributes">
+  					<attribute name="readonly">0</attribute>
+  				</xpath>
+          <xpath expr="//field[@name='rma_id']" position="attributes">
+  					<attribute name="readonly">0</attribute>
+  				</xpath>
+          <xpath expr="//field[@name='product_id']" position="attributes">
+  					<attribute name="readonly">0</attribute>
+  				</xpath>
+          <xpath expr="//field[@name='picking_type_id']" position="attributes">
+  					<attribute name="readonly">0</attribute>
+  				</xpath>
+          <xpath expr="//field[@name='product_qty']" position="attributes">
+  					<attribute name="readonly">0</attribute>
+  				</xpath>
+          <xpath expr="//field[@name='source_location_id']" position="attributes">
+  					<attribute name="readonly">0</attribute>
+  				</xpath>
+          <xpath expr="//field[@name='priority']" position="attributes">
+  					<attribute name="readonly">0</attribute>
+  				</xpath>
+          <xpath expr="//field[@name='des_location_id']" position="attributes">
+  					<attribute name="readonly">0</attribute>
+  				</xpath>
+  		  </field>
+  	 </record>
+  </data>
+</odoo>

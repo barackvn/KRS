@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+       <report 
+            id="project_timesheet_reports.action_task_timesheet_report" 
+            model="project.task" 
+            string="Timesheet Report"
+            report_type="qweb-pdf"
+            name="project_timesheet_reports.task_timesheet_report" 
+            file="project_timesheet_reports.task_timesheet_report"
+        />
+
+        <report 
+            id="project_timesheet_reports.action_project_task_timesheet_report" 
+            model="project.project" 
+            string="Timesheet Report"
+            report_type="qweb-pdf"
+            name="project_timesheet_reports.project_task_timesheet_report" 
+            file="project_timesheet_reports.project_task_timesheet_report"
+        />
+
+        <report 
+            id="project_timesheet_reports.action_report_project_timesheet" 
+            model="project.project" 
+            string="Send Timesheet Report"
+            report_type="qweb-pdf"
+            name="project_timesheet_reports.report_project_timesheet" 
+            file="project_timesheet_reports.report_project_timesheet"
+            menu="False"
+        />
+
+
+
+    </data>
+</odoo>

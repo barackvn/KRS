@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+<!-- Login page Inheritance-->
+    <template id="theme_inventive_login" inherit_id="web.login" name="Theme Inventive Login" priority="1" >
+        <xpath expr="//form[hasclass('oe_login_form')]" position= "replace">
+            <div class="container first">
+                <div class="row">
+                    <div class="col-12">
+                        <ol class="breadcrumb">
+                             <li class="breadcrumb-item"><a href="/" class="active" >Home</a></li>
+                             <li class="breadcrumb-item">Sign In</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="container second">
+                <div class="row m-0">
+                    <div class="col-lg-6 d-none d-lg-flex p-0">
+                        <div class="login-signup-image">
+                            <img class="img img-fluid" src="/theme_inventive/static/src/img/backgrounds/background_04.jpg"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 p-0 d-flex align-items-center">
+                        <div class="inventive_login_form">
+                            <div class="inventive_logo text-center">
+                                <a href="/" class="navbar-brand logo">
+                                    <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                                </a>
+                            </div>
+                            <div class="auth_heading_div">
+                                  <h4 class="auth_heading">Sign In</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <form class="oe_login_form" role="form" t-attf-action="/web/login{{ '?debug' if debug else '' }}" method="post" onsubmit="this.action = this.action + location.hash">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <div class="form-group field-db" t-if="databases and len(databases) &gt; 1">
+                                          <label for="db" class="col-form-label">Database</label>
+                                          <div t-attf-class="input-group {{'input-group-sm' if form_small else ''}}">
+                                              <input type="text" name="db" t-att-value="request.db" id="db" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" readonly="readonly"/>
+                                              <span class="input-group-append">
+                                                  <a role="button" href="/web/database/selector" class="btn btn-secondary">Select <i class="fa fa-database" role="img" aria-label="Database" title="Database"></i></a>
+                                              </span>
+                                          </div>
+                                        </div>
+                                        <div class="form-group field-login">
+                                            <input type="text" placeholder="Email" name="login" t-att-value="login" id="login" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autofocus="autofocus" autocapitalize="off"/>
+                                        </div>
+                                        <div class="form-group field-password">
+                                            <input type="password" placeholder="Password" name="password" id="password" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autocomplete="current-password" t-att-autofocus="'autofocus' if login else None" maxlength="4096"/>
+                                        </div>
+                                        <p class="alert alert-danger" t-if="error" role="alert">
+                                            <t t-esc="error"/>
+                                        </p>
+                                        <p class="alert alert-success" t-if="message" role="status">
+                                            <t t-esc="message"/>
+                                        </p>
+                                        <div t-attf-class="clearfix oe_login_buttons mb-1 {{'pt-2' if form_small else 'pt-3'}}">
+                                            <div class="login_btns">
+                                                <a t-if="reset_password_enabled" t-attf-href="/web/reset_password?{{ keep_query() }}">forget password ?</a>
+                                                <a t-if="not reset_password_enabled" ></a>
+                                                <button type="submit" class="btn btn-primary">Log In <i class="fa fa-arrow-right"></i></button>
+                                            </div>
+                                            <div class="register_btns">
+                                                <p t-if="signup_enabled" class="text-center p_tag"><span><b>or</b></span></p>
+                                                <a  t-if="signup_enabled" class="btn btn-secondary btn-block" href="/web/signup">Create An Account</a>
+                                            </div>
+                                            <t t-if="debug">
+                                                <button type="submit" name="redirect" value="/web/become" class="btn btn-primary btn-block mt8" >Log in as superuser</button>
+                                            </t>
+                                            <div class="o_login_auth"/>
+                                        </div>
+                                        <input type="hidden" name="redirect" t-att-value="redirect"/>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="auth_signup_inheritance" inherit_id="auth_signup.signup" name="Sign up login" priority="1">
+        <xpath expr="//form[hasclass('oe_signup_form')]" position= "replace">
+            <div class="container first">
+                <div class="row">
+                    <div class="col-12">
+                        <ol class="breadcrumb">
+                             <li class="breadcrumb-item"><a href="/" class="active" >Home</a></li>
+                             <li class="breadcrumb-item">Sign Up</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="container second">
+                <div class="row m-0">
+                    <div class="col-lg-6 d-none d-lg-flex p-0">
+                        <div class="login-signup-image">
+                            <img class="img img-fluid" src="/theme_inventive/static/src/img/backgrounds/background_03.jpg"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 p-0 d-flex align-items-center">
+                        <div class="th_signup_form">
+                            <div class="inventive_logo text-center">
+                                <a href="/" class="navbar-brand logo">
+                                    <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                                </a>
+                                <!-- <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
+                            </div>
+                            <div class="auth_heading_div">
+                                <h4 class="auth_heading">Sign Up</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <form class="oe_signup_form" role="form" method="post" t-if="not message">
+                                      <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                      <t t-call="auth_signup.fields">
+                                        <t t-set="only_passwords" t-value="bool(token and not invalid_token)"/>
+                                      </t>
+                                        <p class="alert alert-danger" t-if="error" role="alert">
+                                            <t t-esc="error"/>
+                                        </p>
+                                        <input type="hidden" name="redirect" t-att-value="redirect"/>
+                                        <input type="hidden" name="token" t-att-value="token"/>
+                                        <div class="oe_login_buttons pt-3">
+                                            <div class="login_btns">
+                                                <a t-attf-href="/web/login?{{ keep_query() }}" > Cancel </a>
+                                                <button  type="submit" class="btn btn-primary "> Sign Up <i class="fa fa-arrow-right"></i></button>
+                                            </div>
+                                            <div class="o_login_auth"/>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+    <template id="auth_signup_reset_pass_inherit" inherit_id="auth_signup.reset_password" name="Reset password" priority="1">
+        <xpath expr="//form[hasclass('oe_reset_password_form')]" position= "replace">
+            <div class="container first">
+                <div class="row">
+                    <div class="col-12">
+                         <ol class="breadcrumb">
+                             <li class="breadcrumb-item"><a href="/" class="active" >Home</a></li>
+                             <li class="breadcrumb-item"><a href="/web/login/" class="active" >Sign In</a></li>
+                             <li class="breadcrumb-item">Reset Password</li>
+                         </ol>
+                     </div>
+                </div>
+            </div>
+            <div class="container second">
+                <div class="row m-0">
+                    <div class="col-lg-6 d-none d-lg-flex p-0">
+                        <div class="login-signup-image">
+                            <img class="img img-fluid" src="/theme_inventive/static/src/img/backgrounds/background_03.jpg"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12  p-0 d-flex align-items-center">
+                        <div class="th_reset_password_form">
+                            <div class="inventive_logo text-center">
+                                <a href="/" class="navbar-brand logo">
+                                    <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                                </a>
+                                <!-- <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
+                            </div>
+                            <div class="auth_heading_div">
+                                <h4 class="auth_heading">Reset Your Password</h4>
+                            </div>
+                            <div class="row">
+                                 <div class="col-12">
+                                    <form class="oe_reset_password_form" role="form" method="post" t-if="not message">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                        <t t-if="token and not invalid_token">
+                                            <t t-call="theme_inventive.auth_sign_fields">
+                                                <t t-set="only_passwords" t-value="1"/>
+                                            </t>
+                                        </t>
+
+                                        <t t-if="not token">
+                                            <div class="form-group field-login">
+                                                <input type="text" name="login" t-att-value="login" id="login" class="form-control"
+                                                    autofocus="autofocus" required="required" autocapitalize="off"
+                                                    placeholder="Email Id"/>
+                                            </div>
+                                        </t>
+                                        <p class="alert alert-danger" t-if="error" role="alert">
+                                            <t t-esc="error"/>
+                                        </p>
+                                        <input type="hidden" name="redirect" t-att-value="redirect"/>
+                                        <input type="hidden" name="token" t-att-value="token"/>
+                                        <div class="clearfix oe_login_buttons">
+                                            <div class="login_btns ">
+                                                <a></a>
+                                                <button type="submit" class="btn btn-primary">Confirm <i class="fa fa-arrow-right"/> </button>
+                                            </div>
+                                            <div class="register_btns o_login_auth ">
+                                                <p class="text-center p_tag"><span><b>or</b></span></p>
+                                                <a class="btn btn-secondary btn-block" t-if="not token" t-attf-href="/web/login?{{ keep_query() }}">Back To Sign In</a>
+                                                <a class="btn btn-secondary btn-block" t-if="invalid_token" href="/web/login">Back to Login</a>
+                                            </div>
+                                        </div>
+                                        <div class="o_login_auth"/>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="inventive_thanks_page" name="Inventive Thanks Page">
+        <t t-call="website.layout">
+            <div id="wrap" class="inventive_thanks_page">
+                <div class="container pt32 pb32">
+                    <div class="card d-flex justify-content-end">
+                        <div class="row text-center flex-column align-items-center">
+                            <div class="col-sm_12 thanks_img" >
+                                <span><img class="thanks_img_span img img-fluid" src="/theme_inventive/static/src/img/thankyou.png" alt="thankyou" style="max-width:100%;"/></span>
+                            </div>
+                            <div class="col-sm-12 pb16 pt16  thanks_msg" >
+                                <div>
+                                    <span>Thank you for Register with us,</span>
+                                </div>
+                                <div class="d-none d-md-block">
+                                    <span>Please click the button below and enjoy the Shopping.</span>
+                                </div>
+                                <a href="/shop" class="btn btn-primary mt16"><b>Continue Shopping</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="auth_sign_fields" name="Theme InventiveAuth Signup/ResetPassword form fields">
+        <div class="form-group field-login">
+            <input type="text" name="login" t-att-value="login" id="login" class="form-control form-control-sm" autofocus="autofocus"
+                autocapitalize="off" required="required" t-att-readonly="'readonly' if only_passwords else None"
+                placeholder="Email Id"/>
+        </div>
+        <div class="form-group field-name">
+            <input type="text" name="name" t-att-value="name" id="name" class="form-control form-control-sm" placeholder="Name e.g. John Doe"
+                required="required" t-att-readonly="'readonly' if only_passwords else None"
+                t-att-autofocus="'autofocus' if login and not only_passwords else None" />
+        </div>
+
+        <div class="form-group field-password pt-2">
+            <input type="password" name="password" id="password" class="form-control form-control-sm"
+                required="required" t-att-autofocus="'autofocus' if only_passwords else None"
+                placeholder="Password"/>
+        </div>
+
+        <div class="form-group field-confirm_password">
+            <input type="password" name="confirm_password" id="confirm_password" class="form-control form-control-sm" required="required"
+                placeholder="Confirm Password"/>
+        </div>
+    </template>
+
+    <template id="auth_signup_fields_inherit" inherit_id="auth_signup.fields" name="Theme Inventive Auth Signup fields inherit">
+        <div class="form-group field-login" position="replace">
+          <div class="form-group field-login">
+            <input type="text" name="login" t-att-value="login" id="login" class="form-control form-control-sm" autofocus="autofocus"
+                autocapitalize="off" required="required" t-att-readonly="'readonly' if only_passwords else None"
+                placeholder="Email Id"/>
+          </div>
+        </div>
+
+        <div class="form-group field-name" position="replace">
+          <div class="form-group field-name">
+              <input type="text" name="name" t-att-value="name" id="name" class="form-control form-control-sm" placeholder="Name e.g. John Doe"
+                  required="required" t-att-readonly="'readonly' if only_passwords else None"
+                  t-att-autofocus="'autofocus' if login and not only_passwords else None" />
+          </div>
+        </div>
+
+        <div class="form-group field-password pt-2" position="replace">
+          <div class="form-group field-password pt-2">
+              <input type="password" name="password" id="password" class="form-control form-control-sm"
+                  required="required" t-att-autofocus="'autofocus' if only_passwords else None"
+                  placeholder="Password"/>
+          </div>
+        </div>
+
+        <div class="form-group field-confirm_password" position="replace">
+          <div class="form-group field-confirm_password">
+              <input type="password" name="confirm_password" id="confirm_password" class="form-control form-control-sm" required="required"
+                  placeholder="Confirm Password"/>
+          </div>
+        </div>
+      </template>
+</odoo>

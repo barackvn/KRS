@@ -1,0 +1,72 @@
+<odoo>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+    <template id="mp_blog_post_snippet_data" name="Marketplace Blog Post Snippet Data">
+    <!-- <t t-set="blog_posts" t-value="request.env['blog.post'].search([('marketplace_seller_id', '!=', False),('website_published', '=', True)], limit=5, order='post_date desc')"/> -->
+        <span t-if="not blog_posts" class="label label-danger">No Blogs Posted Yet</span>
+        <div t-if="blog_posts">
+            <div t-foreach="blog_posts" t-as="blog_post" name="blog_post">
+                <a t-attf-href="/blog/#{ slug(blog_post.blog_id) }/post/#{ slug(blog_post) }" onmouseover='this.style.textDecoration="none"' onmouseout='this.style.textDecoration="none"'>
+                    <h3 t-esc="blog_post.name" class="mb4 o_blog_post_title">Untitled Post</h3>
+                </a>
+                <div class="text-muted">
+                    <div class='mb0'>
+                        <span t-esc="blog_post.marketplace_seller_id" style="display: inline-block;" t-options='{
+                            "widget": "contact",
+                            "fields": ["name"]
+                        }'/>
+                        &amp;mdash; <span t-esc="blog_post.post_date" t-esc-options='{"format": "dd MMMM yyyy"}'/>
+                        <span t-if="blog_post.visits &gt; 0">
+                            &amp;mdash; <t t-esc="blog_post.visits"/>
+                            <t t-if="blog_post.visits &lt;= 1" >view</t>
+                            <t t-if="blog_post.visits &gt; 1">views</t>
+                        </span>
+                        <span class="fa fa-tags"/>
+                        <t t-foreach="blog_post.tag_ids" t-as="one_tag">
+                            <a class="mr8" t-esc="one_tag.name" t-attf-href="#{blog_post.find_url(blog_post.blog_id, one_tag.id)}"
+                                onmouseover='this.style.textDecoration="none"'  onmouseout='this.style.textDecoration="none"'/>
+                        </t>
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+    </template>
+
+    <template id="s_blogs" name="Blogs">
+        <section class="s_text_block_image_fw oe_img_bg oe_custom_bg">
+            <div class="container">
+                <div class="card card-info" style="margin:20px;">
+                    <div class="card-header s_text_block_image_fw oe_img_bg oe_custom_bg">
+                        <div class="container">
+                            <h4 class="card-title">Latest Blogs Of Sellers of Marketplace</h4>
+                        </div>
+                    </div>
+                    <div class="card-body mt16">
+                        <div id="mp_blog_post_snippet" class="mp_blog_post_snippet">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+
+    <!-- Snippets menu -->
+    <template id="inherit_snippets" inherit_id="website.snippets" >
+        <xpath expr="//div[@id='o_scroll']/div[4]" position="after">
+            <div id="mp_blogs" class="o_panel">
+                <div class="o_panel_header">
+                    <i class="fa fa-pencil-square-o"/> Latest Blogs
+                </div>
+                <div class="o_panel_body">
+                    <t t-snippet="marketplace_seller_blogs.s_blogs" t-thumbnail="/marketplace_seller_blogs/static/src/img/blogs.png"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

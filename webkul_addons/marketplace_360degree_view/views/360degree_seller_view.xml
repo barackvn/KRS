@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="inherit_mp_seller_form_for360degree_view" model="ir.ui.view">
+            <field name="name">seller.form.inherit.360degree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]//group[@name='seller_wise_settings']" position="inside">
+                    <group string="Seller 360 degree View Settings" groups="odoo_marketplace.marketplace_seller_group">
+                        <label for="allow_seller_for_360degree_view" string="Allow 360 degree View" help="Enable to allow seller for 360 degree view."/>
+                        <div>
+                            <field name="allow_seller_for_360degree_view" readonly="1" help="Enable to allow seller 360 degree view for products."/>
+                            <button name="enable_seller_360degree_group" string="Click to Allow" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_360degree_view', '=', True)]}"/>
+                            <button name="disable_seller_360degree_group" string="Click to Deny" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_360degree_view', '=', False)]}"/>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

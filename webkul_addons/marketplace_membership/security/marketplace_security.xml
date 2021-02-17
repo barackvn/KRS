@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data noupdate="0">
+        <!-- Pending Seller Group Rules -->
+	    <record id="show_pending_seller_membership_rule" model="ir.rule">
+	        <field name="name">Pending Seller Membership Rule</field>
+	        <field name="model_id" ref="model_seller_membership"/>
+	        <field name="domain_force">[('partner_id','=',user.partner_id.id)]</field>
+            <field name="perm_write" eval="0"/>
+	        <field name="perm_read" eval="1"/>
+	        <field name="perm_create" eval="0"/>
+	        <field name="perm_unlink" eval="0"/>
+	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_draft_seller_group')),(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+	    </record>
+
+         <record id="show_pending_seller_account_invoice_rule" model="ir.rule">
+ 	        <field name="name">Pending Seller Invoice Rule</field>
+ 	        <field name="model_id" ref="model_account_move"/>
+ 	        <field name="domain_force">[('partner_id','=',user.partner_id.id)]</field>
+             <field name="perm_write" eval="0"/>
+ 	        <field name="perm_read" eval="1"/>
+ 	        <field name="perm_create" eval="0"/>
+ 	        <field name="perm_unlink" eval="0"/>
+ 	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_draft_seller_group')),(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+ 	    </record>
+
+        <!-- Manager Group Rules -->
+        <record id="show_manager_membership_rule" model="ir.rule">
+            <field name="name">Manager Membership Rule</field>
+            <field name="model_id" ref="model_seller_membership"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+        </record>
+
+        <record id="show_sales_order_to_manager_rule" model="ir.rule">
+	        <field name="name">Sales Order For Manager</field>
+	        <field name="model_id" ref="model_sale_order"/>
+	        <field name="domain_force">['|',("order_line.marketplace_seller_id.id","=",user.partner_id.id),('partner_id.seller','=',True)]</field>
+	        <field name="perm_write" eval="0"/>
+	        <field name="perm_read" eval="1"/>
+	        <field name="perm_create" eval="0"/>
+	        <field name="perm_unlink" eval="0"/>
+	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+	    </record>
+
+        <record id="show_sale_order_lines_of_mp_product" model="ir.rule">
+	        <field name="name">Sale order line mp product</field>
+	        <field name="model_id" ref="sale.model_sale_order_line"/>
+	        <field name="domain_force">['|',('marketplace_seller_id','!=',False),('order_partner_id.seller','=',True)]</field>
+	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+	    </record>
+
+        <record id="show_manager_account_invoice_rule_mship" model="ir.rule">
+           <field name="name">Manager Invoice Rule Mship</field>
+           <field name="model_id" ref="model_account_move"/>
+           <field name="domain_force">[(1,'=',1)]</field>
+            <field name="perm_write" eval="1"/>
+           <field name="perm_read" eval="1"/>
+           <field name="perm_create" eval="1"/>
+           <field name="perm_unlink" eval="1"/>
+           <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+       </record>
+
+	</data>
+</odoo>

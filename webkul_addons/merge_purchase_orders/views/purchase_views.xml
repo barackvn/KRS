@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data>
+        <menuitem name="Merge Purchase Order" id="merge_po" parent="purchase.menu_procurement_management" action="merge_purchase_orders.merge_parnter_po_wizard_action" sequence="7"/>
+    </data>
+</odoo>

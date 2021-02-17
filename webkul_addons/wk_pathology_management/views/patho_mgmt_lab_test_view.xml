@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+
+		<record id="pathology_labtest_inherited_product_template_form" model="ir.ui.view">
+            <field name="name">Pathology Labtest</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]/div[@name='options']" position="inside">
+                    <div invisible="1">
+						<field name="is_test"/>
+						<label for="is_test"/>
+					</div>
+					<div invisible="1">
+						<field name="is_test_package"/>
+						<label for="is_test_package"/>
+                	</div>
+                </xpath>
+                <notebook position='inside'>
+                    <page string='Pathology' name="patho_labtest" attrs= "{'invisible':[('is_test','=', False),('is_test_package','=', False)]}">
+						<group>
+							<group  string="Lab Test Details">
+								<label for="report_delivery_time"/>
+								<div>
+		                            <field name="report_delivery_time" class="oe_inline" required="1"/>
+		                            <field name="report_delivery_time_unit" class="oe_inline" required="1" nolabel="1"/>
+								</div>
+							</group>
+                         </group>
+							<group string="Test Package" attrs="{'invisible':[('is_test_package','=',False)]}">
+								<field nolabel="1" name="product_tmpl_ids" domain="[('is_test', '=', True)]" context="{ 'form_view_ref' : 'wk_pathology_management.patho_mgmt_lab_test_form_view'}">
+									<tree>
+										<field name="name"/>
+										<field name="list_price"/>
+									</tree>
+								</field>
+							</group>
+							<group string="Test Parameters" attrs="{'invisible':[('is_test_package','!=',False)]}">
+								<field nolabel="1" name="test_criteria">
+									<form>
+										<group>
+											<group>
+												<field name="name"/>
+												<field name="test_id" invisible="1"/>
+												<field name="unit" required="1"/>
+											</group>
+											<group>
+												<field name="min_value" required="1"/>
+												<field name="max_value" required="1"/>
+												<field name="normal_value" required="1"/>
+											</group>
+											<group>
+
+											</group>
+										</group>
+									</form>
+									<tree editable="bottom">
+										<field name="name"/>
+										<field name="min_value"/>
+										<field name="max_value"/>
+										<field name="normal_value"/>
+										<field name="unit"/>
+
+										<field name="test_id" invisible="1"/>
+									</tree>
+								</field>
+							</group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="patho_mgmt_lab_test_tree_view">
+			<field name="name">Lab Test Tree</field>
+			<field name="model">product.template</field>
+			<field name="type">tree</field>
+			<field name="mode">primary</field>
+			<field name="priority" eval="100"/>
+			<field name="arch" type="xml">
+				<tree string="Lab Tests" decoration-info="is_test==True" decoration-primary="is_test_package==True">
+					<button type="object" string="This is a Test Package" icon="fa-gift"
+						class="text-primary"
+						name="patho_test_only_show_package"
+						attrs="{'invisible': [('is_test_package','=',False)]}"/>
+					<field name="name"/>
+					<field name="list_price"/>
+					<field name="report_delivery_time"/>
+					<field name="report_delivery_time_unit" string="Delivery In"/>
+					<field name="is_test" invisible="1"/>
+					<field name="is_test_package" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="patho_mgmt_lab_test_form_view">
+			<field name="name">Lab Tests Form</field>
+			<field name="model">product.template</field>
+			<field name="type">form</field>
+			<field name="mode">primary</field>
+			<field name="priority" eval="100"/>
+    		<field name="arch" type="xml">
+				<form string="Lab Tests Form">
+					<sheet>
+						<field name="is_test_package" invisible="1"/>
+						<field name="is_test" invisible="1"/>
+						<field name="sale_ok" invisible="1"/>
+						<field name="purchase_ok" invisible="1"/>
+						<field name="active" invisible="True"/>
+						<div class="oe_button_box" name="button_box">
+
+							<button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-danger" attrs="{'invisible':[('active', '=', True)]}">
+									<span class="o_stat_text">Active</span>
+								</button>
+								<button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-success" attrs="{'invisible':[('active', '!=', True)]}">
+									<span class="o_stat_text">Archive</span>
+								</button>
+						    </div>
+						<field name="image_1920" widget="image" class="oe_avatar" options='{"preview_image": "image_1920", "size": [90, 90]}'/>
+
+						<div class="oe_title">
+	                        <label class="oe_edit_only" for="name" string="Lab Test"/>
+	                        <h1><field name="name" placeholder="Lab Test Name"/></h1>
+	                    </div>
+	                    <notebook>
+							<page string="General Information" name="general_information">
+	                            <group>
+	                                <group name="group_general">
+	                                    <field name="type" invisible="1"/>
+	                                    <field name="categ_id" string="Category"/>
+										<field name="default_code" />
+                						<field name="barcode" />
+
+	                                </group>
+	                                <group name="group_standard_price">
+										<field name="product_variant_count" invisible="1"/>
+	                                    <field name="list_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+	                                    <label for="standard_price" groups="base.group_user" />
+	                                    <div name="standard_price_uom" groups="base.group_user" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}">
+	                                        <field name="standard_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+	                                    </div>
+	                                    <field name="company_id" groups="base.group_multi_company"
+	                                        options="{'no_create': True}"/>
+	                                    <field name="uom_id" groups="uom.group_uom" options="{'no_create': True}"/>
+	                                    <field name="uom_po_id" groups="uom.group_uom" options="{'no_create': True}"/>
+	                                    <field name="currency_id" invisible="1"/>
+	                                    <field name="product_variant_id" invisible="1"/>
+	                                </group>
+	                            </group>
+								<separator string="Lab Test Details"/>
+								<group>
+									<group>
+										<label for="report_delivery_time"/>
+										<div>
+											<field name="report_delivery_time" class="oe_inline" required="True"/>
+											<field name="report_delivery_time_unit" class="oe_inline p-1 ml-1" required="True"/>
+										</div>
+										<field name="test_preinfo" attrs="{'invisible':[('is_test','=',False)]}">
+											<tree>
+												<field name="name"/>
+											</tree>
+											<form string="Test PreInformation">
+												<group>
+													<group>
+														<field name="name"/>
+													</group>
+												</group>
+											</form>
+										</field>
+										<field name="test_sampletype" attrs="{'invisible':[('is_test','=',False)]}">
+											<tree>
+												<field name="name"/>
+											</tree>
+											<form string="Test Sample Type">
+												<group>
+													<group>
+														<field name="name"/>
+													</group>
+												</group>
+											</form>
+										</field>
+									</group>
+								</group>
+	                        </page>
+							<page string="Tests Included" attrs="{'invisible':[('is_test_package','=',False)]}">
+								<field name="product_tmpl_ids" domain="[('is_test', '=', True)]" context="{ 'form_view_ref' : 'wk_pathology_management.patho_mgmt_lab_test_form_view','tree_view_ref':'wk_pathology_management.patho_mgmt_lab_test_tree_view'}">
+								</field>
+							</page>
+							<page string="Test Parameters" attrs="{'invisible':[('is_test_package','!=',False)]}">
+								<field name="test_criteria">
+									<form>
+										<group>
+											<group>
+												<field name="name"/>
+												<field name="test_id" invisible="1"/>
+												<field name="unit" readonly="1"/>
+											</group>
+											<group>
+												<field name="min_value" readonly="1"/>
+												<field name="max_value" readonly="1"/>
+												<field name="normal_value" readonly="1"/>
+											</group>
+										</group>
+									</form>
+									<tree editable="bottom">
+										<field name="name"/>
+										<field name="min_value" readonly="1"/>
+										<field name="max_value" readonly="1"/>
+										<field name="normal_value" readonly="1"/>
+										<field name="unit" readonly="1"/>
+
+										<field name="test_id" invisible="1"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Invoicing" name="invoicing">
+		                        <group >
+		                            <group string="Receivables">
+		                                <field name="taxes_id" widget="many2many_tags"/>
+		                                <field name="property_account_income_id"
+		                                    domain="[('internal_type','=','other'),('deprecated','=',False)]"
+		                                    groups="account.group_account_user"/>
+		                            </group>
+		                        </group>
+		                    </page>
+							<page string="Notes" name="notes" >
+								<group string="Test Note" attrs="{'invisible':[('is_test_package','!=',False)]}">
+									<field name="test_note" nolabel="1" placeholder="Notes describing the test for Report/Customer..." help="Write notes for Test Report of this test."/>
+								</group>
+                                <group string="Description for Customers" attrs="{'invisible': [('sale_ok','=',False)]}">
+                                    <field name="description_sale" nolabel="1" placeholder="This note will show up on sales orders."/>
+                                </group>
+	                         </page>
+	                    </notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~ Kanban View ~~~~~~~~~~~~~~~~~~~~ -->
+		<record model="ir.ui.view" id="patho_mgmt_lab_test_kanban_view">
+            <field name="name">Pathology Labtest kanban View</field>
+            <field name="model">product.template</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="color"/>
+                    <field name="name"/>
+                    <field name="list_price"/>
+					<field name="currency_id"/>
+					<field name="report_delivery_time"/>
+					<field name="report_delivery_time_unit"/>
+					<field name="labtest_count"/>
+					<!-- <field name="parameter_count"/> -->
+					<field name="is_test_package"/>
+					<field name="is_test"/>
+					<field name="test_preinfo"/>
+					<field name="test_sampletype"/>
+                    <templates>
+						<t t-name="kanban-box">
+							<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown" >
+									<a class="dropdown-toggle btn" data-toggle="dropdown" href="#" role='button'>
+										<span class="fa fa-bars fa-lg" aria-label="Dropdown" title="Manage"/>
+									</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+										<li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+									</ul>
+								</div>
+                            	<div class="oe_kanban_content oe_kanban_details">
+								<div>
+									<div t-if="record.name" class="text-dark">
+										<h4>
+
+											<field name="name"/>
+										</h4>
+									</div>
+								</div>
+								<hr style="margin:0px;margin-bottom:8px;border-top:1px solid #e0e0e0;"/>
+								<div style="padding-top: 6px;color: #666;width: auto;overflow: hidden;" class="row ml0 mr0">
+									<div class="col-md-1">
+										<div t-if="record.report_delivery_time">
+											<i class="fa fa-clock-o" aria-hidden="false" style="font-size: 18px;color: #03A9F4;"></i>
+										</div>
+										<div t-if="record.is_test_package" attrs="{'invisible': [('is_test_package','=',False)]}">
+											<i class="fa fa-hand-o-right" aria-hidden="false" style="font-size: 18px;color: #03A9F4;"></i>
+										</div>
+										<div t-if="record.test_preinfo.value" attrs="{'invisible': [('is_test','=',False)]}">
+											<i class="fa fa-info-circle" aria-hidden="false" style="font-size: 18px;color: #03A9F4;"></i>
+										</div>
+										<div t-if="record.test_sampletype.value" attrs="{'invisible': [('is_test','=',False)]}">
+											<i class="fa fa-flask" aria-hidden="false" style="font-size: 18px;color: #03A9F4;"></i>
+										</div>
+									</div>
+									<div class="col-md-8" style="padding-left:5px;padding-right:5px;">
+										<div t-if="record.report_delivery_time">
+											Report Delivered in
+											<field name="report_delivery_time"/>
+											<field name="report_delivery_time_unit"/>(s)
+										</div>
+										<div t-if="record.is_test_package" attrs="{'invisible': [('is_test_package','=',False)]}" style="margin:2px;">
+											<field name="labtest_count"/> Test(s) included
+										</div>
+										<div t-if="record.test_preinfo.value" attrs="{'invisible': [('is_test','=',False)]}" style="margin:2px;">
+											<field name="test_preinfo"/>
+										</div>
+										<div t-if="record.test_sampletype.value"  attrs="{'invisible':[('is_test','=',False)]}" style="margin:2px;">
+											Sample Type: <field name="test_sampletype"/>
+										</div>
+									</div>
+
+
+
+								</div>
+								<hr style="margin:0px;margin-top:8px;border-top:1px solid #e0e0e0;"/>
+								<div>
+									<div t-if="record.list_price">
+										<h4>
+											<span style="margin-left:6px;">
+												<field name="list_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+											</span>
+										</h4>
+									</div>
+								</div>
+                            </div>
+                        </div>
+						</t>
+					</templates>
+                </kanban>
+            </field>
+        </record>
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~ Lab Test Action ~~~~~~~~~~~~~~ -->
+
+		<record model="ir.actions.act_window" id="patho_mgmt_lab_test_action">
+			<field name="name">Lab Tests</field>
+			<field name="res_model">product.template</field>
+			<field name="view_mode">kanban,tree,form,search</field>
+
+			<field name="domain">[('is_test','=',True)]</field>
+			<field name="context">{'default_type': 'service', 'default_is_test': True, 'default_purchase_ok':False, 'default_sale_ok':True}</field>
+		</record>
+		<record id="patho_mgmt_lab_test_action_for_kanban" model="ir.actions.act_window.view">
+			<field name="view_mode">kanban</field>
+			<field name="sequence">2</field>
+			<field name="view_id" ref="patho_mgmt_lab_test_kanban_view"/>
+			<field name="act_window_id" ref="patho_mgmt_lab_test_action"/>
+		</record>
+		<record id="patho_mgmt_lab_test_action_for_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="sequence">2</field>
+			<field name="view_id" ref="patho_mgmt_lab_test_tree_view"/>
+			<field name="act_window_id" ref="patho_mgmt_lab_test_action"/>
+		</record>
+		<record id="patho_mgmt_lab_test_action_for_form" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="sequence">3</field>
+			<field name="view_id" ref="patho_mgmt_lab_test_form_view"/>
+			<field name="act_window_id" ref="patho_mgmt_lab_test_action"/>
+		</record>
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~ Test Package Action ~~~~~~~~~~~~~~ -->
+
+		<record model="ir.actions.act_window" id="patho_mgmt_test_package_action">
+			<field name="name">Test Package</field>
+			<field name="res_model">product.template</field>
+			<field name="view_mode">kanban,tree,form</field>
+
+			<field name="domain">[('is_test_package','=',True)]</field>
+			<field name="context">{'default_type': 'service' , 'default_is_test_package': True, 'default_purchase_ok':False, 'default_sale_ok':True}</field>
+
+		</record>
+		<record id="patho_mgmt_test_package_action_for_kanban" model="ir.actions.act_window.view">
+			<field name="view_mode">kanban</field>
+			<field name="sequence">2</field>
+			<field name="view_id" ref="patho_mgmt_lab_test_kanban_view"/>
+			<field name="act_window_id" ref="patho_mgmt_test_package_action"/>
+		</record>
+		<record id="patho_mgmt_test_package_action_for_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="sequence">2</field>
+			<field name="view_id" ref="patho_mgmt_lab_test_tree_view"/>
+			<field name="act_window_id" ref="patho_mgmt_test_package_action"/>
+		</record>
+		<record id="patho_mgmt_test_package_action_for_form" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="sequence">3</field>
+			<field name="view_id" ref="patho_mgmt_lab_test_form_view"/>
+			<field name="act_window_id" ref="patho_mgmt_test_package_action"/>
+		</record>
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~ Lab Test Menu ~~~~~~~~~~~~~~ -->
+		<menuitem name="Lab Tests"
+			id="patho_mgmt_lab_test_main_menu"
+			parent="patho_mgmt_root_menu"
+			sequence="6"
+			groups="wk_pathology_management.patho_mgmt_user_group"
+		/>
+
+		<menuitem name="Tests"
+			id="patho_mgmt_lab_test_menu"
+			parent="patho_mgmt_lab_test_main_menu"
+			sequence="1"
+			action="patho_mgmt_lab_test_action"
+			groups="wk_pathology_management.patho_mgmt_user_group"
+		/>
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~ Test Package Menu ~~~~~~~~~~~~~~ -->
+		<menuitem name="Packages"
+			id="patho_mgmt_test_package_menu"
+			parent="patho_mgmt_lab_test_main_menu"
+			sequence="2"
+			action="patho_mgmt_test_package_action"
+			groups="wk_pathology_management.patho_mgmt_user_group"
+		/>
+
+	</data>
+</odoo>

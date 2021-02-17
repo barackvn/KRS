@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="patho_mgmt_lab_centers_tree_view">
+			<field name="name">Pathology Lab Centers</field>
+			<field name="model">patho.lab.centers</field>
+            <field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Pathology Lab Centers">
+                    <field name="name"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="city"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+		<record model="ir.ui.view" id="patho_mgmt_lab_centers_form_view">
+			<field name="name">Pathology Lab Centers</field>
+			<field name="model">patho.lab.centers</field>
+            <field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Pathology Lab Centers">
+                    <sheet>
+											<field name="active" invisible="True"/>
+						<div class="oe_button_box" name="button_box">
+							<button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-danger" attrs="{'invisible':[('active', '=', True)]}">
+									<span class="o_stat_text">Active</span>
+								</button>
+								<button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-success" attrs="{'invisible':[('active', '!=', True)]}">
+									<span class="o_stat_text">Archive</span>
+								</button>
+						</div>
+						<field name="image" widget="image" nolabel="1" class="oe_inline oe_avatar" options="{&quot;preview_image&quot;: &quot;image&quot;, &quot;size&quot;: [90, 90]}"/>
+						<div class="oe_title oe_inline">
+                            <b><label for="name" string="Name" class="oe_edit_only"/></b>
+                        	<h1>
+								<field name="name" default_focus="1" placeholder="Lab Center Name" class=" oe_inline oe_title"/>
+							</h1>
+							<div>
+								<field name="is_lab_center"/>
+								<b><label for="is_lab_center"/></b>
+							</div>
+							<div>
+								<field name="is_collection_center"/>
+								<b><label for="is_collection_center"/></b>
+							</div>
+						</div>
+						<group attrs="{'invisible': [('is_collection_center','=', False)]}">
+							<group>
+								<field name="primary_labcenter_id"
+									attrs="{'invisible': [('is_collection_center','=', False)], 'required': [('is_collection_center','=',True)]}"
+									/>
+								<field name="primary_lab_pathologist"
+									attrs="{'invisible': [('is_collection_center','=', False)]}"
+									options='{"no_create_edit": True}'
+									context="{'form_view_ref': 'wk_pathology_management.patho_lab_operators_form_view'}"
+									/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Contacts &amp; Addresses">
+								<group>
+		                            <group string="Address">
+											<label for="street1" string="Address"/>
+											<div>
+												<field name="street1" placeholder="Street..."/>
+												<!-- <field name="street2" /> -->
+												<div class="address_format">
+													<field name="city" placeholder="City" style="width: 40%%"/>
+													<field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True, "no_create": True}'/>
+													<field name="zipcode" placeholder="ZIP" style="width: 22%%"/>
+												</div>
+												<field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}'/>
+											</div>
+
+		    	                    </group>
+		    					    <group string="Contact">
+										<div>
+											<group>
+							                    <field name="email" placeholder="abc123@webkul.com"/>
+							                    <field name="phone" placeholder="Mobile Number"/>
+											</group>
+										</div>
+		    					    </group>
+		                        </group>
+							</page>
+							<page string="Collection Centers" attrs="{'invisible': [('is_lab_center','=', False)]}">
+								<field name="collection_center_ids" string="Collection Centers" domain="[('is_collection_center', '=', True)]"/>
+							</page>
+						</notebook>
+                    </sheet>
+            	</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="patho_mgmt_lab_centers_action">
+			<field name="name">Pathology Lab Centers</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">patho.lab.centers</field>
+
+            <field name="view_mode">tree,form</field>
+			<field name="domain">[('is_lab_center', '=', True)]</field>
+			<field name="context">{ 'default_is_lab_center': True, }</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="patho_mgmt_collection_centers_action">
+			<field name="name">Pathology Collection Centers</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">patho.lab.centers</field>
+
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('is_collection_center', '=', True)]</field>
+			<field name="context">{ 'default_is_collection_center': True, }</field>
+		</record>
+
+		<menuitem name="Centers"
+            id="patho_mgmt_lab_centers_main_menu"
+			parent="patho_mgmt_config_menu"
+			sequence="3"
+			groups="wk_pathology_management.patho_mgmt_technician_group"
+		    />
+
+		<menuitem name="Laboratory Centers"
+            id="patho_mgmt_lab_centers_menu"
+			parent="patho_mgmt_lab_centers_main_menu"
+			sequence="1"
+            action="patho_mgmt_lab_centers_action"
+			groups="wk_pathology_management.patho_mgmt_technician_group"
+		    />
+
+		<menuitem name="Collection Centers"
+			id="patho_mgmt_collection_centers_menu"
+			parent="wk_pathology_management.patho_mgmt_lab_centers_main_menu"
+			sequence="2"
+			action="patho_mgmt_collection_centers_action"
+			groups="wk_pathology_management.patho_mgmt_technician_group"
+			/>
+
+	</data>
+</odoo>

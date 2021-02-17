@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="crm_lead_view_form_verify_inherit" model="ir.ui.view">
+            <field name="name">crm.lead.verify.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='lead']" position="after">
+                    <page name="verify" string="Verification">
+                        <group >
+                            <field name="vat_no_match" style="width:250px"/>
+                            <field name="address_match" style="width:250px"/>
+                            <field name="specialisation_match" style="width:250px"/>
+                            <field name="information_match" style="width:250px"/>
+                            <field name="website_info_url" attrs="{'invisible': [('information_match', '!=', True)]}"/>
+                            <field name="email_notify" invisible="1"/>
+                            <label for="match_profile" style="width:250px"/>
+                                <div>
+                                    <field name="match_profile" nolabel="1"/>
+                                    <button name="action_reject_profile" string="NO" type="object" attrs="{'invisible': ['|',('match_profile', '=', True),('email_notify', '=', True)]}"/>
+                                    <button name="action_accept_lead" string="Yes" type="object"  attrs="{'invisible': ['|',('match_profile', '!=', True),('email_notify', '=', True)]}"/>
+                                </div>
+                            <field name="assign_membership" domain="[('wk_mp_membership','=',True), ('type', '=', 'service')]" options="{'no_create': True}"/>
+                            <field name="reason" placeholder="Write a Reason...."/>
+
+
+                        </group>
+
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

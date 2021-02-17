@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data noupdate="1">
+		<!-- Sequence for test request -->
+		<record model="ir.sequence" id="patho_mgmt_test_request_seq">
+			<field name="name">Test Request Sequence</field>
+			<field name="code">patho.testrequest</field>
+			<field name="prefix">PLT/%(range_year)s/</field>
+			<field name="padding">4</field>
+		</record>
+
+		<record model="ir.sequence" id="seq_patho_appointment_test_number">
+			<field name="name">Appointment Test Sequence</field>
+			<field name="code">patho.testreport</field>
+			<field name="prefix">DIAG</field>
+			<field name="padding">3</field>
+		</record>
+	</data>
+</odoo>

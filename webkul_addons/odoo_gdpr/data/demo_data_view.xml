@@ -1,0 +1,71 @@
+<odoo>
+<data>
+    <!-- <record model="gdpr.request" id="odoo_gdpr.default_gdpr_request_record_1">
+            <field name="partner_id">3</field>
+            <field name="operation_type">all</field>
+            <field name="action_type">download</field>
+            <field name="state">pending</field>
+
+        </record>
+        <record model="gdpr.request" id="odoo_gdpr.default_gdpr_request_record_2">
+            <field name="partner_id">3</field>
+            <field name="operation_type">all</field>
+            <field name="action_type">delete</field>
+            <field name="state">pending</field>
+
+        </record> -->
+    <!-- <record model="gdpr.request" id="odoo_gdpr.default_gdpr_request_record_3">
+            <field name="partner_id">3</field>
+            <field name="operation_type">object</field>
+            <field name="object_id" ref="odoo_gdpr.default_gdpr_data_template_record_1"/>
+            <field name="action_type">download</field>
+            <field name="state">pending</field>
+
+        </record>
+
+     <record model="gdpr.request" id="odoo_gdpr.default_gdpr_request_record_4">
+            <field name="partner_id">3</field>
+            <field name="operation_type">object</field>
+            <field name="object_id" ref="odoo_gdpr.default_gdpr_data_template_record_1"/>
+            <field name="action_type">delete</field>
+            <field name="state">pending</field>
+
+        </record> -->
+
+        <record model="ir.attachment" id="attach_addressfile_record">
+               <field name="name">Details</field>
+               <field name="datas">ewoibmFtZSI6IkFkbWluaXN0cmF0b3IiLAoiY29tcGFueV9uYW1lIjoiWW91ckNvbXBhbnkiLAoi
+                                    c3RyZWV0IjoiMjE1IFZpbmUgU3QiLAoiY2l0eSI6IlNjcmFudG9uIgoicGluIjogMTg1MDMsCiJz
+                                    dGF0ZSI6IlBlbm5zeWx2YW5pYSIsCiJjb3VudHJ5IjoiVW5pdGVkIFN0YXRlcyIsCiJwaG9uZSI6
+                                    IisxIDU1NS01NTUtNTU1NSIsCiJlbWFpbCI6ImFkbWluQHlvdXJjb21wYW55LmV4YW1wbGUuY29t
+                                    Igp9Cg==
+                </field>
+               <field name="res_model">gdpr.request</field>
+               <field name="res_id">12</field>
+               <field name="type">binary</field>
+               <field name="db_datas">Details</field>
+               <field name="datas_fname">Details</field>
+               <field name="res_name">Details</field>
+        </record>
+
+     <record model="gdpr.request" id="odoo_gdpr.default_gdpr_request_record_5">
+            <field name="partner_id">3</field>
+            <field name="operation_type">object</field>
+            <field name="object_id" ref="odoo_gdpr.default_gdpr_data_template_record_2"/>
+            <field name="action_type">download</field>
+            <field name="state">done</field>
+            <field name="attach_id" ref="attach_addressfile_record"/>
+
+
+        </record>
+
+    <record model="gdpr.request" id="odoo_gdpr.default_gdpr_request_record_6">
+            <field name="partner_id">3</field>
+            <field name="operation_type">object</field>
+            <field name="object_id" ref="odoo_gdpr.default_gdpr_data_template_record_2"/>
+            <field name="action_type">delete</field>
+            <field name="state">pending</field>
+
+        </record>
+    </data>
+</odoo>

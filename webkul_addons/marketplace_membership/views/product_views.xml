@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="wk_mp_no_of_products_form_view" model="ir.ui.view">
+            <field name="name">Membership Products</field>
+            <field name="model">product.template</field>
+            <field name="priority">37</field>
+            <field name="arch" type="xml">
+                <form string="Membership products">
+                    <sheet>
+                    <div class="oe_button_box " name="mp_membership_button_box" attrs="{'invisible':[('wk_mp_membership', '=', False)]}">
+                        <button name="toggle_website_published" type="object"
+                                class="oe_stat_button" icon="fa-globe">
+                            <field name="website_published" widget="website_publish_button"/>
+                        </button>
+                    </div>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <label for="plan_duration" string="Membership Plan Duration"/>
+                            <div>
+                                <field name="plan_duration" required="1" class="oe_inline"/> -
+                                <field name="duration_type" required="1" class="oe_inline"/>
+                            </div>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="wk_mp_membership" invisible="1"/>
+                            <field name="sale_ok" invisible="1"/>
+                            <field name="list_price" string="Membership Fee" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="no_of_product"/>
+                            <field name="mp_membership_color" required="1"/>
+                            <field name="wk_tag_line"/>
+                        </group>
+                        <group>
+                            <field name="default_code"/>
+                            <field name="categ_id" options="{'no_create': True}"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            <field name="active"/>
+                            <field name="property_account_income_id" options="{'no_create': True}"/>
+                            <field name="taxes_id" widget="many2many_tags" string="Taxes" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <label for="description"/>
+                    <field colspan="4" name="description" placeholder="Add a description..."/>
+                    <label for="description_sale"/>
+                    <field colspan="4" name="description_sale" placeholder="This note will be displayed on quotations..."/>
+                    <label for="membership_t_and_c"/>
+                    <field colspan="4" name="membership_t_and_c"/>
+                    </sheet>
+                 </form>
+            </field>
+        </record>
+
+        <record id="wk_mp_no_of_products_tree_view" model="ir.ui.view">
+            <field name="name">Membership products</field>
+            <field name="model">product.template</field>
+            <field name="priority">37</field>
+            <field name="arch" type="xml">
+                <tree string="Membership products">
+                    <field name="name"/>
+                    <field name="plan_duration" invisible="1"/>
+                    <field name="duration_type" invisible="1"/>
+                    <field name="no_of_product"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="list_price" string="Membership Fee" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="website_published" string="Visible On Website"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="wk_mp_membership_search_view" model="ir.ui.view">
+            <field name="name">membership.product.search.form</field>
+            <field name="model">product.template</field>
+            <field name="priority">37</field>
+            <field name="arch" type="xml">
+                <search string="Membership Products">
+                    <field name="name" string="Marketplace Membership Product"/>
+                    <field name="website_published" string="Visible On Website"/>
+                    <filter string="Inactive" name="inactive" domain="[('active','=',0)]"/>
+                    <field name="categ_id" operator="child_of"/>
+                    <group  expand='0' string='Group by...'>
+                        <filter string='Category' name="category" domain="[]" context="{'group_by' : 'categ_id'}"/>
+                        <filter string='Website Visibility' name="website_visibility" domain="[]" context="{'group_by' : 'website_published'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="wk_mp_no_of_products_action" model="ir.actions.act_window" >
+            <field name="name">Marketplace Memberships</field>
+            <field name="res_model">product.template</field>
+            <field name="domain">[('wk_mp_membership','=',True), ('type', '=', 'service')]</field>
+            <field name="context">{'default_wk_mp_membership': True, 'default_type': 'service', 'default_sale_ok': True,}</field>
+            <field name="search_view_id" ref="wk_mp_membership_search_view"/>
+        </record>
+
+            <record id="action_membership_product_view_tree" model="ir.actions.act_window.view">
+                <field name="sequence" eval="1"/>
+                <field name="view_mode">tree</field>
+                <field name="view_id" ref="wk_mp_no_of_products_tree_view"/>
+                <field name="act_window_id" ref="wk_mp_no_of_products_action"/>
+            </record>
+
+            <record id="action_membership_product_view_form" model="ir.actions.act_window.view">
+                <field name="sequence" eval="2"/>
+                <field name="view_mode">form</field>
+                <field name="view_id" ref="wk_mp_no_of_products_form_view"/>
+                <field name="act_window_id" ref="wk_mp_no_of_products_action"/>
+            </record>
+
+        <!-- <menuitem name="Members" id="menu_association" sequence="15" web_icon="membership,static/description/icon.png"/> -->
+        <menuitem id="wk_mp_membership_plan_menu" name="Membership Plan" action="wk_mp_no_of_products_action" parent="marketplace_membership_menu" sequence="2" groups="odoo_marketplace.marketplace_manager_group"/>
+    </data>
+</odoo>

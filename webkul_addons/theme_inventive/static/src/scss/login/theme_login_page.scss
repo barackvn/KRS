@@ -1,0 +1,132 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.oe_website_login_container {
+    & > .container {
+        padding-bottom: 24px;
+    }
+    .container.second {
+        & > .row {
+            background: #FFFFFF;
+            box-shadow: 0 0 5px 0 rgba(0,0,0,0.22);
+        }
+    }
+    .breadcrumb {
+        background-color: transparent;
+    }
+    .login-signup-image{
+        align-items: center;
+        justify-content: center;
+        img{
+            width: 100%;
+            animation: fadeInLeft .7s ease-in-out forwards;
+        }
+
+    }
+    .auth_heading_div {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    .inventive_login_form,
+    .th_reset_password_form,
+    .th_signup_form {
+        padding: 0 10%;
+        width: 100%;
+        animation: fadeInRight .7s ease-in-out forwards;
+        .inventive_logo{
+            .logo{
+                margin: 0;
+                img{
+                    max-height: 50px;
+                }
+
+            }
+        }
+        .oe_login_form,
+        .oe_reset_password_form,
+        .oe_signup_form {
+            margin: 0;
+            display: inline-block;
+            max-width: unset;
+            width: 100%;
+            .form-group{
+                margin-bottom: .5rem;
+                input{
+                    padding: 1.25rem .5rem;
+                }
+                .btn{
+                    padding: 11px 12px;
+                }
+            }
+            .login_btns{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .register_btns{
+                .p_tag{
+                    position: relative;
+                    padding: 0 10px;
+                    height: 30px;
+                    margin-top: 15px;
+                    span{
+                        @include absolute_center();
+                        padding:  0 20px;
+                        background-color: white;
+                    }
+                    &:before{
+                        content: " ";
+                        @include absolute_center();
+                        height: 1px;
+                        width: 100%;
+                        background: #E5E5E5;
+                    }
+                }
+            }
+            .oe_login_buttons .justify-content-between {
+                display: none !important;
+            }
+        }
+        .field-db {
+            .btn-secondary {
+                padding: 7px 12px;
+                height: 100%;
+            }
+        }
+    }
+}
+.o_login_auth em {
+    position: relative;
+    &:after{
+        content: "or";
+        @include absolute_center();
+        height: 100%;
+        width: auto;
+        padding: 0 20px;
+        background-color: white;
+        font-weight: 600;
+        color: #212529;
+        font-style: normal;
+        font-size: 14px;
+    }
+    &:before{
+        content: " ";
+        @include absolute_center();
+        height: 1px;
+        width: 100%;
+        background: #E5E5E5;
+    }
+
+}
+
+.inventive_thanks_page {
+    .card {
+        position: relative;
+    }
+
+    .thanks_msg {
+        position: absolute;
+        bottom: 0;
+        color: white;
+    }
+}

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <data>
+        <!--===_____________________ 1. Feature Products Views____________________=======-->
+        <!-- Tree view -->
+        <record id="inventive_products_tabs_tree_view" model="ir.ui.view">
+            <field name="name">inventive Product Tabs</field>
+            <field name="model">inventive.features</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="featured_product_type" invisible="1"/>
+                    <field name="name"></field>
+                    <field name="products"></field>
+                    <field name="publish_status"></field>
+                    <field name="tabs_product_type"/>
+                    <field name="auto_select"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Tree view -->
+        <record id="inventive_features_tree_view" model="ir.ui.view">
+            <field name="name">inventive Featuers</field>
+            <field name="model">inventive.features</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="featured_product_type" invisible="1"/>
+                    <field name="name"></field>
+                    <field name="products"></field>
+                    <field name="publish_status"></field>
+                    <field name="featured_product_type"/>
+                    <field name="auto_select"/>
+                </tree>
+            </field>
+        </record>
+        <!-- website form views -->
+        <record id="inventive_products_tabs_form_view" model="ir.ui.view">
+            <field name="name">inventive Product Tabs Form</field>
+            <field name="model">inventive.features</field>
+            <field name="arch" type="xml">
+                <form string="inventive Feature">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_publish_status" type="object" class="oe_stat_button" icon="fa-globe">
+                                <field name="publish_status" widget="website_button"/>
+                            </button>
+                        </div>
+                        <group col="4" string="Featured Product Selection for Product-tab snippet">
+                            <field name="name"/>
+                            <field name="auto_select"/>
+                            <field name="dynamic_snippet" widget="radio" readonly="1"/>
+                            <field name="products_limit" attrs="{'invisible':[('auto_select','=',False)]}"/>
+                            <field name="tabs_product_type"/>
+                            <field name="cron_id" attrs="{'invisible':[('auto_select','=',False)]}"/>
+                        </group>
+                        <div class="text-info">
+                            <div attrs="{'invisible':[('auto_select','=',True)]}">
+                                <h3 attrs="{'invisible':[('tabs_product_type','in',['latest','sale',False])]}">
+                                    Select the All Products Manually
+                                </h3>
+                                <h3 attrs="{'invisible':[('tabs_product_type','in',['all','sale',False])]}">
+                                    Select the Latest Products Manually
+                                </h3>
+                                <h3 attrs="{'invisible':[('tabs_product_type','in',['all','latest',False])]}">
+                                    Select the Popular Products Manually
+                                </h3>
+                            </div>
+                            <div attrs="{'invisible':[('auto_select','=',False)]}">
+                                <h3 attrs="{'invisible':[('tabs_product_type','in',['latest','sale',False])]}">
+                                    All Products will we selected automatically on the basis of Sequence of Product.
+                                </h3>
+                                <h3 attrs="{'invisible':[('tabs_product_type','in',['all','sale',False])]}">
+                                    Latest Products will we selected automatically on the basis of Creation Date of Product.
+                                </h3>
+                                <h3 attrs="{'invisible':[('tabs_product_type','in',['all','latest',False])]}">
+                                    Popular Products will we selected automatically on the basis of Sale of that product .
+                                </h3>
+                            </div>
+                        </div>
+                        <group col="2">
+                            <field name="products" widget="many2many_tags" attrs="{'readonly':[('auto_select','=',True)]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="inventive_features_form_view" model="ir.ui.view">
+            <field name="name">inventive Feature Form</field>
+            <field name="model">inventive.features</field>
+            <field name="arch" type="xml">
+                <form string="inventive Feature">
+                    <header></header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_publish_status" type="object" class="oe_stat_button" icon="fa-globe">
+                                <field name="publish_status" widget="website_button"/>
+                            </button>
+                        </div>
+                        <group col="4" string="Featured Product Selection">
+                            <field name="name"/>
+                            <field name="auto_select"/>
+                            <field name="dynamic_snippet" widget="radio" readonly="1"/>
+                            <field name="products_limit" attrs="{'invisible':[('auto_select','=',False)]}"/>
+                            <field name="featured_product_type"/>
+                            <field name="cron_id" attrs="{'invisible':[('auto_select','=',False)]}"/>
+                        </group>
+                        <div class="text-info">
+                            <div attrs="{'invisible':[('auto_select','=',True)]}">
+                                <h3 attrs="{'invisible':[('featured_product_type','in',['featured','rated',False])]}">
+                                    Select the New Products Manually
+                                </h3>
+                                <h3 attrs="{'invisible':[('featured_product_type','in',['new','rated',False])]}">
+                                    Select the Featured Products Manually
+                                </h3>
+                                <h3 attrs="{'invisible':[('featured_product_type','in',['new','featured',False])]}">
+                                    Select the Rated Products Manually
+                                </h3>
+                            </div>
+                            <div attrs="{'invisible':[('auto_select','=',False)]}" class="">
+                                <h3 attrs="{'invisible':[('featured_product_type','in',['featured','rated',False])]}">
+                                    New Products will we selected automatically on the basis of Creation Date of Product.
+                                </h3>
+                                <h3 attrs="{'invisible':[('featured_product_type','in',['new','rated',False])]}">
+                                    Featured Products will we selected automatically on the basis of Website Sequence of Product.
+                                </h3>
+                                <h3 attrs="{'invisible':[('featured_product_type','in',['new','featured',False])]}">
+                                    Rated Products will we selected automatically on the basis of Website Ratings of Product .
+                                </h3>
+                            </div>
+                        </div>
+                        <group col="2">
+                            <field name="products" widget="many2many_tags" attrs="{'readonly':[('auto_select','=',True)]}"></field>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- wizzard Form view -->
+        <record id="wizard_feature_warning_form_view" model="ir.ui.view">
+            <field name="name">inventive Feature Form</field>
+            <field name="model">wizard.feature.message</field>
+            <field name="arch" type="xml">
+                <form string="inventive Feature Warning">
+                    <p><field name="msg"/></p>
+                    <footer>
+                        <button name="publish_on_website" string="Publish" type="object" class="btn-primary"/>
+                        <button special="cancel" class="oe_highlight" string="Close"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- action -->
+        <record id="th_inventive_product_tabs_action" model="ir.actions.act_window">
+            <field name="name">inventive product tabs</field>
+            <field name="res_model">inventive.features</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('dynamic_snippet', '=', 'tabs')]</field>
+            <field name="context">{'default_dynamic_snippet':'tabs','default_tabs_product_type':'all','default_products_limit':'8'}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('inventive_products_tabs_tree_view')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('inventive_products_tabs_form_view')}),
+            ]"/>
+        </record>
+        <!-- action -->
+        <record id="th_inventive_featured_action" model="ir.actions.act_window">
+            <field name="name">inventive feature</field>
+            <field name="res_model">inventive.features</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('dynamic_snippet', '=', 'featured')]</field>
+            <field name="context">{'default_dynamic_snippet':'featured','default_featured_product_type':'new'}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('inventive_features_tree_view')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('inventive_features_form_view')}),
+            ]"/>
+        </record>
+        <menuitem id="inventive_products_tab_snippet_menu" name="Inventive Product Tabs" sequence="10" parent="theme_inventive.theme_inventive_website_menu" action="theme_inventive.th_inventive_product_tabs_action"/>
+        <menuitem id="inventive_feature_menu" name="Inventive Features" sequence="11" parent="theme_inventive.theme_inventive_website_menu" action="theme_inventive.th_inventive_featured_action"/>
+        <!-- ...................................................................................................................... -->
+
+        <!--==____________________ 2. Theme Mega Menus _______________________======-->
+        <!-- mega menu tree view -->
+        <record id="inventive_mega_menu_tree_view" model="ir.ui.view">
+            <field name="name">Inventive Mega Menu Tree View</field>
+            <field name="model">website.menu</field>
+            <field name="arch" type="xml">
+                <tree string="Inventive Mega Menu">
+                    <field name="name"/>
+                    <field name="website_id"/>
+                    <field name="is_mega_menu"/>
+
+                    <field name="show_on_hover"/>
+                    <field name="parent_id"/>
+                    <field name="sequence"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Inventive Mega Menu Form View -->
+        <record id="inventive_mega_menu_form_view" model="ir.ui.view">
+            <field name="name">Inventive Mega Menu Form View</field>
+            <field name="model">website.menu</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <form string="Inventive Mega Menus Settings">
+                    <sheet>
+                        <group string="Inventive Mega Menu">
+                            <group>
+                                <field name="name"/>
+                                <field name="parent_id"/>
+                            </group>
+                            <group>
+                                <field name="show_on_hover"/>
+                                <field name="sequence"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group >
+                                <field name="mega_menu_icon" options='{"size": [50, 50]}' widget="image"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Inventive menu search view -->
+        <record id="inventive_mega_menu_search_view" model="ir.ui.view">
+            <field name="name">website.menu.search</field>
+            <field name="model">website.menu</field>
+            <field name="arch" type="xml">
+                <search string="Search Menus">
+                    <field name="name"/>
+                    <field name="url"/>
+                    <field name="website_id" groups="website.group_multi_website"/>
+                    <group string="Group By">
+                        <filter string="name" name="group_by_name" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="url" name="group_by_url" domain="[]" context="{'group_by':'url'}"/>
+                        <filter string="website" name="my_websites" domain="[]" context="{'group_by':'website_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- website menu action inherit -->
+        <!-- <record id="website.action_website_menu" model="ir.actions.act_window">
+            <field name="domain">[('is_inventive_mega_menu', '=', False)]</field>
+        </record> -->
+        <!-- Inventive mega menu action and menu -->
+        <record id="inventive_action_website_mega_menu" model="ir.actions.act_window">
+            <field name="name">Inventive Mega Menus</field>
+            <field name="res_model">website.menu</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_mega_menu', '=', 1)]</field>
+            <field name="context">{'default_is_mega_menu':True,'default_show_on_hover':True,'search_default_my_websites':1}</field>
+            <field name="search_view_id" ref="inventive_mega_menu_search_view"></field>
+            <field
+                name="view_ids"
+                eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('inventive_mega_menu_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('inventive_mega_menu_form_view')}),
+                ]"/>
+        </record>
+        <menuitem name="Mega Menus" id="theme_website_mega_menu_item" parent="theme_inventive_website_menu" action="inventive_action_website_mega_menu" sequence="1"/>
+
+        <!-- Website sequence field added in product form view -->
+        <record id="inventive_product_template_form_view_inherit" model="ir.ui.view">
+            <field name="name">Product Template Form View inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <field name="barcode" position="after">
+                    <field name="website_sequence" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

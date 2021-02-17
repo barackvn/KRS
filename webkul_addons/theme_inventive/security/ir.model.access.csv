@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+,,,,,,,
+access_theme_inventive_public_user,id_theme_inventive_public_user,model_inventive_features,,1,1,1,1
+access_product_tag_public,product.tag.public,model_th_product_tags,,1,1,1,1

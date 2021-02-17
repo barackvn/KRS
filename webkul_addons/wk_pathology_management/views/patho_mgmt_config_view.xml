@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<menuitem name="Configuration"
+				  id="patho_mgmt_config_menu"
+				  parent="patho_mgmt_root_menu"
+				  sequence="8"
+				  groups="wk_pathology_management.patho_mgmt_user_group"
+				/>
+	</data>
+</odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="patho_mgmt_appoint_source_tree_view" model="ir.ui.view">
+            <field name="name">Pathology Appointment Source Tree</field>
+            <field name="model">appointment.source</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Pathology Appointment Source Tree">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="patho_mgmt_appoint_source_form_view" model="ir.ui.view">
+            <field name="name">Pathology Appointment Source Form</field>
+            <field name="model">appointment.source</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Pathology Appointment Source Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="patho_mgmt_appoint_source_action">
+            <field name="name">Pathology Appointment Source</field>
+            <field name="res_model">appointment.source</field>
+            <field name="view_mode">tree,form</field>
+            
+        </record>
+
+        <menuitem name="Source"
+			id="patho_mgmt_appoint_source_menu"
+			parent="patho_mgmt_config_menu"
+			sequence="1"
+            action="patho_mgmt_appoint_source_action"
+			groups="wk_pathology_management.patho_mgmt_user_group"
+		/>
+
+    </data>
+</odoo>

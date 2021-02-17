@@ -1,0 +1,19 @@
+<svg width="17px" height="20px" viewBox="0 0 17 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>user</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home" transform="translate(-722.000000, -82.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="Header" transform="translate(-1.000000, 0.000000)">
+                <g id="Group">
+                    <g transform="translate(0.000000, 48.000000)">
+                        <g id="My-A/c" transform="translate(707.000000, 23.000000)">
+                            <path d="M24.5,18 C22.5670034,18 21,16.4329966 21,14.5 C21,12.5670034 22.5670034,11 24.5,11 C26.4329966,11 28,12.5670034 28,14.5 C28,16.4329966 26.4329966,18 24.5,18 Z M21.5,20 L27.5,20 C30.5375661,20 33,22.4624339 33,25.5 C33,28.5375661 30.5375661,31 27.5,31 L21.5,31 C18.4624339,31 16,28.5375661 16,25.5 C16,22.4624339 18.4624339,20 21.5,20 Z" id="user"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

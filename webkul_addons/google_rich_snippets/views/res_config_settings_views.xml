@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2017-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL: https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data>
+
+        <record id="google_rich_snippets_config_form" model="ir.ui.view">
+            <field name="name">rich.snippets.config.form</field>
+            <field name="model">rich.snippets.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="is_organization_enable"/>
+                            </group>
+                            <group>
+                                <field name="is_website_enable"/>
+                            </group>
+                        </group>
+                        <div class="app_settings_block" string="Google Rich Snippets (Organization)" attrs="{'invisible': [('is_organization_enable','=', False)]}">
+                            <h2>Organization</h2>
+                            <div class="row mt16 o_settings_container" id="rich_snippets_organization_settings">
+                                <div class="col-12 col-lg-offset-6 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_contact_enable"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="is_contact_enable"/>
+                                        <div class="text-muted">
+                                            Your corporate contact information displayed in the Google Knowledge panel.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-offset-6 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_logo_enable"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="is_logo_enable"/>
+                                        <div class="text-muted">
+                                            Your organization's logo in search results and Google Knowledge Graph.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-offset-6 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_social_enable"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="is_social_enable"/>
+                                        <div class="text-muted">
+                                            Your social profile information displayed on Google Knowledge panels.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app_settings_block" string="Google Rich Snippets (Website)" attrs="{'invisible': [('is_website_enable','=', False)]}">
+                            <h2>Website</h2>
+                            <div class="row mt16 o_settings_container" id="rich_snippets_website_settings">
+                                <div class="col-12 col-lg-offset-6 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_searchbox_enable"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="is_searchbox_enable"/>
+                                        <div class="text-muted">
+                                            A search box that is scoped to your website when it appears as a search result.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app_settings_block" string="Google Rich Snippets (Product)">
+                            <h2>Product info</h2>
+                            <div class="row mt16 o_settings_container" id="rich_snippets_product_settings">
+                                <div class="col-12 col-lg-offset-6 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_carousels_enable"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="is_carousels_enable"/>
+                                        <div class="text-muted">
+                                            Display your rich results in a sequential list or gallery in search results.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-offset-6 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_breadcrumb_enable"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="is_breadcrumb_enable"/>
+                                        <div class="text-muted">
+                                            Navigation that indicates the page's position in the site hierarchy.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-offset-6 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_rating_enable"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="is_rating_enable"/>
+                                        <div class="text-muted">
+                                            The average rating based on multiple ratings or reviews of product.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-offset-6 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_review_enable"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="is_review_enable"/>
+                                        <div class="text-muted">
+                                            Public reviews posted customers on the product.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-offset-6 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="is_stock_enable"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="is_stock_enable"/>
+                                        <div class="text-muted">
+                                            Display In Stock/Out of Stock based on Availability of the product.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </sheet>
+                    <footer>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" type="button" name="cancel" special="cancel" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_google_rich_snippets_config" model="ir.actions.act_window">
+            <field name="name">Google Rich Snippets Configuration</field>
+            <field name="res_model">rich.snippets.config</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="config_webkul_website_addons_form_inherit_google_rich_snippets" model="ir.ui.view">
+            <field name="name">webkul.website.addons.form.inherit</field>
+            <field name="model">webkul.website.addons</field>
+            <field name="inherit_id" ref="website_webkul_addons.config_webkul_website_addons_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//td[@name='module_google_rich_snippets']" position="replace">
+                    <td>
+                        <button type="action" name="google_rich_snippets.action_google_rich_snippets_config" string="Configuration" class="oe_link"></button>
+                     </td>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="inherit_product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.common.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='options']" position="inside">
+                    <div attrs="{'invisible': [('product_variant_count', '>', 1)]}" >
+                        <field name="activate_subscription"></field>
+                        <label for="activate_subscription"></label>
+                    </div>
+                </xpath>
+                <xpath expr="//page/group/group[@name='group_standard_price']/label[@for='list_price']" position="before">
+                    <field name="subscription_plan_id" attrs="{'required': [('activate_subscription', '=', True)],'invisible': ['|',('product_variant_count', '>', 1),('activate_subscription', '=', False)]}" readonly="0"></field>
+                </xpath>
+                <xpath expr="//field[@name='type']" position="attributes">
+
+                    <attribute name="attrs">{'readonly': [('activate_subscription', '=', True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_product_variant_easy_edit_view" model="ir.ui.view">
+            <field name="name">product.product.view.form.easy</field>
+            <field name="model">product.product</field>
+            <!-- <field name="mode">primary</field> -->
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='activate_subscription']/.." position="replace"/>
+                <xpath expr="//field[@name='subscription_plan_id']" position="replace"/>
+                <xpath expr="//field[@name='purchase_ok']/.." position="after">
+                    <div>
+                        <field name="activate_subscription"></field>
+                        <label for="activate_subscription"></label>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='lst_price']" position="before">
+                    <field name="subscription_plan_id"
+                        attrs="{'required': [('activate_subscription', '=', True)],'invisible':[('activate_subscription', '=', False)]}"></field>
+                </xpath>
+                <xpath expr="//field[@name='type']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('activate_subscription', '=', True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']" position="before">
+                    <button string="Add Subscription Product" type="action" name="subscription_management.product_wizard_action" class="oe_highlight" attrs="{'invisible':[('state','not in',('draft','sent'))]}" groups="subscription_management.group_subscription_management_user,subscription_management.group_subscription_management_manager"></button>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_inline oe_stat_button" name="action_view_subscription" type="object" icon="fa-strikethrough" groups="subscription_management.group_subscription_management_user,subscription_management.group_subscription_management_manager">
+                        <field string="Subscription" name="subscription_count" widget="statinfo"></field>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="inherit_invoice_form_form_view" model="ir.ui.view">
+            <field name="name">account.move</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                </xpath>
+                <xpath expr="//notebook/page/group/group/field[@name='invoice_partner_bank_id']" position="after">
+                    <field name="is_subscription"></field>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

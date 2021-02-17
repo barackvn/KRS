@@ -1,0 +1,101 @@
+/**
+ * Owl Carousel v2.3.4
+ * Copyright 2013-2018 David Deutsch
+ * Licensed under: SEE LICENSE IN https://github.com/OwlCarousel2/OwlCarousel2/blob/master/LICENSE
+ */
+/*
+ * 	Default theme - Owl Carousel CSS File
+ */
+ /* .owl-theme .owl-item.center .oe_product{
+     transform: scale(1.1);
+     opacity: 1
+ }
+ .owl-theme .owl-item .oe_product{
+     transition: all .3s linear !important;
+     transform: scale(0.8);
+     opacity: .5;
+ } */
+.owl-theme .owl-item{
+    text-align: center;
+}
+.owl-theme .owl-nav {
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+ }
+.owl-theme .owl-nav [class*='owl-'] {
+color: #FFF;
+font-size: 14px;
+margin: 5px;
+padding: 4px 7px;
+background: #D6D6D6;
+display: inline-block;
+cursor: pointer;
+border-radius: 3px;
+}
+.owl-theme .owl-nav [class*='owl-']:hover {
+  color: $primary;
+  text-decoration: none;
+}
+.owl-theme .owl-nav .disabled {
+    color: #999999 !important;
+    pointer-events: none;
+    z-index: 10;
+
+}
+.owl-carousel .owl-nav button.owl-next,
+.owl-carousel .owl-nav button.owl-prev{
+    color: #333333;
+    font-size: 17px;
+    margin: 1px;
+    padding: 1px 10px !important;
+    background: #FFFFFF;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 50px;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.5);
+}
+.owl-theme .owl-nav.disabled + .owl-dots {
+  margin-top: 10px;
+}
+
+.owl-theme .owl-dots {
+  text-align: center;
+  -webkit-tap-highlight-color: transparent; }
+.owl-theme .owl-dots .owl-dot {
+    display: inline-block;
+    zoom: 1;
+    *display: inline; }
+.owl-theme .owl-dots .owl-dot span {
+      width: 10px;
+      height: 10px;
+      margin: 5px 7px;
+      background: #D6D6D6;
+      display: block;
+      -webkit-backface-visibility: visible;
+      transition: opacity 200ms ease;
+      border-radius: 30px; }
+.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
+      background: #869791; }
+.owl-stage-outer{
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+}
+.owl-carousel[data-smartspeed="500"] .animated{
+    animation-duration:.5s !important;
+}
+.owl-carousel[data-smartspeed="1000"] .animated{
+    animation-duration:1s !important;
+}
+.owl-carousel[data-smartspeed="1500"] .animated{
+    animation-duration:1.5s !important;
+}
+.owl-carousel[data-smartspeed="2000"] .animated{
+    animation-duration:2s !important;
+}
+.owl-carousel[data-smartspeed="2500"] .animated{
+    animation-duration:2.5s !important;
+}
+.owl-carousel[data-smartspeed="3000"] .animated{
+    animation-duration:3s !important;
+}

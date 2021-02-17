@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="odoo_wk_prodcut_tags" model="ir.ui.view">
+            <field name="name">mp.inherit.create.product.tags</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
+            <field name="arch" type="xml">
+              <xpath expr="//page[@name='shop']//field[@name='public_categ_ids']" position="after">
+                  <field name="product_tag_ids" options="{'no_create': True}" widget="many2many_tags" string="Tags"/>
+              </xpath>
+            </field>
+        </record>
+        <record id="mp_tags_form_view" model="ir.ui.view">
+            <field name="name">mp.tags.form</field>
+            <field name="model">wk.website.product.tags</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <form string="Product Tags">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box" groups="odoo_marketplace.marketplace_officer_group">
+
+                            <button name="toggle_tag_published" class="oe_stat_button" type="object" icon="fa-globe">
+                                <field name="website_publish" widget="website_publish_button"/>
+                            </button>
+						</div>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Tag Name"/>
+							<h3><field name="name"/></h3>
+						</div>
+                        <group>
+                            <field name="website_style"/>
+                        </group>
+                        <notebook groups="odoo_marketplace.marketplace_officer_group">
+                            <page name="Associated Products" string="Associated Products">
+                                <field name="product_ids" domain="[('website_published','=',True),('status','=','approved')]" context="{'tree_view_ref': 'odoo_marketplace.wk_seller_product_template_tree_view',
+                                'form_view_ref': 'odoo_marketplace.wk_seller_product_template_form_view','default_picking_id': id}" options="{'no_create': True}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="mp_tags_action" model="ir.actions.act_window">
+            <field name="name">Product Tags</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wk.website.product.tags</field>
+            <field name="view_mode">tree,form</field>
+            <field
+				name="view_ids"
+				eval="[(5, 0),
+					(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('website_product_tags.wk_website_product_tags_tree_view')}),
+					(0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('marketplace_product_tags.mp_tags_form_view')})
+				]"/>
+        </record>
+        <menuitem id="wk_seller_dashboard_menu8_sub_menu2" name="Tags" parent="odoo_marketplace.wk_seller_dashboard_menu8" action="marketplace_product_tags.mp_tags_action" groups="odoo_marketplace.marketplace_seller_group"/>
+    </data>
+</odoo>

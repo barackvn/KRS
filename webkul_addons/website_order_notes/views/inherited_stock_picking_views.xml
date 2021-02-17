@@ -1,0 +1,19 @@
+<?xml version ="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+		<record id="stock_picking_view_form_inherit_website_order_notes" model="ir.ui.view">
+		<field name="name">stock.picking.form</field>
+		<field name="model">stock.picking</field>
+		<field name="inherit_id" ref="stock.view_picking_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//notebook" position="inside"> 
+                   <page string="Notes">
+                    <field name="wk_picking_notes" placeholder="Add Your Notes Here..."/>
+                   </page>
+            </xpath>
+		</field>
+     	</record>
+	</data>
+</odoo>

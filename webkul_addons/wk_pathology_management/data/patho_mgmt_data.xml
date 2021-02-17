@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ Test Request Source ~~~~~~~~~~~~~~~~~~~ -->
+        <record id="patho_source1" model="patho.source">
+            <field name="name">Visit</field>
+        </record>
+
+        <record id="patho_source2" model="patho.source">
+            <field name="name">Phone</field>
+        </record>
+
+        <record id="patho_source3" model="patho.source">
+            <field name="name">Website</field>
+        </record>
+
+        <record id="patho_default_product_category" model="product.category">
+            <field name="name">Pathology</field>
+        </record>
+
+      </data>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="wk_website_terms_and conditions_config" model="ir.ui.view">
+            <field name="name">Addons Setting</field>
+            <field name="model">webkul.website.addons</field>
+            <field name="inherit_id" ref="website_webkul_addons.config_webkul_website_addons_form"  />
+            <field name="arch" type="xml">
+                <xpath expr="//td[@name='module_advance_website_settings']" position="replace">
+                    <td>
+                    <button type="action" name="advance_website_settings.action_advance_website_settings" string="Configuration" class="oe_link oe_inline"></button></td>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

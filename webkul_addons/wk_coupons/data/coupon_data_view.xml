@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+         <record id="wk_product_category_coupon" model="product.category">
+            <field name="name">Gift Voucher</field>
+        </record>
+        <record id="product_product_coupon" model="product.product">
+            <field name="name">Gift Voucher</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="wk_product_category_coupon"/>
+            <field name="image_1024" type="base64" file="wk_coupons/static/src/img/Gift-Voucher.png"/>
+            <field name="image_512" type="base64" file="wk_coupons/static/src/img/Gift-Voucher.png"/>
+            <field name="taxes_id" eval="[(6,0,[])]"></field>
+            <field name="supplier_taxes_id" eval="[(6,0,[])]"></field>
+        </record>
+
+</odoo>

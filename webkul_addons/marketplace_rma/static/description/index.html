@@ -1,0 +1,696 @@
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)  -->
+<!-- See LICENSE file for full copyright and licensing details.  -->
+<!-- License URL : https://store.webkul.com/license.html/  -->
+
+<section class="oe_container px-md-5">
+
+    <section class="oe_container lead">
+        <div class="mt32 mb32">
+            <h2 class="text-center" style="color: #000000;">
+                Marketplace Return Merchandise Authorization (RMA)
+            </h2>
+            <p class="text-center" style="font-size: 14px; color: #555555;"><q style="font-size: 16px;">Because returns & exchange are unavoidable!!!</q></p>
+        </div>
+
+        <div class="row mt16 mb16 py-2 m-1"
+            style="background:#e5fff3; box-shadow: 0 0 2px 2px rgba(0,0,0,0.07);border-radius: 2px;">
+            <div class="container text-center" style="color:#333333;">
+                <p style="color: #44a894;" class="m-0">Manage refund and exchange on your Odoo Marketplace with ease.</p>
+            </div>
+        </div>
+
+        <div class="row mt16 mb16 m-1">
+            <div class="panel panel-primary" id="wkid0">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="p-4 pl-5">
+                            <img class="img-border img-responsive thumbnail img-fluid" src="Refund.png">
+
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <h4 class="panel-title pt-md-5" style="color: #333333; font-size: 26px;">Handle Each Refund Request with RMA/ Control Refund Process on the Marketplace</h4>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel-body" style="padding: 2%; font-size: 18px;">
+                  <p>Streamline the Refund process on your Odoo Marketplace with Odoo Marketplace RMA. Monitor every request from the customers on Dashboard.</p>
+                  <div class="mt-2">
+                    <a href="img-Refund-management.png">
+                        <img class="img-border img-responsive thumbnail img-fluid" src="img-Refund-management.png">
+                    </a>
+                  </div>
+                  <p style="text-align:center; font-style: italic;" class="m-0 pt-3">Refunds requests on Odoo Marketplace are only approved by the Admin.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt16 mb16 p-3">
+            <div class="panel panel-primary" id="wkid0">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="p-4 pl-5">
+                            <img class="img-border img-responsive thumbnail img-fluid" src="Exchange.png">
+
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <h4 class="panel-title pt-md-5" style="color: #333333; font-size: 26px;">Exchanged Products are now Auto-managed in the Inventory of your Odoo Marketplace</h4>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel-body" style="padding: 2%; font-size: 18px;">
+                  <p>Exchanges become complicated due to incoming returned products and outgoing exchanged products.</p>
+                  <div class="mt-2">
+                    <a href="img-Refund-management.png">
+                        <img class="img-border img-responsive thumbnail img-fluid" src="img-Exchange.png">
+                    </a>
+                  </div>
+                  <p style="text-align:center;font-style: italic;" class="m-0 pt-3">The module manages the inventory of the products with product delivery.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt16 mb16 p-3">
+            <div class="container mt32 px-3" style="color:#333333;font-size:26px;font-weight:bold;">
+                <h3>How does Odoo Marketplace RMA Works</h3>
+            </div>
+        </div>
+        <div class="row mt16 mb16 mp-features">
+            <div class="col-md-12 mb16">
+                <div class="py-2 px-3" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12); min-height: 158px;">
+                    <div class="container" style="color:#555555;">
+                      <p><i class="fa fa-check mr-2" style="color: #2944C4;"></i>The customer raises the RMA request for the seller from his/ website account. Or the admin can create a RMA request from backend.</p>
+                      <p><i class="fa fa-check mr-2" style="color: #2944C4;"></i>The seller set the status of the request which is reflectde back in the website account for the customers.</p>
+                      <p><i class="fa fa-check mr-2" style="color: #2944C4;"></i>Ask the customer for proof or to return the product.</p>
+                      <p><i class="fa fa-check mr-2" style="color: #2944C4;"></i>Once the product is received, generate reverse delivery in Odoo. Inventory gets auto-updated once this delivery is validated.</p>
+                      <p><i class="fa fa-check mr-2" style="color: #2944C4;"></i>Check the product for inspection and set the appropriate stage.</p>
+                      <p><i class="fa fa-check mr-2" style="color: #2944C4;"></i>Process the exchange request and generate new delivery for shipping the new product. Inventory gets auto-updated after validating the delivery.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="oe_container mp_tabs">
+        <div class="mp-nav-center d-none d-lg-block d-xl-block" style="background: #F3F3F3;box-shadow: 0 4px 8px 3px rgba(0,0,0,0.09);text-align: center; z-index: 20;position: sticky;top: 40px;">
+            <ul class="mp-nav nav nav-tabs " style="display: inline-flex;">
+                <li class="nav-item active" style="background-color: #FFAB00;">
+                    <a href="#rma_view_tab1" class="nav-link active show" role="tab" aria-selected="true"
+                        data-toggle="tab" style="color: #232323;padding: 7px 20px;">
+                        Features
+                    </a>
+                </li>
+                <li class="nav-item " style="background-color: #FFAB00;">
+                    <a href="#rma_view_tab2" class="nav-link " role="tab" aria-selected="true"
+                        data-toggle="tab" style="color: #232323;padding: 7px 20px;">
+                        Screenshot
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="mp-nav-center d-lg-none d-xl-none" style="background: #F3F3F3;box-shadow: 0 4px 8px 3px rgba(0,0,0,0.09);text-align: center; z-index: 20;position: sticky;top: 0px;">
+            <ul class="mp-nav nav nav-tabs " style="display: inline-flex;">
+                <li class="nav-item active" style="background-color: #FFAB00;">
+                    <a href="#rma_view_tab1" class="nav-link active show" role="tab" aria-selected="true"
+                        data-toggle="tab" style="color: #232323;padding: 7px 20px;">
+                        Features
+                    </a>
+                </li>
+                <li class="nav-item " style="background-color: #FFAB00;">
+                    <a href="#rma_view_tab2" class="nav-link " role="tab" aria-selected="true"
+                        data-toggle="tab" style="color: #232323;padding: 7px 20px;">
+                        Screenshot
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="my-tab-content" class="tab-content">
+            <div class="tab-pane container active" id="rma_view_tab1"
+                style="background: #FFFFFF;box-shadow: 0 0 2px 1px rgba(0,0,0,0.14);padding:1% 5%;">
+                <section class="oe_container mb-4 mt-4">
+                    <div class="oe_container">
+                        <div class="" id="wkid0">
+                          <div class="row mt16 mb16 px-3">
+                              <div class="container mt32" style="color:#333333;font-size:26px;font-weight:bold;">
+                                  <h3>Detailed Features List</h3>
+                              </div>
+                              <div class="container" style="color:#555555;font-size:18px;">
+                                  Below is the list of features enabled for Admin, Seller and customers in Odoo Marketplace RMA Module
+                              </div>
+                          </div>
+                          <h4 class="pl-1">CUSTOMER&apos;S END</h4>
+                          <hr class="m-0" style="background-color: #212529;"/>
+                          <div class="row mb16 mp-features">
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Create RMA requests for sellers from Odoo Website Portal</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555; font-size:16px;">
+                                          <ul>
+                                              <li>The customer can create the RMA requests from his/her website portal.</li>
+                                              <li>The request is created directly for the respective product seller.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Simple Legible RMA Form</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li>
+                                                  Easily legible odoo RMA form is designed for customer&apos;s convenience.
+                                              </li>
+                                              <li>
+                                                  A unique RMA# (number) is assigned to each RMA request.
+                                              </li>
+                                              <li>
+                                                  The RMA stages are visible on the RMA form for the customers.
+                                              </li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Upload relevant images</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li> Send the relevant images of the product with the RMA request to the sellers.</li>
+                                              <li> The customers can upload images directly from the website Portal.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Directly Communicate with the Seller</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li> Communicate directly with the seller for any RMA request through Odoo chatter.</li>
+                                              <li> The message is added to the chatter in the RMA request at the Odoo backend.</li>
+                                              <li> The seller can reply to the customer with the same chatter.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Check the Status/stage of the raised RMA</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li> The customer can check the current stage of his/her RMA requests.</li>
+                                              <li> Any change in the Status is instantly reflected in the website portal.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Maintain the record of all RMAs</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li> The customers can see the list of all the raised Odoo RMAs.</li>
+                                              <li> Open any record to see the details of the Odoo RMA request.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <h4 class="pl-1">ADMIN END</h4>
+                          <hr class="m-0" style="background-color: #212529;"/>
+                          <div class="row mb16 mp-features">
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Added A Separate RMA Menu</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555; font-size:16px;">
+                                          <ul>
+                                              <li>A separate space for admin to view and manage returns and exchanges in Odoo.</li>
+                                              <li>The Odoo RMA menu is added to keep things organized on your end.</li>
+                                              <li>See all the RMA requests at every seller’s end.</li>
+                                              <li>Track the status of all the RMAs raised at your Marketplace.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Define Odoo RMA Stages</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                            <li>Manage the progress of Odoo RMA process with stages (status).</li>
+                                            <li>Create representative stages for different product inspections in your RMA process.</li>
+                                            <li>Create different stages for Return & Exchange respectively.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Set RMA Reasons list</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li>Create a variety of RMA reasons for the customer to choose from.</li>
+                                              <li>The RMA reasons are used by customers while filling RMA form on Odoo Marketplace.</li>
+                                              <li>Add appropriate reasons to better understand the customer’s issues.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Create A New RMA Request From Backend</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li> Only Odoo Marketplace admin can create new RMA requests from Odoo backend.</li>
+                                              <li> The Sellers cannot create the RMA from their Marketplace dashboard.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Track All Odoo Marketplace RMA Requests</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li> The admin can see all the RMA requests raised on his Marketplace.</li>
+                                              <li> Track their current status and other details from Admin Dashboard.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Control Refund Request From Sellers</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li> Refund requests agreed by the seller are sent to admin for approval.</li>
+                                              <li> Only admin can approve a refund RMA request.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Track/ Check Customer-Seller Communications</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li>The admin can access the Odoo Marketplace RMA records from backend.</li>
+                                              <li>See all the messages & attached images in a RMA request.</li>
+                                              <li>The admin can message the customers in the same thread.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Define your Product Return period</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li>The admin can define the return policy for his Odoo marketplace.</li>
+                                              <li>Set product return window on the basis of order date or delivery date.</li>
+                                              <li>Set default return policy globally for all sellers.</li>
+                                              <li>Or, the admin can set different return policy for each Marketplace seller.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <h4 class="pl-1">SELLER&apos;S END</h4>
+                          <hr class="m-0" style="background-color: #212529;"/>
+                          <div class="row mb16 mp-features">
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Separate RMA Menu For Each Seller</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555; font-size:16px;">
+                                          <ul>
+                                            <li>Each seller can manage his/her RMA requests from the Seller Dashboard.</li>
+                                            <li>Manage return and exchange requests of Odoo Marketplace customers.</li>
+                                            <li>Set appropriate status/stage to a RMA request.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Approve/Disapprove Exchange Requests</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                            <li>The seller can approve/disapprove the exchange requests of his products.</li>
+                                            <li>The seller can create a new delivery for an approved exchange request.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Create Refund Approval Requests</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li>The seller can only create a confirmation request for the refund.</li>
+                                              <li>(Note: The approved refund request can only be confirmed by the admin. See Admin Features) </li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Chat With the Customers through Chatter</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li> The seller can ask questions to the customers from RMA request via chatter.</li>
+                                              <li> The customer can see the message in their website portal. </li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6 mt16 mb16" style="display:flex;">
+                                  <div class="" style="background: #FFFFFF;box-shadow: 2px 3px 8px 0 rgba(0,0,0,0.12);padding:4% 4% 1% 4%;">
+                                      <div class="container" style="color:#333333;">
+                                          <h4>Track RMA Requests at His/her end</h4>
+                                      </div>
+                                      <div class="container mt16" style="color:#555555;font-size:16px;">
+                                          <ul>
+                                              <li> The seller can see the list of his/her RMA requests.</li>
+                                              <li> Set and update the stages for RMA requests.</li>
+                                              <li> Manage exchanges & returns of his products on Odoo Marketplace.</li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="tab-pane container " id="rma_view_tab2"
+                style="background: #FFFFFF;box-shadow: 0 0 2px 1px rgba(0,0,0,0.14);padding:1% 2%;">
+              <div class="row m-0">
+                <div class="mp-nav-center col-md-3 col-lg-2 px-md-0"
+                    style="background: #FFFFFF;text-align: center; padding-top:10px;">
+                    <ul class="mp-nav nav nav-tabs " style="position: sticky; top: 14%;">
+                        <li class="mp_nav_tree nav-item active" style="background-color: #F3F3F3;width:100%;box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.09);margin: 2px 0;">
+                            <a href="#front_view_tab" class="nav-link active show" role="tab" aria-selected="true"
+                                data-toggle="tab" style="color: #232323;padding: 7px 20px;">
+                                Front End
+                            </a>
+                        </li>
+                        <li class="nav-item mp_nav_tree" style="background-color: #F3F3F3;width:100%;box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.09);margin: 2px 0;">
+                            <a href="#admin_view_tab" class="nav-link " role="tab" aria-selected="true"
+                                data-toggle="tab" style="color: #232323;padding: 7px 20px;">
+                                Admin End
+                            </a>
+                        </li>
+                        <li class="nav-item mp_nav_tree" style="background-color: #F3F3F3;width:100%;box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.09);margin: 2px 0;">
+                            <a href="#seller_view_tab" class="nav-link " role="tab" aria-selected="true"
+                                data-toggle="tab" style="color: #232323;padding: 7px 20px;">
+                                Seller End
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="my-tab-content" class="tab-content col-md-9 col-lg-10">
+                    <div class="tab-pane container active" id="front_view_tab"
+                        style="background: #FFFFFF;box-shadow: 0 0 2px 1px rgba(0,0,0,0.14);padding:1% 5%;">
+                        <section class="oe_container mb-4 mt-4" style="background: #FFFFFF;">
+                            <div class="oe_container">
+                                <div class="panel panel-primary" id="wkid0">
+                                    <div class="panel-heading pt-md-4 mb-md-4">
+                                        <h4 class="panel-title" style="color: #333333;text-align: center;">RMA Menu in the Customer&apos;s Portal on Odoo Marketplace Website.</h4>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                        <a href="1.png">
+                                            <img class="img-border img-responsive thumbnail img-fluid"
+                                                style="border: 1px solid #E0E0E0;" src="1.png">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="oe_container mb-4 mt-4" style="background: #FFFFFF;">
+                            <div class="oe_container">
+                                <div class="panel panel-primary" id="wkid0">
+                                    <div class="panel-heading pt-md-4 mb-md-4">
+                                        <h4 class="panel-title" style="color: #333333;text-align: center;">Create Odoo RMA requests For Returns and Exchange From Customer&apos;s Account.</h4>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                        <a href="2.jpg">
+                                            <img class="img-border img-responsive thumbnail img-fluid"
+                                                style="border: 1px solid #E0E0E0;" src="2.png">
+                                        </a>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+
+                                        <a href="3.jpg">
+                                            <img class="img-border img-responsive thumbnail img-fluid"
+                                                style="border: 1px solid #E0E0E0;" src="3.png">
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="oe_container mb-4 mt-4" style="background: #FFFFFF;">
+                            <div class="oe_container">
+                                <div class="panel panel-primary" id="wkid0">
+
+                                    <div class="panel-heading pt-md-4 mb-md-4">
+                                        <h4 class="panel-title" style="color: #333333;text-align: center;">Current Odoo RMA Status and Details.</h4>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                        <a href="4.png">
+                                            <img class="img-border img-responsive thumbnail img-fluid"
+                                                style="border: 1px solid #E0E0E0;" src="4.png">
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </section>
+                        <section class="oe_container mb-4 mt-4" style="background: #FFFFFF;">
+                            <div class="oe_container">
+                                <div class="panel panel-primary" id="wkid0">
+
+                                    <div class="panel-heading pt-md-4 mb-md-4">
+                                        <h4 class="panel-title" style="color: #333333;text-align: center;">Communicate Directly With Seller Using Chatter.</h4>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                        <a href="5.png">
+                                            <img class="img-border img-responsive thumbnail img-fluid"
+                                                style="border: 1px solid #E0E0E0;" src="5.png">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="tab-pane container " id="admin_view_tab"
+                        style="background: #FFFFFF;box-shadow: 0 0 2px 1px rgba(0,0,0,0.14);padding:1% 5%;">
+                        <section class="oe_container mb-4 mt-4" style="background: #FFFFFF;">
+                            <div class="oe_container">
+                                <div class="panel panel-primary" id="wkid0">
+                                    <div class="panel-heading pt-md-4">
+                                        <h4 class="panel-title" style="color: #333333;text-align: center;">Odoo RMA requests from All Odoo Marketplace Customers</h4>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                        <a href="6.png">
+                                            <img class="img-border img-responsive thumbnail img-fluid"
+                                                style="border: 1px solid #E0E0E0;" src="6.png">
+                                        </a>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                        <a href="7.png">
+                                            <img class="img-border img-responsive thumbnail img-fluid"
+                                                style="border: 1px solid #E0E0E0;" src="7.png">
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+                        <section class="oe_container mb-4 mt-4" style="background: #FFFFFF;">
+                            <div class="oe_container">
+                                <div class="panel panel-primary" id="wkid0">
+                                    <div class="panel-heading pt-md-4">
+                                        <h4 class="panel-title" style="color: #333333;text-align: center;">Set Return and Exchange Policy.</h4>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                      <ul style="display:flex;justify-content:center">
+                                          <li>Globally for all sellers.</li>
+                                      </ul>
+                                      <a href="8.png">
+                                          <img class="img-border img-responsive thumbnail img-fluid"
+                                              style="border: 1px solid #E0E0E0;" src="8.png">
+                                      </a>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                      <ul style="display:flex;justify-content:center">
+                                          <li>For each seller separately.</li>
+                                      </ul>
+                                      <a href="9.png">
+                                          <img class="img-border img-responsive thumbnail img-fluid"
+                                              style="border: 1px solid #E0E0E0;" src="9.png">
+                                      </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="oe_container mb-4 mt-4" style="background: #FFFFFF;">
+                            <div class="oe_container">
+                                <div class="panel panel-primary" id="wkid0">
+                                    <div class="panel-heading pt-md-4">
+                                        <h4 class="panel-title" style="color: #333333;text-align: center;">Set Odoo RMA Stages For Proper Managememt</h4>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                        <a href="10.png">
+                                            <img class="img-border img-responsive thumbnail img-fluid"
+                                                style="border: 1px solid #E0E0E0;" src="10.png">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="oe_container mb-4 mt-4" style="background: #FFFFFF;">
+                            <div class="oe_container">
+                                <div class="panel panel-primary" id="wkid0">
+                                    <div class="panel-heading pt-md-4">
+                                        <h4 class="panel-title" style="color: #333333;text-align: center;">Manange Refund requests Direclty</h4>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                        <a href="11.png">
+                                            <img class="img-border img-responsive thumbnail img-fluid"
+                                                style="border: 1px solid #E0E0E0;" src="11.png">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="tab-pane container " id="seller_view_tab"
+                        style="background: #FFFFFF;box-shadow: 0 0 2px 1px rgba(0,0,0,0.14);padding:1% 5%;">
+                        <section class="oe_container mb-4 mt-4" style="background: #FFFFFF;">
+                            <div class="oe_container">
+                                <div class="panel panel-primary" id="wkid0">
+                                    <div class="panel-heading pt-md-4">
+                                        <h4 class="panel-title" style="color: #333333;text-align: center;">The sellers see only their Odoo RMA requests raised by their customers on Odoo Marketplace.</h4>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                        <a href="12.png">
+                                            <img class="img-border img-responsive thumbnail img-fluid"
+                                                style="border: 1px solid #E0E0E0;" src="12.png">
+                                        </a>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                      <a href="13.png">
+                                          <img class="img-border img-responsive thumbnail img-fluid"
+                                              style="border: 1px solid #E0E0E0;" src="13.png">
+                                      </a>.
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+                        <section class="oe_container mb-4 mt-4" style="background: #FFFFFF;">
+                            <div class="oe_container">
+                                <div class="panel panel-primary" id="wkid0">
+                                    <div class="panel-heading pt-md-4">
+                                        <h4 class="panel-title" style="color: #333333;text-align: center;">Product Exchange Management from Seller&apos;s End.</h4>
+                                    </div>
+                                    <div class="panel-body" style="padding: 2%; font-size: 18px;text-align: center;">
+                                      <a href="14.png">
+                                          <img class="img-border img-responsive thumbnail img-fluid"
+                                              style="border: 1px solid #E0E0E0;" src="14.png">
+                                      </a>.
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<section class="oe_container" >
+    <div class="container text-center mt32" style="color:#333333;font-size:26px;font-weight:bold;">
+        Support
+    </div>
+    <div class="container text-center mt8" style="color:#555555;font-size:18px;">
+        <p>Get immediate support for any of your query</p>
+    </div>
+    <div class="row mt32 mb32">
+        <div class="offset-md-2 col-md-8" style="background: #FAFAFA;border: 1px solid #E2E2E2;">
+        <div class="row ml0 mr0">
+                <div class="text-center pt16 pb16 col-md-1">
+                    <img src="uvdesk.svg" alt="Not found" width="60" height="60">
+                </div>
+                <div class="col-md-8 "
+                style="color:#394049;font-size:14px;font-weight: bold;line-height: 22px;padding-left:4%;margin-top: 3%;">
+                    <p>If you have any query or facing any problem regarding this or any app then please create ticket for it.</p>
+                </div>
+                <div class="col-md-3 text-right" style="margin-top:4%;">
+                    <a class="btn btn-lg text-center" href="https://webkul.uvdesk.com/en/customer/create-ticket/"
+                        target="_blank"
+                        style="background: #FCFDFD;border: 1px solid #C4CDD5;font-size: 14px;color: #454C54;">
+                        Create ticket
+                    </a>
+                </div>
+            </div>
+            <div class="row ml0 mr0 mb16">
+                <div class="col-md-12 text-right" style="font-size: 11px;color: #777777;line-height: 16px;">
+                    We use <span style="color: #151515;"> UVdesk helpdesk </span> app for Managing
+                    Queries & Support
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

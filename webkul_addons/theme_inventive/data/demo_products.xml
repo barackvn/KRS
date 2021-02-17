@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Ptoducts ............................ -->
+        <record id="product_product_1" model="product.product">
+            <field name="website_published" eval="True"/>
+            <field name="name">Sneakers</field>
+            <field name="categ_id" ref="product.product_category_6"/>
+            <field name="standard_price">240.0</field>
+            <field name="list_price">217.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">1. Lightweight construction with breathable mesh fabric for maximum comfort and performance Lace-up closure for a snug fit High quality EVA sole for traction and exceptional durability</field>
+            <field name="default_code">sp-sneak</field>
+            <field name="image" type="base64" file="theme_inventive/static/src/img/products/shoes/product_1.png"/>
+            <field name="public_categ_ids" eval="[(6,0,[ref('root_categ_hiking'),ref('root_categ_football'),ref('root_categ_cycling')])]"/>
+            <field name="noupdate">False</field>
+            <field name = "website_sequence">1100</field>
+        </record>
+        <record id="product_product_2" model="product.product">
+            <field name="website_published" eval="True"/>
+            <field name="name">Sneakers</field>
+            <field name="categ_id" ref="product.product_category_6"/>
+            <field name="standard_price">240.0</field>
+            <field name="list_price">217.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">Lightweight construction with breathable mesh fabric for maximum comfort and performance Lace-up closure for a snug fit High quality EVA sole for traction and exceptional durability</field>
+            <field name="default_code">sp-sneak</field>
+            <field name="image" type="base64" file="theme_inventive/static/src/img/products/shoes/product_2.png"/>
+            <field name="public_categ_ids" eval="[(6,0,[ref('root_categ_hiking'),ref('root_categ_football'),ref('root_categ_cycling')])]"/>
+            <field name="noupdate">False</field>
+            <field name = "website_sequence">1099</field>
+        </record>
+        <record id="product_product_3" model="product.product">
+            <field name="website_published" eval="True"/>
+            <field name="name">Sneakers</field>
+            <field name="categ_id" ref="product.product_category_6"/>
+            <field name="standard_price">240.0</field>
+            <field name="list_price">217.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">Lightweight construction with breathable mesh fabric for maximum comfort and performance Lace-up closure for a snug fit High quality EVA sole for traction and exceptional durability</field>
+            <field name="default_code">sp-sneak</field>
+            <field name="image" type="base64" file="theme_inventive/static/src/img/products/shoes/product_3.png"/>
+            <field name="public_categ_ids" eval="[(6,0,[ref('root_categ_hiking'),ref('root_categ_football'),ref('root_categ_cycling')])]"/>
+            <field name="noupdate">False</field>
+            <field name = "website_sequence">1098</field>
+        </record>
+        <record id="product_product_4" model="product.product">
+            <field name="website_published" eval="True"/>
+            <field name="name">Sneakers</field>
+            <field name="categ_id" ref="product.product_category_6"/>
+            <field name="standard_price">240.0</field>
+            <field name="list_price">217.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">Lightweight construction with breathable mesh fabric for maximum comfort and performance Lace-up closure for a snug fit High quality EVA sole for traction and exceptional durability</field>
+            <field name="default_code">sp-sneak</field>
+            <field name="image" type="base64" file="theme_inventive/static/src/img/products/shoes/product_4.png"/>
+            <field name="public_categ_ids" eval="[(6,0,[ref('root_categ_hiking'),ref('root_categ_football'),ref('root_categ_cycling')])]"/>
+            <field name="noupdate">False</field>
+            <field name = "website_sequence">1097</field>
+        </record>
+        <record id="product_product_5" model="product.product">
+            <field name="website_published" eval="True"/>
+            <field name="name">Sneakers</field>
+            <field name="categ_id" ref="product.product_category_6"/>
+            <field name="standard_price">240.0</field>
+            <field name="list_price">217.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">Lightweight construction with breathable mesh fabric for maximum comfort and performance Lace-up closure for a snug fit High quality EVA sole for traction and exceptional durability</field>
+            <field name="default_code">sp-sneak</field>
+            <field name="image" type="base64" file="theme_inventive/static/src/img/products/shoes/product_1.png"/>
+            <field name="public_categ_ids" eval="[(6,0,[ref('root_categ_hiking'),ref('root_categ_football'),ref('root_categ_cycling')])]"/>
+            <field name="noupdate">False</field>
+            <field name = "website_sequence">1096</field>
+        </record>
+        <record id="product_product_6" model="product.product">
+            <field name="website_published" eval="True"/>
+            <field name="name">Sneakers</field>
+            <field name="categ_id" ref="product.product_category_6"/>
+            <field name="standard_price">240.0</field>
+            <field name="list_price">217.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">Lightweight construction with breathable mesh fabric for maximum comfort and performance Lace-up closure for a snug fit High quality EVA sole for traction and exceptional durability</field>
+            <field name="default_code">sp-sneak</field>
+            <field name="image" type="base64" file="theme_inventive/static/src/img/products/shoes/product_2.png"/>
+            <field name="public_categ_ids" eval="[(6,0,[ref('root_categ_hiking'),ref('root_categ_football'),ref('root_categ_cycling')])]"/>
+            <field name="noupdate">False</field>
+            <field name = "website_sequence">1095</field>
+        </record>
+        <record id="product_product_7" model="product.product">
+            <field name="website_published" eval="True"/>
+            <field name="name">Sneakers</field>
+            <field name="categ_id" ref="product.product_category_6"/>
+            <field name="standard_price">240.0</field>
+            <field name="list_price">217.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">Lightweight construction with breathable mesh fabric for maximum comfort and performance Lace-up closure for a snug fit High quality EVA sole for traction and exceptional durability</field>
+            <field name="default_code">sp-sneak</field>
+            <field name="image" type="base64" file="theme_inventive/static/src/img/products/shoes/product_3.png"/>
+            <field name="public_categ_ids" eval="[(6,0,[ref('root_categ_hiking'),ref('root_categ_football'),ref('root_categ_cycling')])]"/>
+            <field name="noupdate">False</field>
+            <field name = "website_sequence">1094</field>
+        </record>
+        <record id="product_product_8" model="product.product">
+            <field name="website_published" eval="True"/>
+            <field name="name">Sneakers</field>
+            <field name="categ_id" ref="product.product_category_6"/>
+            <field name="standard_price">240.0</field>
+            <field name="list_price">217.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">Lightweight construction with breathable mesh fabric for maximum comfort and performance Lace-up closure for a snug fit High quality EVA sole for traction and exceptional durability</field>
+            <field name="default_code">sp-sneak</field>
+            <field name="image" type="base64" file="theme_inventive/static/src/img/products/shoes/product_4.png"/>
+            <field name="public_categ_ids" eval="[(6,0,[ref('root_categ_hiking'),ref('root_categ_football'),ref('root_categ_cycling')])]"/>
+            <field name="noupdate">False</field>
+            <field name = "website_sequence">1093</field>
+        </record>
+        <record id="product_product_9" model="product.product">
+            <field name="website_published" eval="True"/>
+            <field name="name">Sneakers</field>
+            <field name="categ_id" ref="product.product_category_6"/>
+            <field name="standard_price">240.0</field>
+            <field name="list_price">217.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">Lightweight construction with breathable mesh fabric for maximum comfort and performance Lace-up closure for a snug fit High quality EVA sole for traction and exceptional durability</field>
+            <field name="default_code">sp-sneak</field>
+            <field name="image" type="base64" file="theme_inventive/static/src/img/products/shoes/product_1.png"/>
+            <field name="public_categ_ids" eval="[(6,0,[ref('root_categ_hiking'),ref('root_categ_football'),ref('root_categ_cycling')])]"/>
+            <field name="noupdate">False</field>
+            <field name = "website_sequence">1092</field>
+        </record>
+        <record id="product_product_10" model="product.product">
+            <field name="website_published" eval="True"/>
+            <field name="name">Sneakers</field>
+            <field name="categ_id" ref="product.product_category_6"/>
+            <field name="standard_price">240.0</field>
+            <field name="list_price">217.0</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">Lightweight construction with breathable mesh fabric for maximum comfort and performance Lace-up closure for a snug fit High quality EVA sole for traction and exceptional durability</field>
+            <field name="default_code">sp-sneak</field>
+            <field name="image" type="base64" file="theme_inventive/static/src/img/products/shoes/product_2.png"/>
+            <field name="public_categ_ids" eval="[(6,0,[ref('root_categ_hiking'),ref('root_categ_football'),ref('root_categ_cycling')])]"/>
+            <field name="noupdate">False</field>
+            <field name = "website_sequence">1091</field>
+        </record>
+
+    </data>
+</odoo>

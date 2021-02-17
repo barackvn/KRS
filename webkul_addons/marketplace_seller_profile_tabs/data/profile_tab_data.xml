@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+	<data>
+		<function model="ir.default"
+			name="set"
+			eval="('res.config.settings', 'group_seller_profile_tabs', True)"
+			/>
+
+        <record id="profile_tab_data1" model="profile.tab">
+            <field name="name">Video</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="profile_tab_data2" model="profile.tab">
+            <field name="name">Gallery</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

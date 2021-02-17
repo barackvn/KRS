@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="products_item_ribbon_tag_inherit" inherit_id="website_sale.products_item" priority="30" name="Theme Product Tag ribbon inherit">
+      <xpath expr="//div[hasclass('ribbon-wrapper')]" position="replace">
+    			<div class="ribbon-wrapper" t-if="product.product_tag_id" t-att-style="'display:inline-block' if product.product_tag_id else ''">
+              <a role="button" t-attf-class="ribbon btn btn-danger product_tag #{product.product_tag_id.style}">
+                  <i class="fa fa-tag mr4"></i>
+                  <span class="text" t-field="product.product_tag_id"/>
+              </a>
+    			</div>
+          <div t-else="" class="ribbon-wrapper">
+              <a href="#" role="button" class="ribbon btn btn-danger">Sale</a>
+          </div>
+		</xpath>
+      <xpath expr="//div[hasclass('oe_product_image')]" position="attributes">
+			   <attribute name="t-att-style">'overflow:visible;' if product.product_tag_id else ''</attribute>
+		   </xpath>
+	</template>
+  <!-- Product page inherit  -->
+  <template id="product_page_product_tags_inherit" inherit_id="website_sale.shop_product_carousel" name="Theme Inventive Product Tags Inherit">
+      <xpath expr="//div[@id='o-carousel-product']//div[hasclass('carousel-outer')]" position="before">
+        <div class="ribbon-wrapper" t-if="product.product_tag_id" t-att-style="'display:inline-block' if product.product_tag_id else ''">
+            <a role="button" t-attf-class="ribbon btn btn-danger product_tag #{product.product_tag_id.style}">
+                <i class="fa fa-tag mr4"></i>
+                <span class="text" t-field="product.product_tag_id"/>
+            </a>
+        </div>
+      </xpath>
+  </template>
+  <template id="product_tags_assets_frontend" name="product Tags assets" inherit_id="website.assets_frontend">
+      <xpath expr="." position="inside">
+          <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/product_view/product_tags.scss"/>
+      </xpath>
+  </template>
+
+
+  <data>
+    <!-- Product template form View -->
+	   <record id="product_template_form_view_inherit" model="ir.ui.view">
+       <field name="name">product.template.tags.theme.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+    				<xpath expr="//group[@name='product_template_images']" position="before">
+    					<group name="Tag" string="Sale Product Tags">
+    						<field name="product_tag_id" title="Tag"></field>
+    					</group>
+    				</xpath>
+			</field>
+    </record>
+
+		<!-- Tag Form view  -->
+		<record id="tag_form_view" model="ir.ui.view">
+	        <field name="name">tag.form.view</field>
+	        <field name="model">th.product.tags</field>
+	        <field name="arch" type="xml">
+	            <form string="Product Tag">
+	                <sheet>
+                    <field name="website_publish" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_publish_status" type="object" class="oe_stat_button" icon="fa-globe">
+                            <field name="website_publish" widget="website_button"/>
+                        </button>
+                    </div>
+	                    <div class="oe_left">
+	                        <group>
+	                             <field name="name" title="Tag"></field>
+	                             <field name="style" title="Style"></field>
+	                        </group>
+                          <group>
+                            <field name="product_ids" widget="many2many_tags" domain="[('website_published','=',True)]"/>
+                          </group>
+	                    </div>
+	                </sheet>
+	            </form>
+	        </field>
+	    </record>
+
+	    <!-- Tags action with menu  -->
+	    <record id="tag_filter_action" model="ir.actions.act_window">
+	        <field name="name">Product Tags</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">th.product.tags</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="view_id" eval="False"/>
+	    </record>
+	    <menuitem action="tag_filter_action" id="tag_filter" parent="theme_inventive.theme_inventive_website_menu" />
+	</data>
+</odoo>

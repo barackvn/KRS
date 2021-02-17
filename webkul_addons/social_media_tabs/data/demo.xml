@@ -1,0 +1,139 @@
+<odoo>
+    <data noupdate="1">
+
+        <record id="facebook_social_tab" model="social.media.tabs">
+            <field name="icon" type="base64" file="social_media_tabs/static/src/images/fb.png"/>
+            <field name="media_type">social_tab</field>
+            <field name="social_tab">facebook</field>
+            <field name="tab_sequence">1</field>
+            <field name="color">#283593</field>
+            <field name="title">Facebook</field>
+            <field name="folow">Follow on facebook</field>
+            <field name="logo" type="base64" file="social_media_tabs/static/src/images/facebook.png"/>
+            <!-- <field name="limit">10</field> -->
+            <field name="facebook_id">webkul</field>
+            <field name="publish" eval="True"/>
+        </record>
+
+        <record id="tumblr_social_tab" model="social.media.tabs">
+            <field name="icon" type="base64" file="social_media_tabs/static/src/images/tmblr.png"/>
+            <field name="media_type">social_tab</field>
+            <field name="social_tab">tumblr</field>
+            <field name="tab_sequence">5</field>
+            <field name="color">#35465d</field>
+            <field name="title">Tumblr</field>
+            <field name="folow">Follow on tumblr</field>
+            <field name="logo" type="base64" file="social_media_tabs/static/src/images/tumblr.png"/>
+            <field name="limit">10</field>
+            <field name="tumblr_id">dummy</field>
+            <field name="publish" eval="False"/>
+        </record>
+
+        <record id="twitter_social_tab" model="social.media.tabs">
+            <field name="icon" type="base64" file="social_media_tabs/static/src/images/twitert.png"/>
+            <field name="media_type">social_tab</field>
+            <field name="social_tab">twitter</field>
+            <field name="tab_sequence">2</field>
+            <field name="color">#1da1f2</field>
+            <field name="title">Twitter</field>
+            <field name="folow">Follow on twitter</field>
+            <field name="logo" type="base64" file="social_media_tabs/static/src/images/twitterf.png"/>
+            <!-- <field name="limit">10</field> -->
+            <field name="twiter_user_id">webkul</field>
+            <field name="publish" eval="True"/>
+        </record>
+
+        <record id="youtube_social_tab" model="social.media.tabs">
+            <field name="icon" type="base64" file="social_media_tabs/static/src/images/yt.png"/>
+            <field name="media_type">social_tab</field>
+            <field name="social_tab">youtube</field>
+            <field name="tab_sequence">6</field>
+            <field name="color">#Ff0000</field>
+            <field name="title">Youtube</field>
+            <field name="folow">Follow on youtube</field>
+            <field name="logo" type="base64" file="social_media_tabs/static/src/images/youtube.png"/>
+            <field name="limit">10</field>
+            <field name="yt_api_key">123123123213</field>
+            <field name="yt_channel_id">sdfdsfdsfdsfdsf</field>
+            <field name="yt_user_id">sdfdsfdsfdsfdsf</field>
+            <field name="yt_show_subscribe">True</field>
+            <field name="publish" eval="False"/>
+        </record>
+
+        <record id="instagram_social_tab" model="social.media.tabs">
+            <field name="icon" type="base64" file="social_media_tabs/static/src/images/instagram.jpg"/>
+            <field name="media_type">social_tab</field>
+            <field name="social_tab">instagram</field>
+            <field name="tab_sequence">7</field>
+            <field name="color">#c32aa3</field>
+            <field name="title">Instagram</field>
+            <field name="folow">Follow on instagram</field>
+            <field name="logo" type="base64" file="social_media_tabs/static/src/images/instagram.png"/>
+            <field name="limit">10</field>
+            <field name="instagram_user">dummy</field>
+            <field name="instagram_user">instagram_client_id</field>
+            <field name="instagram_user">instagram_client_secret</field>
+            <field name="instagram_user">instagram_access_token</field>
+            <field name="publish" eval="False"/>
+        </record>
+
+        <record id="pinterest_social_tab" model="social.media.tabs">
+            <field name="icon" type="base64" file="social_media_tabs/static/src/images/pt.png"/>
+            <field name="media_type">social_tab</field>
+            <field name="social_tab">pinterest</field>
+            <field name="tab_sequence">3</field>
+            <field name="color">#bd081c</field>
+            <field name="title">Pinterest</field>
+            <field name="folow">Follow on pinterest</field>
+            <field name="logo" type="base64" file="social_media_tabs/static/src/images/pinterest.png"/>
+            <!-- <field name="limit">10</field> -->
+            <field name="pinterest_id">dummywebkul</field>
+            <field name="publish" eval="False"/>
+        </record>
+
+        <record id="flickr_social_tab" model="social.media.tabs">
+            <field name="icon" type="base64" file="social_media_tabs/static/src/images/fkr.png"/>
+            <field name="media_type">social_tab</field>
+            <field name="social_tab">flickr</field>
+            <field name="tab_sequence">8</field>
+            <field name="color">rgba(0,0,0,.5)</field>
+            <field name="title">flickr</field>
+            <field name="folow">Follow on flickr</field>
+            <field name="logo" type="base64" file="social_media_tabs/static/src/images/flickr.png"/>
+            <field name="limit">10</field>
+            <field name="flickr_id">dummy</field>
+            <field name="publish" eval="False"/>
+        </record>
+
+        <record id="custom_tab_1" model="social.media.tabs">
+            <field name="icon" type="base64" file="social_media_tabs/static/src/images/contact.jpg"/>
+            <field name="media_type">custom</field>
+            <field name="tab_sequence">9</field>
+            <field name="color">#64DD17</field>
+            <field name="title">Contact Us</field>
+            <field name="custom_tab_name">Contact Us</field>
+            <field name="logo" type="base64" file="social_media_tabs/static/src/images/shares.png"/>
+            <field name="custom_html"><![CDATA[
+                <address> <div data-oe-model="res.company" data-oe-id="1" data-oe-field="partner_id" data-oe-type="contact" data-oe-expression="res_company.partner_id">
+                <address class="mb0"><div><b><font style="font-size: 24px;" class="bg-white text-delta">Contact Us<div style="text-align: justify;"><b style="color: rgb(0, 0, 0); font-family: inherit; font-size: initial; font-variant-ligatures: initial; font-variant-caps: initial;"><font style="color: rgb(49, 24, 115); font-size: 18px;" class="bg-white">This is a test customizable Contact us page you can </font></b><span style="color: rgb(49, 24, 115); font-family: inherit; font-size: initial; font-variant-caps: initial; font-variant-ligatures: initial;">C</span><b style="color: rgb(0, 0, 0); font-family: inherit; font-size: initial; font-variant-ligatures: initial; font-variant-caps: initial;"><font style="color: rgb(49, 24, 115); font-size: 18px;">ustomize&nbsp;it according to your own choice. You can create as many as customizable custom tabs as you &nbsp;wish. You can add images and links etc.</font></b><b style="color: rgb(0, 0, 0); font-family: inherit; font-size: initial; font-variant-ligatures: initial; font-variant-caps: initial;"><font style="color: rgb(49, 24, 115); font-size: 18px;"><br></font></b></div></font></b></div></address></div> </address>
+                ]]></field>
+        </record>
+
+        <record id="custom_tab_2" model="social.media.tabs">
+            <field name="icon" type="base64" file="social_media_tabs/static/src/images/custom.jpg"/>
+            <field name="media_type">custom</field>
+            <field name="tab_sequence">8</field>
+            <field name="color">#9E9E9E</field>
+            <field name="title">Contact Us</field>
+            <field name="custom_tab_name">Custom Tab</field>
+            <field name="logo" type="base64" file="social_media_tabs/static/src/images/shares.png"/>
+            <field name="custom_html"><![CDATA[
+                <p><font style="font-size: 36px;" class="text-epsilon">CUSTOM TAB</font></p><p><font style="color: rgb(255, 0, 255); font-size: 36px;"> </font><font style="color: rgb(57, 123, 33); font-size: 36px;">This is a test custom tab</font></p><p>&nbsp;&nbsp;&nbsp;&nbsp;<font style="color: rgb(57, 123, 33); font-size: 36px;">&nbsp;</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style="color: rgb(57, 123, 33); font-size: 36px;">&nbsp;</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style="color: rgb(57, 123, 33); font-size: 36px;">&nbsp;</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style="color: rgb(57, 123, 33); font-size: 36px;">&nbsp;</font>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/website/static/src/img/library/sweet.jpg" class="pull-left" style="width: 100%;" title=""><font style="color: rgb(57, 123, 33); font-size: 36px;"><br></font><br></p>]]></field>
+        </record>
+
+        <record id="social_res_config" model="social.tab.config.settings">
+            <field name="tab_ids" eval="[(6, 0, [ref('social_media_tabs.facebook_social_tab'),ref('social_media_tabs.tumblr_social_tab'),ref('social_media_tabs.twitter_social_tab'),ref('social_media_tabs.youtube_social_tab'),ref('social_media_tabs.instagram_social_tab'),ref('social_media_tabs.pinterest_social_tab'),ref('social_media_tabs.flickr_social_tab')])]"/>
+        </record>
+
+    </data>
+</odoo>

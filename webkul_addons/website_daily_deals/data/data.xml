@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE URL <https://store.webkul.com/license.html/> for full copyright and licensing details. -->
+<odoo noupdate="1">
+    <record id="wk_deals_dummy_pricelist" model="product.pricelist">
+        <field name="name">Deals Dummy Pricelist</field>
+        <field name="discount_policy">without_discount</field>
+        <field name="selectable">False</field>
+        <field name="sequence">1000000</field>
+    </record>
+</odoo>

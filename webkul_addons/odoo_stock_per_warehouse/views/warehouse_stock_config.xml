@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+        <record id="warehouse_stock_config_settings_form" model="ir.ui.view">
+            <field name="name">warehouse.stock.config.settings.form</field>
+            <field name="model">warehouse.stock.config.settings</field>
+            <field name="arch" type="xml">
+                <form class="oe_form_configuration">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button
+                                name ="toggle_is_active"
+                                type ="object"
+                                class="oe_stat_button"
+                                icon ="fa-check"
+                                title="Toggle"
+                                aria-label="Toggle"
+                            >
+                                <field
+                                    name   ="is_active"
+                                    widget ="boolean_button"
+                                    options='{"terminology":"active"}'
+                                />
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                            <h3>
+                                <field
+                                    name   ="website_id"
+                                    options="{'no_quick_create':True,'no_create_edit':True,'no_open': True}"
+                                />
+                            </h3>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="qty_type" widget="radio"/>
+                                <field name="user_visibility"/>
+                                <field name="show_qty"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="warehouse_stock_config_settings_tree" model="ir.ui.view">
+            <field name="name">warehouse.stock.config.settings.tree</field>
+            <field name="model">warehouse.stock.config.settings</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="is_active"/>
+                    <field name="website_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <act_window
+            id       ="warehouse_stock_config_settings_action"
+            name     ="Warehouse Stocks configuratons"
+            res_model="warehouse.stock.config.settings"
+            view_mode="tree,form"
+        />
+    </data>
+</odoo>

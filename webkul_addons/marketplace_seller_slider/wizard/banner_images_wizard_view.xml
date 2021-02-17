@@ -1,0 +1,21 @@
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="banner_images_wizard_form_view">
+            <field name="name">Banner Images Wizard Form</field>
+			<field name="model">banner.images.wizard</field>
+			<field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="partner_id" invisible="1"/>
+                        <field name="shop_id"/>
+                        <field name="banner_images" widget="many2many_kanban" domain="['|',('partner_id','=',partner_id),('shop_id','=',shop_id)]"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

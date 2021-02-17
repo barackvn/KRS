@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="wk_team_view" model="ir.ui.view">
+        <field name="name">Team Form View</field>
+        <field name="model">wk.team</field>
+        <field name="arch" type="xml">
+           <form string="Team">
+            <sheet>
+                <widget name="web_ribbon" text="Archived" bg_color="bg-danger" groups="project_advance_team.group_project_leader" attrs="{'invisible': [('active', '=', True)]}"/>
+                <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object" groups="project_advance_team.group_project_leader" class="oe_stat_button" icon="fa-archive">
+                        <div class="o_stat_info">
+                            <field name="active" widget="boolean_button" readonly='1' invisible='True'/>
+                            <span class="o_stat_text text-danger" attrs="{'invisible': [('active', '=', False)]}">Archive</span>
+                            <span class="o_stat_text text-success" attrs="{'invisible': [('active', '=', True)]}">Restore</span>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" type="object" name="projects_action"
+                        icon="fa-puzzle-piece" attrs="{'invisible': [('project_count', '=', 0)]}">
+                        <field string="Projects" name="project_count" widget="statinfo"/>
+                    </button>
+                </div>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="Team Name"/>
+                    </h1>
+                </div>
+                <group>
+                    <group name="team_details">
+                        <field name="active" invisible="1"/>
+                        <field name="manager" options="{'no_create_edit': True, 'no_open':True,'no_create':True}"/>
+                        <field name="create_uid" string="Created By" groups="project_advance_team.group_project_leader" readonly="1" attrs="{'invisible':[('create_uid','=',False)]}" options="{'no_create_edit': True, 'no_open':True,'no_create':True}"/>
+                    </group>
+                    <group name="team_info">
+                        <field name="department_id" help="Selected Manager's department will auto-populate here."/>
+                        <field name="parent_id" options="{'no_create_edit': True, 'no_open':True,'no_create':True}"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Team Members" name="members">
+                        <field colspan="4" name="members" mode="kanban" options="{'no_create_edit': True, 'no_open':True,'no_create':True}">
+                            <kanban quick_create="false" create="true" delete="true">
+                                <field name="name"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div style="position: relative">
+                                            <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                            <div class="oe_module_vignette">
+                                                <div class="o_kanban_image">
+                                                    <a type="open">
+                                                        <img alt="" t-if="record.image_small" t-att-src="kanban_image('res.users', 'image_small', record.id.raw_value)"/>
+                                                        <t t-if="!record.image_small">
+                                                            <img alt="Avatar" t-att-src='_s + "/base/static/img/avatar.png"'/>
+                                                        </t>
+                                                    </a>
+                                                </div>
+                                                <div class="oe_module_desc">
+                                                    <field name="name"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </page>
+                    <page name="child_teams" string="Child Teams">
+                        <field name="child_ids" >
+                             <tree string="Teams">
+                                <field name="name" />
+                                <field name="manager"/>
+                                <field name="create_uid"/>
+                            </tree>
+                            <form string="Team">
+                                <sheet>
+                                    <div class="oe_button_box" name="button_box">
+                                        <button class="oe_stat_button" type="object" name="projects_action"
+                                            icon="fa-puzzle-piece" attrs="{'invisible': [('project_count', '=', 0)]}">
+                                            <field string="Projects" name="project_count" widget="statinfo"/>
+                                        </button>
+                                    </div>
+                                    <div class="oe_title">
+                                        <h1>
+                                            <field name="name" placeholder="Team Name"/>
+                                        </h1>
+                                    </div>
+                                    <group>
+                                        <group name="team_details">
+                                            <field name="manager" options="{'no_create_edit': True, 'no_open':True,'no_create':True}"/>
+                                            <field name="create_uid" string="Created By" groups="project_advance_team.group_project_leader" readonly="1" attrs="{'invisible':[('create_uid','=',False)]}" options="{'no_create_edit': True, 'no_open':True,'no_create':True}"/>
+                                        </group>
+                                        <group name="team_info">
+                                        <field name="department_id"/>
+                                            <field name="parent_id" options="{'no_create_edit': True, 'no_open':True,'no_create':True}"  attrs="{'invisible':[('parent_id','=',False)]}"/>
+                                        </group>
+                                    </group>
+                                    <notebook>
+                                        <page string="Team Members" name="members">
+                                            <field colspan="4" name="members" widget="many2many_kanban" options="{'no_create_edit': True, 'no_open':True,'no_create':True}">
+                                                <kanban quick_create="false" create="true" delete="true">
+                                                    <field name="name"/>
+                                                    <templates>
+                                                        <t t-name="kanban-box">
+                                                            <div style="position: relative">
+                                                                <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                                                <div class="oe_module_vignette">
+                                                                    <img t-att-src="kanban_image('res.users', 'image_small', record.id)" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                                                                    <div class="oe_module_desc">
+                                                                        <field name="name"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </t>
+                                                    </templates>
+                                                </kanban>
+                                            </field>
+                                        </page>
+                                        <page name="child_teams" string="Child Teams"  attrs="{'invisible':[('parent_id','=',False)]}" >
+                                            <field name="child_ids">
+                                                <tree string="Teams">
+                                                    <field name="name" />
+                                                    <field name="manager"/>
+                                                    <field name="department_id"/>
+                                                    <field name="create_uid"/>
+                                                </tree>
+                                            </field>
+                                        </page>
+                                    </notebook>
+                                    <label for="description"/>
+                                    <div>
+                                        <field name="description" placeholder="Describe about team in details..."/>
+                                    </div>
+                                </sheet>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                <label for="description"/>
+                <div>
+                    <field name="description" placeholder="Describe about team in details..."/>
+                </div>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+           </form>
+        </field>
+    </record>
+
+    <record id="wk_team_tree_view" model="ir.ui.view">
+        <field name="name">Team Tree</field>
+        <field name="model">wk.team</field>
+        <field name="arch" type="xml">
+            <tree string="Teams">
+                <field name="display_name" string="Name"/>
+                <field name="manager"/>
+                <field name="department_id"/>
+                <field name="create_uid"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="team_filter" model="ir.ui.view">
+            <field name="name">wk.team</field>
+            <field name="model">wk.team</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search  string="Teams">
+                    <field name="name"/>
+                    <field name="manager"/>
+                    <field name="create_uid"/>
+                    <field name="create_date"/>
+                    <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                    <filter string="My Teams" domain="['|','|',('members','in',[uid]),('manager','in',[uid]),('create_uid','in',[uid])]" help="My Teams" name="my_team"/>
+                    <group expand="0" string="Group By...">
+                        <filter name="group_manager" string="Manager" icon="terp-product" context="{'group_by':'manager'}"/>
+                        <filter name="group_date" string="Month" icon="terp-product" context="{'group_by':'create_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    <record id="wk_team_action_tree" model="ir.actions.act_window">
+        <field name="name">Teams</field>
+        <field name="res_model">wk.team</field>
+        <field name="domain"></field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_my_team': 1}</field>
+        <field name="view_id" ref="wk_team_tree_view"/>
+    </record>
+
+    <menuitem id="wk_team_menu" action="wk_team_action_tree" parent="project.menu_main_pm" sequence="3"/>
+    <menuitem id="project.menu_project_config" name="Configuration" parent="project.menu_main_pm" sequence="100" groups="project.group_project_manager,project_advance_team.group_project_leader"/>
+    <menuitem id="project.menu_project_report" name="Reporting" groups="project.group_project_manager,project_advance_team.group_project_leader" parent="project.menu_main_pm" sequence="99"/>
+
+</odoo>

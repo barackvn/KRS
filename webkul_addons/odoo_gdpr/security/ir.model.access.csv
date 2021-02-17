@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ir_attachment_public,odoo_gdpr.ir_attachment.public,base.model_ir_attachment,,1,0,0,0
+access_gdpr_data_template_public,odoo_gdpr.gdpr_data_template.public,odoo_gdpr.model_gdpr_data_template,,1,0,0,0
+access_gdpr_request_public,odoo_gdpr.gdpr_request.public,odoo_gdpr.model_gdpr_request,,1,0,0,0
+
+access_ir_attachment_admin,odoo_gdpr.ir_attachment.admin,base.model_ir_attachment,base.group_user,1,1,1,1
+access_gdpr_data_template_admin,odoo_gdpr.gdpr_data_template.admin,odoo_gdpr.model_gdpr_data_template,base.group_user,1,1,1,1
+access_gdpr_request_admin,odoo_gdpr.gdpr_request.admin,odoo_gdpr.model_gdpr_request,base.group_user,1,1,1,1
+access_odoo_gdpr_admin,odoo_gdpr.odoo_gdpr.admin,odoo_gdpr.model_odoo_gdpr,base.group_user,1,1,1,1

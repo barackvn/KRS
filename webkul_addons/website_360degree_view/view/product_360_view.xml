@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+        <record id="product_360_view_view_form" model="ir.ui.view">
+            <field name="name">product.360.view.form</field>
+            <field name="model">product.360.view</field>
+            <field name="arch" type="xml">
+                <form string="Product 360 View Images" create="false">
+                    <group col="6">
+                        <div class="oe_title" style="width: 200px;">
+                            <!--<label class="" for="image" string="Image"/>-->
+                            <field name="image" widget="image" class="oe_avatar oe_left"/>
+                        </div>
+                        <div class="oe_title" style="width: 200px;">
+                            <label class="" for="name" string="Sequence"/>
+                            <field name="sequence"/>
+                        </div>
+                        <div class="oe_title" style="width: 350px;">
+                            <label class="" for="name"/>
+                            <h1><field name="name" class="oe_inline"/></h1>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_360_view_view_tree" model="ir.ui.view">
+            <field name="name">product.360.view.tree</field>
+            <field name="model">product.360.view</field>
+            <field name="arch" type="xml">
+                <tree string="Product 360 View Images" create="false">
+                    <field name="template_id"/>
+                    <field name="name"/>
+                    <field name="sequence"/>
+                    <field name="image" widget="image" width="20%" height="20%"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- <record id="product_360_view_view_kanban" model="ir.ui.view">
+            <field name="name">product.360.view.kanban</field>
+            <field name="model">product.360.view</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="image"/>
+                    <field name="sequence"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                            <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right"/>
+                                <div class="o_kanban_image">
+                                    <img alt="Not Found" t-if="record.image.raw_value" t-att-src="'data:image/png;base64,'+record.image.raw_value"/>
+                                    </div>
+                                <div class="oe_kanban_details">
+                                    <strong>Label:</strong><field name="name"/><br/>
+                                    <strong>Sequence:</strong><field name="sequence"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record> -->
+
+
+		<record id="product_template_view_form_inherit_product_360_view" model="ir.ui.view">
+            <field name="name">Website Product 360 View Image</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view" />
+            <field name="arch" type="xml">
+				<xpath expr="//notebook" position="inside">
+	            	<page string="360° View" icon="">
+                        <group string="Website Product View">
+                            <div name="product_default_view">
+                                <div class="oe_inline">
+                                    <field name="product_default_view"/>
+                                    <label for="product_default_view"/>
+                                    <field name="product_360_view"/>
+                                    <label for="product_360_view"/>
+                                </div>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="number_of_images_for_360"/>
+                        </group>
+	            		<field name="template_360_images" mode="kanban"  class="">
+    	            		<kanban>
+                                <field name="name"/>
+    	            			<field name="image"/>
+                                <field name="sequence"/>
+                        		<templates>
+                                    <t t-name="kanban-box">
+                                        <div class="oe_kanban_global_click">
+                                        <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right"/>
+                                            <div class="o_kanban_image">
+                                                <img alt="Not Found" t-if="record.image.raw_value" t-att-src="'data:image/png;base64,'+record.image.raw_value"/>
+                                            </div>
+                                            <div class="oe_kanban_details">
+                                                <strong>Label:</strong><field name="name"/><br/>
+                                                <strong>Sequence:</strong><field name="sequence"/>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </page>
+				</xpath>
+			</field>
+		</record>
+
+        <record id="product_360_view_module_filter" model="ir.ui.view">
+            <field name="name">Product.360.view.Filter</field>
+            <field name="model">product.360.view</field>
+            <field name="arch" type="xml">
+                <search string="Search Report">
+                    <field name="template_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Product" domain="[]" context="{'group_by':'template_id'}" name="by_template_id"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="action_product_360_view_images" model="ir.actions.act_window">
+            <field name="name">360° View Images</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.360.view</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="context">{'search_default_by_template_id':1}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="action_product_360_view_images" id="menu_product_360_images" parent="sale.product_menu_catalog" name="360 View Images" sequence="101"/>
+	</data>
+</odoo>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <template id="seller_collec_template" inherit_id="odoo_marketplace.mp_seller_profile" name="Seller Collections">
+            <xpath expr="//ul[@id='shop-nav-tabs']" position="inside">
+                <li class="nav-item">
+                    <a href="#seller_collec_tab" data-toggle="tab" class="nav-link">
+                        Collections
+                        <span t-if="collections_page or collections_group" class='badge badge-secondary badge-pill'><t t-esc="len(collections_page) + len(collections_group)"/></span>
+                    </a>
+                </li>
+            </xpath>
+            <xpath expr="//div[@id='shop-tab-content']" position="inside">
+                <div class="tab-pane" id="seller_collec_tab">
+                    <t t-call="marketplace_seller_collection_page.mp_seller_collections"/>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="mp_seller_collections" name="Seller Collections Template">
+            <div class="container">
+                <div class="row">
+                    <div class="container-fluid">
+                        <div t-if="not collections_page and not collections_group" class="container mb64">
+                            <p class="css_editable_hidden">
+                                <h1>No Collections Yet</h1>
+                            </p>
+                        </div>
+                        <div t-else="" class="container">
+                            <t t-if="not collections_page and not collections_group">
+                                <center>
+                                    <h2 style="color:grey;">No Collections Published Yet</h2>
+                                </center>
+                            </t>
+                            <t t-if="collections_group">
+                                <t t-foreach="collections_group" t-as="group">
+                                    <t t-if="group.group_type == 'carousel'">
+                                        <t t-call="website_collectional_page.collections_group_carousel"/>
+                                        <hr/>
+                                    </t>
+                                    <t t-if="group.group_type == 'simple'">
+                                        <t t-call="website_collectional_page.collections_group_simple"/>
+                                        <hr/>
+                                    </t>
+                                </t>
+                            </t>
+                            <t t-if="collections_page">
+                                <t t-foreach="collections_page" t-as="page">
+                                    <t t-if="page.page_type == 'banner'">
+                                        <t t-call="website_collectional_page.collections_page_banner"/>
+                                        <hr/>
+                                    </t>
+                                    <t t-if="page.page_type == 'product'">
+                                        <t t-call="website_collectional_page.collections_page_product"/>
+                                        <hr/>
+                                    </t>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </data>
+</odoo>

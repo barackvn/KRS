@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_reason_form_wizard" model="ir.ui.view">
+            <field name="name">Reason Message wizard</field>
+            <field name="model">cancel.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Message" >
+                    <field name="is_cancel" invisible="1"/>
+                    <separator string="Reason" colspan="6"/>
+                    <group cols="4">
+                        <field name="reason_id"/>
+                    </group>
+                    <field name="comment" colspan="4" nolabel="1" placeholder="Please mention your reason why you do this."/>
+                    <newline/>
+                    <separator colspan="6"/>
+                    <footer>
+                        <button name="get_cancel_subscription" string="Cancel Now" type="object"
+                             class="oe_highlight" attrs="{'invisible':[('is_cancel','!=',True)]}"/>
+                        <button name="get_close_subscription" string="Close" type="object"
+                             class="oe_highlight" attrs="{'invisible':[('is_cancel','=',True)]}"/>
+                        <button special="cancel" class="" string="Close" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="subscription_cancel_reason_wizard_action" model="ir.actions.act_window">
+            <field name="name">Cancel Reason Wizard</field>
+            <field name="res_model">cancel.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_reason_form_wizard"/>
+            <field name="target">new</field>
+        </record>
+</data>
+</odoo>

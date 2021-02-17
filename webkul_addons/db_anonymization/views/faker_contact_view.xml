@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="faker_contact_view_form" model="ir.ui.view">
+        <field name="name">faker.contact.form</field>
+        <field name="model">faker.contact</field>
+        <field name="arch" type="xml">
+            <form string="Faker Contact Form" create="false">
+              <sheet>
+                  <group>
+                    <field name="name" required="1"/>
+                    <field name="city" required="1"/>
+                    <field name="email" required="1"/>
+                    <field name="mobile" required="1"/>
+                    <field name="phone" required="1"/>
+                    <field name="street" required="1"/>
+                    <field name="street2" required="1"/>
+                    <field name="zip" required="1"/>
+                    <field name="website" required="1"/>
+                  </group>
+              </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="faker_contact_view_tree" model="ir.ui.view">
+        <field name="name">faker.contact.tree</field>
+        <field name="model">faker.contact</field>
+        <field name="arch" type="xml">
+            <tree string="Faker Contact List" >
+              <field name="id"/>
+              <field name="name"/>
+              <field name="city"/>
+              <field name="email"/>
+              <field name="mobile"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="faker_contact_action" model="ir.actions.act_window">
+        <field name="name">Faker Contact Action</field>
+        <field name="res_model">faker.contact</field>
+        <field name="view_mode">tree,form</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_id" ref="faker_contact_view_tree"/>
+    </record>
+
+
+</odoo>

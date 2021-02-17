@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+      <record id="tab1" model="wk.product.tabs">
+            <field name="name">Item Details</field>
+            <field name="content">Item Details</field>
+        </record>
+        <record id="tab2" model="wk.product.tabs">
+              <field name="name">Payment Options</field>
+              <field name="content">Payment Options</field>
+          </record>
+          <record id="tab3" model="wk.product.tabs">
+                <field name="name">Shipping Options</field>
+                <field name="content">Shipping Options</field>
+          </record>
+      <record id="tab_product" model="product.product">
+          <field name="name">Product For Tabs Demo</field>
+          <field name="sale_ok">1</field>
+          <field name="website_published">1</field>
+          <field name="product_tab_type">horizontal</field>
+          <field name= "wk_product_tab_ids" eval="[
+              (4, ref('custom_product_tabs.tab1')),
+              (4, ref('custom_product_tabs.tab2')),
+              (4, ref('custom_product_tabs.tab3')),
+          ]"/>
+          <field name="image_variant_1920" type="base64"
+              file="custom_product_tabs/static/description/icon.png"/>
+      </record>
+			</data>
+	</odoo>

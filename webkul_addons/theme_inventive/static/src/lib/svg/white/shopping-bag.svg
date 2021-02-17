@@ -1,0 +1,22 @@
+<svg width="16px" height="18px" viewBox="0 0 16 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>header-shopping-bag</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="login-and-sign-up" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="sign-up" transform="translate(-1072.000000, -83.000000)">
+            <g id="Header" transform="translate(-1.000000, 0.000000)">
+                <g id="Group">
+                    <g transform="translate(0.000000, 48.000000)">
+                        <g id="Cart" transform="translate(1056.000000, 23.000000)">
+                            <g id="header-shopping-bag" transform="translate(17.000000, 13.000000)">
+                                <path d="M4,4 L14.0867854,4 C14.6039886,4 15.0358532,4.3943851 15.0826786,4.90946425 L16,15 C16,16.1045695 15.1045695,17 14,17 L2,17 C0.8954305,17 0,16.1045695 0,15 L0.917321431,4.90946425 C0.964146809,4.3943851 1.39601143,4 1.91321464,4 L4,4 Z M5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 C4.44771525,6 4,6.44771525 4,7 C4,7.55228475 4.44771525,8 5,8 Z M11,8 C11.5522847,8 12,7.55228475 12,7 C12,6.44771525 11.5522847,6 11,6 C10.4477153,6 10,6.44771525 10,7 C10,7.55228475 10.4477153,8 11,8 Z" id="Combined-Shape" fill="#FFFFFF"/>
+                                <path d="M11,0 C11,2.209139 9.65685425,4 8,4 C6.34314575,4 5,2.209139 5,0" id="Shape" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" transform="translate(8.000000, 2.000000) scale(1, -1) translate(-8.000000, -2.000000) "/>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

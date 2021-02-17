@@ -1,0 +1,22 @@
+/* Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+/* License URL : <https://store.webkul.com/license.html/> */
+
+.stock_available_dropdown_menu:after {
+    bottom             : 95%;
+    border             : solid transparent;
+    content            : " ";
+    height             : 0;
+    width              : 0;
+    position           : absolute;
+    pointer-events     : none;
+    border-bottom-color: #ffffff;
+    border-width       : 15px;
+    left               : 70%;
+    margin-left        : -19px;
+}
+
+.stock_available_dropdown_btn {
+    background: #333333;
+    color     : #FFFFFF;
+}

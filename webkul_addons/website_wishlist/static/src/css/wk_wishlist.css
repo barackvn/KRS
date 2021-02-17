@@ -1,0 +1,20 @@
+/* Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+/* License URL : <https://store.webkul.com/license.html/> */
+
+.add_to_wishlist {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #777;
+}
+.wishlist_disabled {
+    pointer-events: none;
+    cursor: default;
+    color: green !important;
+    text-decoration: none;
+}
+.wishlist_enabled {color: #337ab7;}
+.wishlist_js_product{text-align: left;}
+.col-form-label{
+  padding: 0px;
+}

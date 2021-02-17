@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data>
+        <record id="merge_po_wizard_form" model="ir.ui.view">
+            <field name="name">merge.po.wizard.form</field>
+            <field name="model">merge.po.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Message">
+                    <div class="alert alert-info" role="alert" style="padding:5px 0px 0px 5px !important">
+                        <span style="font-size:medium">
+                            <p>
+                                <i class="fa fa-info-circle">
+                                    Only Draft Purchase Order/RFQ of Same Vendor/Partner Can be Merged
+                                </i>
+                            </p>
+                        </span>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="action_type" required="1"/>
+                        </group>
+                        <group attrs= "{'invisible': [('action_type', 'in', ['merge_cancel', 'merge_delete'])]}">
+                            <field name="select_order" domain="[('id', 'in', selected_orders)]" options="{'no_create': True}" attrs= "{'required': [('action_type', 'in', ['merge_exist_cancel_other', 'merge_exist_delete_other'])]}" />
+                        </group>
+                        <field name="selected_orders">
+                            <tree string="Selected Orders">
+                                <field name="name" string="Reference"/>
+                                <field name="date_order"/>
+                                <field name="partner_id"/>
+                                <field name="date_planned"/>
+                                <field name="origin"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="amount_untaxed" sum="Total Untaxed amount" string="Untaxed" widget="monetary"/>
+                                <field name="amount_total" sum="Total amount" widget="monetary"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="merge_purchase_orders" icon="fa-check " string="Done" type="object" />
+                        <button string="Cancel" class="oe_highlight" special="cancel" icon="fa-times-circle-o"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="merge_parnter_po_wizard_form" model="ir.ui.view">
+            <field name="name">merge.partner.po.wizard.form</field>
+            <field name="model">merge.po.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Message">
+                    <div class="alert alert-info" role="alert" style="padding:5px 0px 0px 5px !important">
+                        <span style="font-size:medium">
+                            <p>
+                                <i class="fa fa-info-circle">
+                                    Only Draft Purchase Order/RFQ of Same Vendor/Partner Can be Merged
+                                </i>
+                            </p>
+                        </span>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" required="1"/>
+                        </group>
+                        <group>
+                            <field name="action_type" required="1"/>
+                            <field name="select_order" domain="[('id', 'in', selected_orders)]" options="{'no_create': True}" attrs= "{'invisible':[('action_type','in', ['merge_cancel', 'merge_delete'])], 'required':[('action_type','in', ['merge_exist_cancel_other', 'merge_exist_delete_other'])]}" />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                        </group>
+                        <field name="selected_orders">
+                            <tree string="Selected Orders">
+                                <field name="name" string="Reference"/>
+                                <field name="date_order"/>
+                                <field name="partner_id"/>
+                                <field name="date_planned"/>
+                                <field name="origin"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="amount_untaxed" sum="Total Untaxed amount" string="Untaxed" widget="monetary"/>
+                                <field name="amount_total" sum="Total amount" widget="monetary"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="merge_purchase_orders" icon="fa-check " string="Done" type="object" />
+                        <button string="Cancel" class="oe_highlight" special="cancel" icon="fa-times-circle-o"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="merge_parnter_po_wizard_action" model="ir.actions.act_window">
+            <field name="name">Merge Partner Purchase Orders</field>
+            <field name="res_model">merge.po.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="merge_parnter_po_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

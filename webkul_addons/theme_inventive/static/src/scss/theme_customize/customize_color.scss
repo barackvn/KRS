@@ -1,0 +1,34 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+
+/* ::::::::::::::::::: Main Colors :::::::::::::::::::::::::*/
+$o-th-color-primary-palettes: (
+    (
+        'alpha': $th-color-primary,
+        'beta': #868e96,
+        'gamma': yellow,
+        'delta': #000000,
+        'epsilon': #eee,
+    ),
+);
+/* ::::::::::::::::::: Text Colors :::::::::::::::::::::*/
+$o-color-palettes: (
+    (
+		'body': null,
+	    'menu': #F9F9F9,
+	    'footer': #F9F9F9,
+	    'text': #555555,
+	    'h1':  #555555,
+	    'h2':  #555555,
+	    'h3':  #555555,
+	    'h4':  #555555,
+	    'h5':  #555555,
+	    'h6':  #555555,
+    ),
+);
+/* ::::::::::::::::: State Colors:::::::::::::::::::::::::::::*/
+$success:       #00b115 !default;
+$info:          #ffaa50 !default;
+$warning:       #ff5050 !default;
+$danger:        #900000 !default;

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Website Stock Notify">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src='/website_stock_notifiy/static/src/js/website_stock_notify.js'></script>
+            <link rel='stylesheet' href='/website_stock_notifiy/static/src/css/website_stock_notify.css'></link>
+        </xpath>
+    </template>
+
+    <template id="website_stock_notify" inherit_id="website_stock.product_stock">
+        <xpath expr="//div[@class='stock_info_div']" position="inside">
+            <t t-if="not product_quantity &gt; 0 and product.wk_order_allow == 'deny'">
+                <t t-set="is_user_public" t-value="website.env.user == request.website.user_id" />
+                <form id="notify-form">
+                    <div class="row wk_notify_main" t-att-id="product.id">
+                      
+                        <t t-if="not is_user_public">
+                            <div class="form-group">
+                                <p class="wk_text text-primary">Notify me when this product is in stock:</p>
+                            </div>
+                            <div class="input-group col-md-10 wk-input-box">
+                                <input type="text" class="form-control wk_input_email" placeholder="enter your email" t-att-value="website.env.user.email"></input>
+                                <div class="input-group-append"><a class="btn btn-primary submit_notify_reg">NOTIFY</a></div>
+                            </div>
+                            <div class="text-danger wk_msg email_msg">Please Input a Vailid Email ID.</div>
+                        </t>
+
+                        <div class="public-form" t-if="is_user_public">
+                            <div class="form-group">
+                                <p class="wk_text text-primary">Please enter your details and we will notify you when this product is back in stock:</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="contact_name">
+                                    <div class="required_asterisk text-danger">*</div>Your Name:</label>
+                                <input type="text" name="name" class="form-control wk_input_name" placeholder="enter your name"></input>
+                                <div class="text-danger wk_msg name_msg">Please Input Your Name.</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="contact_name">
+                                    <div class="required_asterisk text-danger">*</div>Email ID:</label>
+                                <input type="email" name="email" class="form-control wk_input_email" placeholder="enter your email"></input>
+                                <div class="text-danger wk_msg email_msg">Please Input a Vailid Email ID.</div>
+                            </div>
+                            <div class="clearfix">
+                                <center><a class="btn btn-default btn-primary submit_notify_pub">NOTIFY ME</a></center>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="div_message_notify mt8">
+                        <p class="text-info">Thank you for your interest in this product. You will be notified on this email when the product will be available.</p>
+                    </div>
+                </form>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>
+
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->

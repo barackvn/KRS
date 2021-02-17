@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+
+<odoo>
+    <!-- Mega Menu Snippets -->
+    <!--================= General Snippets  =============================-->
+    <template id="th_mega_menu_column_items" name="Inventive Menga Menu Column Items">
+        <nav class="nav flex-column">
+            <t t-if="categ">
+                <t t-foreach="categ.child_id" t-as="categ">
+                    <a t-att-href="keep('/shop/category/' + slug(categ))" class="nav-link" data-name="Menu Item" t-esc="categ.name"></a>
+                </t>
+            </t>
+            <t t-else="">
+                <t t-foreach="list(range(5))" t-as="item">
+                    <a href="/" class="nav-link" data-name="Menu Item" >Menu Item <t t-esc="item+1"/></a>
+                </t>
+            </t>
+        </nav>
+    </template>
+    <!--================================================================================================================  -->
+
+    <!-- ...................Mega Menu 1 Templates.......................................................................... -->
+    <template id="th_mega_menu_1_content" name="th_mega_menu_1_content">
+        <t t-if="category">
+            <div class="col-12 sub_col pt16 pb16 bg-white-75">
+                <a t-att-href="keep('/shop/category/' + slug(category))">
+                    <h2 id="menu_subtitle"><t t-esc="category.name"/></h2>
+                </a>
+                <div class="row submenu_row">
+                    <div class="col-md-2 col-sm-12 pb16 submenu_column" t-foreach="category.child_id" t-as="categ">
+                        <a t-att-href="keep('/shop/category/' + slug(categ))">
+                            <h6 class="submenu_heading"><t t-esc="categ.name"/></h6>
+                        </a>
+                        <t t-call="theme_inventive.th_mega_menu_column_items"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="col-12 sub_col pt16 pb16 bg-white-75">
+                <a href="/">
+                    <h2 id="menu_subtitle">Section Subtitle</h2>
+                </a>
+                <div class="row align-items-center submenu_row">
+                    <div class="col-md-2 col-sm-12 pb16 submenu_column" t-foreach="range(5)" t-as="count">
+                        <a href="/"><h6 class="submenu_heading">Submenu <t t-esc="count+1"/>:</h6></a>
+                        <t t-call="theme_inventive.th_mega_menu_column_items"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!-- Snippet 1 -->
+    <template id="s_inventive_mega_menu_1" name="Menu Design 1">
+        <section data-js="" class="s_inventive_mega_menu design_1 pb16">
+            <div class="container">
+                <div class="row super_row m-0">
+                    <div class="col-12 pt40 pb40 super_col inventive_menu_column_1" style="background-size: cover;background-position:center; background-image: url('/theme_inventive/static/src/img/backgrounds/background_01.jpg');">
+                        <span class=" d-none menu_template">theme_inventive.th_mega_menu_1_content</span>
+                        <span class="d-none category_id">0</span>
+                        <div class="row sub_row m-0 js_get_dynamic_menu">
+                            <t t-call="theme_inventive.th_mega_menu_1_content"/>
+                            <!--... dynamic contentent ....-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <!-- ........................................................................................................................................... -->
+
+
+    <!-- ...................Mega Menu 2 Templates.......................................................................... -->
+    <template id="th_mega_menu_2_content" name="th_mega_menu_2_content">
+        <t t-if="category">
+            <div class="col-12 sub_col bg-white-50">
+                <a t-att-href="keep('/shop/category/' + slug(category))">
+                    <h3 id="menu_subtitle"><t t-esc="category.name"/></h3>
+                </a>
+                <div class="row submenu_row" >
+                    <div class="col-md-3 col-sm-12 pb16 submenu_column " t-foreach="category.child_id" t-as="categ">
+                        <a t-att-href="keep('/shop/category/' + slug(categ))">
+                            <h6 class="submenu_heading"><t t-esc="categ.name"/></h6>
+                        </a>
+                        <t t-call="theme_inventive.th_mega_menu_column_items"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="col-12 sub_col bg-white-50">
+                <a href="/">
+                    <h2 id="menu_subtitle">Section Subtitle</h2>
+                </a>
+                <div class="row align-items-center submenu_row">
+                    <div class="col-md-3 col-sm-12 pb16 submenu_column" t-foreach="range(4)" t-as="count">
+                        <a href="/">
+                            <h6 class="submenu_heading">Submenu <t t-esc="count+1"/>:</h6>
+                        </a>
+                        <t t-call="theme_inventive.th_mega_menu_column_items"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="s_inventive_mega_menu_2" name="Menu Design 2">
+        <section class="s_inventive_mega_menu design_2 pb16">
+            <div class="container">
+                <div class="row super_row m-0">
+                    <div class=" super_col col-lg-8 pt16 pb16 p-0 inventive_menu_column_2">
+                        <span class=" d-none menu_template">theme_inventive.th_mega_menu_2_content</span>
+                        <span class="d-none category_id">0</span>
+                        <div class="row sub_row m-0 js_get_dynamic_menu">
+                            <t t-call="theme_inventive.th_mega_menu_2_content"/>
+                            <!--... dynamic contentent ....-->
+                        </div>
+                    </div>
+                    <div class="super_col image col-lg-4 pt16 pb16">
+                        <img src="/web/image/website.s_image_text_default_image" class="img img-fluid mx-auto" alt="Odoo • Image and Text"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- ...................Mega Menu 3 Templates.......................................................................... -->
+    <template id="th_mega_menu_3_content" name="th_mega_menu_3_content">
+        <t t-if="category">
+            <div class="col-12 sub_col">
+                <a t-att-href="keep('/shop/category/' + slug(category))">
+                    <h1 class="menu_3_title"><t t-esc="category.name"/>'s</h1>
+                </a>
+                <div class="row submenu_row">
+                    <div class="col-lg-3 col-md-4 col-sm-12 submenu_column" t-foreach="category.child_id"  t-as="categ">
+                        <div class="submenu_img">
+                            <span t-if="categ.image_128" t-esc="categ.image_128" t-options="{'widget': 'image'}"/>
+                            <img t-else="" src="/theme_inventive/static/src/img/snippet/dummy-placeholder-image.jpg" class="img img-fluid" alt="Odoo • Image and Text"/>
+                        </div>
+                        <a t-att-href="keep('/shop/category/' + slug(categ))">
+                            <h6 class="submenu_heading text-uppercase">
+                                <t t-esc="categ.name"/>
+                                <span><i class="fa fa-fw fa-angle-right"/></span>
+                            </h6>
+                        </a>
+                        <t t-call="theme_inventive.th_mega_menu_column_items"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="col-12 sub_col">
+                <a href="/">
+                    <h1 class="menu_3_title">Men's</h1>
+                </a>
+                <div class="row align-items-center submenu_row pb8">
+                    <div class="col-lg-3 col-md-4 col-sm-12 submenu_column"  t-foreach="['Featured','SHOES','CLOTHING','ACCESSORIES']"  t-as="sub_menu">
+                        <div class="submenu_img">
+                            <img src="/theme_inventive/static/src/img/snippet/dummy-placeholder-image.jpg" class="img img-fluid mx-auto rounded" alt="Odoo • Image and Text"/>
+                        </div>
+                        <a href="/">
+                            <h6 class="submenu_heading text-uppercase">
+                                <t t-esc="sub_menu"/>
+                                <span> <i class="fa fa-fw fa-angle-right"/></span>
+                            </h6>
+                        </a>
+                        <t t-call="theme_inventive.th_mega_menu_column_items"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="s_inventive_mega_menu_3" name="Menu Design 3">
+        <section class="s_inventive_mega_menu design_3 pb16">
+            <div class="container">
+                <div class="row super_row m-0">
+                    <div class="col-lg-8 col-md-8 pt16 pb16 super_col inventive_menu_column_3">
+                        <span class="d-none category_id">0</span>
+                        <span class=" d-none menu_template">theme_inventive.th_mega_menu_3_content</span>
+                        <div class="row sub_row js_get_dynamic_menu">
+                            <t t-call="theme_inventive.th_mega_menu_3_content"/>
+                            <!--... dynamic contentent ....-->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 pt16 pb16 super_col image">
+                        <img src="/theme_inventive/static/src/img/snippet/aboutus.jpg" class="img img-fluid mx-auto rounded" alt="Odoo • Image and Text"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+
+
+
+    <!-- ...................Mega Menu 4 Templates.......................................................................... -->
+    <template id="th_mega_menu_4_content" name="th_mega_menu_4_content">
+        <t t-if="category">
+            <a t-att-href="keep('/shop/category/' + slug(category))">
+                <h1 class="menu_4_title"><t t-esc="category.name"/>'s</h1>
+            </a>
+            <div class="row submenu_row">
+                <div class="col-lg-3 col-md-4 col-sm-12 submenu_column" t-foreach="category.child_id" t-as="categ">
+                    <div class="submenu_heading" >
+                        <span t-if="categ.image_128" t-esc="categ.image_128" t-options="{'widget': 'image'}"/>
+                        <img t-else="" src="/theme_inventive/static/src/img/snippet/dummy-placeholder-image.jpg" class="img img-fluid" alt="Odoo • Image and Text"/>
+                        <a t-att-href="keep('/shop/category/' + slug(categ))">
+                            <h6 class="text-uppercase"><t t-esc="categ.name"/></h6>
+                        </a>
+                    </div>
+                    <t t-call="theme_inventive.th_mega_menu_column_items"/>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <a href="/">
+                <h1 class="menu_4_title">Men's</h1>
+            </a>
+            <div class="row submenu_row">
+                <div class="col-lg-3 col-md-4 col-sm-12 submenu_column" t-foreach="['SHOES','CLOTHING','ACCESSORIES']" t-as="sub_menu">
+                    <div class="submenu_heading" >
+                        <img src="/theme_inventive/static/src/img/snippet/dummy-placeholder-image.jpg" class="img img-fluid" alt="Odoo • Image and Text"/>
+                        <a href="/">
+                            <h6 class="text-uppercase" t-esc="sub_menu"/>
+                        </a>
+                    </div>
+                    <t t-call="theme_inventive.th_mega_menu_column_items"/>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="s_inventive_mega_menu_4" name="Menu Design 4">
+        <section class="s_inventive_mega_menu design_4 pb16">
+            <div class="container">
+                <div class="row super_row m-0 pt16 pb16">
+                    <div class="col-lg-4 super_col image">
+                        <img src="/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg" class="img img-fluid mx-auto" alt="Odoo • Image and Text"/>
+                    </div>
+                    <span class=" d-none menu_template">theme_inventive.th_mega_menu_4_content</span>
+                    <span class="d-none category_id">0</span>
+                    <span class="d-none type">tabs</span>
+                    <div class="col-lg-8 col-md-8 super_col js_get_dynamic_menu inventive_menu_column_4"
+                        style="background-size: cover;background-position:center; background-image: url('/theme_inventive/static/src/img/backgrounds/sport-908264_1920.jpg');">
+                        <t t-call="theme_inventive.th_mega_menu_4_content"/>
+                        <!-- content Will come dynamicaly -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="th_mega_menu_5_content" name="th_mega_menu_5_content">
+        <t t-if="categories">
+            <div class="row sub_row">
+                <div class="col-12 sub_col pt16 pb16 ">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <t t-foreach="category" t-as="categ">
+                            <li class="nav-item">
+                                <a t-attf-class="nav-link #{'active' if categ_index==0 else ''}"
+                                    t-att-id="'nav_tabs_link_%s' % (categ_index)"
+                                    data-toggle="tab"
+                                    t-att-href="'#nav_tabs_content_%s' % (categ_index)"
+                                    role="tab"
+                                    t-att-ria-controls="'nav_tabs_content_%s' % (categ_index)"
+                                    aria-selected="true">
+                                    <t t-esc="categ.name"/>
+                                </a>
+                            </li>
+                        </t>
+                    </ul>
+                    <div class="tab-content">
+                        <t t-foreach="category.child_id" t-as="categ">
+                            <div t-attf-class="tab-pane #{'show active' if categ_index==0 else ''}"
+                                t-att-id="'nav_tabs_content_%s' % (categ_index)"
+                                role="tabpanel"
+                                t-att-aria-labelledby="'nav_tabs_link_%s' % (categ_index)">
+                                <div class="row submenu_row">
+                                    <div class="col-md-3 col-sm-12 pt16 pb16 submenu_column inventive_menu_column_3" t-foreach="categ.child_id" t-as="categ">
+                                        <a t-att-href="keep('/shop/category/' + slug(categ))">
+                                            <h5 class="submenu_heading"><t t-esc="categ.name"/></h5>
+                                        </a>
+                                        <t t-call="theme_inventive.th_mega_menu_column_items"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="row sub_row ">
+                <div class="col-12 pt16 pb16 sub_col">
+                    <t t-set="tab_list" t-value="['Hiking','Cycling','Football']"/>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <t t-foreach="tab_list" t-as="tab_item">
+                            <li class="nav-item">
+                                <a t-attf-class="nav-link #{'active' if tab_item_index==0 else ''}"
+                                    t-att-id="'nav_tabs_link_%s' % (tab_item_index)"
+                                    data-toggle="tab"
+                                    t-att-href="'#nav_tabs_content_%s' % (tab_item_index)"
+                                    role="tab"
+                                    t-att-ria-controls="'nav_tabs_content_%s' % (tab_item_index)"
+                                    aria-selected="true">
+                                    <t t-esc="tab_item"/>
+                                </a>
+                            </li>
+                        </t>
+                    </ul>
+                    <div class="tab-content">
+                        <t t-foreach="tab_list" t-as="tab_item">
+                            <div t-attf-class="tab-pane #{'show active' if tab_item_index==0 else ''}"
+                                t-att-id="'nav_tabs_content_%s' % (tab_item_index)"
+                                role="tabpanel"
+                                t-att-aria-labelledby="'nav_tabs_link_%s' % tab_item_index">
+                                <div class="row submenu_row">
+                                    <div class="col-md-3 col-sm-12 pt16 pb16 submenu_column inventive_menu_column_3" t-foreach="['Men\'s','Women\'s','Kids\'s','Girl\'s' ]" t-as="submenu">
+                                        <a href="/">
+                                            <h5 class="submenu_heading"><t t-esc="submenu"/></h5>
+                                        </a>
+                                        <t t-call="theme_inventive.th_mega_menu_column_items"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="s_inventive_mega_menu_5" name="Menu Design 5">
+        <section class="s_inventive_mega_menu design_5 pb16">
+            <div class="container">
+                <div class="row super_row m-0">
+                    <div class=" col-12 super_col vertical_tabs js_get_dynamic_menu">
+                        <t t-call="theme_inventive.th_mega_menu_5_content"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_mega_menu_6" name="Menu Design 6">
+        <section class="s_inventive_mega_menu design_6 pb16">
+            <div class="container">
+                <div class="super_row row m-0">
+                    <div class="super_col col-12 pb32 pt32">
+                        <div class="sub_row row">
+                            <div class="sub_col col-6 col-md-2" t-foreach="range(12)" t-as="count">
+                                <div class="main_div d-flex">
+                                    <a class="menuitem_link" href="/">
+                                        <img class="img img-fluid" src="/theme_inventive/static/src/img/backgrounds/cycle_7.jpg"/>
+                                        <span class="m_text">
+                                            Menu Item <t t-esc="count+1"/>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_inventive_mega_menu_7" name="Menu Design 7">
+        <section class="s_inventive_mega_menu design_7">
+            <div class="container">
+                <div class="super_row row m-0">
+                    <div class="super_col left_div col-12 col-sm-6 col-md-9 pb16 pt16">
+                        <div class="sub_row row">
+                            <div class="sub_col col-12 col-sm-6 col-md-3 submenu_column" t-foreach="range(4)" t-as="count">
+                                <div class="d-flex flex-column align-items-center">
+                                    <a class="menuitem_link mb8" href="/">
+                                        <img class="img img-fluid" src="/theme_inventive/static/src/img/snippet/dummy-placeholder-image.jpg"/>
+                                        <h6 class="m_text text-center">
+                                            Menu category <t t-esc="count"/>
+                                        </h6>
+                                    </a>
+                                    <ul class="list-unstyled ">
+                                        <li class="mb-2"  t-foreach="range(6)" t-as="cont">
+                                            <a href="/">Menu Item <t t-esc="count"/><t t-esc="cont"/> </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="super_col right_div col-12 col-sm-6 col-md-3">
+                        <div class="d-flex flex-column align-items-center justify-content-around">
+                            <h3 class="text-center ">Cool Products</h3>
+                            <a class="menuitem_link" href="/">
+                                <img class="img img-fluid " src="/theme_inventive/static/src/img/snippet/dummy-placeholder-image.jpg"/>
+                            </a>
+                            <span class="m_text d-block text-center">Menu Category</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <!-- ................................................................................................ -->
+    <!-- Snippet 1 -->
+    <template id="s_inventive_mega_menu_8" name="Menu Design 8">
+        <section data-js="" class="s_inventive_mega_menu design_8 pb16">
+            <div class="container">
+                <div class="row super_row m-0">
+                    <div class="col-12 p-0 super_col inventive_menu_column_8">
+                        <span class=" d-none menu_template">theme_inventive.th_mega_menu_1_content</span>
+                        <span class="d-none category_id">0</span>
+                        <div class="sub_col col js_get_dynamic_menu">
+                            <t t-call="theme_inventive.th_mega_menu_4_content"/>
+                            <!--... dynamic contentent ....-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <!-- Theme Mega Menu Snippets entry -->
+    <template id="inventive_mega_menus_snippets_entry" inherit_id="website.snippets" name="Theme Inventive Mega Menu Snippets Entry" priority="20">
+        <xpath expr="//div[@id='snippet_mega_menu']//div[hasclass('o_panel_body')]" position="inside">
+            <t t-snippet="theme_inventive.s_inventive_mega_menu_1" t-thumbnail="/theme_inventive/static/src/img/theme_customize/menu-design-1.png"/>
+            <t t-snippet="theme_inventive.s_inventive_mega_menu_2" t-thumbnail="/theme_inventive/static/src/img/theme_customize/menu-design-2.png"/>
+            <t t-snippet="theme_inventive.s_inventive_mega_menu_3" t-thumbnail="/theme_inventive/static/src/img/theme_customize/menu-design-3.png"/>
+            <t t-snippet="theme_inventive.s_inventive_mega_menu_4" t-thumbnail="/theme_inventive/static/src/img/theme_customize/menu-design-4.png"/>
+            <t t-snippet="theme_inventive.s_inventive_mega_menu_5" t-thumbnail="/theme_inventive/static/src/img/theme_customize/menu-design-5.png"/>
+            <t t-snippet="theme_inventive.s_inventive_mega_menu_6" t-thumbnail="/theme_inventive/static/src/img/theme_customize/menu-design-6.png"/>
+            <t t-snippet="theme_inventive.s_inventive_mega_menu_7" t-thumbnail="/theme_inventive/static/src/img/theme_customize/menu-design-7.png"/>
+            <t t-snippet="theme_inventive.s_inventive_mega_menu_8" t-thumbnail="/theme_inventive/static/src/img/theme_customize/menu-design-1.png"/>
+        </xpath>
+    </template>
+
+    <!-- Inventive Mega Nenu Snippets Options -->
+
+    <template id="inventive_snippet_mega_menu_options" name="Inventive Snippet Mega Menu Options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="after">
+            <!--Select Category  -->
+            <div data-js="js_get_mega_menu_category" data-selector=".js_get_dynamic_menu">
+                <we-collapse-area>
+                    <we-toggler>
+                        <i class="fa fa-fw fa-arrows"/>
+                        Choose Root Category
+                    </we-toggler>
+                    <we-collapse>
+                        <we-button  data-category-id="0" data-no-preview="true">None</we-button>
+                        <!-- the blog list will be generated in js -->
+                    </we-collapse>
+                </we-collapse-area>
+            </div>
+            <!-- Background Image -->
+            <div data-js="background_position"
+                data-selector="section .super_col">
+                <we-button data-background-position="true" data-no-preview="true"><i class="fa fa-fw fa-arrows"/>Background Image Sizing</we-button>
+            </div>
+            <div data-js="background"
+                data-selector="section .super_col">
+                <we-button data-choose-image="true" data-no-preview="true"><i class="fa fa-fw fa-picture-o"/>Background Image</we-button>
+            </div>
+
+            <!-- Color | Columns -->
+            <div data-selector="section.s_inventive_mega_menu .super_col">
+                <we-collapse-area>
+                    <we-toggler><i class="fa fa-fw fa-magic"/>Menu Column Styles</we-toggler>
+                    <we-collapse>
+                        <we-button data-select-class="inventive_menu_column_1">Coulmn Style 1</we-button>
+                        <we-button data-select-class="inventive_menu_column_2">Coulmn Style 2</we-button>
+                        <we-button data-select-class="inventive_menu_column_3">Coulmn Style 3</we-button>
+                        <we-button data-select-class="inventive_menu_column_4">Coulmn Style 4</we-button>
+                        <we-button data-select-class="inventive_menu_column_5">Coulmn Style 5</we-button>
+                    </we-collapse>
+                </we-collapse-area>
+            </div>
+
+            <!-- Column shadow -->
+            <!-- <div data-selector="section.s_inventive_mega_menu .submenu_column" data-exclude="">
+                <we-collapse-area>
+                    <we-toggler><i class="fa fa-fw fa-magic"/>Inventive Shadow</we-toggler>
+                    <we-collapse>
+                        <we-button data-select-class="inventive_shadow_0">Shadow 0%</we-button>
+                        <we-button data-select-class="inventive_shadow_2">Shadow 20%</we-button>
+                        <we-button data-select-class="inventive_shadow_4">Shadow 40%</we-button>
+                        <we-button data-select-class="inventive_shadow_6">Shadow 60%</we-button>
+                        <we-button data-select-class="inventive_shadow_8">Shadow 80%</we-button>
+                        <we-button data-select-class="inventive_shadow_10">Shadow 100%</we-button>
+                    </we-collapse>
+                </we-collapse-area>
+            </div> -->
+            <!-- Column Opacity -->
+            <!-- <div data-selector="section.s_inventive_mega_menu .submenu_column" data-exclude="">
+                <we-collapse-area>
+                    <we-toggler><i class="fa fa-fw fa-magic"/>Inventive Opacity</we-toggler>
+                    <we-collapse>
+                        <we-button data-select-class="inventive_opacity_0">Opacity 0%</we-button>
+                        <we-button data-select-class="inventive_opacity_1">Opacity 10%</we-button>
+                        <we-button data-select-class="inventive_opacity_2">Opacity 20%</we-button>
+                        <we-button data-select-class="inventive_opacity_3">Opacity 30%</we-button>
+                        <we-button data-select-class="inventive_opacity_4">Opacity 40%</we-button>
+                        <we-button data-select-class="inventive_opacity_5">Opacity 50%</we-button>
+                        <we-button data-select-class="inventive_opacity_6">Opacity 60%</we-button>
+                        <we-button data-select-class="inventive_opacity_7">Opacity 70%</we-button>
+                        <we-button data-select-class="inventive_opacity_8">Opacity 80%</we-button>
+                        <we-button data-select-class="inventive_opacity_9">Opacity 90%</we-button>
+                    </we-collapse>
+                </we-collapse-area>
+            </div> -->
+
+            <!-- <div data-js="js_get_mega_menu_category" data-selector="section.s_inventive_mega_menu .submenu_column" data-target=".nav-pills">
+                <we-button  data-add-submenu="1" data-no-preview="true"><i class="fa fa-fw fa-plus"/>Add Submenu</we-button>
+                <we-button  data-remove-submenu="1" data-no-preview="true"><i class="fa fa-fw fa-minus"/>Remove Submenu</we-button>
+            </div> -->
+        </xpath>
+    </template>
+</odoo>

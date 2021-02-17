@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+draft_seller_access_seller_banner_image,seller_banner_image_seller_draft,model_seller_banner_image,odoo_marketplace.marketplace_draft_seller_group,1,0,0,0
+
+seller_access_seller_banner_image,seller_banner_image_seller,model_seller_banner_image,odoo_marketplace.marketplace_seller_group,1,1,1,1
+
+portal_access_seller_banner_image,seller_banner_image_portal,model_seller_banner_image,base.group_public,1,0,0,0

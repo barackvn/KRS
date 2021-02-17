@@ -1,0 +1,18 @@
+<svg width="18px" height="20px" viewBox="0 0 18 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>line-icon-shopping-bag</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Header/3" transform="translate(-1125.000000, -42.000000)" stroke="#FFFFFF" stroke-width="2">
+            <g id="Header">
+                <g id="Currency,">
+                    <g id="line-icon-shopping-bag" transform="translate(1126.000000, 43.000000)">
+                        <path d="M4,5 L14.0867854,5 C14.6039886,5 15.0358532,5.3943851 15.0826786,5.90946425 L16,16 C16,17.1045695 15.1045695,18 14,18 L2,18 C0.8954305,18 0,17.1045695 0,16 L0.917321431,5.90946425 C0.964146809,5.3943851 1.39601143,5 1.91321464,5 L4,5 Z M4.5,9 C4.77614237,9 5,8.77614237 5,8.5 C5,8.22385763 4.77614237,8 4.5,8 C4.22385763,8 4,8.22385763 4,8.5 C4,8.77614237 4.22385763,9 4.5,9 Z M11.5,9 C11.7761424,9 12,8.77614237 12,8.5 C12,8.22385763 11.7761424,8 11.5,8 C11.2238576,8 11,8.22385763 11,8.5 C11,8.77614237 11.2238576,9 11.5,9 Z" id="Combined-Shape"/>
+                        <path d="M11,0 C11,2.209139 9.65685425,4 8,4 C6.34314575,4 5,2.209139 5,0" id="Shape" transform="translate(8.000000, 2.000000) scale(1, -1) translate(-8.000000, -2.000000) "/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

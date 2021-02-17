@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="mass_upload_settings_form_view" model="ir.ui.view" context="{'mass_upload_settings_main':1}">
+            <field name="name">mass.upload.settings.form</field>
+            <field name="model">mass.upload.settings</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Mass Uplaod">
+                    <sheet>
+                        <div class="oe_title">
+							<label class="oe_edit_only" for="name" string="Product Name"/>
+							<h1><field name="name"/></h1>
+						</div>
+                        <group>
+                            <group>
+                                <field name="website_id" attrs="{'readonly': [('id', '>', 0)]}" options="{'no_create': True,'no_edit': True}"/>
+                                <label for="active"/>
+                                <div>
+                                    <field name="active" readonly="1"/>
+                                    <button name="activate_settings" string="Click to Activate" type="object" class="oe_link" confirm="If you activate this setting then previous active setting will get inactive." attrs="{'invisible':[('active', '=', True)]}"/>
+                                    <button name="deactivate_settings" string="Click to Deactivate" type="object" class="oe_link" attrs="{'invisible':[('active', '=', False)]}"/>
+                                </div>
+                            </group>
+                            <group>
+                                <div class="o_setting_left_pane">
+                                    <div>
+                                        <label for="is_required" string="Required" style="font-weight:bold"/>
+                                        <field name="is_required" style="margin-left:10px;"/>
+                                        <label for="is_required" string="⇒ If enabled then values in all the columns will be required in CSV file."/>
+                                    </div>
+                                    </div>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="mass_import_fields" widget="many2many_tags" options="{'no_create': True,'no_edit': True}"/>
+                        </group>
+
+                        <div class="alert alert-info mt-4" role="alert" >
+                            <div>
+                                <strong>Note:</strong>
+                                <br/>
+                                <ul>
+                                    <li>By default 'name' and 'image' column will be included in CSV file.</li>
+                                    <li>If <strong>Required</strong> is True then values in all the columns will be required in CSV file.</li>
+                                    <li>If Required is not True then only name field will be required.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="mass_upload_settings_tree_view" model="ir.ui.view">
+            <field name="name">mass.upload.settings.tree</field>
+            <field name="model">mass.upload.settings</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Mass Uplaod Settings">
+                    <field name="name" />
+                    <field name="website_id" />
+                    <field name="active" />
+                </tree>
+            </field>
+        </record>
+        <record id="mass_upload_settings_group_by" model="ir.ui.view">
+            <field name="name">mass.uplaod.settings.group</field>
+            <field name="model">mass.upload.settings</field>
+            <field name="arch" type="xml">
+                <search string="Search Website">
+                    <field name="website_id" />
+                    <group expand="0" string="Group By">
+                        <filter string="Website" domain="[]" context="{'group_by':'website_id'}" name="by_website_id"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_mass_upload_settings" model="ir.actions.act_window">
+            <field name="name">Mass Upload Setting</field>
+            <field name="res_model">mass.upload.settings</field>
+            <field name="search_view_id" ref="mass_upload_settings_group_by" />
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_by_website_id': 1, 'default_type': 'website', 'pass_default_categ' : True, 'active_test' : False }</field>
+            <field name="view_ids" eval="[(5, 0),
+					(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('marketplace_mass_upload.mass_upload_settings_tree_view')}),
+					(0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('marketplace_mass_upload.mass_upload_settings_form_view')})
+				]"/>
+
+        </record>
+        <menuitem id="wk_seller_dashboard_menu4_sub_menu6" name="Mass Upload Settings" groups="odoo_marketplace.marketplace_officer_group" parent="marketplace_mass_upload.wk_seller_dashboard_menu2_sub_menu_heaading" action="action_mass_upload_settings" sequence="3"/>
+    </data>
+</odoo>

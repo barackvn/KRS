@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+        <function model="ir.default" name="set" eval="('res.config.settings', 'enable_notify_reminder', True)"/>
+        <function model="ir.default" name="set" eval="('res.config.settings', 'notify_reminder_mail_template', False)"/>
+        <function model="ir.default" name="set" eval="('res.config.settings', 'notify_customer_on_approve_testreq', False)"/>
+        <function model="ir.default" name="set" eval="('res.config.settings', 'enable_notify_customer_on_approve_testreq', True)"/>
+      </data>
+</odoo>

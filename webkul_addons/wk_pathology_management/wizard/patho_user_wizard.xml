@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="patho_user_wizard_form_view" model="ir.ui.view">
+            <field name="name">Patho User Wizard</field>
+            <field name="model">patho.user.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <form string="Message">
+                    <h3><field name="message" colspan="4" nolabel="1" readonly="1" widget="html"/></h3>
+                    <separator colspan="6"/>
+                    <footer>
+                        <button type="object" class="oe_highlight" name="action_view_current_user" string="View User" />
+                        <button type="object" class="oe_highlight" string="Cancel" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+		<record id="patho_user_wizard_action" model="ir.actions.act_window">
+            <field name="name">User Wizard</field>
+            <field name="res_model">patho.user.wizard</field>
+            
+            <field name="view_mode">form</field>
+        </record>
+</data>
+</odoo>

@@ -1,0 +1,55 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="odoo_gdpr_view_form">
+        <field name="name">odoo gdpr Form</field>
+        <field name="model">odoo.gdpr</field>
+        <field name="type">form</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+          <form create="false">
+            <sheet>
+              <div class="oe_title">
+                  <h1>
+                    <field name="name" default_focus="1" placeholder="Name"/>
+                  </h1>
+              </div>
+              <notebook>
+                <page string="GDPR Content">
+                  <!-- <group name="GDPR"> -->
+                    <group string="Title for GDPR" >
+                      <field name="gdpr_title" nolabel="1" placeholder="This will display as a title on your GDPR page"/>
+                    </group>
+                  <!-- </group> -->
+                  <!-- <group name="GDPR"> -->
+                    <group string="Description for GDPR" >
+                    <field name="title_info" nolabel="1" placeholder="This will display as a description on your GDPR page"/>
+                    </group>
+                  <!-- </group> -->
+                  <group >
+                    <field name="allow_gdpr_message" />
+                    <field name="gdpr_message" attrs="{'invisible': [('allow_gdpr_message', '=', False)]}"/>
+                  </group>
+                </page>
+                <page string="Data Removal Messages">
+                  <group string="Message before removing Data" >
+                    <field name="modal_desc" nolabel="1" placeholder="This message will display before removing Data"/>
+                  </group>
+
+                  <!-- <group string="Default Message for all Requests" >
+                    <field name="request_message" nolabel="1" placeholder="Default Message"/>
+                  </group> -->
+
+                </page>
+              </notebook>
+
+
+               <!--<group  string="GDPR Request Config">-->
+                <!--<field name="download_request" widget="radio"/>-->
+                <!--<field name="delete_request" widget="radio"/>-->
+              <!--</group>-->
+            </sheet>
+          </form>
+        </field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="project_timesheet_pdf_report" model="ir.ui.view">
+            <field name="name">project_report_pdf_inherited.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position='inside'>
+                        <button name="%(project_timesheet_reports.project_timesheet_wizard_action)d" type="action" string="Send Report" class="oe_highlight" help="Send report by email to the customer" attrs="{'invisible':[('partner_id','=',False)]}"/>
+                </xpath>
+            </field>
+       </record>
+    </data>
+</odoo>

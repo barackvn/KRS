@@ -1,0 +1,143 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.list_view {
+    padding: 0 5px;
+    .o_wsale_products_grid_table_wrapper {
+        margin: 0;
+        padding: 0 10px;
+    }
+    .oe_product_cart {
+        $-wsale-list-layout-height: 10rem;
+        flex-flow: row nowrap;
+        min-height: $-wsale-list-layout-height;
+        padding: 0px ;
+        margin-bottom: 10px;
+        form{
+            padding: 0;
+        }
+        .oe_product_image {
+            flex: 0 0 auto;
+            width: $-wsale-list-layout-height;
+            max-width: 35%;
+            min-width: 100px;
+            height: auto !important;
+        }
+        .o_wsale_product_information {
+            position: static;
+            display: flex;
+            flex: 1 1 auto;
+            text-align: left !important;
+            padding:  1rem !important;
+            .shop_css_quantity{
+                width: 30%;
+                @include  flex_center();
+            }
+            .o_wsale_product_btn{
+                background-color: white;
+                width: 30%;
+                flex-direction: row !important;
+                flex-wrap: wrap;
+                button,.btn-secondary{
+                    width: 46%;
+                    margin: 2% !important;
+                    padding: 0;
+                    display: flex !important;
+                    @include  flex_center();
+                    .fa{
+                        background-size: 20px;
+                    }
+                }
+                .btn-cart{
+                    text-align: center;
+                    width: 100%;
+                    order: 3;
+                    .btn{
+                        width: 96%;
+                        padding: 7px;
+                        font-size: 1rem;
+                        text-transform: uppercase;
+                        .fa{display: none;}
+                        order: 3;
+                        background-color: rgba(0,0,0,.8);
+                        &:hover,&:focus {
+                            background-color: rgba($secondary,1) !important;
+                            transition-delay: 0 !important;
+                        }
+                    }
+                }
+                .o_add_wishlist,.o_add_compare {
+                    .fa{background-size: 20px;}
+                }
+            }
+        }
+        .o_wsale_product_information_text {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .oe_subdescription{
+              color: #777777;
+              height:40px;
+              overflow:hidden;
+              position: relative;
+              max-width: 300px;
+              &::after{
+                content: " ";
+                position: absolute;
+                height: 14px;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                background: linear-gradient(180deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,1) 100%);
+                transition: all .3s ease;
+              }
+            }
+        }
+        .o_wsale_product_btn {
+            flex: 0 0 auto;
+            position: static;
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: center;
+            padding: map-get($spacers, 2);
+            background-color: gray('200');
+            .btn + .btn {
+                margin-top: map-get($spacers, 2);
+            }
+        }
+        .oe_subdescription {
+            max-height: none !important;
+        }
+        .oe_subdescription,
+        .o_wsale_product_btn .btn {
+            transform: scale(1) !important;
+        }
+    }
+    &:hover {
+        .o_wsale_product_information {
+            background-color: $white !important;
+        }
+    }
+    @include media-breakpoint-down(sm){
+        .oe_product_cart {
+            height: auto !important;
+            .oe_product_image {
+                flex: 0 0 auto;
+                max-width: 20%;
+                min-width: 70px;
+            }
+            .shop_css_quantity{display: none !important;}
+            .o_wsale_product_information {
+                .o_wsale_product_btn{
+                    .btn-cart{
+                        .btn{
+                            .fa{display: inline-block;}
+                            .text{display: none;}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

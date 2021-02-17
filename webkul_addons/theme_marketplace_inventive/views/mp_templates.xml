@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+
+    <!-- assets Frontend -->
+    <template id="spm_assets" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/theme_marketplace_inventive/static/src/scss/mp_theme_compartibility.scss" t-ignore="true"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_marketplace_inventive/static/src/scss/seller_landing_page.scss" t-ignore="true"/>
+            <script type="text/javascript" src="/theme_marketplace_inventive/static/src/js/mp_theme.js"/>
+        </xpath>
+    </template>
+
+    <!-- Seller List -->
+    <template id="spm_sellers_list" inherit_id="odoo_marketplace.sellers_list">
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class" add="inmp_sellers_list" separator=" "/>
+        </xpath>
+    </template>
+
+
+    <!-- Mp Seller Shop List -->
+    <template id="spm_seller_shop_list" inherit_id="odoo_marketplace.seller_shop_list">
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class" add="inmp_seller_shop_list" separator=" "/>
+        </xpath>
+    </template>
+    <template id="mp_seller_list_item" inherit_id="odoo_marketplace.seller_list_item" priority="10">
+        <xpath expr="//div[@id='seller_shop']" position="replace">
+            <div class="col-xs-12" style="padding:10px;" id="seller_shop">
+				<div class="container-fluid" style="background-color:rgb(207, 233, 255);border-radius: 3px;">
+					<div style="color:rgb(41, 121, 183);">
+						<span class="fa fa-home seller-shop-name mt4">
+							<a t-attf-href="/seller/shop/#{mp_seller_shop_id.sudo().url_handler}"><t t-esc="mp_seller_shop_id.name"/></a>
+						</span>
+					</div>
+					<div class="mb4 shop-tag-line">
+						<t t-if="mp_seller_shop_id">
+							<span><t t-esc="mp_seller_shop_id.shop_tag_line"/></span>
+						</t>
+					</div>
+				</div>
+			</div>
+        </xpath>
+    </template>
+
+    <!-- Mp Seller Shop -->
+    <template id="spm_mp_seller_shop" inherit_id="odoo_marketplace.mp_seller_shop">
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class" add="inmp_seller_shop" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='pink_panther']/div[hasclass('products_pager')]" position="replace">
+            <div class="theme_products_pager">
+                <h3> All Products </h3>
+                <div class="products_pager mb16">
+    				<div class="row" style="justify-content: center;" id="shop_all_product">
+                        <t t-call="website_sale.pricelist_list" />
+    					<t t-call="website_sale.search">
+    						<t t-set="search_class">pagination form-inline o_website_sale_search</t>
+    					</t>
+    					<t t-call="website.pager" />
+    				</div>
+                </div>
+			</div>
+        </xpath>
+    </template>
+
+    <!-- Mp Seller Profile -->
+    <template id="spm_mp_seller_profile" inherit_id="odoo_marketplace.mp_seller_profile">
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class" add="inmp_seller_profile" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']/div[hasclass('container')]" position="attributes">
+            <attribute name="class" add="seller_profile" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']/div[hasclass('container')]/div[hasclass('col-md-12')]" position="attributes">
+            <attribute name="style">border:1px solid #e3e3e3;padding-bottom:15px;</attribute>
+            <attribute name="class" add="s_profile" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']/div[hasclass('container')]//div[hasclass('row')]/div[hasclass('col-sm-3')]" position="attributes">
+            <attribute name="class">col-sm-2 hidden-xs hidden-sm</attribute>
+        </xpath>
+        <xpath expr="//a[@href='/contactus']" position="replace">
+            <a class="btn btn-success pull-right" target="_blank" href="/contactus">Contact Us</a>
+        </xpath>
+        <xpath expr="//div[@id='seller-info-pannel']//div[hasclass('card-body')]" position="attributes">
+            <attribute name="id">products_grid</attribute>
+        </xpath>
+    </template>
+    <template id="spm_mp_seller_profile_inherit" inherit_id="odoo_marketplace.mp_seller_profile" name="theme mp inherit seller profile" priority="20">
+        <xpath expr="//div[@id='wrap']/div[hasclass('container')]/div[hasclass('col-md-12')]/div[hasclass('row')]/div[1]" position="attributes">
+            <attribute name="class" add="seller_profile_image" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']/div[hasclass('container')]/div[hasclass('col-md-12')]/div[hasclass('row')][last()]/div[1]" position="attributes">
+            <attribute name="class">col-md-4</attribute>
+        </xpath>
+         <xpath expr="//div[@id='wrap']/div[hasclass('container')]/div[hasclass('col-md-12')]/div[hasclass('row')][last()]/div[2]" position="attributes">
+            <attribute name="class">col-md-4</attribute>
+        </xpath>
+         <xpath expr="//div[@id='wrap']/div[hasclass('container')]/div[hasclass('col-md-12')]/div[hasclass('row')][last()]/div[3]" position="attributes">
+            <attribute name="class">col-md-4</attribute>
+        </xpath>
+    </template>
+
+    <!-- Mp Seller Shop -->
+    <template id="mp_seller_shop" inherit_id="odoo_marketplace.mp_seller_shop" priority="100" name="theme inventive mp_seller_shop">
+        <xpath expr="//div[hasclass('tab-content')]" position="attributes">
+            <attribute name="id">products_grid</attribute>
+        </xpath>
+    </template>
+    <template id="mp_shop_recently_product" inherit_id="odoo_marketplace.shop_recently_product" priority="10">
+        <xpath expr="//div[@id='products_grid']//table" position="replace">
+            <t t-foreach="products" t-as="product">
+               <div class="oe_product oe_list oe_product_cart" t-att-data-publish="product.website_published and 'on' or 'off'">
+                   <t t-call="website_sale.products_item">
+                       <t t-set="show_publish" t-value="True"/>
+                   </t>
+               </div>
+           </t>
+        </xpath>
+    </template>
+    <template id="mp_shop_recently_product_inherit" inherit_id="odoo_marketplace.shop_recently_product" priority="100">
+        <xpath expr="//div[@id='products_grid']" position="attributes">
+            <attribute name="class" add="four_column_view" separator=" "/>
+            <attribute name="id"></attribute>
+        </xpath>
+    </template>
+</odoo>

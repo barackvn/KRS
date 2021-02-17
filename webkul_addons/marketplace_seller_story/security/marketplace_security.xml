@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<data noupdate="1">
+		<record id="seller_story_rule" model="ir.rule">
+			<field name="name">Seller Personal Story</field>
+			<field ref="model_seller_story" name="model_id"/>
+			<field name="domain_force">[('seller_id','=',user._partner_id.id)]</field>
+			<field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+		</record>
+
+		<record id="officer_seller_story_rule" model="ir.rule">
+			<field name="name">Office Personal Story</field>
+			<field ref="model_seller_story" name="model_id"/>
+			<field name="domain_force">[(1,'=', 1)]</field>
+			<field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_officer_group'))]"/>
+		</record>
+
+	</data>
+
+</odoo>

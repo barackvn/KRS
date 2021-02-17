@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_advance_website_settings" model="ir.ui.view">
+            <field name="name">Advance Website Settings</field>
+            <field name="model">advance.website.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure Terms and Condition" class="oe_form_configuration">
+                    <group>
+                    <field name='website_id'/>
+                    </group>
+                    <group string='Cart Settings'>
+                        <group>
+
+                            <field name='redirect_to_cart' widget='radio'/>
+                        </group>
+                        <group>
+                            <label for='c_id' string='Minimum Order Value'/>
+                            <div class='d-flex flex-column'>
+                                <field name="c_id" />
+                                <field name='minimum_order_value' widget='monetary' options="{'currency_field': 'c_id'}" />
+                            </div>
+                        </group>
+
+                        <group>
+                            <field name='sub_total'/>
+
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                    or
+                        <button string="Cancel" special="cancel" type="button" name="cancel" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_advance_website_settings" model="ir.actions.act_window">
+            <field name="name">Configure Website</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">advance.website.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

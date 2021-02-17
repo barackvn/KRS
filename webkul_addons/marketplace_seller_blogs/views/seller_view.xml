@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+        <record id="inherit_wk_seller_form_view" model="ir.ui.view">
+            <field name="name">seller.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook//group[@name='approval_settings']" position="inside">
+					<field name="auto_blog_approve" attrs="{'readonly':[('set_seller_wise_settings','=',False)]}"
+						help="Enable this if you want to approve seller blogs automatically." string="Auto Blog Approve"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

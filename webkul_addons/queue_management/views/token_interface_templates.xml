@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+    <template id="index" name="QMS Index">&lt;!DOCTYPE html&gt;
+        <html>
+            <head>
+                <title>Queue Management System</title>
+                <meta name="viewport" content=" width=1024, user-scalable=no"/>
+                <meta name="apple-mobile-web-app-capable" content="yes"/>
+                <meta name="mobile-web-app-capable" content="yes"/>
+
+
+                <style> body { background: #222; } </style>
+
+                <script type="text/javascript">
+                    var odoo = <t t-raw="json.dumps({
+                        'csrf_token': request.csrf_token(None),
+                        'session_info': session_info,
+                        'login_number': login_number,
+                        'debug': debug,
+                    })"/>;
+                </script>
+                
+                <t t-call-assets="web.assets_frontend"/>
+                <t t-call-assets="web_editor.summernote" t-css="false"/>
+                <t t-call-assets="web_editor.assets_wysiwyg" t-css="false"/>
+                <t t-call-assets="web.assets_common"/>
+
+                <t t-call-assets="queue_management.assets"/>
+
+                <script type="text/javascript" id="qms-loading-script" t-raw="init">
+                   
+                     odoo.define('web.web_client', function (require) {
+                        var WebClient = require('web.AbstractWebClient');
+                        var web_client = new WebClient();
+
+                        web_client._title_changed = function() {};
+                        web_client.show_application = function() {
+                            return web_client.action_manager.do_action("pos.ui");
+                        };
+
+                        $(function () {
+                            web_client.setElement($(document.body));
+                            web_client.start();
+                        });
+                        return web_client;
+                    });
+
+                </script>
+            </head>
+            <body>
+                <div class="o_main_content o_token_div">
+                    <span t-field="company.logo" 
+                        t-options="{'widget': 'image', 'style':'width: 158px;height:30px'}"
+                    />
+                    <hr/>
+                    <t t-if="mode == 'details'">
+                        <label class="col-md-12 qms_front1">
+                            <u><b>Enter Your Details</b></u>
+                        </label>
+                        <br/>
+                        <br/>
+                        <form name="/user/details" action="/queue/details" method="post">
+                            <div t-attf-class="col-md-12 qms_front2">
+                                <label class="control-label"  for="name"><b>Name</b></label>
+                                <input  type="text" name="name" class="form-control" placeholder="Enter your name" required=""/>
+                                <br/>
+                            </div>
+                            <div t-attf-class="col-md-12 qms_front2">
+                                <label class="control-label" for="name"><b>Mobile No.</b></label>
+                                <input  type="tel" name="phone" class="form-control" placeholder="Enter your mobile no."  required=""/>
+                                <br/>
+                            </div>
+                            <div t-attf-class="col-md-12 qms_front2">
+                                <label class="control-label" for="dept_id"><b>Department</b></label>
+                                <select id="dept_id" name="dept_id" class="form-control" required="">
+                                    <option value="">Department...</option>
+                                    <t t-foreach="departments" t-as="dept">
+                                        <option t-att-value="dept.id">
+                                            <t t-esc="dept.name" />
+                                        </option>
+                                    </t>
+                                </select>
+                                <br/>
+                            </div>
+                            <input  type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                            <input  type="hidden" name="t_session_id" t-att-value="t_session" />
+                            <div style='padding: 0 15px'>
+                                <button type="submit" class="btn btn-primary">Generate Token</button>
+                            </div>
+                        </form>
+                    </t>
+                    <t t-if="mode=='print'">
+                        <div>
+                            <span class="wk_time" t-field="tokenObj.date" t-options='{"format": "dd MMMM yyyy HH:m:s"}'/>
+                        </div>
+                        <div  align="center" >
+                            <p class="token_print" >Your token no. is generated successfully!! </p>
+                        </div>
+                        <div  align="center">
+                            <p style="font-family: Arial-BoldMt !important;font-size:18px !important;color:#555555 !important">
+                                <b>TOKEN NO.</b>
+                            </p>
+                        </div>
+                        <div  align="center" class="token_no_div">
+                            <span  class="token_no" t-field="tokenObj.token_day_number" />
+                        </div>
+                        <div id="wk_div_info">
+                            <div style="float:left">
+                                <label class="wk_label_info" ><b>Attending:</b>
+                                <span class="token_queue" > 
+                                    <t t-esc="token_attending"/>
+                                </span>
+                                </label>
+                            </div>
+                            <div style="float:right">
+                                <label class="wk_label_info"><b>Your position: </b>
+                                <span class="token_queue pull-right"> 
+                                    <t t-esc="currnet_po"/>
+                                </span>
+                                </label>
+                            </div>
+                        </div>
+                        <hr class="wk_clear"/>
+                        <div id="wk_print_button">
+                            <a class="btn pull-left cancel_btn"
+                               t-attf-href="/token/cancel/?session=#{t_session}&amp;token=#{tokenObj.id}">
+                                <span>Cancel </span>
+                            </a>
+                            <input  type="hidden" id="session_id" name="session_id" t-att-value="t_session" />
+                            <input  type="hidden" id="attachment_id" name="attachment_id" t-att-value="attachment_id" />
+                            <input  type="hidden" id="is_printer" name="is_printer" t-att-value="is_printer" />
+                            <input  type="hidden" id="token_id" name="token_id" t-att-value="tokenObj.id" />
+                            <input  type="hidden" id="comapny_name" name="comapny_name" t-att-value="company.name" />
+                            <input  type="hidden" id="ip_addr" name="ip_addr" t-att-value="ip_addr" />
+                            <input  type="hidden" id="token_nmbr" name="token_nmbr" t-att-value="tokenObj.token_day_number" />
+                                <!-- t-attf-href="/my/token/print/?session=#{t_session}&amp;token=#{tokenObj.id}" -->
+                                <a 
+                                    class="btn btn-primary pull-right print_token_pdf">
+                                    <t t-if="ip_addr">
+                                        <span>Print </span>
+                                    </t>
+                                    <t t-if="not ip_addr">
+                                        <span>Close </span>
+                                    </t>
+                                </a>
+                        </div>
+                        <hr class="wk_clear" />
+                        <div  align="center">
+                            <p style="font-family:ArialMT !important; font-size:16px !important; color: #555555 !important">
+                                Please take your seat, we will attain you soon!! 
+                            </p>
+                        </div>
+                    </t>
+                </div>
+                <div t-if="mode=='details'" class="topcorner">
+                    <div t-attf-class="js_session_close" t-att-data-id="t_session">
+                        <a t-attf-href="/session/close/#{t_session}">
+                            <span>
+                                <button type="button">Close</button>
+                            </span>
+                        </a>
+                        <a><button type="button" id="qms_enter" class="qms_fs">Full Sceen</button></a>
+                        <a>
+                            <button type="button" id="qms_leave" class="qms_fs" style="display:none">
+                                Leave Full Sceen
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </template>
+
+</odoo>

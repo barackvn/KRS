@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data>
+        <!-- Form views -->
+        <record id="active_work_log_message_wizard" model="ir.ui.view">
+            <field name="name">Work Message</field>
+            <field name="model">work.log.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Message Wizard" create="false" edit="false" delete="false">
+                    <field name="task_work_log_id" invisible="1"/>
+                    <h1 attrs="{'invisible': [('task_id', '=', False)]}">
+                        <span attrs="{'invisible': [('task_work_log_id', '=', False)]}">
+                            You are currently working on
+                        </span>
+                        <span attrs="{'invisible': [('task_work_log_id', '!=', False)]}">
+                            You can not Start/Stop working on
+                        </span>
+                        <field name="task_id" readonly="1"/>
+                        <span attrs="{'invisible': [('task_work_log_id', '=', False)]}"> task.</span>
+                        <span attrs="{'invisible': [('task_work_log_id', '!=', False)]}"> task because this task is not assigned to you.</span>
+                    </h1>
+                    <span attrs="{'invisible': [('task_work_log_id', '=', False)]}">
+                        <p>
+                            <i class="fa fa-hand-o-right text-danger" aria-hidden="true"></i> Note :You can not work on two task at a time.
+                        </p>
+                        So, If you want to stop previous active work and start new work then click on <b>"Stop Previous And Start New"</b> button else click on "cancel".
+                    </span>
+                    <footer attrs="{'invisible': [('task_work_log_id', '=', False)]}">
+                        <button name="countinue" string="Stop Previous Job And Proceed" type="object" class="oe_highlight" help="Stop currently working task and start requested new task."/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                    <footer attrs="{'invisible': [('task_work_log_id', '!=', False)]}">
+                        <button string="Ok" class="oe_highlight" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="work_total_hours_message_wizard" model="ir.ui.view">
+            <field name="name">Work Total Hours Message</field>
+            <field name="model">work.log.time.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Message Wizard" create="false" edit="false" delete="false">
+                    <div align="center" attrs="{'invisible': [('total_time', '=', False)]}">
+                        <h1>
+                            <label for="total_time" class="oe_inline"/>
+                            <field name="total_time" class="oe_inline" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div attrs="{'invisible': [('total_time', '!=', False)]}">
+                        <h1>
+                            <p align="center"> There is no time log. </p>
+                        </h1>
+                    </div>
+                    <field name="total_time_report" widget="html" readonly="1" attrs="{'invisible': [('total_time_report', '=', False)]}"/>
+                    <footer>
+                        <button string="Close" class="oe_highlight" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="work_total_hours_message_wizard_action" model="ir.actions.act_window">
+            <field name="name">Total Hours Action</field>
+            <field name="res_model">work.log.time.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="work_total_hours_message_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="active_work_log_message_wizard_action" model="ir.actions.act_window">
+            <field name="name">work.log.wizard.action</field>
+            <field name="res_model">work.log.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="active_work_log_message_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

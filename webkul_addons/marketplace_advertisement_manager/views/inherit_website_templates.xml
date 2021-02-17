@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+
+    <template id="block_products_carousel_multi" name="Block Products Carousel Multi">
+        <div class="row ml0 mr0 block_thumbnail" style="padding:12px;padding-bottom:0px;">
+            <div class="col-md-2" style="padding:0px 10px 0px 10px;">
+                <div class="outer_div" t-att-style="'height:%spx;'%(h+10)">
+                    <div class="row justify-content-center ml0 mr0"  t-if="block.ad_block_sol_id.order_partner_id.seller">
+                        <a t-attf-href="/seller/profile/#{block.ad_block_sol_id.order_partner_id.url_handler if block.ad_block_sol_id.order_partner_id.url_handler else block.ad_block_sol_id.order_partner_id.id}" title="View Seller Profile" target="new">
+                            <img t-if="block.ad_block_sol_id.order_partner_id.profile_image"
+                                t-attf-src="/web/image/res.partner/#{block.ad_block_sol_id.order_partner_id.id}/profile_image"
+                                width="auto"
+                                alt="Not found" class="d-none d-xl-inline-block"/>
+                            <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" height="100%" width="100%"/>
+                        </a>
+                    </div>
+                    <div class="row justify-content-center ml0 mr0 ml0 mr0"  t-else="">
+                        <a href="/aboutus" title="View Company Profile" target="new">
+                            <img t-if="block.ad_block_sol_id.company_id.logo"
+                                t-attf-src="/web/image/res.company/#{block.ad_block_sol_id.company_id.id}/logo"
+                                width="auto"
+                                alt="Not found" style="height: 85px;"/>
+                            <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" height="100%" width="100%"/>
+                        </a>
+                    </div>
+                    <div class="row justify-content-center ml0 mr0" t-if="block.ad_block_sol_id.order_partner_id.seller">
+                        <a t-attf-href="/seller/profile/#{block.ad_block_sol_id.order_partner_id.url_handler if block.ad_block_sol_id.order_partner_id.url_handler else block.ad_block_sol_id.order_partner_id.id}" title="View Seller Profile" target="new">
+                            <span>
+                                <h5 class="mt16" style="font-weight:bold;color:#222222;font-size:15px;margin:0px;">
+                                    <t t-esc="block.ad_block_sol_id.order_partner_id.name"/>
+                                </h5>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="mt16 container" t-else="" style="font-size:18px;color;#2C6FAE;">
+                        <div class="row justify-content-center ml0 mr0">
+                            FEATURED
+                        </div>
+                        <div class="row justify-content-center ml0 mr0">
+                            PRODUCTS
+                        </div>
+                    </div>
+                    <t t-if="block.ad_block_sol_id.order_partner_id.seller">
+                        <t t-set="mp_seller_shop_id" t-value="website.sudo().get_group_mp_shop_allow() and block.ad_block_sol_id.order_partner_id.seller_shop_id"/>
+                        <t t-if="mp_seller_shop_id and mp_seller_shop_id.website_published and mp_seller_shop_id.active">
+                            <div class="row justify-content-center ml0 mr0">
+                                <a class="" target="_blank"
+                                    t-attf-href="/seller/shop/#{mp_seller_shop_id.url_handler}"
+                                    style="font-size:13px;color;#2C6FAE;text-decoration: underline;">Visit Shop</a>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="row justify-content-center ml0 mr0">
+                                <a t-attf-href="/seller/profile/#{block.ad_block_sol_id.order_partner_id.url_handler if block.ad_block_sol_id.order_partner_id.url_handler else block.ad_block_sol_id.order_partner_id.id}"
+                                    title="View Seller Profile" target="new" style="font-size:13px;color;#2C6FAE;text-decoration: underline;">
+                                    Visit Profile
+                                </a>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+            <div class="col-md-10" style="padding:0px;">
+                <div class="carousel slide multi-item-carousel" t-att-id="'adblockMultiple_%s'%(block.id)" data-ride="carousel" data-interval="6000">
+                    <div class="carousel-inner row ml0 mr0" role="listbox">
+                        <t t-set="i" t-value="0"/>
+                        <t t-foreach="block.ad_block_sol_id.ad_product_ids" t-as="product">
+                            <t t-if="i == 0">
+                                <div class="carousel-item active">
+                                    <!-- <div class="col-md-4 col-12"> -->
+                                    <figure class=" col-lg-4 d-md-inline-block mb4">
+                                        <div class="ad_thumbnail" t-att-style="'height:%spx'%(h+10)">
+                                        <section class="d-none d-xl-block carousel_prod_price" style="right:7%;">
+                                            <span t-field="product.list_price" style="white-space: nowrap;"
+                                                t-options="{'widget': 'monetary','display_currency': website.currency_id}"/>
+                                        </section>
+                                        <a target="_blank" t-attf-href="/shop/product/#{ slug(product) }">
+                                            <center>
+                                                <img t-if="product.image_1920" t-attf-src="/web/image/product.template/#{product.id}/image_1920" width="auto"
+                                                        alt="Not found" class="d-none d-xl-block"  t-att-style="'height: %spx;max-width:270px;'%(h-18)"
+                                                    />
+                                                <img t-if="product.image_128" t-attf-src="/web/image/product.template/#{product.id}/image_128"
+                                                    alt="Not found" class="d-block d-md-none d-lg-none"
+                                                />
+                                                <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" height="100%" width="100%"/>
+                                            </center>
+                                            <section class="d-none d-xl-block carousel_prod_name" style="left:15px;right:15px;">
+                                                <span><t t-esc="product.name"/></span>
+                                            </section>
+                                        </a>
+                                        </div>
+                                    </figure>
+                                    <!-- </div> -->
+                                </div>
+                            </t>
+                            <t t-if="not i == 0">
+                                <div class="carousel-item">
+                                    <!-- <div class="col-md-4 col-12"> -->
+                                    <figure class=" col-lg-4 d-md-inline-block mb4">
+                                        <div class="ad_thumbnail" t-att-style="'height:%spx'%(h+10)">
+                                        <section class="d-none d-xl-block carousel_prod_price" style="right:7%;">
+                                            <span t-field="product.list_price" style="white-space: nowrap;"
+                                                t-options="{'widget': 'monetary','display_currency': website.currency_id}"/>
+                                        </section>
+                                        <a target="_blank" t-attf-href="/shop/product/#{ slug(product) }">
+                                            <center>
+                                                <img t-if="product.image_1920" t-attf-src="/web/image/product.template/#{product.id}/image_1920" width="auto"
+                                                        alt="Not found" class="d-none d-xl-block"  t-att-style="'height: %spx;max-width:270px;'%(h-18)"
+                                                    />
+                                                <img t-if="product.image_128" t-attf-src="/web/image/product.template/#{product.id}/image_128"
+                                                    alt="Not found" class="d-block d-md-none d-lg-none"
+                                                />
+                                                <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" height="100%" width="100%"/>
+                                            </center>
+                                            <section class="d-none d-xl-block carousel_prod_name" style="left:15px;right:15px;">
+                                                <span><t t-esc="product.name"/></span>
+                                            </section>
+                                        </a>
+                                        </div>
+                                    </figure>
+                                    <!-- </div> -->
+                                </div>
+                            </t>
+                            <t t-set="i" t-value="i+1"/>
+                        </t>
+                    </div>
+                    <a class=" d-none d-xl-block" t-att-href="'#adblockMultiple_%s'%(block.id)" data-slide="prev" >
+                        <span class="slider_left_arrow" style="left:0;top:45%;"/>
+                    </a>
+                    <a class=" d-none d-xl-block" t-att-href="'#adblockMultiple_%s'%(block.id)" data-slide="next" >
+                        <span class="slider_right_arrow" style="top:45%;"/>
+                    </a>
+                    <a class="d-block d-md-none d-lg-none" t-att-href="'#adblockMultiple_%s'%(block.id)" data-slide="prev">
+                        <span class="slider_left_arrow" style="left:0;top:30%;"/>
+                    </a>
+                    <a class="d-block d-md-none d-lg-none" t-att-href="'#adblockMultiple_%s'%(block.id)" data-slide="next">
+                        <span class="slider_right_arrow" style="top:30%;"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="block_products_carousel_single" name="Block Products Carousel Single">
+        <t t-set="ad_product" t-value="block.ad_block_sol_id.ad_product_ids"/>
+        <div t-att-id="'blockSingle_%s' % block.id" class="carousel slide" data-ride="carousel">
+            <!--  data-type="multi" data-interval="" data-wrap="false" -->
+            <div class="carousel-inner">
+                <t t-set="i" t-value="0"/>
+                <t t-foreach="ad_product" t-as="product">
+                    <t t-if="i == 0">
+                        <div class="carousel-item active ">
+                            <div class="" t-att-id="product.id">
+                                <a target="_blank" t-attf-href="/shop/product/#{ slug(product) }">
+                                    <div class="block_thumbnail" t-att-style="'margin-bottom:0px;padding:0px;height:%spx'%(h)">
+                                        <section class="carousel_prod_price">
+                                            <span t-field="product.list_price" style="white-space: nowrap;"
+                                                t-options="{'widget': 'monetary','display_currency': website.currency_id}"/>
+                                        </section>
+                                        <img t-if="product.image_1920" t-attf-src="/web/image/product.template/#{product.id}/image_1920" alt="Not found"
+                                            height="100%" width="auto"
+                                            t-att-style="'height: %spx;max-width:%spx;'%(h-28,max_width)"/>
+                                        <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" height="100%" width="100%"
+                                            t-att-style="'height: %spx;'%(h)"/>
+                                        <section class="container carousel_prod_name">
+                                            <span><t t-esc="product.name"/></span>
+                                        </section>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-if="not i == 0">
+                        <div class="carousel-item">
+                            <div class="" t-att-id="product.id">
+                                <a target="_blank" t-attf-href="/shop/product/#{ slug(product) }">
+                                    <div class="block_thumbnail" t-att-style="'margin-bottom:0px;padding:0px;height:%spx'%(h)">
+                                        <section class="carousel_prod_price">
+                                            <span t-field="product.list_price" style="white-space: nowrap;"
+                                                t-options="{'widget': 'monetary','display_currency': website.currency_id}"/>
+                                        </section>
+                                        <img t-if="product.image_1920" t-attf-src="/web/image/product.template/#{product.id}/image_1920" alt="Not found"
+                                            height="100%" width="auto"
+                                            t-att-style="'height: %spx;max-width:%spx;'%(h-28,max_width)"/>
+                                        <img t-else="" src="/web/static/src/img/placeholder.png" alt="Not found" height="100%" width="100%"
+                                            t-att-style="'height: %spx;'%(h)"/>
+                                        <section class="container carousel_prod_name">
+                                            <span><t t-esc="product.name"/></span>
+                                        </section>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-set="i" t-value="i+1"/>
+                </t>
+            </div>
+        </div>
+        <a t-att-href="'#blockSingle_%s' % block.id" data-slide="prev" class="d-none d-md-block">
+          <span class="slider_left_arrow" t-att-style="'margin-left: %s;height: %spx;top:%s;'%('-53%',h, top)"/>
+        </a>
+        <a t-att-href="'#blockSingle_%s' % block.id" data-slide="next" class="d-none d-md-block">
+          <span class="slider_right_arrow" t-att-style="'margin-left: %s;height:%spx;top:%s;'%(' -53%',h, top)"/>
+        </a>
+        <a t-att-href="'#blockSingle_%s' % block.id" data-slide="prev" class="d-block d-md-none d-lg-none">
+          <span class="slider_left_arrow" t-att-style="'margin-left: %s;height: %spx;top:%s;'%('-48%',h, mob_top)"/>
+        </a>
+        <a t-att-href="'#blockSingle_%s' % block.id" data-slide="next" class="d-block d-md-none d-lg-none">
+          <span class="slider_right_arrow" t-att-style="'margin-left: %s;height:%spx;top:%s;'%(' -48%',h, mob_top)"/>
+        </a>
+    </template>
+
+    <template id="block_products_carousel" name="Block Products Carousel">
+        <t t-set="pos" t-value="block.block_position"/>
+        <t t-if="pos == 'shop_page_full_top' or pos == 'shop_page_full_bottom' or pos == 'product_image_bottom'
+            or pos == 'cart_full_bottom' or pos == 'confirmation_page_full_bottom'"
+            t-set="block_pos_carousel_type" t-value="'multi'"/>
+        <t t-if="pos == 'below_product_categories' or pos == 'cart_left' or pos == 'cart_right' or
+            pos == 'checkout_page_left_side' or pos == 'checkout_page_right_side' or pos == 'payment_page_left_side'
+            or pos == 'payment_page_right_side' or pos == 'confirmation_page_right_bottom'"
+            t-set="block_pos_carousel_type" t-value="'single'"/>
+        <t t-if="block_pos_carousel_type == 'single'">
+            <t t-call="marketplace_advertisement_manager.block_products_carousel_single">
+                <t t-if="pos == 'below_product_categories' or pos == 'confirmation_page_right_bottom'"
+                    t-set="max_width" t-value="'250'"/>
+                <t t-if="pos == 'cart_left' or pos == 'cart_right' or
+                    pos == 'checkout_page_left_side' or pos == 'checkout_page_right_side' or pos == 'payment_page_left_side'
+                    or pos == 'payment_page_right_side'"
+                    t-set="max_width" t-value="'156'"/>
+                <t t-if="pos == 'below_product_categories'" t-set="top" t-value="'53%'"/>
+                <t t-if="pos == 'below_product_categories'" t-set="mob_top" t-value="'73%'"/>
+                <t t-if="pos == 'confirmation_page_right_bottom'" t-set="top" t-value="'65%'"/>
+                <t t-if="pos == 'cart_left' or pos == 'cart_right' or
+                    pos == 'checkout_page_left_side' or pos == 'checkout_page_right_side' or pos == 'payment_page_left_side'
+                    or pos == 'payment_page_right_side' "
+                    t-set="top" t-value="'5%'"/>
+            </t>
+        </t>
+        <t t-else="">
+            <t t-call="marketplace_advertisement_manager.block_products_carousel_multi"/>
+        </t>
+    </template>
+
+    <template id="mp_inherit_ad_common_layout_template" inherit_id="website_advertisement_manager.ad_common_layout_template">
+        <xpath expr="//div[@id='ad_block_banner']" position="after">
+            <div id="ad_block_products_carousel"
+                t-if="block and block.sudo().allow_prod_carousel and block.sudo().ad_block_sol_id and block.sudo().ad_block_sol_id.ad_block_status == 'active' and block.sudo().ad_block_sol_id.ad_content_status == 'approved' and block.sudo().ad_block_sol_id.ad_display_type == 'ad_products'"
+                class="ad_block_div mt16 mb16" t-att-style="'height:%spx;line-height: %spx;'%(h,h)">
+                <t t-call="marketplace_advertisement_manager.block_products_carousel">
+                    <t t-set="block" t-value="block.sudo()"/>
+                </t>
+            </div>
+            <div t-if="block and block.sudo().ad_block_sol_id and block.sudo().ad_block_sol_id.ad_block_status == 'active'
+                    and block.sudo().ad_block_sol_id.ad_display_type == 'ad_products' and not block.sudo().allow_prod_carousel"
+                groups="sales_team.group_sale_manager"
+                class="ad_block_div mt16 mb8" t-att-style="'height:%spx;padding:%s;'%(h,p)">
+                <t t-esc="block_name"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="mp_ad_inherit_website_ad_block_book_modal" inherit_id="website_advertisement_manager.website_ad_block_book_modal">
+        <xpath expr="//div[hasclass('modal-body')]/div[1]" position="before">
+            <t t-if="block.allow_prod_carousel">
+                <div class="row text-warning ml0 mr0" groups="odoo_marketplace.marketplace_seller_group">
+                    <i><i class="fa fa-info-circle" aria-hidden="true"></i> Both banner and products can be added for this block position.</i>
+                </div>
+            </t>
+            <t t-if="not block.allow_prod_carousel">
+                <div class="row text-warning ml0 mr0" groups="odoo_marketplace.marketplace_seller_group">
+                    <i><i class="fa fa-info-circle"></i> Only banner can be added for this block position.</i>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

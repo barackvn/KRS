@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="0">
+
+        <!-- <record id='website.default_website' model='website'>
+            <field name='enable_360_view'>1</field>
+        </record>
+
+        <record id='website.website2' model='website'>
+            <field name='enable_360_view'>0</field>
+        </record> -->
+
+    </data>
+</odoo>

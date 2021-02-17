@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+
+    <data noupdate="1">
+        <record id="action_client_qms_menu" model="ir.actions.client">
+            <field name="name">Open Queue Management Menu</field>
+            <field name="tag">reload</field>
+            <field name="params" eval="{'menu_id': ref('queue_management.menu_queue_management_root')}"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <act_window id="action_account_refund_invoice_payment" multi="True" key2="client_action_multi" name="Refund Invoice" res_model="account.move.refund" src_model="account.move" view_mode="form" target="new"  context="{'default_invoice_ids': [(4, active_id, None)]}"></act_window>
+    </data>
+</openerp>

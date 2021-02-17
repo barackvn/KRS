@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ TREE VIEW ~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record id="inherit_voucher_voucher_tree" model="ir.ui.view">
+            <field name="name">voucher.voucher.tree</field>
+			<field name="model">voucher.voucher</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="wk_coupons.voucher_voucher_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='name']" position="after">
+                    <field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ FORM VIEW ~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record id="inherit_voucher_voucher_view_form" model="ir.ui.view">
+			<field name="name">voucher.voucher.form</field>
+			<field name="model">voucher.voucher</field>
+            <field name="inherit_id" ref="wk_coupons.voucher_voucher_view_form"/>
+			<field name="type">form</field>
+            <field name="mode">primary</field>
+			<field name="arch" type="xml">
+                <xpath expr="//field[@name='customer_id']" position="attributes">
+                    <attribute name="options">{'no_create_edit': True,'no_create':True,'no_quick_create':True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='customer_id']" position="after">
+                    <field name="marketplace_seller_id"
+                           groups="odoo_marketplace.marketplace_officer_group"
+                           options="{'no_create_edit':True}"
+                           domain="[('seller','=',True),('state','=','approved')]"
+                           context="{'form_view_ref':'odoo_marketplace.wk_seller_form_view'}"
+                           required="1"
+                           />
+                </xpath>
+                <xpath expr="//page[@name='products']/group/field[@name='product_ids']" position="attributes">
+                    <!-- <attribute name="domain">[('marketplace_seller_id','!=',False),('status','=','approved')]</attribute> -->
+                    <attribute name="context">{
+                        'tree_view_ref' : 'odoo_marketplace.wk_seller_product_template_tree_view',
+                        'form_view_ref': 'odoo_marketplace.wk_seller_product_template_form_view',}</attribute>
+                    <attribute name="options">{'no_create_edit': True,'no_create': True,'no_quick_create':True}</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group[@name='newvoucher']/group/field[@name='customer_type']" position="attributes">
+                    <attribute name="groups">odoo_marketplace.marketplace_officer_group</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ SEARCH VIEW ~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record id="mp_gift_voucher_filter" model="ir.ui.view">
+            <field name="name">Gift Voucher</field>
+            <field name="model">voucher.voucher</field>
+            <field name="arch" type="xml">
+                <search string="Search Voucher">
+                    <group string="Group By">
+                        <!-- <filter string="Seller" context="{'group_by':'marketplace_seller_id'}"
+                            name="by_marketplace_seller_id"/> -->
+                    </group>
+               </search>
+            </field>
+        </record>
+        <record id="mp_gift_voucher_filter_inherit" model="ir.ui.view">
+            <field name="name">Apply Seller Group on Voucher</field>
+            <field name="model">voucher.voucher</field>
+            <field name="inherit_id" ref="marketplace_voucher.mp_gift_voucher_filter"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
+            <field name="arch" type="xml">
+                <search string="Search Voucher">
+                    <group position="inside">
+                        <filter string="Seller"
+                            context="{'group_by':'marketplace_seller_id'}"
+                            name="by_marketplace_seller_id"
+                            groups="odoo_marketplace.marketplace_officer_group"
+                            />
+                    </group>
+               </search>
+            </field>
+        </record>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ ACTION ~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record id="mp_gift_voucher_all_voucher_action" model="ir.actions.act_window">
+            <field name="name">Marketplace Vouchers</field>
+            <field name="res_model">voucher.voucher</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('marketplace_seller_id','!=',False)]</field>
+            <field name="context">{'mp_gift_voucher':1,'search_default_by_marketplace_seller_id': 1}</field>
+            <!-- <field name="search_view_id" ref="marketplace_voucher.mp_gift_voucher_filter"/> -->
+        </record>
+        <record id="mp_gift_voucher_action_for_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="sequence">1</field>
+            <field name="view_id" ref="marketplace_voucher.inherit_voucher_voucher_tree"/>
+            <field name="act_window_id" ref="marketplace_voucher.mp_gift_voucher_all_voucher_action"/>
+        </record>
+        <record id="mp_gift_voucher_action_for_form" model="ir.actions.act_window.view">
+            <field name="view_mode">form</field>
+            <field name="sequence">2</field>
+            <field name="view_id" ref="inherit_voucher_voucher_view_form"/>
+            <field name="act_window_id" ref="marketplace_voucher.mp_gift_voucher_all_voucher_action"/>
+        </record>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ MENUITEM ~~~~~~~~~~~~~~~~~~~~~~ -->
+        <menuitem name= "Gift Vouchers"
+            id= "mp_gift_voucher_menu"
+            sequence= "8"
+            parent= "odoo_marketplace.wk_seller_dashboard"
+            groups="odoo_marketplace.marketplace_seller_group"
+        />
+        <menuitem name= "Seller Vouchers"
+                  id= "mp_gift_voucher_submenu"
+                  action= "marketplace_voucher.mp_gift_voucher_all_voucher_action"
+                  parent= "marketplace_voucher.mp_gift_voucher_menu"
+                  sequence= "1"
+                  groups="odoo_marketplace.marketplace_seller_group"
+                />
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~ Voucher History ~~~~~~~~~~~~~~~~ -->
+
+        <record id="inherit_voucher_history_form" model="ir.ui.view">
+			<field name="name">voucher.history.form</field>
+			<field name="model">voucher.history</field>
+			<field name="type">form</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="wk_coupons.voucher_history_form"/>
+			<field name="arch" type="xml">
+                <xpath expr="//form/sheet/group[3]" position="before">
+                    <group>
+                        <field name="marketplace_seller_id"
+                            groups= "odoo_marketplace.marketplace_officer_group"
+                            options="{'no_create': True}"
+                            context="{'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}"
+                            />
+                    </group>
+                </xpath>
+                <xpath expr="//form/sheet/group[2]/field[@name='order_id']" position="attributes">
+                    <attribute name="options">{'no_create_edit': True, 'no_open' : True,}</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group[2]/field[@name='sale_order_line_id']" position="attributes">
+                    <attribute name="options">{'no_create_edit': True, 'no_open' : True,}</attribute>
+                </xpath>
+			</field>
+		</record>
+
+        <record id="mp_voucher_history_action" model="ir.actions.act_window">
+            <field name="name">Marketplace Voucher History</field>
+            <field name="res_model">voucher.history</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_group_by_name": 1}</field>
+            <field name="domain">[('marketplace_seller_id','!=',False)]</field>
+            <field name="view_id" ref="wk_coupons.voucher_history_tree"/>
+        </record>
+
+        <record id="mp_voucher_history_action_for_tree" model="ir.actions.act_window.view">
+                <field name="view_mode">tree</field>
+                <field name="view_id" ref="wk_coupons.voucher_history_tree"/>
+                <field name="act_window_id" ref="marketplace_voucher.mp_voucher_history_action"/>
+        </record>
+        <record id="mp_voucher_history_action_for_form" model="ir.actions.act_window.view">
+                <field name="view_mode">form</field>
+                <field name="view_id" ref="inherit_voucher_history_form"/>
+                <field name="act_window_id" ref="marketplace_voucher.mp_voucher_history_action"/>
+        </record>
+
+		<menuitem  id="mp_voucher_history_menu_id"
+            name="Voucher History"
+            parent="marketplace_voucher.mp_gift_voucher_menu"
+            action="mp_voucher_history_action"
+            sequence="2"
+            groups="odoo_marketplace.marketplace_seller_group"
+            />
+
+    </data>
+</odoo>

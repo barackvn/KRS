@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <record model="ir.ui.view" id="wk_profile_tab_inherit_seller_form">
+        <field name="name">res.partner.form.inherit.profile.tab</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[1]/group[@name='seller_wise_settings']" position="after">
+                <group string="Seller Profile Tabs Settings" groups="odoo_marketplace.marketplace_officer_group,marketplace_seller_profile_tabs.mp_seller_profile_tab_group">
+                    <label for="allow_profile_tabs"/>
+                    <div>
+                        <field name="allow_profile_tabs" readonly="1"/>
+                        <button name="enable_profile_tabs_group" string="Click to Allow" type="object" class="oe_link" attrs="{'invisible':[('allow_profile_tabs', '=', True)]}"/>
+                        <button name="disable_profile_tabs_group" string="Click to Denied" type="object" class="oe_link" attrs="{'invisible':[('allow_profile_tabs', '=', False)]}"/>
+                    </div>
+                </group>
+            </xpath>
+            <field name="social_media_link_ids" position="after">
+                <separator attrs="{'invisible': [('allow_profile_tabs','=',False)]}" string="Additional Profile Tabs" groups="odoo_marketplace.marketplace_officer_group,marketplace_seller_profile_tabs.mp_seller_profile_tab_group"/>
+                <div attrs="{'invisible': [('allow_profile_tabs','=',False)]}" class="oe_inline oe_grey   " groups="odoo_marketplace.marketplace_officer_group,marketplace_seller_profile_tabs.mp_seller_profile_tab_group">
+                    Add and manage extra profile tabs here which will appear along with their content customized by you on your seller profile page after 'Seller Contact' tab.
+                </div>
+                <field attrs="{'invisible': [('allow_profile_tabs','=',False)]}" name="seller_profile_tab_ids" nolabel="1" groups="odoo_marketplace.marketplace_officer_group,marketplace_seller_profile_tabs.mp_seller_profile_tab_group">
+                    <form>
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="profile_tab_id" options="{'no_create_edit': True}"/>
+                                    <field name="sequence"/>
+                                </group>
+                                <group>
+                                    <field name="website_published"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="content"/>
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </field>
+        </field>
+    </record>
+</odoo>

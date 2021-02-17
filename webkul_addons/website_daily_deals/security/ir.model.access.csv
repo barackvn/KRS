@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_website_daily_deals_and_offers,website.deals,model_website_deals,,1,1,1,1

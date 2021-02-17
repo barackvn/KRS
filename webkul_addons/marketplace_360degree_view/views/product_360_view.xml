@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+    <record id="product_360_view_view_form" model="ir.ui.view">
+            <field name="name">product.360.view.form</field>
+            <field name="model">product.360.view</field>
+            <field name="arch" type="xml">
+                <form string="Product 360 View Images" create="false">
+                    <group col="6">
+                        <div class="oe_title" style="width: 200px;">
+                            <!--<label class="" for="image" string="Image"/>-->
+                            <field name="image" widget="image" class="oe_avatar oe_left"/>
+                        </div>
+                        <div class="oe_title" style="width: 200px;">
+                            <label class="" for="name" string="Sequence"/>
+                            <field name="sequence"/>
+                        </div>
+                        <div class="oe_title" style="width: 350px;">
+                            <label class="" for="name"/>
+                            <h1><field name="name" class="oe_inline"/></h1>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_360_view_view_tree" model="ir.ui.view">
+            <field name="name">product.360.view.tree</field>
+            <field name="model">product.360.view</field>
+            <field name="arch" type="xml">
+                <tree string="Product 360 View Images" create="false">
+                    <field name="template_id"/>
+                    <field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <field name="name"/>
+                    <field name="sequence"/>
+                    <field name="image" widget="image" width="20%" height="20%"/>
+                </tree>
+            </field>
+        </record>
+        <record id="mp_360degree_view" model="ir.ui.view">
+            <field name="name">mp.inherit.product.360degree.view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
+            <field name="arch" type="xml">
+              <xpath expr="//notebook" position="inside">
+	            	<page string="360° View" icon="" groups="marketplace_360degree_view.group_for_mp_360degree_view,odoo_marketplace.marketplace_officer_group">
+                        <group string="Marketplace Product View">
+                            <div name="product_default_view">
+                                <div class="oe_inline">
+                                    <field name="product_default_view"/>
+                                    <label for="product_default_view"/>
+                                    <field name="product_360_view"/>
+                                    <label for="product_360_view"/>
+                                </div>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="number_of_images_for_360"/>
+                        </group>
+	            		<field name="template_360_images" mode="kanban"  class="">
+    	            		<kanban>
+                                <field name="name"/>
+    	            			<field name="image"/>
+                                <field name="sequence"/>
+                        		<templates>
+                                    <t t-name="kanban-box">
+                                        <div class="oe_kanban_global_click">
+                                        <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right"/>
+                                            <div class="o_kanban_image">
+                                                <img alt="Not Found" t-if="record.image.raw_value" t-att-src="'data:image/png;base64,'+record.image.raw_value"/>
+                                            </div>
+                                            <div class="oe_kanban_details">
+                                                <strong>Label:</strong><field name="name"/><br/>
+                                                <strong>Sequence:</strong><field name="sequence"/>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </page>
+				</xpath>
+            </field>
+        </record>
+        <record id="product_360_view_product_filter" model="ir.ui.view">
+            <field name="name">Product.360.view.Filter</field>
+            <field name="model">product.360.view</field>
+            <field name="arch" type="xml">
+                <search string="Search Report">
+                    <field name="template_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Product" domain="[]" context="{'group_by':'template_id'}" name="by_template_id"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        <record id="action_product_360_view_images" model="ir.actions.act_window">
+            <field name="name">Product 360degree view</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.360.view</field>
+            <field name="domain">[('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
+            <field name="context">{'search_default_by_template_id': 1, 'default_type': 'product', 'pass_default_categ' : True}</field>
+            <field name="search_view_id" ref="product_360_view_product_filter"/>
+            <field name="view_mode">tree,form</field>
+            <field
+				name="view_ids"
+				eval="[(5, 0),
+					(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('marketplace_360degree_view.product_360_view_view_tree')}),
+					(0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('marketplace_360degree_view.product_360_view_view_form')})
+				]"/>
+        </record>
+        <menuitem id="wk_seller_dashboard_menu2_sub_menu5" name="360 View Images" parent="odoo_marketplace.wk_seller_dashboard_menu2" action="action_product_360_view_images" groups="marketplace_360degree_view.group_for_mp_360degree_view,odoo_marketplace.marketplace_officer_group" sequence="5"/>
+    </data>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="inherit_patho_mgmt_lab_centers_form_view">
+            <field name="name">Pathology Lab Centers for Digital Signature</field>
+            <field name="model">patho.lab.centers</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="wk_pathology_management.patho_mgmt_lab_centers_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet//field[@name='primary_lab_pathologist']" position="attributes">
+                    <attribute name="help">Select a Pathologist for this Collection Center whose signature
+                        will be printed in the Diagnosis Reports of this Lab Center.</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

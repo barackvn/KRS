@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+
+		<record id="inherit_patho_lab_operators_form_view" model="ir.ui.view">
+			<field name="name">patho.lab.operators.inherit.sign</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="wk_pathology_management.patho_lab_operators_form_view"/>
+			<field name="arch" type="xml">
+				<xpath expr="//form//notebook" position="inside">
+					<page string="Signature">
+						<group>
+							<group>
+								<field name="function"/>
+								<field name="patho_digital_sign" widget="image" />
+							</group>
+						</group>
+					</page>
+				</xpath>
+			</field>
+		</record>
+
+	</data>
+</odoo>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="product_tabs_form" model="ir.ui.view">
+      <field name="name">wk.product.tabs.form</field>
+      <field name="model">wk.product.tabs</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group>
+                <field name="name"/>
+              </group>
+              <group>
+                <field name="sequence"/>
+                <field name="active"/>
+              </group>
+            </group>
+            <group>
+              <field name="content"/>
+            </group>
+            <group invisible="not context.get('show_prod')">
+              <field name="tab_product_id"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="product_tabs_tree" model="ir.ui.view">
+        <field name="name">wk.product.tabs.tree</field>
+        <field name="model">wk.product.tabs</field>
+        <field name="arch" type="xml">
+          <tree decoration-muted="(not active)">
+            <field name="sequence"/>
+            <field name="name"/>
+            <field name="active"/>
+          </tree>
+        </field>
+    </record>
+
+    <record id="product_template_form_view" model="ir.ui.view">
+      <field name="name">product.template.tabs.form</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_form_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//notebook" position="inside">
+          <page name="tabs" string="Tabs">
+            <group>
+              <group>
+                <field name="product_tab_type" required='1'/>
+              </group>
+              <group></group>
+            </group>
+          <group></group>
+          <group>
+            <field name="wk_product_tab_ids"  nolabel="1"/>
+          </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="product_tabs_action" model="ir.actions.act_window">
+        <field name="name">Products Tabs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wk.product.tabs</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'show_prod':1}</field>
+        <field name="view_id" ref="product_tabs_tree"/>
+    </record>
+
+    <menuitem id="root_menu"
+      parent="website.menu_website_configuration"
+      sequence="50"
+      name="Product Tabs"
+      string="Product Tabs"
+      groups="base.group_no_one"/>
+
+    <menuitem id="tab_menu"
+      parent="root_menu"
+      sequence="2"
+      name="All Tabs" string="Tabs"
+      action="product_tabs_action"/>
+
+  </data>
+</openerp>

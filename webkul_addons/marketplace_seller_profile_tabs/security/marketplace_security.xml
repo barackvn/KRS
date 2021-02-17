@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<openerp>
+	<data noupdate="1">
+
+		<record id="mp_seller_profile_tab_group" model="res.groups">
+        	<field name="name">Marketplace Seller Profile Tabs</field>
+        	<field name="category_id" ref="base.module_category_hidden"/>
+		</record>
+
+		<record id="show_seller_own_profile_tabs_only_rule" model="ir.rule">
+	        <field name="name">Seller Own Profile Tabs only</field>
+	        <field name="model_id" ref="model_seller_profile_tabs"/>
+	        <field name="domain_force">[('marketplace_seller_id','=',user.partner_id.id)]</field>
+	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group')),(4, ref('odoo_marketplace.marketplace_draft_seller_group'))]"/>
+	    </record>
+
+		<record id="show_all_profile_tabs_officer_rule" model="ir.rule">
+	        <field name="name">All Seller Profile Tabs to Officer</field>
+	        <field name="model_id" ref="model_seller_profile_tabs"/>
+	        <field name="domain_force">[(1,'=',1)]</field>
+	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_officer_group'))]"/>
+	    </record>
+
+		<record id="show_all_profile_tabs_manager_rule" model="ir.rule">
+	        <field name="name">All Seller Profile Tabs to Manager</field>
+	        <field name="model_id" ref="model_seller_profile_tabs"/>
+	        <field name="domain_force">[(1,'=',1)]</field>
+	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+	    </record>
+
+	</data>
+</openerp>

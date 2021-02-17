@@ -1,0 +1,67 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="gdrp_data_template_view_form">
+        <field name="name">Odoo Gdpr Data Template Form</field>
+        <field name="model">gdpr.data.template</field>
+        <field name="type">form</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+          <form>
+            <sheet>
+             <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                        <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                    </button>
+                </div>
+              <field name="icon" widget="image" class="oe_avatar" />
+              <div class="oe_title">
+                  <b>Title</b>
+                  <h1>
+                    <field name="name" default_focus="1" placeholder="Name"/>
+                  </h1>
+              </div>
+              <!--<group  string="Title">-->
+                <!--<field name="title" nolabel="1"/>-->
+              <!--</group>-->
+              <group  string="Short Description">
+                <field name="desc" nolabel="1"/>
+              </group>
+
+              <group>
+                <group>
+                    <!--<field name="allow_download" />-->
+                    <!--<field name="allow_delete" />-->
+                    <field name="redirect_url" />
+                    <field name="type" />
+                  <!--<field name="gdpr_id" invisible="1" />-->
+                </group>
+              </group>
+            </sheet>
+          </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="gdrp_data_template_view_tree">
+					<field name="name">Odoo Gdpr Data Template Tree</field>
+					<field name="model">gdpr.data.template</field>
+					<field name="arch" type="xml">
+						<tree>
+							<field name="name"/>
+							<field name="type"/>
+						</tree>
+					</field>
+	    </record>
+
+    <record model="ir.actions.act_window" id="gdrp_data_template_action">
+			<field name="name">Odoo Gdpr Data Template </field>
+			<field name="res_model">gdpr.data.template</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+    <menuitem name="GDPR Data" id="gdpr_data_tmpl_main_menu" parent="website.menu_website_global_configuration" sequence="1"/>
+    <menuitem id="odoo_gdpr_data_menu" name="GDPR Data Template" parent="gdpr_data_tmpl_main_menu" action="gdrp_data_template_action" sequence="1"/>
+
+
+
+  </data>
+</odoo>

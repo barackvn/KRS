@@ -1,0 +1,37 @@
+<odoo>
+  <data>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+  	<template id="assets_frontend" inherit_id="website.assets_frontend" name="Website Order Notes">
+    <xpath expr="." position="inside">
+      <link rel='stylesheet' href='/website_order_notes/static/src/css/website_order_notes.css'/> 
+      <script type="text/javascript" src="/website_order_notes/static/src/js/website_order_notes.js"></script>
+    </xpath>
+  </template>
+
+  <template id="payment_inherit_website_order_notes" inherit_id="website_sale.payment" active="True" customize_show="True" name="Order Notes">
+      <xpath expr="//div[@id='payment_method'][hasclass('js_payment')]" position="after">
+        <p style="margin-top:20px;" t-if="website.check_order_notes_setting(1)== True or website.check_order_notes_setting(2)== True">
+        <label  class="control-label col-md-" style="font-size:23px; margin: 4px; border-bottom: 2px solid #808080;"><i style="font-size:1.5em;" class="fa fa-pencil-square"></i> Write Your Notes</label>
+        <div class="clearfix"></div>
+        <div  style="font-size: 15px; color: #252525;" class="col-md-8">You Can Write your Personal internal Notes and Message here and you'll have that message with your Product Delivery.</div>
+      </p>
+
+        <div class="col-md-12" style="margin-bottom:12px; padding:0px;">
+          <div t-if="website.check_order_notes_setting(1)== True" class="form-group date-input col-md-10">
+            <label class="control-label" for="desire_date">Desire Delivery Date</label>
+            <div class="msg-box" style="display:inline-block;">Enter Your Desired Delivery Date</div>
+            <input type="date" name="desire_date" class="form-control wk_desire_date" style="width: 200px; border-radius:0px;" t-att-max_val="request.website.maxium_delivery_date" t-att-min_val="request.website.minimum_delivery_date"/>
+          </div>
+          <div class="clearfix"></div>
+          <div t-if="website.check_order_notes_setting(2)== True" class="form-group col-md-10">
+            <label class="control-label" for="textarea">Leave a Message</label>
+            <div class="msg-box" style="display:inline-block;">You can Write Comment for Your Order here.</div>
+            <textarea class="wk_notes_textarea form-control" rows="4" name="textarea" placeholder="type a message for your order...."></textarea>
+          </div>
+        </div>
+      </xpath>
+   </template>
+ 
+</data>
+</odoo>

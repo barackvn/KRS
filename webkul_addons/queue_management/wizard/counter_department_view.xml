@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+
+	<record id="qms_dept_wizard_view" model="ir.ui.view">
+		<field name="name">qounter.department</field>
+		<field name="model">qounter.department</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Department">
+				<group>
+					<group>
+						<field name="counter_dept" required="True" options="{'no_create': True}"/>
+					</group>
+					<group>
+					</group>
+				</group>
+				<footer>
+					<button string="Start Processing" type="object" name="start_processing" icon="fa-check" class="oe_highlight"/>
+					<button string="Cancel" class='oe_link' special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+</odoo>

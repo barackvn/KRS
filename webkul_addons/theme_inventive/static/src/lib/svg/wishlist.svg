@@ -1,0 +1,17 @@
+<svg width="17px" height="15px" viewBox="0 0 17 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>wishlist</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="product/3-colomn/hover" transform="translate(-142.000000, -244.000000)" stroke="#FFFFFF" stroke-width="1.5">
+            <g id="3" transform="translate(15.000000, 17.000000)">
+                <g id="Group-4" transform="translate(122.000000, 222.000000)">
+                    <g id="wishlist">
+                        <path d="M19.8433598,7.15664018 C19.1031418,6.41607463 18.0989821,6 17.05191,6 C16.0048379,6 15.0006782,6.41607463 14.2604602,7.15664018 L13.4998081,7.91729232 L12.7391559,7.15664018 C11.1974808,5.61496507 8.69793151,5.61496508 7.15625637,7.15664023 C5.61458123,8.69831537 5.61458121,11.1978646 7.15625633,12.7395398 L7.91690846,13.5001919 L13.4998081,19.0830915 L19.0827077,13.5001919 L19.8433598,12.7395398 C20.5839254,11.9993218 21,10.9951621 21,9.94808999 C21,8.90101787 20.5839254,7.89685819 19.8433598,7.15664018 Z"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

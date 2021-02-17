@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Product Attributes......... -->
+      <!-- attribute_1 = menory -->
+      <record id="rd_product_attribute_1" model="product.attribute">
+        <field name="name">Memory</field>
+        <field name="sequence">1</field>
+      </record>
+      <record id="rd_product_attribute_1_value_3" model="product.attribute.value">
+          <field name="name">64 GB</field>
+          <field name="attribute_id" ref="rd_product_attribute_1"/>
+      </record>
+      <record id="rd_product_attribute_1_value_4" model="product.attribute.value">
+          <field name="name">128 GB</field>
+          <field name="attribute_id" ref="rd_product_attribute_1"/>
+      </record>
+
+      <record id="rd_product_attribute_2" model="product.attribute">
+        <field name="name">Brand</field>
+        <field name="sequence">2</field>
+      </record>
+      <record id="rd_product_attribute_2_value_1" model="product.attribute.value">
+          <field name="name">Apple</field>
+          <field name="attribute_id" ref="rd_product_attribute_2"/>
+      </record>
+      <record id="rd_product_attribute_2_value_2" model="product.attribute.value">
+          <field name="name">HERMES</field>
+          <field name="attribute_id" ref="rd_product_attribute_2"/>
+      </record>
+      <record id="rd_product_attribute_2_value_3" model="product.attribute.value">
+          <field name="name">BURBERRY</field>
+          <field name="attribute_id" ref="rd_product_attribute_2"/>
+      </record>
+      <record id="rd_product_attribute_2_value_4" model="product.attribute.value">
+          <field name="name">PRADA</field>
+          <field name="attribute_id" ref="rd_product_attribute_2"/>
+      </record>
+
+      <!--core-attribute_2 = color -->
+      <record id="product_attribute_color_value_3" model="product.attribute.value">
+          <field name="name">Blue</field>
+          <field name="attribute_id" ref="product.product_attribute_2"/>
+      </record>
+      <record id="product_attribute_color_value_4" model="product.attribute.value">
+          <field name="name">Red</field>
+          <field name="attribute_id" ref="product.product_attribute_2"/>
+      </record>
+      <record id="product_attribute_color_value_5" model="product.attribute.value">
+          <field name="name">Yellow</field>
+          <field name="attribute_id" ref="product.product_attribute_2"/>
+      </record>
+
+  </data>
+
+</odoo>

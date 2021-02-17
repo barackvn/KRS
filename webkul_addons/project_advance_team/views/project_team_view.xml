@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="project_team_view" model="ir.ui.view">
+        <field name="name">project.project.inherit.form.view</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='attachment_tree_view']" position="attributes">
+                <attribute name="groups">project_advance_team.group_project_leader</attribute>
+            </xpath>
+            <xpath expr="//div[@name='options_active']" position="attributes">
+                <attribute name="groups">project_advance_team.group_project_leader</attribute>
+            </xpath>
+             <xpath expr="//page[last()]" position="attributes">
+                <attribute name="groups">project_advance_team.group_project_leader</attribute>
+            </xpath>
+            <xpath expr="//field[@name='privacy_visibility']" position="attributes">
+                <attribute name="groups">project_advance_team.group_project_leader</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="groups">project_advance_team.group_project_leader</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="options">{'no_create_edit': True, 'no_open':True,'no_create':True}</attribute>
+                <attribute name="readonly">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="readonly">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[1]" position="after">
+                <page name="team_members" string="Team Members">
+                    <group>
+                        <group name="project_team">
+                            <field name="wk_team_id" options="{'no_create_edit': True, 'no_open':True,'no_create':True}"/>
+                        </group>
+                        <group name="extra_team">
+                            <field name="wk_extra_team_ids" widget="many2many_tags" options="{'no_create_edit': True, 'no_open':True,'no_create':True}" />
+                        </group>
+                    </group>
+                     <group name="extra_members">
+                        <separator string="Extra Members" colspan="4"/>
+                        <field colspan="4" name="members" widget="many2many_kanban" nolabel="1" options="{'no_create_edit': True, 'no_open':True,'no_create':True}">
+                            <kanban quick_create="false" create="true" delete="true">
+                                <field name="name"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div style="position: relative">
+                                            <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                            <div class="oe_module_vignette">
+                                               <div class="o_kanban_image">
+                                                    <a type="open">
+                                                        <t t-if="record.image_small">
+                                                            <img t-att-src="kanban_image('res.users', 'image_small', record.id)"/>
+                                                        </t>
+                                                        <t t-if="!record.image">
+                                                            <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="o_kanban_image"/>
+                                                        </t>
+                                                    </a>
+                                                </div>
+                                                <div class="oe_module_desc">
+                                                    <field name="name"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </group>
+                </page>
+                <page string="Project Stages" name="project_stages">
+                    <group>
+                        <group name="stage_group">
+                            <field name="stage_group_id" options="{'no_create_edit': True, 'no_open':True,'no_create':True}" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="type_ids" readonly="1" options="{'no_create_edit': True, 'no_open':True,'no_create':True}"/>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='message_follower_ids']" position="after">
+                <field name="message_ids" widget="mail_thread"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_team_view_leader" model="ir.ui.view">
+        <field name="name">Webkul.project.leader.Form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project_advance_team.project_team_view"/>
+        <field name="groups_id" eval="[(6, 0, [ref('project_advance_team.group_project_leader') ])]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="readonly">False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='stage_group_id']" position="attributes">
+                <attribute name="readonly">False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='type_ids']" position="attributes">
+                <attribute name="readonly">False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="readonly">False</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="inherit_project_task_view" model="ir.ui.view">
+        <field name="name">project.task.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_id']" position="attributes">
+                <attribute name="required">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='project_id']" position="after">
+                <field name="stage_group_id" groups="project_advance_team.group_project_leader" options="{'no_open': True}" required="1"/>
+                <field name="user_ids" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+     <record id="wk_project_stage_group_view" model="ir.ui.view">
+        <field name="name">Project Stages Group Form View</field>
+        <field name="model">project.stage.group</field>
+        <field name="arch" type="xml">
+           <form string="Stages Group">
+            <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="Group Name"/>
+                    </h1>
+                </div>
+                <group>
+                    <group name="group_details">
+                        <field name="create_uid" readonly="1" attrs="{'invisible':[('create_uid','=',False)]}" groups="project_advance_team.group_project_leader"/>
+                        <field name="stages_ids" widget="many2many_tags"/>
+                    </group>
+                    <group name="extra_info">
+                        <field name="default" groups="project_advance_team.group_project_leader"/>
+                        <field name="sequence" />
+                    </group>
+                </group>
+            </sheet>
+           </form>
+        </field>
+    </record>
+
+    <record id="wk_project_stage_group_tree_view" model="ir.ui.view">
+        <field name="name">Project Stages Group Tree</field>
+        <field name="model">project.stage.group</field>
+        <field name="arch" type="xml">
+            <tree string="Stages Group">
+                <field name="name" />
+                <field name="stages_ids"/>
+                <field name="create_uid"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_project_stage_group_action_tree" model="ir.actions.act_window">
+        <field name="name">Stage Groups</field>
+        <field name="res_model">project.stage.group</field>
+        <field name="domain"></field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="view_id" ref="wk_project_stage_group_tree_view"/>
+    </record>
+
+    <record id="inherit_task_type_edit" model="ir.ui.view">
+        <field name="name">project.task.type.form</field>
+        <field name="model">project.task.type</field>
+        <field name="inherit_id" ref="project.task_type_edit"/>
+        <field name="arch" type="xml">
+            <field name="sequence" position="replace">
+                <field name="sequence" groups="project_advance_team.group_project_leader"/>
+            </field>
+        </field>
+    </record>
+
+    <menuitem id="wk_stage_group_menu" action="wk_project_stage_group_action_tree" parent="project.menu_project_config" sequence="2"/>
+    <menuitem action="project.open_task_type_form" id="project.menu_project_config_project" name="Stages" parent="project.menu_project_config" sequence="3" groups="project_advance_team.group_project_leader"/>
+    <menuitem action="project.project_tags_action" id="project.menu_project_tags_act" parent="project.menu_project_config" groups="base.group_no_one,project_advance_team.group_project_leader"/>
+
+</odoo>

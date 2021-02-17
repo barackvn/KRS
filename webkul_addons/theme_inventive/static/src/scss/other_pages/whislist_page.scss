@@ -1,0 +1,30 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.inventive_wishlist_page {
+    .wishlist-section > h3 {
+        display: none;
+    }
+
+    .four_column_view .oe_product {
+        .o_wish_rm {
+            border-radius: 50px;
+            height: 21px;
+            width: 21px;
+            font-size: 12px;
+            padding: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: rgba(0,0,0,0.5);
+            transition: background-color 0.4s linear;
+            color: white;
+            z-index: 100;
+        }
+        &:hover {
+            .o_wish_rm {
+                background-color: rgba(0,0,0,0.8);
+            }
+        }
+    }
+}

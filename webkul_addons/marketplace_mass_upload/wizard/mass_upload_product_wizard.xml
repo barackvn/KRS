@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="product_mass_upload_status" model="ir.ui.view">
+            <field name="name">product.status.form.wizard</field>
+            <field name="model">mass.upload.status</field>
+            <field name="arch" type="xml">
+                <form string="Mass Uplaod Product Status">
+                    <group>
+                        <h4><field name="message" readonly="1"/></h4>
+                    </group>
+                    <footer>
+                        <button special="cancel" class="pull-right" string="Close"/>
+                        <button name="view_history" string="View History" class="btn-primary pull-right" type="object" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

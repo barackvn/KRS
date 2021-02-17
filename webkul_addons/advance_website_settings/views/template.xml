@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+  <data>
+
+  <template id="assets_frontend" inherit_id="website.assets_frontend" name="Advance Cart Settings">
+  <xpath expr="." position="inside">
+        <link rel='stylesheet' href='/advance_website_settings/static/src/css/adv_settings.css'/>
+        <script type="text/javascript" src="/advance_website_settings/static/src/js/advance_settings.js"></script>
+      </xpath>
+  </template>
+
+<!-- ################  cart page rendering option ########################## -->
+   <template id="add_to_cart_main_id" inherit_id="website_sale.product">
+        <xpath expr="//form//input[@name='csrf_token']" position="after">
+            <input type="hidden" class="wk_input" name="wk_product_page_url" t-att-value="'/shop/product/%s' % slug(product)"/>
+        </xpath>
+    </template>
+
+    <template id="add_to_cart_icon_id_inherited_" inherit_id="website_sale.products_item">
+
+       <xpath expr="//div[hasclass('product_price')]" position="inside">
+            <input type="hidden" class="wk_input" name="wk_products_page_url" t-att-value="keep('/shop' , page=(pager['page']['num'] if pager['page']['num']&gt;1 else None))"/>
+      </xpath>
+    </template>
+
+    <!-- ###################################  cart customized #######################################  -->
+    <template id="customized_cart_inheited_cart_lines" inherit_id="website_sale.cart_lines" customize_show="True" name="Cart Lines">
+      <xpath expr="//table/thead/tr/th[4]" position="after">
+        <th width="100" t-if="website_sale_order.get_show_subtotal() == True">Sub Total</th>
+      </xpath>
+      <xpath expr="//td[hasclass('td-price')]" position="after">
+
+          <td class="text-center" name="price"  t-if="website_sale_order.get_show_subtotal() == True">
+            <t t-set="sub_total" t-value="line.get_subtotal_cart(line.id)" />
+            <span t-esc="float(sub_total)" style="white-space: nowrap;" t-options='{
+                 "widget": "monetary",
+                 "display_currency": website.get_current_pricelist().currency_id
+             }' class="subtotal_show"/>
+        </td>
+      </xpath>
+    </template>
+
+    <template id="customize_payement_id_inherited_payment" inherit_id="website_sale.cart_summary">
+      <xpath expr="//table[@id='cart_products']/thead/tr/th[4]" position="after">
+        <th width="40" t-if="website_sale_order.get_show_subtotal() == True">Sub Total</th>
+      </xpath>
+
+      <xpath expr="//table[@id='cart_products']//tbody//tr//td[hasclass('td-price')]" position="after">
+        <td class="text-center" name="price"  t-if="website_sale_order.get_show_subtotal() == True">
+          <t t-set="sub_total" t-value="line.get_subtotal_cart(line.id)" />
+            <span t-esc="sub_total" style="white-space: nowrap;" t-options='{
+                 "widget": "monetary",
+                 
+                 "display_currency": website.pricelist_id.currency_id
+             }' class="subtotal_show"/>
+          </td>
+      </xpath>
+    </template>
+
+
+    <template id="checkout_button_inherited_cart" inherit_id="website_sale.cart" name="Checkout Repalced">
+        <xpath expr="//div//a[@href='/shop/checkout?express=1']" position="inside">
+          <p class="oe_currency_value wk_cart_values" t-att-conf_value="website_sale_order.sudo().get_minimun_cart_value()" t-att-currency_symbol="website_sale_order.pricelist_id.currency_id.symbol" style="margin:0px;"><t t-esc='website_sale_order.sudo().get_minimun_cart_value()'  t-options='{
+                 "widget": "monetary",
+                 "display_currency": website.pricelist_id.currency_id
+             }'/></p>
+        </xpath>
+    </template>
+
+    <template id="shop_product_cart_update" inherit_id="website_sale.product_price" name="Shop Product Cart Update">
+        <xpath expr="//b" position="after">
+           <b t-if="website.show_subTotal()" id="sub_total" class="total-sum ml8" t-esc="combination_info['price']" style="white-space: nowrap;" t-options="{'widget': 'monetary','display_currency': website.currency_id}"/>
+        </xpath>
+    </template>
+
+
+  </data>
+</odoo>

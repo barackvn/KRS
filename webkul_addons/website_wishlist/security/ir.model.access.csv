@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_website_wishlist_all,website.wishlist.all,model_website_wishlist,,1,1,1,1
+access_website_wishlist_manager,website.wishlist.manger,model_website_wishlist,base.user_root,1,1,1,1

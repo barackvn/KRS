@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <record model="ir.ui.view" id="mp_rma_inherit_seller_form">
+        <field name="name">res.partner.form.inherit.rma</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[1]/div[hasclass('seller_default_config')]/group[last()]" position="after">
+                <group string="RMA Settings" groups="odoo_marketplace.marketplace_officer_group">
+                    <label for="days_for_rma"/>
+                    <div>
+                        <label for="days_for_rma" string="Product return will be accepted with in" class="oe_inline" groups="odoo_marketplace.marketplace_officer_group"/>
+                        <field name="days_for_rma" string="Allow Product Video" class="oe_inline" required="1"/>
+                        <label for="rma_day_apply_on" string="days on the basis of" class="oe_inline ml-2" groups="odoo_marketplace.marketplace_officer_group"/>
+                        <field name="rma_day_apply_on" string="Allow Product Video" class="oe_inline" required="1"/>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

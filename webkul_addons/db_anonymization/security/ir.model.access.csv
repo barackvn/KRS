@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_anonymization_manager,anonymization.manager,model_database_backup,group_anonymization_manager,1,1,1,1
+access_anonymize_query_manager,anonymize_query.manager,model_anonymize_query,group_anonymization_manager,1,1,1,1
+access_query_history_manager,query_history.manager,model_query_history,group_anonymization_manager,1,1,1,1
+access_faker_contact_manager,faker_contact.manager,model_faker_contact,group_anonymization_manager,1,1,1,1

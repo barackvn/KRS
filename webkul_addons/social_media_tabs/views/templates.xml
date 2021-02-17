@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <data>
+
+        <template id="social_media_tabs_assets_frontend" inherit_id="web.assets_frontend">
+            <xpath expr="link[last()]" position="inside">
+                <link rel="stylesheet" type="text/scss" href="/social_media_tabs/static/src/scss/social_media_tabs.scss"/>
+                <link rel="stylesheet" type="text/scss" href="/social_media_tabs/static/src/scss/social_media_tabs.scss"/>
+                <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600&amp;display=swap" rel="stylesheet"/>
+                <script type="text/javascript" src="/social_media_tabs/static/src/js/social_tabs.js"></script>
+                <script type="text/javascript" src="/social_media_tabs/static/src/js/iframe_youtube.js"></script>
+            </xpath>
+        </template>
+
+        <template id="social_links" name="Social Links">
+            <a t-if="tab_obj.social_tab == 'flickr'" class="js_social_follow" t-att-href="'https://www.flickr.com/people/%s' % tab_obj.flickr_id">
+                <span t-field="tab_obj.folow"/>
+            </a>
+            <a t-if="tab_obj.social_tab == 'facebook'" class="js_social_follow" t-att-href="'https://www.facebook.com/%s' % tab_obj.facebook_id">
+                <span t-field="tab_obj.folow"/>
+            </a>
+            <a t-if="tab_obj.social_tab == 'youtube'" class="js_social_follow" t-att-href="'https://www.youtube.com/user/%s' % tab_obj.yt_user_id">
+                <span t-field="tab_obj.folow"/>
+            </a>
+            <a t-if="tab_obj.social_tab == 'pinterest'" class="js_social_follow" t-att-href="'https://www.pinterest.com/%s' % tab_obj.pinterest_id">
+                <span t-field="tab_obj.folow"/>
+            </a>
+            <a t-if="tab_obj.social_tab == 'vimeo'" class="js_social_follow" t-att-href="'https://vimeo.com/user%s' % tab_obj.vimeo_id">
+                <span t-field="tab_obj.folow"/>
+            </a>
+            <a t-if="tab_obj.social_tab == 'tumblr'" class="js_social_follow" t-att-href="'https://%s.tumblr.com' % tab_obj.tumblr_id">
+                <span t-field="tab_obj.folow"/>
+            </a>
+            <a t-if="tab_obj.social_tab == 'stumbleupon'" class="js_social_follow" t-att-href="'https://www.stumbleupon.com/stumbler/%s' % tab_obj.stumbleupon_id">
+                <span t-field="tab_obj.folow"/>
+            </a>
+            <a t-if="tab_obj.social_tab == 'google'" class="js_social_follow" t-att-href="'https://plus.google.com/%s/posts/' % tab_obj.google_id">
+                <span t-field="tab_obj.folow"/>
+            </a>
+            <a t-if="tab_obj.social_tab == 'twitter'" class="js_social_follow" t-att-href="'https://twitter.com/%s/' % tab_obj.twiter_user_id">
+                <span t-field="tab_obj.folow"/>
+            </a>
+            <a t-if="tab_obj.social_tab == 'instagram'" class="js_social_follow" t-att-href="'https://www.instagram.com/%s/' % tab_obj.instagram_user">
+                <span t-field="tab_obj.folow"/>
+            </a>
+        </template>
+
+        <template id="wk_sider_menu_social_tabs" inherit_id="website.layout" name="Social Tabs">
+            <xpath expr="//main" position="after">
+
+                <t t-set="tab_ids" t-value="website.tab_ids.filtered(lambda t: t.publish == True)"/>
+                <t t-set="tabs_position" t-value="website.tabs_position"/>
+                <t t-set="tab_event" t-value="website.tab_event"/>
+                <t t-set="quote" t-value="website.quote"/>
+                <t t-set="color" t-value="website.color"/>
+
+                <div id="social_media_tabs" t-if="len(tab_ids) > 0" t-attf-class="wk_social_tab hidden-xs hidden-sm {{ 'right' if tabs_position == 'right' else 'left' }}" >
+                    <div t-if="tab_event != 'fixed'" t-attf-class="js_render_tabs {{ 'js_hover' if tab_event == 'hover' else 'js_click' }}">
+                        <div t-attf-style="background-color: {{color}}" t-esc="quote"/>
+                    </div>
+                    <div t-attf-class="social_wrapper " t-attf-style="{{'display:none' if tab_event != 'fixed' else ''}}">
+                        <div t-if="tab_event != 'fixed'" class="js_disable_tab" t-attf-style="background-color: {{color}}">
+                            <svg t-if="tabs_position == 'left'" focusable="false" data-prefix="fas" data-icon="less-than" class="svg-inline--fa fa-less-than fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M365.46 357.74L147.04 255.89l218.47-101.88c16.02-7.47 22.95-26.51 15.48-42.53l-13.52-29C360 66.46 340.96 59.53 324.94 67L18.48 209.91a32.014 32.014 0 0 0-18.48 29v34.24c0 12.44 7.21 23.75 18.48 29l306.31 142.83c16.06 7.49 35.15.54 42.64-15.52l13.56-29.08c7.49-16.06.54-35.15-15.53-42.64z"></path></svg>
+                            <svg t-if="tabs_position == 'right'" xmlns="http://www.w3.org/2000/svg" focusable="false" data-prefix="fas" data-icon="greater-than" class="svg-inline--fa fa-greater-than fa-w-12" role="img" viewBox="0 0 384 512"><path fill="currentColor" d="M365.52 209.85L59.22 67.01c-16.06-7.49-35.15-.54-42.64 15.52L3.01 111.61c-7.49 16.06-.54 35.15 15.52 42.64L236.96 256.1 18.49 357.99C2.47 365.46-4.46 384.5 3.01 400.52l13.52 29C24 445.54 43.04 452.47 59.06 445l306.47-142.91a32.003 32.003 0 0 0 18.48-29v-34.23c-.01-12.45-7.21-23.76-18.49-29.01z"/></svg>
+                        </div>
+                        <ul class="tabs">
+                            <t t-foreach="tab_ids" t-as="tab_obj">
+                                <li class="js_fetch_data" t-att-data-tab_id="tab_obj.id" t-att-data-tab_name="tab_obj.social_tab">
+                                    <span t-field="tab_obj.icon" t-options='{"widget": "image"}'/>
+                                    <!-- <t t-call="social_media_tabs.social_tabs_content_template"/> -->
+                                    <div class="js_social_data" t-att-data-tab_name='tab_obj.social_tab'>
+                                        <div class="header d-flex align-items-center justify-content-between" t-attf-style="background-color:{{tab_obj.color}}">
+                                            <div class="logo">
+                                                <span t-field="tab_obj.logo" t-options='{"widget": "image"}'/>
+                                            </div>
+                                            <div class="title">
+                                                <b t-field="tab_obj.title"/>
+                                            </div>
+                                            <div class="follow" t-if="tab_obj.media_type == 'social_tab'">
+                                                <div class="follow_button" t-att-data-color="tab_obj.color" t-attf-style="background-color:{{tab_obj.color}}">
+                                                    <t t-call="social_media_tabs.social_links"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="body">
+                                            <!-- All social feeds will be placed here -->
+                                        </div>
+                                    </div>
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+
+            </xpath>
+        </template>
+
+  </data>
+</odoo>

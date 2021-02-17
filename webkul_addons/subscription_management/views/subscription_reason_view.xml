@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="subscription_reasons_filter" model="ir.ui.view">
+            <field name="name">Subscription Reasons</field>
+            <field name="model">subscription.reasons</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search  string="Subscription Reasons">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="subscription_reasons_tree" model="ir.ui.view">
+	        <field name="name">Subscription Reasons</field>
+	        <field name="model">subscription.reasons</field>
+	        <field name="type">tree</field>
+	        <field name="arch" type="xml">
+				<tree  string="Subscription Reasons" editable="bottom">
+					<field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="create_uid" readonly="1"/>
+                    <field name="create_date" readonly="1"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="subscription_reasons_form" model="ir.ui.view">
+            <field name="name">Subscription Reasons</field>
+            <field name="model">subscription.reasons</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<form  string="Subscription Reasons">
+					<group>
+						<group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                        </group>
+					</group>
+				</form>
+			</field>
+		</record>	
+	
+
+		<record id="subscription_reasons_action" model="ir.actions.act_window">
+			<field name="name">Subscription Reasons</field>
+			<field name="res_model">subscription.reasons</field>
+			<!-- <field name="view_type">form</field> -->
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="subscription_reasons_tree"/>
+		</record>
+        
+
+        <menuitem id="subscription_reason_menu" action="subscription_reasons_action" parent="menu_sale_subscription_config" string="Subscription Reasons"/>
+    </data>
+</odoo>

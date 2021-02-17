@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <template id="inventive_lazy_list_product_item" name="Lazy Loading List View">
+      <t t-foreach="products" t-as="product">
+          <div class="oe_product oe_list oe_product_cart" t-att-data-publish="product.website_published and 'on' or 'off'">
+              <t t-call="website_sale.products_item">
+                  <t t-set="show_publish" t-value="True" />
+              </t>
+          </div>
+      </t>
+    </template>
+    <template id="inventive_products_lazy_load_view_template" inherit_id="website_sale.products" name="Products Lazy Load" priority="1000">
+        <xpath expr="//div[hasclass('products_pager')][last()]" position="replace">
+            <t t-set="is_lazy_load_enable" t-value="request.env['ir.config_parameter'].sudo().get_param('theme_inventive.enable_lazy_loading')"/>
+            <div t-if="is_lazy_load_enable" class="products_pager form-inline justify-content-center mt-3">
+                <t t-set="mode" t-value="request.env['ir.config_parameter'].sudo().get_param('theme_inventive.lazy_loading_options')"/>
+                <div t-if="products" id="inventive_lazy_loader" class="text-center" t-att-data-mode="mode">
+                    <div class="data_loader" data-loader="wave" style="display:none;"></div>
+                    <span t-if="mode=='button'" class="btn btn-primary" >
+                        Load More
+                    </span>
+                </div>
+            </div>
+            <div t-else="" class="products_pager form-inline justify-content-center mt-3">
+                <t t-call="website.pager"/>
+            </div>
+        </xpath>
+    </template>
+ </odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+        <!-- See LICENSE file for full copyright and licensing details. -->
+        <record id="wk_sale_order_view_form_inherit_website_order_notes" model="ir.ui.view">
+            <field name="name">sale.order</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="before">
+                    <group name="additional_remark" string="Order Cancellation Information"  attrs="{ 'invisible':[('reason_id','=',False)] }" readonly="1">
+                        <field name="reason_id" readonly="1" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"/>
+                    </group>
+                    <label for="additional_remark" attrs="{ 'invisible':[('additional_remark','=',False)] }"></label>
+                     <field name="additional_remark" attrs="{ 'invisible':[('additional_remark','=',False)] }" readonly="1"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+seller_access_rma,rma_seller,rma.model_rma_rma,odoo_marketplace.marketplace_seller_group,1,1,0,0
+seller_access_procurement_group,seller.procurement.group,stock.model_procurement_group,odoo_marketplace.marketplace_seller_group,1,1,0,0
+

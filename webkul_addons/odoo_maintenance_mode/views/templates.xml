@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE URL <https://store.webkul.com/license.html/> for full copyright and licensing details. -->
+<odoo>
+	<data>
+		<template id="assets_frontend" name="website_ribbon_assets_frontend" inherit_id="website.assets_frontend">
+			<xpath expr="." position="inside">
+				<link rel="stylesheet" href="/odoo_maintenance_mode/static/src/css/odoo_maintainance.css"/>
+				<script type="text/javascript" src='/odoo_maintenance_mode/static/src/js/maintainance.js'></script>
+			</xpath>
+		</template>
+
+		<template id="maintenance_mode_template_id" name="Maintainanace Mode">
+			<main>
+				<div class="sigin_header text-center ">
+					<a t-attf-href="/web/login">
+						<b class="login_wk">Login</b>
+					</a>
+				</div>
+				<div class="wk_maintinance_body">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<span t-if="website.get_image()" t-esc="website.get_image().image" t-options="{'widget': 'image', 'class': 'img_full'}" style="max-width:100%" class="maintainance_img"/>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-oe_applications12">
+						<div class="maintenance_header">
+							<p class="text-center ">
+								<t t-if="website.get_page_header_message()" t-esc="website.get_page_header_message()"/>
+							</p>
+						</div>
+						<div class="maintenance_body_txt">
+							<p class="text-center ">
+								<i>
+									<t t-if="website.get_page_descriptitive_message()" t-esc="website.get_page_descriptitive_message()"/>
+								</i>
+							</p>
+						</div>
+						<div t-if="website.display_email_in_page()">
+							<div class="wk_email_noti_hdr ">
+								<t t-if="website.get_notification_header()" t-esc="website.get_notification_header()"/>
+							</div>
+							<div class="input-group wk_scbscriber_input col-md-8 col-md-12 text-center">
+								<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+								<input name="wk_subscriber_email" class='form-control' id="wk_subscriber_email" type="text" placeholder="Enter your email"/>
+								<div class="input-group-btn">
+									<span class="btn wk_maintenance_subscriber fa fa-envelope">Notify Me</span>
+								</div>
+							</div>
+							<div class="wk_invalid_email_msg col-md-8 col-md-12">
+								<t t-if="website.display_invalid_email_msg()" t-esc="website.display_invalid_email_msg()"/>
+							</div>
+							<div class="wk_valid_email_msg col-md-8 col-md-12">
+								<t t-if="website.display_valid_email_msg()" t-esc="website.display_valid_email_msg()"/>
+							</div>
+							<div class="wk_exists_email_msg col-md-8 col-md-12">
+								<t t-if="website.display_exists_email_msg()" t-esc="website.display_exists_email_msg()"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="wk_maintinance_footer text-center col-md-12 col-sm-12 col-xs-12">
+					<div class="wk_company_footer1">
+						<p t-field="res_company.name" />
+					</div>
+					<div class="wk_company_footer2">
+						<span class="fa fa-envelope" t-field="res_company.email"></span>
+					</div>
+				</div>
+			</main>
+		</template>
+
+		<template id="layout" inherit_id="web.frontend_layout" name="Main layout" priority="-111110">
+			<xpath expr="//div[@id='wrapwrap']" position="replace">
+				<t t-set="maintnance_value" t-value="website.odoo_maintainance_mode()"/>
+				<div t-if="not maintnance_value['wk_display_page']" id="wrapwrap" t-attf-class="#{pageName or ''}">
+
+					<header t-if="not no_header" id="top" data-anchor="true">
+						<img class="img-responsive d-block mx-auto" t-attf-src="/web/binary/company_logo" alt="Logo"/>
+					</header>
+					<main>
+						<t t-raw="0"/>
+					</main>
+					<footer t-if="not no_footer" id="bottom" data-anchor="true" class="bg-light o_footer">
+						<div id="footer"/>
+						<div class="o_footer_copyright">
+							<div class="container py-3">
+								<div class="row">
+									<div class="col-sm text-center text-sm-left text-muted">
+										<t t-call="web.debug_icon"/>
+										<span>Copyright &amp;copy;</span>
+										<span t-field="res_company.name" itemprop="name">Company name</span>
+									</div>
+									<div class="col-sm text-center text-sm-right">
+										<t t-call="web.brand_promotion"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</footer>
+				</div>
+
+				<div t-if="maintnance_value['wk_display_page']" id="wrapwrap" t-attf-class="#{pageName or ''} #{direction == 'rtl' and 'o_rtl' or ''} #{'o_portal' if is_portal else ''}">
+					<t t-call="odoo_maintenance_mode.maintenance_mode_template_id"/>
+				</div>
+			</xpath>
+		</template>
+
+		<template id="user_navbar" inherit_id="website.user_navbar">
+			<xpath expr="//t[@t-set='body_classname']" position="after">
+				<t t-set="maintnance_value" t-value="website.odoo_maintainance_mode()"/>
+				<div class="admin_header text-center" t-if="request.session.context.get('accessible_user') and website.display_admin_message()">
+					<span class="admin_msg_web fa fa-cogs">
+						<span class="wk_text" t-esc="website.get_admin_message()"/>
+					</span>
+				</div>
+				<t t-if="not maintnance_value['is_sigin_clicked'] and not maintnance_value['wk_display_page']" t-set="body_classname" t-value="'o_connected_user' if env['ir.ui.view'].user_has_groups('base.group_user') else None"/>
+			</xpath>
+		</template>
+
+		<template id="web_login_inherited" inherit_id="web.login" name="Sign up login">
+			<xpath expr="//p[@class='alert alert-success']" position="after">
+				<div t-if="request.session.context.get('login_clicked') and not error" class="text-center alert alert-danger">
+					<t t-esc="request.env['website'].get_login_page_message()"/>
+				</div>
+			</xpath>
+		</template>
+
+		<template id="webclient_bootstrap_inherited" inherit_id="web.webclient_bootstrap">
+			<xpath expr="//t[@t-set='body_classname']" position="after">
+				<div t-if="request.session.context.get('accessible_user') and request.env['website'].display_admin_message()" style="color: #01579B;font-size:18px;aligin:center;height:30px;background-color:#2e3d50;padding-top:3px;" class="fa fa-cogs text-center">
+					<span style="padding:2px; color:#fc5a69;font-style: italic;">
+						<t t-esc="request.env['website'].get_admin_message()"/>
+					</span>
+				</div>
+			</xpath>
+		</template>
+
+	</data>
+</odoo>

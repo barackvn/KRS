@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tabs_mp_seller,wk.product.tabs.seller.access,custom_product_tabs.model_wk_product_tabs,odoo_marketplace.marketplace_seller_group,1,1,1,1
+access_tabs_mp_officer,wk.product.tabs.officer.access,custom_product_tabs.model_wk_product_tabs,odoo_marketplace.marketplace_officer_group,1,1,1,1
+access_tabs_mp_manager,wk.product.tabs.manager.access,custom_product_tabs.model_wk_product_tabs,odoo_marketplace.marketplace_manager_group,1,1,1,1

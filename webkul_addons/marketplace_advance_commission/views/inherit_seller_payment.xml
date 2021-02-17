@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+	<data>
+		<record id="inherit_wk_seller_payment_form_view" model="ir.ui.view">
+            <field name="name">seller.payment</field>
+            <field name="model">seller.payment</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_payment_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='account_invoice_lines']/group" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='account_invoice_lines']//field[@name='seller_commission']" position="after">
+					<field name="commission_type" invisible="1"/>
+					<field name="comm_method" invisible="1"/>
+					<button name="button_view_comm_details"
+                        type="object"
+                        string="View Commission Details"
+                        icon="fa-info-circle text-info"
+						attrs="{'invisible': ['|',('commission_type','=',False), ('comm_method','=',False)]}" />
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

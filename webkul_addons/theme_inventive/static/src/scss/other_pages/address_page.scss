@@ -1,0 +1,18 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.th_address_page{
+    &>.row{
+        margin-top: 35px !important;
+        &>.order-xl-2{
+            position: sticky;
+            top: 50px;
+        }
+    }
+    .o_page_header{
+        border-bottom-color: transparent;
+    }
+}
+.toggle_summary_div{
+  padding: 10px !important;
+}

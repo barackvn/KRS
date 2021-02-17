@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data>
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">stock.picking.order.split.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_cancel']" position="after">
+                    <button name="%(picking_cancel.action_cancel_picking_wizard)d" attrs="{'invisible': ['|', ('state', 'not in', ('done')), ('is_locked', '=', False)]}" string="Cancel" type="action" groups="picking_cancel.group_stock_picking_cancel"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

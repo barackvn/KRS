@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE URL <https://store.webkul.com/license.html/> for full copyright and licensing details. -->
+<odoo>
+    <data noupdate="1">
+        <record id="maintenance_mode_data_id" model="maintenance.mode">
+            <field name="page_header">OOPS!! Temporarily Under Maintenance</field>
+            <field name="page_message">The server is temporarily unable to service your request due to maintenance downtime or capacity problems. Please try again later.</field>
+            <field name="login_message">The server is temporarily under maintenance, please try again later</field>
+            <field name="image" type="base64" file="odoo_maintenance_mode/static/src/img/Odoo-Maintainance"/>
+            <field name="admin_message">Currently the server is in maintenance mode</field>
+            <field name="display_email_field">True</field>
+            <field name="display_admin_mesage">True</field>
+            <field name="email_error_msg">You have entered an invalid email, please verify your email and try again.</field>
+            <field name="email_valid_msg">Thank you for your valuable efforts, we will notify you when we will be in working mode.</field>
+            <field name="email_notif_title">Specify your email id for notification when we will be back in working mode.</field>
+            <field name="email_exists">This email exists already. A notification will be sent on this email.</field>
+        </record>
+
+        <function  model="res.config.settings" name="set_demo_data_for_maintenance_mode"/>
+    </data>
+</odoo>

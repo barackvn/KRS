@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="product_pack_inherited_view_sale_order_form" model="ir.ui.view">
+            <field name="name">sale.order</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page/field[@name='order_line']" position="after">
+                    <div>
+                    <b> Do you have any coupon?</b>
+                      <button name="website_voucher.action_voucher_wizard" string="Apply Here" type="action" attrs= "{'invisible':[('state','=', 'manual')]}" />
+                     </div>
+                </xpath>
+            </field>
+        </record>
+	</data>
+</odoo>

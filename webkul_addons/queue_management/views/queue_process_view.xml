@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+
+    <record id="view_queue_process_form" model="ir.ui.view">
+        <field name="name">queue.process.form.view</field>
+        <field name="model">queue.process</field>
+        <field name="arch" type="xml">
+            <form string="Queue Process" create="0">
+                <header>
+                    <button name="resume_session"
+                        type="object" string="Resume"
+                        states="closing_control"
+                        class="oe_highlight"/>
+                    <button name="action_session_closing_control" 
+                        type="object" string="End Processing"
+                        attrs="{'invisible' : [('state', '!=', 'opened')]}" 
+                        class="oe_highlight"/>
+                    <button name="action_session_close" 
+                        type="object" 
+                        string="Close Processing" 
+                        states="closing_control"
+                        class="oe_highlight"/>
+                    
+                    <field name="state" widget="statusbar" 
+                        statusbar_visible="opening_control,opened,closing_control,closed" nolabel="1" />
+
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <h1 class="oe_title">
+                        Session:
+                        <field name="name" attrs="{'invisible': [('name','=','/')]}" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="user_id"  options="{'no_create' : True}"/>
+                            <field name="config_id" options="{'no_create' : True}"/>
+                            <field name="dept_id"  options="{'no_create' : True}"/>
+                        </group>
+                        <group>
+                            <field name="start_at" attrs="{'invisible' : [('state', '=', 'opening_control')]}"/>
+                            <field name="stop_at" attrs="{'invisible' : [('state', '!=', 'closed')]}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_queue_process_tree" model="ir.ui.view">
+        <field name="name">queue.process.tree.view</field>
+        <field name="model">queue.process</field>
+        <field name="arch" type="xml">
+            <tree string="Queue Process" create="0">
+                <field name="config_id" />
+                <field name="name" />
+                <field name="user_id" />
+                <field name="start_at" />
+                <field name="stop_at" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_queue_process_kanban">
+        <field name="name">queue.process.kanban</field>
+        <field name="model">queue.process</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="config_id" />
+                <field name="name" />
+                <field name="user_id" />
+                <field name="start_at" />
+                <field name="state" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title">
+                                        <span>
+                                            <field name="config_id"/>
+                                        </span>
+                                    </strong>
+                                </div>
+                                <field  name="state" 
+                                        widget="kanban_label_selection"
+                                        options="{'classes': 
+                                            {'opening_control': 'default',
+                                             'opened': 'success',
+                                             'closing_control': 'warning',
+                                             'closed': 'warning'}}"/>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <field name="name" />
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <span><field name="start_at" /></span>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <!-- <img t-att-src="kanban_image(
+                                        'res.users', 'image_small', record.user_id.raw_value)" 
+                                        t-att-title="record.user_id.value" 
+                                        width="24" height="24" class="oe_kanban_avatar pull-right"/> -->
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_queue_process_search" model="ir.ui.view">
+        <field name="name">queue.process.search.view</field>
+        <field name="model">queue.process</field>
+        <field name="arch" type="xml">
+            <search string="Queue Session">
+                <field name="name" />
+                <filter name="open_sessions" string="Open" domain="[('state', '=', 'opened')]" />
+                <separator/>
+                <filter string="Today" name="today"
+                    domain="[('start_at', '>=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]" />
+                <field name="config_id" />
+                <field name="user_id" />
+                <group expand="0" string="Group By">
+                    <filter string="User" name="user" 
+                        domain="[]" context="{'group_by' : 'user_id'}" />
+                    <filter string="Counter" name="counter"
+                        domain="[]" context="{'group_by': 'config_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_queue_process" model="ir.actions.act_window">
+        <field name="name">Sessions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">queue.process</field>
+        
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="view_queue_process_search" />
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to start a new session.
+            </p><p>
+                A session is a period of time, usually one day, during which
+                token will be processed.
+            </p><p>
+                Note that you may use the menu <i>Counters</i>
+                to quickly open a new session with available counter.
+            </p>
+        </field>
+    </record>
+
+</odoo>

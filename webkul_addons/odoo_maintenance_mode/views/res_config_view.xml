@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+      <!-- See LICENSE URL <https://store.webkul.com/license.html/> for full copyright and licensing details. -->
+<odoo>
+    <record id="res_config_settings_view_form_inherited_maintenance_mode" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.website.maintenance.mode</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Maintenance mode" data-key="odoo_maintenance_mode" groups="website.group_website_designer">
+                    <h2>Odoo Maintenance Mode</h2>
+                    <div class="row mt16 o_settings_container" id="coupon_config">
+                    <group>
+                        <field name='website_id'/>
+                    </group>
+                        <div class="col-xs-12 col-md-12 o_setting_box">
+                            <div class="">
+                                <label for="" string="Maintenance mode"/>
+                                <div class="text-muted">
+                                    Enable this during maintenance mode.
+                                </div>
+                                <div class="text-muted">
+                                    <field name="maintenance_mode"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-12 o_setting_box" attrs="{'invisible': [('maintenance_mode','=',False)]}">
+                            <div class="">
+                                <label for="" string="Allowed IPs"/>
+                                <div class="text-muted">
+                                    Comma(,) seperated IPs for which you want to give acess during maintenance mode.
+                                </div>
+                                <div class="text-muted">
+                                    <field name="allowed_ips" attrs="{'required':[('maintenance_mode','=',True)]}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-12 o_setting_box">
+                            <div class="">
+                                <label for="" string="Set Messages and Text"/>
+                                <div class="text-muted">
+                                    Configure maintenance mode page.
+                                </div>
+                                <div>
+                                    <label for="set_messages_for_maintenance_mode" string="You can configure translatable messages, images etc to displayed during maintenance mode"/>
+                                    <button string="Click here to configure" type="object" name="configure_messages_for_maintenance_mode" class="oe_link fa fa-cogs "/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

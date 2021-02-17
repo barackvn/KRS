@@ -1,0 +1,58 @@
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <record id="inherit_wk_seller_product_template_kanban" model="ir.ui.view">
+        <field name="name">product.piciking.template.kanban</field>
+        <field name="model">marketplace.dashboard</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_kanban"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//kanban/templates/t/div/div/div[2]/div/div[3]/div[last()]" position="before">
+                <div t-if="record.state.raw_value =='blogs'" class="row">
+                    <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_view">
+                        <div class="o_kanban_card_manage_title">
+                            <span style="color:#a24689">View</span>
+                        </div>
+                        <div>
+                            <a name="%(mp_seller_blogs_blog_post_action)d" type="action">All</a>
+                        </div>
+                        <div>
+                            <a name="%(mp_seller_blogs_blog_post_action_published)d" type="action">Published</a>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_new">
+                        <div class="o_kanban_card_manage_title">
+                            <span style="color:#a24689">New</span>
+                        </div>
+                        <div>
+                            <a name="%(mp_seller_blogs_blog_post_action_unpublished)d" type="action" >Unpublished</a>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+
+            <xpath expr="//kanban/templates/t/div/div/div[2]/div/div/div[4]" position="after">
+                <div t-if="record.state.raw_value =='blogs'" style="color:rgb(162, 70, 137)">
+                    <center><i class="fa fa-newspaper-o fa-5x"></i>
+                    <h3>Blogs</h3></center>
+                </div>
+            </xpath>
+
+            <xpath expr="//kanban/templates/t/div/div/div[2]/div/div[2]" position="inside">
+                <div t-if="record.state.raw_value =='blogs'">
+                    <a class="bg-primary wk_kanban_button_box text-white" name="%(mp_seller_blogs_blog_post_action_published)d" type="action">
+                        <span class="o_value"><t t-esc="record.count_product_approved.raw_value"/></span>
+                        <span class="o_label">Published</span>
+                    </a>
+                    <a class="bg-primary wk_kanban_button_box text-white" name="%(mp_seller_blogs_blog_post_action_unpublished)d" type="action" style="background-color:#d9534f">
+                        <span class="o_value"><t t-esc="record.count_product_pending.raw_value"/></span>
+                        <span class="o_label">Unpublished</span>
+                    </a>
+                </div>
+            </xpath>
+        </field>
+
+    </record>
+</odoo>

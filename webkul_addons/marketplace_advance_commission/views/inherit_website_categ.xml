@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="inherit_product_public_category_form_view" model="ir.ui.view">
+            <field name="name">product.public.category.form.inherit</field>
+            <field name="model">product.public.category</field>
+            <field name="inherit_id" ref="website_sale.product_public_category_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="inside">
+                    <notebook>
+                        <page name='mp_commission' string='Commission'>
+                            <group>
+                                <group string="Category Commission">
+                                    <label for="comm_method" string="Commission Method"/>
+                                    <div>
+                                        <field name="comm_method"
+                                            class="oe_inline"
+                                            widget="selection"
+                                            help="Select the method of commission to be applied for the sellers in the marketplace."
+                                            />
+                                    </div>
+                                    <label for="percent_commission"
+                                        string="Percent Commission"
+                                        attrs="{'invisible':['|',('comm_method','=','fix'),('comm_method','=',False)]}"
+                                        />
+                                    <div attrs="{'invisible':['|',('comm_method','=','fix'),('comm_method','=',False)]}">
+
+                                        <field name="percent_commission"
+                                            class="oe_inline"
+                                            attrs="{'required':[('comm_method','!=','fix')],'invisible':['|',('comm_method','=','fix'),('comm_method','=',False)]}"
+                                            help="Set percent commission. You can manage this commission seller wise from seller account."
+                                            />
+                                        <span attrs="{'invisible':['|',('comm_method','=','fix'),('comm_method','=',False)]}"><b> %</b></span>
+                                    </div>
+                                    <label for="fix_commission" string="Fixed Commission" attrs="{'invisible':['|',('comm_method','=','percent'),('comm_method','=',False)]}"/>
+                                    <div attrs="{'invisible':['|',('comm_method','=','percent'),('comm_method','=',False)]}">
+                                        <field name="mp_config_currency_id" invisible="1"/>
+                                        <field name="fix_commission"
+                                            class="oe_inline"
+                                            attrs="{'required':[('comm_method','!=','percent')]}"
+                                            help="Set fixed commission. You can manage this commission seller wise from seller account."
+                                            widget="monetary" options="{'currency_field': 'mp_config_currency_id'}"
+                                            />
+                                    </div>
+                                </group>
+                                <group col="1">
+                                    <div class="alert alert-info alert-normal-info" role="alert" style="margin-left: -61px;margin-top: 32px;padding: 0;padding-top: 12px;padding-bottom: 15px;padding-left: 3px;padding-right: 4px;border: none;border-radius: 0px;border-left-style: solid;border-left-width: 4px;border-left-color: #31708f;"
+                                        attrs="{'invisible': [('comm_method','=',False)]}">
+                                        <ul style="list-style-type:square;margin-left:-18px;">
+                                            <li>
+                                                <strong>Percent(%)</strong>
+                                                ⇒ In this type of commission, the percentage amount will be deducted from the base price of the product.
+                                            </li>
+                                            <li>
+                                                <strong>Fixed</strong>
+                                                ⇒ In this type of commission, a fixed amount will be deducted from the base price of the product.
+                                            </li>
+                                            <li>
+                                                <strong>% + Fixed</strong>
+                                                ⇒ In this type of commission, first the percentage amount will be deducted from the base price of the product and then a fixed amount will be deducted from the remaining amount.
+                                            </li>
+                                            <li>
+                                                <strong>Fixed + %</strong>
+                                                ⇒ In this type of commission, first a fixed amount will be deducted from the base price of the product and then the percentage amount will be deducted from the remaining price.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data>
+        <!-- Global config settings -->
+        <record id="mp_seller_rma_tab_in_mp_settings" model="ir.ui.view">
+            <field name="name">mp.config.settings.seller.rma.tab</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="odoo_marketplace.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='mp_webite_settings']" position="after">
+                  <page string="RMA" name="mp_rma_settings">
+                    <h2>Return Policy</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 o_setting_box" title="Enable this if you want to allow repair feature for product.">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <div>
+                                    <label for="mp_days_for_rma" string="Product return will be accepted with in" class="oe_inline"/>
+                                    <field name="mp_days_for_rma" required="1" class="oe_inline"/>
+                                    <label for="mp_rma_day_apply_on" string="days on the basis of" class="oe_inline ml-2"/>
+                                    <field name="mp_rma_day_apply_on" required="1" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Seller view config settings -->
+        <record id="mp_rma_seller_globel_config_form_view_inherit" model="ir.ui.view">
+            <field name="name">mp.rma.seller.globel.config.form.view.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="odoo_marketplace.mp_seller_globel_config_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <group string="RMA Settings" groups="odoo_marketplace.marketplace_seller_group">
+                        <label for="mp_days_for_rma"/>
+                        <div>
+                            <label for="mp_days_for_rma" string="Product return will be accepted with in" class="oe_inline" groups="odoo_marketplace.marketplace_seller_group"/>
+                            <field name="mp_days_for_rma" string="Allow Product Video" class="oe_inline" readonly="1"/>
+                            <label for="mp_rma_day_apply_on" string="days on the basis of" class="oe_inline ml-2" groups="odoo_marketplace.marketplace_seller_group"/>
+                            <field name="mp_rma_day_apply_on" string="Allow Product Video" class="oe_inline" readonly="1"/>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

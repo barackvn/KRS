@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data>
+        <record id="wk_task_notification_setting_form_view" model="ir.ui.view">
+            <field name="name">task.notification.setting.form</field>
+            <field name="model">task.notification.setting</field>
+            <field name="type">form</field>
+            <field name='arch' type='xml'>
+                <form string="Notification Reminder">
+                    <sheet>
+                        <div style="float:right;width:100px;">
+                            <label for="is_active_notification" string="Active"/>
+                            <field name="is_active_notification"/>
+                        </div>
+                        <div>
+                            <label for="name" string="Name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Title for notification..."/>
+                            </h1>
+                        </div>
+                        <group name="setting_for">
+                            <field name="setting_for" invisible="1"/>
+                            <field name="create_uid" invisible="1"/>
+                        </group>
+                        <group string="Notification Setting" name="notify">
+                            <label for="notification_deadline" string="Notify "/>
+                            <div>
+                                <field name="notification_deadline" class="oe_inline"/>
+                                <field name="notification_days" class="oe_inline"/>
+                                <label for="notification_days" string="days &amp; "/>
+                                <field name="same_day" class="oe_inline"/>
+                                <b>Same Day</b>
+                            </div>
+                            <field name="enable_notification" class="oe_inline"/>
+                        </group>
+                        <group name="project">
+                            <group name="project_id">
+                                <field name="project_ids" options="{'no_quick_create':True,'no_create_edit':True}" widget="many2many_tags"/>
+                            </group>
+                            <group name="task_id">
+                                <field name="task_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                        <group name="project_setting" groups="project_advance_team.group_project_leader">
+                            <label for="project_manager" string=" Send Notification in which I am"/>
+                            <div>
+                                <field name="project_manager"/>
+                                <label for="project_manager" string="Project Manager"/>
+                                <br/>
+                                <field name="task_followers"/>
+                                <label for="task_followers" string="Task Followers"/>
+                                <br/>
+                                <field name="assigned_to"/>
+                                <label for="assigned_to" string="Assigned To"/>
+                                <br/>
+                                <field name="team_members"/>
+                                <label for="team_members" string="Team Members"/>
+                                <br/>
+                            </div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="wk_task_notification_setting_tree_view" model="ir.ui.view">
+            <field name="name">task.notification.setting.tree</field>
+            <field name="model">task.notification.setting</field>
+            <field name="type">tree</field>
+            <field name='arch' type='xml'>
+                <tree string="Notification Reminder">
+                    <field name="name"/>
+                    <field name="setting_for"/>
+                    <field name="project_ids"/>
+                    <field name="task_ids"/>
+                    <field name="create_uid"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="wk_task_notification_setting_action" model="ir.actions.act_window">
+            <field name="name">Notification Setting</field>
+            <field name="res_model">task.notification.setting</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="wk_task_notification_setting_tree_view"/>
+        </record>
+
+        <menuitem id="menu_module_notification" name="Notification Setting" parent="project.menu_main_pm" sequence="5"/>
+
+        <menuitem id="menu_module_notification_submenu2" name="Notifications" parent="menu_module_notification" sequence="1" action="wk_task_notification_setting_action"/>
+    </data>
+</odoo>

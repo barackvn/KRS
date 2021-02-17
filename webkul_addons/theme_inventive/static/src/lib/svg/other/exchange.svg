@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="125px" height="110px" viewBox="0 0 125 110" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-easy-return</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Secure-icons/easy-return">
+            <g id="icon-easy-return">
+                <path d="M27.4800773,7.84360579 C8.29734572,25.4917188 68.9800773,53.5 18.4800773,71.5 C-32.0199227,89.5 32.9800773,112 70.4800773,109 C107.980077,106 127.980077,92 124.262393,58.3436058 C120.544708,24.6872116 82.7623926,7.84360579 82.7623926,7.84360579 C82.7623926,7.84360579 46.6628088,-9.80450724 27.4800773,7.84360579 Z" id="bg" fill-opacity="0.0874943388" fill="#FB4A26" fill-rule="nonzero"></path>
+                <g id="Return&amp;Exchange" transform="translate(39.000000, 26.000000)" stroke="#FB4A26" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                    <polyline id="Shape" points="35 0 46 10.5 35 21"></polyline>
+                    <path d="M0,25 L0,20.3333333 C-1.13489465e-15,15.1786757 4.57664478,11 10.2222222,11 L46,11" id="Shape"></path>
+                    <polyline id="Shape" points="11 57 0 46.5 11 36"></polyline>
+                    <path d="M46,32 L46,36.6666667 C46,41.8213243 41.4233552,46 35.7777778,46 L0,46" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

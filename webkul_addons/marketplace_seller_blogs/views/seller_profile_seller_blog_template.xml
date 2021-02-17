@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <template id="seller_blogs_template" inherit_id="odoo_marketplace.mp_seller_profile" name="Seller Blogs">
+            <xpath expr="//ul[@id='shop-nav-tabs']" position="inside">
+                <li class="nav-item">
+                    <a href="#seller_blogs_tab" data-toggle="tab" class="nav-link">
+                        Seller Blog <span class='badge badge-pill badge-primary'><t t-esc="len(blog_post_obj)"/></span>
+                    </a>
+                </li>
+            </xpath>
+            <xpath expr="//div[@id='shop-tab-content']" position="inside">
+                <div class="tab-pane" id="seller_blogs_tab" action="'/seller/blog-post">
+                    <t t-call="marketplace_seller_blogs.seller_blog_post"/>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="seller_blog_post" name="Seller Blog Post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2" t-ignore="True" id="main_column">
+
+                        <div t-if="not blog_post_obj" class="container mb64">
+                            <p class="css_editable_hidden">
+                                <h1>No blog post yet.</h1>
+                            </p>
+                        </div>
+                        <div t-foreach="blog_post_obj" t-as="blog_post" class="mb32" name="blog_post">
+                            <t t-if="blog_post.website_published">
+                                <a t-attf-href="/blog/#{ slug(blog_post.blog_id) }/post/#{ slug(blog_post) }">
+                                    <h2 t-field="blog_post.name" class="mb4 o_blog_post_title">Untitled Post</h2>
+                                </a>
+                                <div class="text-muted">
+                                    <p t-field="blog_post.subtitle" class="mb12 mt12 o_blog_post_teaser"/>
+                                    <div name='blog_post_data' class='mb0'>
+                                        <span t-if="blog_post.marketplace_seller_id" t-field="blog_post.marketplace_seller_id" style="display: inline-block;" t-options='{
+                                            "widget": "contact",
+                                            "fields": ["name"]
+                                        }'/>
+                                        <span t-if="not blog_post.marketplace_seller_id" t-field="blog_post.author_id" style="display: inline-block;" t-options='{
+                                            "widget": "contact",
+                                            "fields": ["name"]
+                                        }'/>
+                                        <t t-if="blog_post.marketplace_seller_id">
+                                            <span class="badge badge-primary">Seller</span>
+                                        </t>
+                                        &amp;mdash; <span t-field="blog_post.post_date" t-options='{"format": "MMMM yyyy"}'/>
+                                        <span t-if="blog_post.visits &gt; 0">
+                                            &amp;mdash; <t t-esc="blog_post.visits"/>
+                                            <t t-if="blog_post.visits &lt;= 1" >view</t>
+                                            <t t-if="blog_post.visits &gt; 1">views</t>
+                                        </span>
+                                        <span t-if="not blog_post.website_published" class="label label-danger">unpublished</span>
+                                        <span class="fa fa-tags"/>
+
+                                        <t t-foreach="blog_post.tag_ids" t-as="one_tag">
+                                            <a class="mr8" t-attf-href="#{blog_url(blog=blog_post.blog_id, tag=one_tag.id)}" t-esc="one_tag.name"/>
+                                        </t>
+                                        <div class="o_sharing_links">
+                                            <a class="fa fa-twitter-square o_twitter"></a>
+                                            <a class="fa fa-facebook-square o_facebook"></a>
+                                            <a class="fa fa-linkedin-square o_linkedin"></a>
+                                            <a class="fa fa-google-plus-square o_google"></a>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="inherit_blog_post_content" inherit_id="website_blog.blog_post_content"
+            name="Blog Post">
+            <xpath expr="//div[@t-field='blog_post.content']" position="attributes">
+                <attribute name="t-if">not blog_post.marketplace_seller_id</attribute>
+            </xpath>
+            <xpath expr="//div[@t-field='blog_post.content']" position="after">
+                <div t-else="" t-field="blog_post.seller_blog_content"
+                    data-editor-message="WRITE HERE OR DRAG BUILDING BLOCKS"
+                    t-attf-class="o_wblog_post_content_field #{'js_tweet' if opt_blog_post_select_to_tweet else ''} #{'js_comment' if opt_blog_post_select_to_comment else ''} #{'o_wblog_read_text' if opt_blog_post_readable else ''}"/>
+            </xpath>
+        </template>
+
+        <template id="inherit_blog_post_teaser" inherit_id="website_blog.post_teaser">
+            <xpath expr="//a[hasclass('text-reset')]" position="replace">
+                <a t-if="not blog_post.marketplace_seller_id" t-attf-href="/blog/#{slug(blog_post.blog_id)}/post/#{slug(blog_post)}" class="text-reset text-decoration-none">
+                    <div t-if="opt_blog_list_view" t-field="blog_post.teaser" class="mt-2 o_wblog_read_text"/>
+                    <div t-else="" t-field="blog_post.teaser" t-attf-class="mt-2 #{opt_blog_readable and 'o_wblog_normalize_font'}"/>
+                </a>
+                <a t-else="" t-attf-href="/blog/#{slug(blog_post.blog_id)}/post/#{slug(blog_post)}" class="text-reset text-decoration-none">
+                    <div t-if="opt_blog_list_view" t-field="blog_post.subtitle" class="mt-2 o_wblog_read_text"/>
+                    <div t-else="" t-field="blog_post.subtitle" t-attf-class="mt-2 #{opt_blog_readable and 'o_wblog_normalize_font'}"/>
+                </a>
+            </xpath>
+        </template>
+
+        <template id="inherit_blog_post_author" inherit_id="website_blog.post_author">
+            <xpath expr="//div[1]" position="inside">
+                <t t-if="blog_post.marketplace_seller_id">
+                    <span class="ml8 badge badge-primary">Seller</span>
+                </t>
+            </xpath>
+            <xpath expr="//span[@t-field='blog_post.author_id']" position="attributes">
+                <attribute name='t-if'>not blog_post.marketplace_seller_id </attribute>
+            </xpath>
+            <xpath expr="//span[@t-field='blog_post.author_id']" position="after">
+                <span t-if="blog_post.marketplace_seller_id"
+                    t-field="blog_post.marketplace_seller_id" t-options='{ "widget": "contact", "fields": ["name"]}'/>
+            </xpath>
+            <xpath expr="//div[@t-field='blog_post.author_avatar']" position="attributes">
+                <attribute name="t-if">not blog_post.marketplace_seller_id and blog_post.author_avatar</attribute>
+            </xpath>
+            <xpath expr="//div[@t-field='blog_post.author_avatar']" position="after">
+                <div t-if="blog_post.marketplace_seller_id and blog_post.sudo().marketplace_seller_id.image_1920"
+                     t-field="blog_post.marketplace_seller_id.sudo().image_1920"
+                     style="line-height:1"
+                     t-options='{"widget": "image", "class": "rounded-circle " + "o_wblog_author_avatar mr-1" if hide_date else  "o_wblog_author_avatar_date mr-2"}' />
+            </xpath>
+        </template>
+
+        <!-- <template id="inherit_opt_blog_post_complete_read_next"
+                inherit_id="website_blog.opt_blog_post_complete_read_next" name="Complete Post">
+            <xpath expr="//t/t/div/div/span[@t-field='next_post.author_id']" position="after">
+                <t t-if="next_post.marketplace_seller_id">
+                    <span class="badge badge-primary">Seller</span>
+                </t>
+            </xpath>
+            <xpath expr="//t/t/div/div/span[@t-field='next_post.author_id']" position="attributes">
+                <attribute name='t-if'>not blog_post.marketplace_seller_id </attribute>
+            </xpath>
+            <xpath expr="//t/t/div/div/span[@t-field='next_post.author_id']" position="after">
+                <span t-if="blog_post.marketplace_seller_id"
+                    t-field="blog_post.marketplace_seller_id" style="display: inline-block;" t-field-options='{
+                    "widget": "contact",
+                    "fields": ["name"]
+                }'/>
+            </xpath>
+            <xpath expr="//t/t/div/div/t[@t-if='next_post.author_avatar']/span" position="attributes">
+                <attribute name="t-if">not blog_post.marketplace_seller_id </attribute>
+            </xpath>
+            <xpath expr="//t/t/div/div/t[@t-if='next_post.author_avatar']/span" position="after">
+                <span t-if="blog_post.marketplace_seller_id and blog_post.marketplace_seller_id.sudo().image"
+                    t-field="blog_post.marketplace_seller_id.sudo().image"
+                    t-options='{"widget": "image", "class": "rounded-circle", "style":"width: 30px; margin-right: 10px; display:inline"}' />
+            </xpath>
+        </template> -->
+
+    </data>
+</odoo>

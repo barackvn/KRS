@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="database_query_view_form" model="ir.ui.view">
+        <field name="name">anonymize.query.form</field>
+        <field name="model">anonymize.query</field>
+        <field name="arch" type="xml">
+            <form string="Anonymize Query Form">
+              <sheet>
+                <div class="oe_button_box" name="button_box">
+                       <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                           <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                       </button>
+                 </div>
+              <div class="oe_title">
+
+                <h1>
+                      <field name="name" default_focus="1" placeholder="Operation Name" />
+                </h1>
+              </div>
+
+              <group>
+                <group>
+                  <field name="query_type"/>
+                </group>
+              </group>
+
+              <group attrs="{'invisible':[('query_type','in',['raw'])]}" >
+                <group>
+                  <!-- <field name="model_name" attrs="{'required':[('query_type','in',['custom'])]}"/> -->
+                  <field name="model_id" attrs="{'required':[('query_type','in',['custom'])]}"/>
+                  <field name="state" attrs="{'required':[('query_type','in',['custom'])]}"/>
+                  <field name="fixed_text" attrs="{'required':[('state','in',['fixed'])],'invisible':[('state','not in',['fixed'])]}"/>
+                </group>
+                <group>
+                  <!-- <field name="field_name" attrs="{'required':[('query_type','in',['custom'])]}" on_change="onchange_field_name(field_name, model_name)"/> -->
+                  <field name="field_id" attrs="{'required':[('query_type','in',['custom'])]}"
+                    options="{'no_create': True}"
+                    domain="[('model_id','=',model_id),('ttype','not in',('serialized', 'binary', 'many2many', 'many2one', 'one2many', 'reference','selection','datetime','boolean','date','integer')),('store','=',True),('name','not in',['id'])]" />
+                  <field name="field_ttype"/>
+
+                </group>
+              </group>
+
+                <group attrs="{'invisible':[('query_type','in',['custom'])]}" >
+                  <field name="database_query" string="Operation Query" attrs="{'required':[('query_type','in',['raw'])]}" />
+                </group>
+
+
+              </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="database_query_view_tree" model="ir.ui.view">
+        <field name="name">anonymize.query.tree</field>
+        <field name="model">anonymize.query</field>
+        <field name="arch" type="xml">
+            <tree string="Anonymize Query List">
+                <field name="name" string="Operation Name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="database_query_action" model="ir.actions.act_window">
+        <field name="name">Anonymize Queries Action</field>
+        <field name="res_model">anonymize.query</field>
+        <field name="view_mode">tree,form</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_id" ref="database_query_view_tree"/>
+    </record>
+
+
+</odoo>

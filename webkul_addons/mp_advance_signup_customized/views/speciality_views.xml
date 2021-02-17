@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+
+    <record id="partner_speciality_view_tree" model="ir.ui.view">
+        <field name="name">partner.speciality.view.tree</field>
+        <field name="model">partner.speciality</field>
+        <field name="arch" type="xml">
+            <tree  editable="top">
+                <field name="sequence" widget="handle"/>
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record id="partner_speciality_action" model="ir.actions.act_window">
+        <field name="name">Speciality</field>
+        <field name="res_model">partner.speciality</field>
+        <field name="view_mode">tree</field>
+        
+    </record>
+    <menuitem
+        id="partner_speciality_menu"
+        name="Speciality"
+        action="partner_speciality_action"
+        groups="odoo_marketplace.marketplace_officer_group"
+        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+        sequence="10"/>
+</odoo>

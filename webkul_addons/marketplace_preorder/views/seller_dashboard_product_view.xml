@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<record id="preorder_wk_seller_product_template_form_view" model="ir.ui.view">
+            <field name="name">preorder.seller.product.template.common.form</field>
+            <field name="model">product.template</field>
+			<field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
+            <field name="arch" type="xml">
+				<xpath expr="//form/sheet/div[2]" position="inside">
+					<div groups="website_preorder.website_preorder_group">
+                        <field name="is_preorder_type"/>
+                        <label for="is_preorder_type" />
+                    </div>
+				</xpath>
+				<xpath expr="//form/sheet/notebook/page[3]" position="after">
+					<page string="Pre-Order" name="pre-order_configuration" attrs="{'invisible':['|',('sale_ok','=',False),('is_preorder_type','=',False)]}" groups="website_preorder.website_preorder_group">
+                        <group name="pre-order" string="Pre-Order Settings"  attrs="{'invisible': [('is_preorder_type', '=', False)]}" >
+                            <group>
+                                <field name="visible" invisible="1"/>
+                                <label for="pre_order_date" string="Pre-Order Expiry Date" attrs="{'invisible': [('is_preorder_type', '=', False)]}"/>
+                                <div attrs="{'invisible': [('is_preorder_type', '=', False)]}">
+                                    <field name="pre_order_date" attrs="{'required': [('is_preorder_type', '=', True)],'invisible': [('is_preorder_type', '=', False)]}" />
+                                    <span attrs="{'invisible':['|',('visible', '=', False),('pre_order_date','=',False)]}" class="oe_inline">
+                                    Product pre-order date Expired.
+                                    </span>
+                                </div>
+                                <field name="wk_override_pre_order_default"/>
+                                <field name="minimum_qty" attrs="{'readonly':[('wk_override_pre_order_default', '=', False)],'required':[('wk_override_pre_order_default','=',True)]}"/>
+                            </group>
+                            <group>
+                                <field name="payment_type" attrs="{'readonly':[('wk_override_pre_order_default', '=', False)]}"/>
+                                <label for="percentage" string="Percent Payment For Pre-order" attrs="{'invisible':[('payment_type','!=','percent')]}"/>
+                                <div attrs="{'invisible':[('payment_type','!=','percent')]}">
+                                    <field name="percentage" class="oe_inline" attrs="{'required':[('payment_type','=','percent')],'readonly':[('wk_override_pre_order_default', '=', False)]}"/>
+                                    <label for="percentage" string="%"/>
+                                </div>
+                                <field name="min_order_qty" attrs="{'readonly':[('wk_override_pre_order_default', '=', False)],'required':[('wk_override_pre_order_default','=',True)]}" />
+                                <field name="max_order_qty" attrs="{'readonly':[('wk_override_pre_order_default', '=', False)],'required':[('wk_override_pre_order_default','=',True)]}" />
+                            </group>
+                        </group>
+                    </page>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

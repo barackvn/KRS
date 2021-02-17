@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="subscription_sale_journal" model="account.journal">
+            <field name="name">Subscription Sale Journal</field>
+            <field name="code">SUBS</field>
+            <field name="type">bank</field>
+            <!-- avoid being selected as default journal -->
+            <field name="sequence_number_next">21</field>
+        </record>
+
+         <function 
+         model="ir.default" name="set"
+         eval="('res.config.settings', 'trial_period_setting','one_time')"/>
+
+        <function 
+        model="ir.default" name="set"
+        eval="('res.config.settings', 'invoice_generated', 'draft')"/>
+
+        <function 
+        model="ir.default" name="set"
+        eval="('res.config.settings', 'journal_id', ref('subscription_sale_journal'))"/>
+
+
+        <record id="subscription_plan_1" model="subscription.plan">
+            <field name="name">Monthly Plan </field>
+            <field name="duration">1</field>
+            <field name="unit">month</field>
+            <field name="plan_amount">1000.00</field>
+            <field name="never_expires" eval="True"/> 
+            <field name="trial_period" eval="True"/>
+            <field name="start_immediately" eval="True"/>
+            <field name="trial_duration" >1</field>
+            <field name="trial_duration_unit" >month</field>
+        </record>
+
+        <record id="subscription_plan_2" model="subscription.plan">
+            <field name="name">Weekly Plan</field>
+            <field name="duration">1</field>
+            <field name="unit">week</field>
+            <field name="plan_amount">500.00</field>
+            <field name="num_billing_cycle" >10</field>
+            <field name="never_expires" eval="False"/> 
+            <field name="override_product_price" eval="False"/> 
+        </record>
+
+        <record id="subscription_plan_3" model="subscription.plan">
+            <field name="name">Yearly Plan</field>
+            <field name="duration">1</field>
+            <field name="unit">year</field>
+            <field name="plan_amount">5000.00</field>
+            <field name="num_billing_cycle" >5</field>
+            <field name="never_expires" eval="False"/> 
+        </record>
+
+        <record id="subscription_product_product_1" model="product.product">
+            <field name="name">Monthly Subscription</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">500.0</field>
+            <field name="list_price">1127.0</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">Sub1</field>
+            <field name="activate_subscription" eval="True"/> 
+            <field name="subscription_plan_id" ref="subscription_plan_1"/>
+        </record>
+        <record id="subscription_product_product_2" model="product.product">
+            <field name="name">Weekly Subscription</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">500.0</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">Sub2</field>
+            <field name="activate_subscription" eval="True"/> 
+            <field name="subscription_plan_id" ref="subscription_plan_2"/>
+        </record>
+
+        <record id="subscription_product_product_3" model="product.product">
+            <field name="name">Yearly Subscription</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">500.0</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">Sub3</field>
+            <field name="activate_subscription" eval="True"/> 
+            <field name="subscription_plan_id" ref="subscription_plan_3"/>
+        </record>
+
+
+        <record id="subscription_sale_order_1" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_2"/>
+            <field name="partner_invoice_id" ref="base.res_partner_2"/>
+            <field name="partner_shipping_id" ref="base.res_partner_2"/>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="pricelist_id" ref="product.list0"/>
+            <field name="team_id" ref="sales_team.team_sales_department"/>
+            <field name="date_order" eval="(DateTime.today() - relativedelta(months=1)).strftime('%Y-%m-%d %H:%M')"/>
+        </record>
+
+        <record id="subscription_sale_order_line_1" model="sale.order.line">
+            <field name="order_id" ref="subscription_sale_order_1"/>
+            <field name="name">Laptop E5023</field>
+            <field name="product_id" ref="product.product_product_25"/>
+            <field name="product_uom_qty">3</field>
+            <field name="product_uom" ref="uom.product_uom_unit"/>
+            <field name="price_unit">2950.00</field>
+        </record>
+
+        <record id="subscription_sale_order_line_2" model="sale.order.line">
+            <field name="order_id" ref="subscription_sale_order_1"/>
+            <field name="name">Yearly Subscription</field>
+            <field name="product_id" ref="subscription_product_product_3"/>
+            <field name="product_uom_qty">1</field>
+            <field name="product_uom" ref="uom.product_uom_unit"/>
+            <field name="price_unit">1500.00</field>
+        </record>
+
+        <record id="subscription_sale_order_line_3" model="sale.order.line">
+            <field name="order_id" ref="subscription_sale_order_1"/>
+            <field name="name">Weekly Subscription</field>
+            <field name="product_id" ref="subscription_product_product_2"/>
+            <field name="product_uom_qty">1</field>
+            <field name="product_uom" ref="uom.product_uom_unit"/>
+            <field name="price_unit">500.00</field>
+        </record>
+
+        <record id="subscription_sale_order_line_4" model="sale.order.line">
+            <field name="order_id" ref="subscription_sale_order_1"/>
+            <field name="name">Monthly Subscription</field>
+            <field name="product_id" ref="subscription_product_product_1"/>
+            <field name="product_uom_qty">1</field>
+            <field name="product_uom" ref="uom.product_uom_unit"/>
+            <field name="price_unit">1000.00</field>
+        </record>
+
+        <record id="subscription_sale_order_2" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_18"/>
+            <field name="partner_invoice_id" ref="base.res_partner_18"/>
+            <field name="partner_shipping_id" ref="base.res_partner_18"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="pricelist_id" ref="product.list0"/>
+            <field name="team_id" ref="sales_team.crm_team_1"/>
+        </record>
+
+        <record id="subscription_sale_order_line_5" model="sale.order.line">
+            <field name="order_id" ref="subscription_sale_order_2"/>
+            <field name="name">PC Assamble + 2GB RAM</field>
+            <field name="product_id" ref="product.product_product_4"/>
+            <field name="product_uom_qty">1</field>
+            <field name="product_uom" ref="uom.product_uom_unit"/>
+            <field name="price_unit">750.00</field>
+        </record>
+        <record id="subscription_sale_order_line_6" model="sale.order.line">
+            <field name="order_id" ref="subscription_sale_order_2"/>
+            <field name="name">Weekly Subscription</field>
+            <field name="product_id" ref="subscription_product_product_2"/>
+            <field name="product_uom_qty">1</field>
+            <field name="product_uom" ref="uom.product_uom_unit"/>
+            <field name="price_unit">500.00</field>
+        </record>
+
+        
+
+        
+        <record id="subscription1" model="subscription.subscription">
+            <field name="customer_name" ref="base.res_partner_2"/>
+            <field name="customer_billing_address" ref="base.res_partner_2"/>
+            <field name="product_id" ref="subscription_product_product_2"/>
+            <field name="sub_plan_id" ref="subscription_plan_2"/>
+            <field name="duration">1</field>
+            <field name="unit">week</field>
+            <field name="price">500.00</field>
+            <field name="num_billing_cycle" >10</field>
+            <field name="start_date" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
+        </record>
+
+        <record id="subscription2" model="subscription.subscription">
+            <field name="customer_name" ref="base.res_partner_3"/>
+            <field name="customer_billing_address" ref="base.res_partner_3"/>
+            <field name="product_id" ref="subscription_product_product_2"/>
+            <field name="sub_plan_id" ref="subscription_plan_2"/>
+            <field name="duration">1</field>
+            <field name="unit">week</field>
+            <field name="price">500.00</field>
+            <field name="num_billing_cycle" >10</field>
+            <field name="start_date" eval="(DateTime.today() - relativedelta(days=3)).strftime('%Y-%m-%d %H:%M')"/>
+        </record>
+
+
+        <record id="subscription3" model="subscription.subscription">
+            <field name="customer_name" ref="base.res_partner_18"/>
+            <field name="customer_billing_address" ref="base.res_partner_18"/>
+            <field name="product_id" ref="subscription_product_product_3"/>
+            <field name="sub_plan_id" ref="subscription_plan_3"/>
+            <field name="duration">1</field>
+            <field name="unit">year</field>
+            <field name="price">5000.00</field>
+            <field name="num_billing_cycle" >5</field>
+            <field name="start_date" eval="(DateTime.today() + relativedelta(days=1)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="subscription4" model="subscription.subscription">
+            <field name="customer_name" ref="base.res_partner_18"/>
+            <field name="customer_billing_address" ref="base.res_partner_18"/>
+            <field name="product_id" ref="subscription_product_product_1"/>
+            <field name="sub_plan_id" ref="subscription_plan_1"/>
+            <field name="duration">1</field>
+            <field name="unit">month</field>
+            <field name="price">1000.00</field>
+            <field name="trial_period" eval="True"/>
+            <field name="start_immediately" eval="True"/>
+            <field name="trial_duration" >1</field>
+            <field name="trial_duration_unit" >month</field>
+            <field name="start_date" eval="(DateTime.today() + relativedelta(months=1)).strftime('%Y-%m-%d')"/>
+        </record>
+
+    </data>
+</odoo>

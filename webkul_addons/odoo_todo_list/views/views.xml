@@ -1,0 +1,262 @@
+<odoo>
+  <data>
+        <record id="open_create_task" model="ir.actions.act_window">
+            <field name="name">Create a Task</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="project.view_task_form2"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="todo_list_filter" model="ir.ui.view">
+            <field name="name">todo.list.Filter</field>
+            <field name="model">todo.list</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="create_uid"/>
+                    <field name="state"/>
+                    <field name="description"/>
+                    <filter string="New" name="draft" domain="[('state','=','draft')]"/>
+                    <filter string="Pending" domain="[('state','=','pending')]" name="pending"/>
+                    <filter string="Cancelled" domain="[('state','=','cancel')]" name="cancel"/>
+                    <filter string="Done" domain="[('state','=','done')]" name="done"/>
+                    <group string="Group By...">
+                        <filter string="Project" context="{'group_by':'project_id'}" name="by_project"/>
+                        <filter string="Status" context="{'group_by':'state'}" name="by_state"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="act_project_project_2_project_todo_all" model="ir.actions.act_window">
+            <field name="name">Todo Lists</field>
+            <field name="res_model">todo.list</field>
+            <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
+            <field name="context">{
+                'group_by': 'state',
+                'search_default_project_id': [active_id],
+                'default_project_id': active_id,
+            }</field>
+            <field name="search_view_id" ref="todo_list_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Here, you can create new todo's
+                </p>
+                <p>
+                    You can now manage your todo's in order to get things done efficiently. Track progress, discuss, attach documents, etc.
+                </p>
+            </field>
+        </record>
+
+
+        <record id="ptodo_calendar_view" model="ir.ui.view">
+            <field name="name">todo.calendar.view</field>
+            <field name="model">todo.list</field>
+            <field name="arch" type="xml">
+                <calendar string="Todo's" date_start="scheduled_date" color="color">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_project_todo_kanban_inherited" model="ir.ui.view">
+            <field name="name">project.project.kanban.inherited</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="priority">16</field>
+            <field name="arch" type="xml">
+                <field name="label_tasks" position="after">
+                    <field name="todo_count" invisible="1"/>
+                    <field name="label_todo" invisible="1"/>
+                    <field name="todo_needaction_count" invisible="1"/>
+                </field>
+                <xpath expr="//div[hasclass('o_kanban_manage_reports')]/div[last()]" position="after">
+                   <div>
+                        <a name="%(act_project_project_2_project_todo_all)d" type="action" role="button">Todo's</a>
+                    </div>
+                </xpath>
+                <xpath expr="//div[hasclass('o_project_kanban_boxes')]" position="inside">
+                    <a class="o_project_kanban_box" name="%(act_project_project_2_project_todo_all)d" type="action" role="button">
+                        <div>
+                            <span class="o_value"><t t-esc="record.todo_count.value"/></span>
+                            <span class="o_label"><t t-esc="record.label_todo.value"/></span>
+                            <a t-if="record.todo_needaction_count.raw_value" class="o_needaction" name="%(act_project_project_2_project_todo_all)d" type="action">
+                                <t t-esc="record.todo_needaction_count.raw_value"/>
+                            </a>
+                        </div>
+                    </a>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="todo_list_tree_view" model="ir.ui.view">
+            <field name="name">todo.list.tree</field>
+            <field name="model">todo.list</field>
+            <field name="arch" type="xml">
+               <tree string="Todo Lists" >
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="create_uid"/>
+                    <field name="create_date"/>
+                    <field name="scheduled_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="todo_list_kanban_view" model="ir.ui.view">
+            <field name="name">todo.list.kanban</field>
+            <field name="model">todo.list</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column o_kanban_project_tasks" on_create="quick_create">
+                    <field name="color"/>
+                    <field name="priority"/>
+                    <field name="task_id"/>
+                    <field name="create_uid"/>
+                    <field name="state" options='{"group_by_tooltip": {"description": "Stage Description", "legend_priority": "Use of stars"}}'/>
+                    <field name="name"/>
+                    <field name="scheduled_date"/>
+                    <field name="project_id"/>
+                    <field name="message_needaction_counter"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+
+                            <div class="o_dropdown_kanban dropdown" groups="base.group_user">
+                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" role="button" >
+                                    <span class="fa fa-bars fa-lg"/>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <t t-if="widget.editable"><li><a type="edit">Edit</a></li></t>
+                                    <t t-if="widget.deletable"><li><a type="delete">Delete</a></li></t>
+                                    <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div>
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div class="text-muted">
+                                    <field name="project_id" invisible="context.get('default_project_id', False)"/>
+                                </div>
+                                <div class="text-muted">
+                                    <t t-if="record.scheduled_date.raw_value and record.scheduled_date.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
+                                    <t t-if="record.scheduled_date.raw_value">
+                                    <span t-attf-class="#{red || ''}"><i class="fa fa-calendar"> <strong><field name="scheduled_date"/></strong></i></span>
+                                    </t>
+                                </div>
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="priority" widget="priority"/>
+                                    <t t-if="record.message_needaction_counter.raw_value">
+                                        <span class='oe_kanban_mail_new' title='Unread Messages'><i class='fa fa-comments'/><t t-raw="record.message_needaction_counter.raw_value"/></span>
+                                    </t>
+                                    <t t-if="record.state.raw_value != 'cancel' and ! record.task_id.raw_value" >
+                                        <button string="Generate Task" name="open_create_task" type="object" class="fa fa-paper-plane text-success"/>
+                                    </t>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_todo_form" model="ir.ui.view">
+            <field name="name">todo.list.form</field>
+            <field name="model">todo.list</field>
+            <field name="arch" type="xml">
+                <form string="Task" class="o_form_project_tasks">
+                    <header>
+                        <button string="Pending" name="mark_as_pending" type="object" states="draft" class="oe_highlight"/>
+                        <button string="Done" name="mark_as_done" type="object" states="pending" class="oe_highlight"/>
+                        <button string="Cancel" name="mark_as_cancel" type="object" states="draft,pending"  />
+                        <button string="Set to New" name="set_as_draft" type="object" states="cancel" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,pending,done" />
+                    </header>
+                    <sheet string="Todo List">
+                        <field name="active" invisible="1"/>
+                            <div class="oe_button_box" name="button_box">
+                                <widget name="web_ribbon" text="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}" groups="base.group_user"/>
+                            </div>
+                    <div class="oe_title">
+                        <h1 class="o_row">
+                            <field name="priority" widget="priority"/>
+                            <field name="name" placeholder="Todo Title..."/>
+                        </h1>
+                    </div>
+                    <group name="group_1">
+                        <group name="todo_group1">
+                            <field name="project_id" domain="[('active', '=', True)]"
+                              options="{'no_create_edit': True, 'no_open':True,'no_create':True}"/>
+                             <field name="create_uid" readonly="1"/>
+                             <field name="create_date" readonly="1"/>
+                        </group>
+                        <group name="todo_group2">
+                            <field name="scheduled_date"/>
+                            <label for="task_id"/>
+                            <div>
+                                <field name="task_id" readonly="1"/>
+                                <button string="Generate Task" name="%(open_create_task)d" type="action" context="{'default_project_id':project_id,'default_description':description, 'default_name':name,'active_todo':id}" attrs="{'invisible':['|',('task_id','!=',False),('state','=','cancel')]}" class="oe_highlight oe_inline"/>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="description_page" string="Description">
+                            <field name="description" type="html"/>
+                            <div class="oe_clear"/>
+                        </page>
+                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="edit_project_form_inherited" model="ir.ui.view">
+            <field name="name">project.project.form.inherited</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="priority">16</field>
+            <field name="arch" type="xml">
+                <div name="options_active" position="attributes">
+                    <attribute name="class"></attribute>
+                </div>
+                <xpath expr='//div[@name="options_active"]' position='inside'>
+                    <div>
+                        <label for="label_todo" class="oe_inline" string="Name of the todo :"/>
+                        <field name="label_todo" class="oe_inline oe_input_align"/>
+                    </div>
+                </xpath>
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="action"
+                        name="%(act_project_project_2_project_todo_all)d" icon="fa-list">
+                        <field string="Todo's" name="todo_count" widget="statinfo" options="{'label_field': 'label_todo'}"/>
+                    </button>
+                </div>
+            </field>
+        </record>
+
+        <record id="action_todo_list" model="ir.actions.act_window">
+            <field name="name">Todo Lists</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">todo.list</field>
+            <field name="context">{
+                'group_by': 'state',
+            }</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+    <menuitem action="action_todo_list" id="menu_action_view_todo_task" parent="project.menu_main_pm" sequence="5" name="Todo Lists"/>
+
+  </data>
+</odoo>

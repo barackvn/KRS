@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="inherit_mp_settings_form_for_collection" model="ir.ui.view">
+            <field name="name">marketplace.config.setting.collection</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="odoo_marketplace.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='config_product_terms']/div" position="inside">
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <separator string="Seller Collections Settings"/>
+                        <div class="o_setting_left_pane">
+                            <field name="group_allow_seller_for_collection" class="oe_inline" help="Enable to allow Seller to create Product Collections."/>
+                        </div>
+                        <div class="o_setting_right_pane" title="Allow Seller to create Product Collections.">
+                            <label for="group_allow_seller_for_collection" string="Allow Seller Collection"/>
+                            <div class="text-muted">
+                                ⇒ Enable to allow Seller to create Product Collections.
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

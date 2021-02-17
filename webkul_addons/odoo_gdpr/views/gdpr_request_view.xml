@@ -1,0 +1,71 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="gdrp_request_view_form">
+        <field name="name">Odoo Gdpr Request Form</field>
+        <field name="model">gdpr.request</field>
+        <field name="type">form</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+          <form create="false" >
+            <header >
+	    		<field name="state" widget="statusbar" statusbar_visible="pending,cancel,done"/>
+                <button name="action_done_download"  string="Mark As Done" type="object"
+						attrs="{'invisible':['|',('state','=','done'),('action_type','=','delete')]}"/>
+                <button name="action_done_delete"  string="Mark As Done" type="object"
+						attrs="{'invisible':['|',('state','=','done'),('action_type','=','download')]}"/>
+                <button name="action_cancel"  string="Cancel" type="object" attrs="{'invisible':[('state','=','cancel')]}"/>
+
+    		</header>
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <!--<button name="create_data" icon="fa-book"  string="Create a file" type="object" attrs="{'invisible':['|',('action_type','=','delete')]}"/>-->
+                     <button name="wipe_data" icon="fa-trash"  string="Wipe(Reset) all Data" type="object" attrs="{'invisible':['|',('action_type','=','download'),('is_wiped','=',True)]}"/>
+                </div>
+              <group>
+                <group>
+                    <field name="name"/>
+                    <field name="partner_id" string="Customer" options="{'no_create': True}" />
+                    <field name="operation_type" string="Operation For" />
+                    <field name="object_id" options="{'no_create': True}" attrs="{'invisible': [('operation_type', '=', 'all')],'required':[('operation_type', '=', 'object')]}"/>
+                    <field name="action_type" string="Request Type"/>
+                    <field name="attachment" filename="file_name" attrs="{'invisible':[('action_type','=','delete')]}"/>
+                    <field name="file_name" invisible="1" class="oe_inline oe_right"/>
+                    <field name="attach_id" invisible="1"/>
+                    <field name="created_on" />
+                    <div attrs="{'invisible':[('action_type','=','download')]}">
+                        <b>All Data has been reset/wiped </b>
+                        <field name="is_wiped" nolabel="1" class="oe_inline"    />
+                    </div>
+                </group>
+              </group>
+            </sheet>
+          </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="gdrp_request_view_tree">
+					<field name="name">Odoo Gdpr Request Tree</field>
+					<field name="model">gdpr.request</field>
+					<field name="arch" type="xml">
+						<tree create="false">
+							<field name="partner_id" string="Customer" />
+                            <field name="action_type" />
+                             <field name="operation_type" string="Operation For" />
+							<field name="state"/>
+						</tree>
+					</field>
+	    </record>
+
+    <record model="ir.actions.act_window" id="gdrp_request_action">
+			<field name="name">Odoo Gdpr Request</field>
+			<field name="res_model">gdpr.request</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+    <menuitem name="GDPR Request" id="gdpr_request_menu" parent="odoo_gdpr.gdpr_data_tmpl_main_menu" action="gdrp_request_action" />
+
+
+
+
+  </data>
+</odoo>

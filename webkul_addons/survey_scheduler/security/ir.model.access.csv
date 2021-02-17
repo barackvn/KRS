@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_survey_hollowup_history_user,survey.followup.history user,model_survey_followup_history,survey.group_survey_user,1,0,0,0
+access_survey_hollowup_history_manager,survey.followup.history manager,model_survey_followup_history,survey.group_survey_manager,1,1,1,1

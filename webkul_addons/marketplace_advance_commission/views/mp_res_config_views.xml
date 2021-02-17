@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="inherit_marketplace_base_config_settings_form_view">
+            <field name="name">Marketplace.base.config.setting.commission</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="odoo_marketplace.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='config_payment_terms']/div[1]/div[1]" position="attributes">
+                    <attribute name="style">display:none;</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='config_payment_terms']/div[1]/div[1]" position="before">
+                    <div class="col-12 col-lg-6 o_setting_box" title="Select the type of commission to be applied.">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <label for="comm_type" string="Commission Type"/>
+                            <div class="text-muted">
+                                Select the type of commission to be applied.
+                            </div>
+                            <div class="text-muted">
+                                <field name="comm_type" class="oe_inline" help="Select the type of commission to be applied."/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="o_setting_right_pane" title="Select whether to deduct maximum or minimum commission from seller product, if product has more than one category.">
+                            <label for="category_comm" string="Category Commission" attrs="{'invisible': ['|',('comm_type','=','seller'),('comm_type','=',False)]}" help="Select whether to deduct maximum or minimum commission from seller product, if product has more than one category."/>
+                            <div class="text-muted"  attrs="{'invisible': ['|',('comm_type','=','seller'),('comm_type','=',False)]}">
+                                Applied if product has more than one category
+                            </div>
+                            <div class="" attrs="{'invisible': ['|',('comm_type','=','seller'),('comm_type','=',False)]}">
+                                <field name="category_comm" class="oe_inline" help="Select the type of commission to be applied." widget="radio" options="{'horizontal': true}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <div>
+                                    <div class="alert alert-info alert-normal-info" role="alert" style="margin-left:-10px;margin-top:10px;border: none;border-radius: 0px;border-left-style: solid;border-left-width: 4px;border-left-color: #31708f;"
+                                        attrs="{'invisible': [('comm_type','=',False)]}">
+                                      <i class="fa fa-hand-o-right fa-lg" aria-hidden="true"></i>
+                                      <span style="font-size:13px;" attrs="{'invisible': [('comm_type','!=','product')]}">
+                                          In <strong>Product Commission </strong>, the commission defined in the product will be applied, and if
+                                          it is not defined, then category commission will be applied, and if category
+                                          commission is also not defined, then by default seller commission will be applied.
+                                      </span>
+                                      <span style="font-size:13px;" attrs="{'invisible': [('comm_type','!=','category')]}">
+                                          In <strong>Category Commission </strong>, the commission defined in the product category will be applied, and if
+                                          there is no commission on category defined, then commission defined in the product will be applied and if neither
+                                          category nor product commission is defined then by default seller commission will be applied.
+                                      </span>
+                                      <span style="font-size:13px;" attrs="{'invisible': [('comm_type','!=','seller')]}">
+                                          In <strong>Seller Commission </strong>, the commission defined on seller will be applied, this commission
+                                          can be managed seller wise exclusively or from global commission under configuration settings.
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box" >
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane" title="Select the method of commission to be applied for the sellers in the marketplace.">
+                                <label for="mp_comm_method" string="Global Commission"/>
+                                <div class="text-muted">
+                                    Global commission for marketplace sellers.
+                                </div>
+                                <div class="text-muted">
+                                    <field name="mp_comm_method" class="oe_inline" help="Select the method of commission to be applied for the sellers in the marketplace."/>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="o_setting_right_pane" title="Set percent commission. You can manage this commission seller wise from seller account." attrs="{'invisible':['|',('mp_comm_method','=','fix'),('mp_comm_method','=',False)]}">
+                                <label for="mp_commission" string="Percentage"/>
+                                <div class="text-muted">
+                                    Percentage Commission
+                                </div>
+                                <div class="text-muted">
+                                    <field name="mp_commission" class="oe_inline" attrs="{'required': [('mp_comm_method','!=','fix')],'invisible': ['|',('mp_comm_method','=','fix'),('mp_comm_method','=',False)]}" help="Set percent commission. You can manage this commission seller wise from seller account."/>
+                                    <span attrs="{'invisible':['|',('mp_comm_method','=','fix'),('mp_comm_method','=',False)]}"><b> %</b></span>
+                                </div>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <b style="margin-left:10%;" attrs="{'invisible':['|','|',('mp_comm_method','=','fix'),('mp_comm_method','=','percent'),('mp_comm_method','=',False)]}"><i class="fa fa-plus" aria-hidden="true"></i></b>
+                            </div>
+                            <div class="o_setting_right_pane" title="Set fixed commission. You can manage this commission seller wise from seller account." attrs="{'invisible':['|',('mp_comm_method','=','percent'),('mp_comm_method','=',False)]}">
+                                <label for="mp_fix_commission" string="Fixed Amount"/>
+                                <div class="text-muted">
+                                    Fixed Commission
+                                </div>
+                                <div class="text-muted">
+                                    <field name="mp_fix_commission" class="oe_inline"
+                                        attrs="{'required':[('mp_comm_method','!=','percent')],'invisible':['|',('mp_comm_method','=','percent'),('mp_comm_method','=',False)]}"
+                                        help="Set fixed commission. You can manage this commission seller wise from seller account."
+                                        widget="monetary" options="{'currency_field': 'mp_currency_id'}"
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                            <div class="alert alert-info alert-normal-info" role="alert" style="margin-bottom:0px;margin-left:-10px;padding:15px;border: none;border-radius: 0px;border-left-style: solid;border-left-width: 4px;border-left-color: #31708f;"
+                                attrs="{'invisible': [('mp_comm_method','=',False)]}">
+                                <ul style="list-style-type:square;margin-left:-16px;">
+                                    <li>
+                                        <strong>Percent(%)</strong>
+                                        ⇒ In this type of commission, the percentage amount will be deducted from the base price of the product.
+                                    </li>
+                                    <li>
+                                        <strong>Fixed</strong>
+                                        ⇒ In this type of commission, a fixed amount will be deducted from the base price of the product.
+                                    </li>
+                                    <li>
+                                        <strong>% + Fixed</strong>
+                                        ⇒ In this type of commission, first the percentage amount will be deducted from the base price of the product and then a fixed amount will be deducted from the remaining amount.
+                                    </li>
+                                    <li>
+                                        <strong>Fixed + %</strong>
+                                        ⇒ In this type of commission, first a fixed amount will be deducted from the base price of the product and then the percentage amount will be deducted from the remaining price.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        <record id="mp_commission_inherit_seller_globel_config_form_view" model="ir.ui.view">
+            <field name="name">mp.commission.inherit.seller.globel.config.form.view</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="odoo_marketplace.mp_seller_globel_config_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//group[@name='payment_terms']" position="replace">
+                    <group>
+                        <group>
+                            <label for="mp_comm_method" string="Commission Method"/>
+                            <div>
+                                <field name="mp_comm_method" options="{'horizontal': true}"
+                                    style="width: 157px;height: 24px;"
+                                    readonly="1"
+                                    class="oe_inline"
+                                    help="Select the type of commission to be applied in the products of sellers in the marketplace"/>
+                            </div>
+                            <label for="mp_commission" string="Percent Commission" attrs="{'invisible':['|',('mp_comm_method','=','fix'),('mp_comm_method','=',False)]}" />
+                            <div attrs="{'invisible':['|',('mp_comm_method','=','fix'),('mp_comm_method','=',False)]}">
+                                <field name="mp_commission"  class="oe_inline" readonly="1"/>
+                                <span attrs="{'invisible':['|',('mp_comm_method','=','fix'),('mp_comm_method','=',False)]}"> %</span>
+                            </div>
+                            <label for="mp_fix_commission" string="Fixed Commission" attrs="{'invisible':['|',('mp_comm_method','=','percent'),('mp_comm_method','=',False)]}" />
+                            <div attrs="{'invisible':['|',('mp_comm_method','=','percent'),('mp_comm_method','=',False)]}">
+                                <field name="mp_currency_id" invisible="1"/>
+                                <field name="mp_fix_commission" class="oe_inline"
+                                    readonly="1"
+                                    help="Set fix commission, You can manage this commission seller wise from seller account"
+                                    widget="monetary" options="{'currency_field': 'mp_currency_id'}"
+                                    />
+                            </div>
+                        </group>
+                        <group col="1">
+                            <div class="alert alert-info alert-normal-info" role="alert" style="margin-left: -70px;margin-top: -3px;border: none;border-radius: 0px;border-left-style: solid;border-left-width: 4px;border-left-color: #31708f;"
+                                attrs="{'invisible': [('mp_comm_method','=',False)]}">
+                                <ul style="list-style-type:square;margin-left: -30px;margin-top: -6px;margin-bottom: -4px;">
+                                    <li>
+                                        <strong>Percent(%)</strong>
+                                        ⇒ In this type of commission, the percentage amount will be deducted from the base price of the product.
+                                    </li>
+                                    <li>
+                                        <strong>Fixed</strong>
+                                        ⇒ In this type of commission, a fixed amount will be deducted from the base price of the product.
+                                    </li>
+                                    <li>
+                                        <strong>% + Fixed</strong>
+                                        ⇒ In this type of commission, first the percentage amount will be deducted from the base price of the product and then a fixed amount will be deducted from the remaining amount.
+                                    </li>
+                                    <li>
+                                        <strong>Fixed + %</strong>
+                                        ⇒ In this type of commission, first a fixed amount will be deducted from the base price of the product and then the percentage amount will be deducted from the remaining price.
+                                    </li>
+                                </ul>
+                            </div>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

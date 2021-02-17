@@ -1,0 +1,22 @@
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<record id="reminder_rule" model="ir.rule">
+			<field name="name">Reminder Rule</field>
+			<field name="model_id" ref="model_reminder_reminder"/>
+			<field name="domain_force">
+				['|',('create_uid','=',user.id),('recipients','=',user.id)]
+			</field>
+		</record>
+		
+		<record id="reminder_history_rule" model="ir.rule">
+			<field name="name">Reminder History Rule</field>
+			<field name="model_id" ref="model_reminder_history"/>
+			<field name="domain_force">
+				[('reminder.create_uid','=',user.id)]
+			</field>
+		</record>
+	</data>
+</odoo>

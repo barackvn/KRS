@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <template id="collection_link_in_header" inherit_id="website.layout" name="Show Collections" customize_show="True" active="True">
+            <xpath expr="//header//ul[@id='top_menu']/li" position="after">
+                <t t-if="website.sudo().get_collection_config_settings_values().get('show_collectional_menu', False) == 'header' or
+                        website.sudo().get_collection_config_settings_values().get('show_collectional_menu', False) == 'both' ">
+                    <t t-if="website.sudo().get_collection_config_settings_values().get('collectional_page_label', False) ">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/collections"><t t-esc="website.sudo().get_collection_config_settings_values().get('collectional_page_label', False)"/></a>
+                        </li>
+                    </t>
+                    <t t-if="not website.sudo().get_collection_config_settings_values().get('collectional_page_label', False)">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/collections">Collections</a>
+                        </li>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+        <template id="footer_collection" inherit_id="website.footer_custom">
+            <xpath expr="//div[hasclass('col-lg-4')][2]//ul/li[1]" position="after">
+                <t t-if="website.sudo().get_collection_config_settings_values().get('show_collectional_menu', False) == 'footer' or
+                        website.sudo().get_collection_config_settings_values().get('show_collectional_menu', False) == 'both' ">
+                    <t t-if="website.sudo().get_collection_config_settings_values().get('collectional_page_label', False) ">
+                        <li>
+                            <a t-attf-href="/collections"><t t-esc="website.sudo().get_collection_config_settings_values().get('collectional_page_label', False)"/></a>
+                        </li>
+                    </t>
+                    <t t-if="not website.sudo().get_collection_config_settings_values().get('collectional_page_label', False)">
+                        <li>
+                            <a t-attf-href="/collections">Collections</a>
+                        </li>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+seller_mp_membership,seller_mp_membership,model_seller_membership,odoo_marketplace.marketplace_seller_group,1,0,0,0
+pending_seller_mp_membership,pending_seller_mp_membership,model_seller_membership,odoo_marketplace.marketplace_draft_seller_group,1,0,0,0
+
+manager_mp_membership,manager_mp_membership,model_seller_membership,odoo_marketplace.marketplace_manager_group,1,1,1,1

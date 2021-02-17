@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+
+        <record model="marketplace.dashboard" id="blogs_demo">
+            <field name="name">Seller Blogs</field>
+            <field name="state">blogs</field>
+            <field name="color">7</field>
+        </record>
+
+      </data>
+</odoo>

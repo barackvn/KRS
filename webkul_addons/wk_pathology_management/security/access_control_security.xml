@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data noupdate="0">
+		<!-- <record id="patho_mgmt_user_security_category" model="ir.module.category">
+			<field name="name">Pathology User</field>
+		</record>
+		<record id="patho_mgmt_user_group" model="res.groups">
+			<field name="name">User</field>
+			<field name="category_id" ref="patho_mgmt_user_security_category"/>
+			<field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+		</record> -->
+
+		<record id="patho_mgmt_security_category" model="ir.module.category">
+			<field name="name">Pathology</field>
+		</record>
+		<record id="patho_mgmt_user_group" model="res.groups">
+			<field name="name">User</field>
+			<field name="category_id" ref="patho_mgmt_security_category"/>
+			<field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+		</record>
+		<record id="patho_mgmt_technician_group" model="res.groups">
+			<field name="name">Technician</field>
+			<field name="category_id" ref="patho_mgmt_security_category"/>
+			<field name="implied_ids" eval="[(4,ref('wk_pathology_management.patho_mgmt_user_group'))]"/>
+		</record>
+		<record id="patho_mgmt_pathologist_group" model="res.groups">
+			<field name="name">Pathologist</field>
+			<field name="category_id" ref="patho_mgmt_security_category"/>
+			<field name="implied_ids" eval="[(4,ref('wk_pathology_management.patho_mgmt_technician_group'))]"/>
+		</record>
+		<record id="patho_mgmt_manager_group" model="res.groups">
+			<field name="name">Manager</field>
+			<field name="category_id" ref="patho_mgmt_security_category"/>
+			<field name="implied_ids" eval="[(4,ref('wk_pathology_management.patho_mgmt_pathologist_group'))]"/>
+			<field name="users" eval="[(4,ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+		</record>
+	</data>
+
+	<data noupdate="0">
+
+		<record id="technician_sees_only_own_collection_center_diagnosis" model="ir.rule">
+			<field name="name">Technician sees diagnosis of own collection center</field>
+			<field name="model_id" ref="model_patho_testreport"/>
+			<field name="groups" eval="[(4,ref('patho_mgmt_technician_group'))]"/>
+			<field name="domain_force">['|',('collection_center_id', '=', user.partner_id.collection_center_id.id),
+				('lab_technician','=',user.partner_id.id)]</field>
+		</record>
+
+		<record id="technician_sees_only_own_collection_center_testrequests" model="ir.rule">
+			<field name="name">Technician sees appointments of own collection center</field>
+			<field name="model_id" ref="model_patho_testrequest"/>
+			<field name="groups" eval="[(4,ref('patho_mgmt_technician_group'))]"/>
+			<field name="domain_force">[('collection_center_id', '=', user.partner_id.collection_center_id.id)]</field>
+		</record>
+
+		<record id="technician_sees_only_own_collection_center_partner" model="ir.rule">
+			<field name="name">Technician sees partner of own collection center</field>
+			<field name="model_id" ref="model_res_partner"/>
+			<field name="groups" eval="[(4,ref('patho_mgmt_technician_group'))]"/>
+			<field name="domain_force">[('collection_center_id', '=', user.partner_id.collection_center_id.id)]</field>
+		</record>
+
+		<record id="pathologist_sees_only_own_collection_center_diagnosis" model="ir.rule">
+			<field name="name">pathologist sees diagnosis of own collection center</field>
+			<field name="model_id" ref="model_patho_testreport"/>
+			<field name="groups" eval="[(4,ref('patho_mgmt_pathologist_group'))]"/>
+			<field name="domain_force">[('collection_center_id', '=', user.partner_id.collection_center_id.id)]</field>
+		</record>
+
+		<record id="pathologist_sees_only_own_collection_center_testrequests" model="ir.rule">
+			<field name="name">pathologist sees appointments of own collection center</field>
+			<field name="model_id" ref="model_patho_testrequest"/>
+			<field name="groups" eval="[(4,ref('patho_mgmt_pathologist_group'))]"/>
+			<field name="domain_force">[('collection_center_id', '=', user.partner_id.collection_center_id.id)]</field>
+		</record>
+
+		<record id="pathologist_sees_only_own_collection_center_partner" model="ir.rule">
+			<field name="name">pathologist sees partner of own collection center</field>
+			<field name="model_id" ref="model_res_partner"/>
+			<field name="groups" eval="[(4,ref('patho_mgmt_pathologist_group'))]"/>
+			<field name="domain_force">[('collection_center_id', '=', user.partner_id.collection_center_id.id)]</field>
+		</record>
+
+		<record id="manager_sees_all_collection_center_diagnosis" model="ir.rule">
+			<field name="name">Manager sees diagnosis of collection center</field>
+			<field name="model_id" ref="model_patho_testreport"/>
+			<field name="groups" eval="[(4,ref('patho_mgmt_manager_group'))]"/>
+			<field name="domain_force">[(1,'=',1)]</field>
+		</record>
+
+		<record id="manager_sees_all_collection_center_testrequests" model="ir.rule">
+			<field name="name">Manager sees appointments of collection center</field>
+			<field name="model_id" ref="model_patho_testrequest"/>
+			<field name="groups" eval="[(4,ref('patho_mgmt_manager_group'))]"/>
+			<field name="domain_force">[(1,'=',1)]</field>
+		</record>
+
+		<record id="manager_sees_all_collection_center_partner" model="ir.rule">
+			<field name="name">Manager sees partner of collection center</field>
+			<field name="model_id" ref="model_res_partner"/>
+			<field name="groups" eval="[(4,ref('patho_mgmt_manager_group'))]"/>
+			<field name="domain_force">[(1,'=',1)]</field>
+		</record>
+
+	</data>
+
+</odoo>

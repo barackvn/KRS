@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+
+        <record id="patho_mgmt_patho_source_tree_view" model="ir.ui.view">
+            <field name="name">Pathology Person Source Tree</field>
+            <field name="model">patho.source</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Pathology Person Source Tree">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="patho_mgmt_patho_source_form_view" model="ir.ui.view">
+            <field name="name">Pathology Person Source Form</field>
+            <field name="model">patho.source</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Pathology Person Source Form">
+                    <sheet>
+                      <field name="active" invisible="True"/>
+                        <div class="oe_button_box" name="button_box">
+                          <button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-danger" attrs="{'invisible':[('active', '=', True)]}">
+                              <span class="o_stat_text">Active</span>
+                            </button>
+                            <button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-success" attrs="{'invisible':[('active', '!=', True)]}">
+                              <span class="o_stat_text">Archive</span>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="patho_mgmt_patho_source_action">
+            <field name="name">Pathology Source</field>
+            <field name="res_model">patho.source</field>
+            <field name="view_mode">tree,form</field>
+
+        </record>
+
+        <menuitem name="Source"
+		    id="patho_mgmt_patho_source_menu"
+		    parent="patho_mgmt_config_menu"
+		    sequence="2"
+			action="patho_mgmt_patho_source_action"
+		    groups="wk_pathology_management.patho_mgmt_manager_group"
+		/>
+
+    </data>
+</odoo>

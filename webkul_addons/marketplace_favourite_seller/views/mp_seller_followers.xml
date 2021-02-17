@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+
+        <!-- ~~~~~~~~~~~~~ Follower Send Mail Server Action ~~~~~~~~~~~~~~~~~~~ -->
+
+        <record id="ir_actions_server_send_email_to_seller_followers" model="ir.actions.server">
+            <field name="name">Send Email to Followers</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_marketplace_seller_followers"/>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    action = records.action_send_email_to_seller_followers()
+            </field>
+            <field name="binding_model_id" ref="marketplace_favourite_seller.model_marketplace_seller_followers"/>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~ Marketplace Mail Compose Form View ~~~~~~~~~~~~~ -->
+
+        <record model="ir.ui.view" id="mp_fav_seller_email_compose_message_wizard_form">
+            <field name="name">mail.compose.message.form.mp.fav.seller.inherit</field>
+            <field name="model">mail.compose.message</field>
+            <field name="groups_id" eval="[(4,ref('base.group_user','odoo_marketplace.marketplace_seller_group'))]"/>
+            <field name="arch" type="xml">
+                <form string="Compose Email">
+                    <field name="composition_mode" invisible="1"/>
+                    <field name="model" invisible="1"/>
+                    <field name="res_id" invisible="1"/>
+                    <field name="is_log" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="mail_server_id" invisible="1"/>
+                    <field name="active_domain" invisible="1"/>
+                    <field class="oe_inline" name="use_active_domain" invisible="1"/>
+                    <group>
+                        <field name="email_from" readonly="1"/>
+                        <field name="subject" placeholder="Subject..." required="True"/>
+                    </group>
+                    <field name="body" options="{'style-inline': true}"/>
+                    <group col="4">
+                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2"/>
+                    </group>
+                    <footer>
+                        <button string="Send" attrs="{'invisible': [('is_log', '=', True)]}" name="action_send_mail"
+                            type="object" class="btn-primary o_mail_send"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~ Marketplace Seller Followers Views ~~~~~~~~~~~~~~~~~ -->
+
+        <record id="mp_seller_followers_tree_view" model= "ir.ui.view">
+            <field name= "name">marketplace.seller.followers.tree</field>
+            <field name= "model">marketplace.seller.followers</field>
+            <field name="type">tree</field>
+            <field name= "arch" type= "xml">
+                <tree string="Marketplace Seller Followers" create="false" edit="false" delete="false">
+                    <field name="customer_id"/>
+                    <field name= "customer_email"/>
+                    <field name= "marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <field name= "create_date" widget="date"/>
+                    <field name= "active" invisible="1" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <button attrs="{'invisible':[('active','=', True)]}" name="toggle_active"
+                        type="object" class="btn btn-primary btn-sm fa fa-plus" string=" Add"
+                        confirm="Are you sure you want to proceed ?">
+                    </button>
+                    <button attrs="{'invisible':[('active','=', False)]}" name="toggle_active"
+                        type="object" class="btn btn-primary btn-sm fa fa-trash-o" string=" Remove"
+                        confirm="Are you sure you want to proceed ?">
+                    </button>
+                </tree>
+            </field>
+        </record>
+
+        <record id= "mp_seller_followers_form_view" model= "ir.ui.view">
+            <field name= "name">marketplace.seller.followers.form</field>
+            <field name= "model">marketplace.seller.followers</field>
+            <field name="type">form</field>
+            <field name= "arch" type= "xml">
+                <form string="Marketplace Seller Followers" create="false" edit="false" delete="false">
+                    <header>
+                        <button name="action_send_email_to_seller_followers" string=" Send An Email"
+							title="Click to Send Email to Follower" type="object" class="btn btn-primary fa fa-envelope-o"
+                            attrs="{'invisible':[('active','=', False)]}" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-user"
+                                confirm="Are you sure you want to proceed?" >
+                                <field name="active" widget="boolean_button" options='{"terminology": {
+                                    "string_true": "Follower",
+                                    "hover_true": "Remove",
+                                    "string_false": "Not a Follower",
+                                    "hover_false": "Add Follower"
+                                }}'/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="customer_id" context="{'form_view_ref': 'odoo_marketplace.customer_form_view_for_marketplace'}"
+                                    options= "{'no_create_edit': True, 'no_create': True}"/>
+                                <field name="customer_email" widget="email"/>
+                                <field name="marketplace_seller_id"
+                                    groups="odoo_marketplace.marketplace_officer_group"
+                                    options= "{'no_create_edit': True}"
+                                    domain="[('seller','=',True),('state','=','approved')]"
+                                    context="{'form_view_ref':'odoo_marketplace.wk_seller_form_view', 'tree_view_ref':'odoo_marketplace.wk_seller_tree_view',}"/>
+                                <field name="id" invisible="1"/>
+                                <field name="create_date" widget="date" readonly="1" attrs="{'invisible': [('id','=', False)]}"/>
+                            </group>
+                        </group>
+                        <b><label for="desc" string="Description" class="oe_edit_only"/></b>
+                        <field name="desc" class="" placeholder="Add a description..."/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="inherit_mp_seller_followers_form_view" model="ir.ui.view">
+           <field name="name">marketplace.seller.followers.form.inherit</field>
+           <field name="model">marketplace.seller.followers</field>
+           <field name="inherit_id" ref="marketplace_favourite_seller.mp_seller_followers_form_view"/>
+           <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
+            <field name="type">form</field>
+           <field name="arch" type="xml">
+               <form position="attributes">
+                   <attribute name="create">1</attribute>
+                   <attribute name="edit">1</attribute>
+                   <attribute name="delete">1</attribute>
+               </form>
+           </field>
+       </record>
+
+        <record id="inherit_mp_seller_followers_tree_view" model="ir.ui.view">
+            <field name="name">marketplace.seller.followers.tree.inherit</field>
+            <field name="model">marketplace.seller.followers</field>
+            <field name="inherit_id" ref="marketplace_favourite_seller.mp_seller_followers_tree_view"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="create">1</attribute>
+                    <attribute name="edit">1</attribute>
+                    <attribute name="delete">1</attribute>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mp_seller_followers_search_view" model="ir.ui.view">
+            <field name="name">marketplace.seller.followers.search</field>
+            <field name="model">marketplace.seller.followers</field>
+            <field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Search Followers">
+                    <field name="customer_id" string="Customer" filter_domain="['|',('customer_id.name','ilike',self),('customer_id.name','=',self)]"/>
+                    <group string="Group By">
+                        <filter name="group_active" string="Is a Follower" domain="[('active','=',True)]" groups="odoo_marketplace.marketplace_officer_group"/>
+                        <filter name="group_inactive" string="Not a Follower" domain="[('active','=', False)]" groups="odoo_marketplace.marketplace_officer_group"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="inherit_mp_seller_followers_search_view" model="ir.ui.view">
+            <field name="name">marketplace.seller.followers.search.inherit</field>
+            <field name="model">marketplace.seller.followers</field>
+            <field name="inherit_id" ref="marketplace_favourite_seller.mp_seller_followers_search_view"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
+            <field name="arch"  type="xml">
+                <group position="inside">
+                    <filter string="Seller"
+                        context="{'group_by':'marketplace_seller_id'}"
+                        name="groupby_marketplace_seller_id"
+                        groups="odoo_marketplace.marketplace_officer_group"
+                        />
+                </group>
+            </field>
+        </record>
+
+        <record id="mp_seller_followers_action" model="ir.actions.act_window">
+            <field name="name">Marketplace Seller Followers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">marketplace.seller.followers</field>
+            <field name="domain">[('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
+            <field name="context">{"search_default_groupby_marketplace_seller_id": 1}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p>
+                Here is a list of all the followers of seller.
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            name= "Seller Followers"
+            id= "mp_seller_followers_menu"
+            sequence= "7"
+            action= "marketplace_favourite_seller.mp_seller_followers_action"
+            parent= "odoo_marketplace.wk_seller_dashboard"
+            groups="odoo_marketplace.marketplace_seller_group"
+        />
+
+    </data>
+</odoo>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="wk_mp_seller_story_kanban_view" model="ir.ui.view">
+        <field name="name">Seller Stories</field>
+        <field name="model">seller.story</field>
+        <field name="arch" type="xml">
+            <kanban string="Seller Story">
+                <field name="name"/>
+                <field name="image" />
+                <field name="id"/>
+                <field name="website_published"/>
+                <field name="is_popular"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">                                
+                                <img t-att-src="kanban_image('seller.story', 'image', record.id.raw_value)" alt="Story" class="o_image_64_contain"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <b><field name="name"/></b>
+                                <ul>
+                                    <li><b>Seller: </b><field name="seller_id"/></li>
+                                    <li t-if="record.website_published.raw_value"><span style="color:green">Published On Webiste</span></li>
+                                    <li t-if="!record.website_published.raw_value"><span style="color:red">Not Published On Webiste</span></li>
+                                    <li>
+                                        <b>Popular Story: </b>
+                                        <span t-if="record.is_popular.raw_value" style="color:green">YES</span>
+                                        <span t-if="!record.is_popular.raw_value" style="color:red">NO</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="wk_mp_seller_story_form_view" model="ir.ui.view">
+        <field name="name">Seller Story</field>
+        <field name="model">seller.story</field>
+        <field name="arch" type="xml">
+            <form string="Seller Story" create="0">
+                <sheet>
+                    <field name="is_popular" invisible="1"/>
+                    <div class="oe_button_box" name="mp_seller_story_button_box">
+                        <button name="toggle_website_published" type="object"
+                                class="oe_stat_button" icon="fa-globe">
+                            <field name="website_published" widget="website_publish_button"/>
+                        </button>
+                        <button name="toggle_popular_story" type="object"
+                                class="oe_stat_button text-success" icon="fa-free-code-camp" string="Popular Story" attrs="{'invisible': [('is_popular', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        </button>
+                        <button name="toggle_popular_story" type="object"
+                                class="oe_stat_button text-danger" icon="fa-free-code-camp" string="Unpopular Story" attrs="{'invisible': [('is_popular', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        </button>
+                    </div>
+                    <div class="oe_title" style="height: 106px;">
+                        <div>
+                            <label for="name" string="Story Title"/>
+                        </div>
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Story Title" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+                        <field name="designation" required="1"/>
+                        <field name="story_video_link" placeholder="Youtube Video ID"/>
+                    </group>
+                    <group>
+                        <div style="padding-right: 10px;">
+                            <label for="short_description" style="font-weight: bold;"/>
+                            <field name="short_description" class="" placeholder="Short Description..." required="1"/>
+                        </div>
+                        <div>
+                            <label for="image" style="font-weight: bold;" help="Thumbnail image size must be 1298 x 400 px for perfect view."/>
+                            <field name="image" widget="image" class=""/>
+                        </div>
+                    </group>
+                    <label for="description"/>
+                    <field name="description" placeholder="Description..."/>
+                    <br/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="wk_mp_seller_story_tree_view" model="ir.ui.view">
+        <field name="name">Sellers Story</field>
+        <field name="model">seller.story</field>
+        <field name="arch" type="xml">
+            <tree string="Seller Stories">
+                <field name="name"/>
+                <field name="seller_id"/>
+                <field name="website_published" string="Publish On Website"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wk_mp_seller_story_action" model="ir.actions.act_window" >
+        <field name="name">Seller Stories</field>
+        <field name="res_model">seller.story</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a new seller story in the list.
+            </p>
+        </field>
+    </record>
+
+    <record id="wk_mp_seller_story_action2" model="ir.actions.act_window">
+        <field name="name">Seller Story</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">seller.story</field>
+        <field name="target">new</field>
+        <field name="context">{"default_seller_id":context.get("active_id")}</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="wk_mp_seller_story_form_view"/>
+    </record>
+
+    <menuitem name="Seller Stories" id="marketplace_seller_story_menu" parent="odoo_marketplace.wk_seller_dashboard" sequence="5" groups="odoo_marketplace.marketplace_officer_group"/>
+    <menuitem id="wk_mp_seller_story_menu" name="Seller Stories" action="wk_mp_seller_story_action" parent="marketplace_seller_story_menu" sequence="1"/>
+
+
+</odoo>

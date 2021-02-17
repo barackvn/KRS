@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+        <!-- See LICENSE file for full copyright and licensing details. -->
+         <record id="order_cancel_reason_filter" model="ir.ui.view">
+            <field name="name">Order Cancellation Reason</field>
+            <field name="model">order.cancel.reason</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search  string="Cancellation Reasons">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="order_cancel_reason_tree" model="ir.ui.view">
+            <field name="name">Order Cancellation Reason</field>
+            <field name="model">order.cancel.reason</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Cancellation Reasons" editable="bottom">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="create_uid" readonly="1"/>
+                    <field name="create_date" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="order_cancel_reason_form" model="ir.ui.view">
+            <field name="name">Order Cancellation Reason</field>
+            <field name="model">order.cancel.reason</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form  string="Cancellation Reasons">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" groups="hr.group_hr_user" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="sequence"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="order_cancel_reason_action" model="ir.actions.act_window">
+            <field name="name">Order Cancellation Reason</field>
+            <field name="res_model">order.cancel.reason</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="order_cancel_reason_tree"/>
+        </record>
+
+        <menuitem id="order_cancel_reason_menu" action="order_cancel_reason_action" parent="website.menu_website_global_configuration" string="Order Cancellation Reason"/>
+    </data>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data noupdate="1">
+        <!--Mail to Report to customer on done -->
+        <record id="patho_send_report_by_email_to_customer" model="mail.template">
+            <field name="name">Send Report Mail to Customer On Done</field>
+            <field name="email_from">${object.create_uid.company_id.partner_id.email or '' | safe}</field>
+            <field name="subject"> Lab Test Report from ${object.create_uid.company_id.name}</field>
+            <!-- <field name="email_to">${object.customer_id.email or '' | safe}</field> -->
+            <field name="partner_to">${object.customer_id.id}</field>
+            <field name="model_id" ref="wk_pathology_management.model_patho_testrequest"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="report_template" ref="wk_pathology_management.patho_mgmt_patient_report"/>
+            <field name="report_name">${(object.customer_id.name or '')}</field>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html"><![CDATA[
+              <p>Dear ${object.customer_id.name} , </p>
+                        <br/>
+                        <p>Your Report is been prepared and is attached within this email.</p>
+                        <p>Kindly check the results.</p>
+                        <br/>
+                        <b>Date :</b> ${object.test_date}
+                        <p>You can reply to this email if you have any questions.</p><br/>
+                        <p>Thank you,</p>
+                        <p>(${object.create_uid.company_id.name})</p>
+                        <p style="color:#888888;">
+                        % if object.create_uid.company_id.partner_id and object.create_uid.company_id.partner_id.signature:
+                            ${object.create_uid.company_id.partner_id.signature | safe}
+                        % endif
+                        </p>
+             ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

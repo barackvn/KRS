@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <!-- website views -->
+        <record id="mp_membership_config_view_website_form" model="ir.ui.view">
+            <field name="name">website.form.mp.mship</field>
+            <field name="model">website</field>
+            <field name="inherit_id" ref="odoo_marketplace.mp_config_view_website_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//group[@name='mp_t_and_c']" position="after">
+                    <group name="mp_membership_group" string="Marketplace Membership">
+                        <field name="mp_membership_plan_link_label" help="Label for seller membership plan page."/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+	<data>
+		<record id="mp_rma_search" model="ir.ui.view">
+			<field name="name">mp.rma.rma.search</field>
+			<field name="model">rma.rma</field>
+			<field name="priority" eval="100"/>
+			<field name="arch" type="xml">
+				<search string="">
+					<field name="marketplace_seller_id"/>
+					<filter name="exchange_type" string="Exchange Type" domain="[('return_request_type','=','exchange')]"/>
+					<filter name="refund_type" string="Refund Type" domain="[('return_request_type','=','refund')]"/>
+					<group position="inside">
+						<filter name="refund_status" string="Refund Status" context="{'group_by':'refund_status'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="mp_rma_search_inherit" model="ir.ui.view">
+      <field name="name">Add Seller Group By For MP Manager</field>
+      <field name="model">rma.rma</field>
+      <field name="inherit_id" ref="marketplace_rma.mp_rma_search"/>
+      <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group')])]"/>
+      <field name="arch" type="xml">
+				<filter name="exchange_type" position="before">
+					<filter name="seller_group" string="Seller" context="{'group_by':'marketplace_seller_id'}" groups="odoo_marketplace.marketplace_officer_group"/>
+				</filter>
+			</field>
+    </record>
+
+		<record id="mp_rma_tree" model="ir.ui.view">
+			<field name="name">mp.rma.rma.tree</field>
+			<field name="model">rma.rma</field>
+			<field name="priority" eval="100"/>
+			<field name="arch" type="xml">
+				<tree decoration-info="state=='new'" decoration-danger="state=='verification'" decoration-primary="state=='negotiation'" decoration-success="state=='resolved'" string="RMA" create="false">
+					<field name="name"/>
+					<field name="order_id"/>
+					<field name="create_date" string="Date"/>
+					<field name="partner_id"/>
+					<field name="product_id"/>
+					<field name="refund_qty"/>
+					<field name="state"/>
+					<field name="refund_status" invisible="context.get('search_default_exchange_type',False)"/>
+					<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+				</tree>
+			</field>
+		</record>
+		<record id="mp_rma_form" model="ir.ui.view">
+			<field name="name">mp.rma.rma.form</field>
+			<field name="model">rma.rma</field>
+			<field name="priority" eval="100"/>
+			<field name="arch" type="xml">
+				<form create="false">
+					<header>
+						<button class="oe_highlight" name="%(marketplace_rma.mp_action_rma_product_return_wizard_id)d" string="Receive Products" type="action" icon="fa-reply-all" attrs="{'invisible':['|','|',('state','not in',['agreement']), ('product_received','=',True)]}"/>
+						<button class="" name="view_purchase_order" string="View Purchase Order" icon="fa-shopping-cart" type="object" attrs="{'invisible':[ ('purchase_order_id','=',False)]}"></button>
+						<button class="oe_highlight" name="open_refund_invoice_wizrad" type='object' string='Refund Invoice' icon="fa-file-text-o" attrs="{'invisible':['|', '|', '|', ('state','not in',['agreement']), ('return_request_type','not in',['refund']), ('refund_invoice_id','!=',False),('refund_status','in',['new'])]}" groups="odoo_marketplace.marketplace_officer_group"/>
+						<button class="oe_highlight" name="view_refund_invoice" string="View Refund Invoice" icon="fa-file-text-o" type="object" attrs="{'invisible':[('refund_invoice_id','=',False)]}" groups="odoo_marketplace.marketplace_officer_group"/>
+						<button class="oe_highlight" name="%(marketplace_rma.mp_action_rma_new_delivery_order_wizard_id)d" icon="fa-truck" string="Create Delivery Order" type="action" attrs="{'invisible':['|', '|', '|', ('state','not in',['agreement']),('return_request_type','not in',['exchange']),('new_do_picking_id','!=',False), ('product_received','!=',True)]}"/>
+						<button class="" name="view_new_delivery_order" string="View Delivery Order" type="object" icon="fa-truck" attrs="{'invisible':[('new_do_picking_id','=',False)]}"/>
+						<button class="oe_highlight" name="%(rma.action_rma_create_repair_wizard_id)d" string="Create Repair Job" type="action" icon="fa-gavel" attrs="{'invisible':['|',('is_repair_install','=',False), '|',('state','not in',['agreement']),'|',('product_received','!=',True), '|',('return_request_type','not in',['repair']),('mrp_repair_id','!=',False)]}"/>
+						<button class="oe_highlight" name="view_repair_job" string="View Repair Job" type="object" icon="fa-gavel" attrs="{'invisible':['|',('mrp_repair_id','=',False),('is_repair_install','=',False)]}"/>
+						<button class="oe_highlight" name="request_for_refund" string="Request for refund" type="object" icon="fa-undo" attrs="{'invisible':['|','|',('product_received','=',False),('refund_status','not in',['new']),('return_request_type','in',['exchange','repair'])]}" groups="odoo_marketplace.marketplace_seller_group"/>
+						<field name="state" widget="statusbar" statusbar_visible="new,verification,negotiation,resolved" statusbar_colors='{"approved":"blue"}'/>
+					</header>
+					<sheet>
+						<field name="id" invisible="1"/>
+						<div class="oe_button_box" name="button_box">
+							<button name="attachment_tree_view_action" class="oe_stat_button" icon="fa-paperclip" type="object">
+								<field name="attachment_count" widget="statinfo" string="Attachment(s)"/>
+							</button>
+							<button name="view_refund_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" string="Refund Invoice" attrs="{'invisible':[('refund_invoice_id','=',False)]}" groups="odoo_marketplace.marketplace_officer_group">
+							</button>
+							<button name="view_new_delivery_order" type="object" class="oe_stat_button" icon="fa-truck" string="Outgoing Delivery" attrs="{'invisible':[('new_do_picking_id','=',False)]}">
+							</button>
+							<button name="view_return_delivery_order" type="object" class="oe_stat_button" icon="fa-truck" string="Incoming Delivery" attrs="{'invisible':[('product_received','=',False)]}">
+							</button>
+							<button name="view_purchase_order" type="object" class="oe_stat_button" icon="fa-shopping-cart" string="Purchase Order" attrs="{'invisible':[ ('purchase_order_id','=',False)]}">
+							</button>
+
+						</div>
+						<div class="oe_title">
+							<h1>
+								<field name="name" nolabel="1"/>
+							</h1>
+						</div>
+						<field name="new_do_picking_id" invisible="1"/>
+						<field name="refund_invoice_id" invisible="1"/>
+						<field name="purchase_order_id" invisible="1"/>
+						<field name="is_repair_install" invisible="1"/>
+
+						<group col="4">
+							<field name="order_id" attrs="{'readonly':True}" options="{'no_open':True}"/>
+							<field name="partner_id" attrs="{'readonly':True}" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1}" options='{"always_reload": True,"no_open":True}'/>
+							<field name="orderline_id" attrs="{'readonly':True}" options="{'no_open':True}"/>
+							<field name="product_id" readonly="1" options="{'no_open':True}"/>
+							<field name="refund_qty" readonly="1"/>
+							<field name="stage_id" attrs="{'readonly':[('id','=', False)]}" required="1"/>
+							<field name="return_request_type" required="1" readonly="1"/>
+							<field name="create_date" string="Created Date" readonly="1"/>
+							<field name="reason_id" required="1" attrs="{'readonly':True}" options="{'no_open':True}"/>
+							<field name="resolve_date" attrs="{'readonly':[('state','not in',['new'])]}"/>
+						</group>
+
+						<separator string="Additional Information"/>
+						<group>
+							<group>
+								<field name="product_received" readonly="1"/>
+								<field name="po_created" readonly="1" attrs="{'invisible':[('return_request_type','in',['refund', 'repair'])]}"/>
+								<field name="do_created" readonly="1" attrs="{'invisible':[('return_request_type','=','refund')]}"/>
+								<field name="inv_created" readonly="1" attrs="{'invisible':[('return_request_type','in',['repair','exchange'])]}"/>
+								<field name="mrp_repair_id" invisible="1"/>
+								<field name="refund_status" readonly="1" attrs="{'invisible':[('return_request_type','in',['exchange','repair'])]}"/>
+							</group>
+							<group>
+								<field name="currency_id" options="{'no_open':True}"/>
+								<field name="amount_untaxed"/>
+								<field name="amount_tax"/>
+								<field name="amount_total"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Information">
+								<group>
+									<field name="problem" nolabel="1" placeholder="Specify the problem"/>
+								</group>
+							</page>
+							<page string="Terms &amp; Conditions">
+								<group>
+									<field name="i_agree" readonly="1" string="Customer Agree"/>
+									<field name="rma_term_condition" readonly="1"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="mp_seller_rma_action" model="ir.actions.act_window">
+			<field name="name">All RMA</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">rma.rma</field>
+			<field name="binding_view_types">form</field>
+			<field name="domain">[('marketplace_seller_id','!=',False)]</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="marketplace_rma_root" name="RMA" parent="odoo_marketplace.wk_seller_dashboard" sequence="2" />
+
+		<record id="mp_rma_tree_inherit" model="ir.ui.view">
+			<field name="name">mp.rma.rma.tree.inherit</field>
+			<field name="model">rma.rma</field>
+            <field name="inherit_id" ref="marketplace_rma.mp_rma_tree"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group')])]"/>
+			<field name="arch" type="xml">
+				<xpath expr="//tree" position="attributes">
+					<attribute name="create">1</attribute>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="mp_seller_exchange_rma_action" model="ir.actions.act_window">
+			<field name="name">Exchange RMA</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">rma.rma</field>
+			<field name="binding_view_types">form</field>
+			<field name="domain">[('marketplace_seller_id','!=',False)]</field>
+			<field name="context">{'search_default_exchange_type':1,'search_default_seller_group':1}</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_ids"
+                eval="[(5, 0, 0),
+                    (0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('mp_rma_tree')}),
+                    (0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('mp_rma_form')}),
+                ]"/>
+		</record>
+
+		<record id="mp_seller_refund_rma_action" model="ir.actions.act_window">
+			<field name="name">Refund RMA</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">rma.rma</field>
+			<field name="binding_view_types">form</field>
+			<field name="domain">[('marketplace_seller_id','!=',False)]</field>
+			<field name="context">{'search_default_refund_type':1,'search_default_seller_group':1,'search_default_refund_status':1}</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_ids"
+                eval="[(5, 0, 0),
+                    (0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('mp_rma_tree')}),
+                    (0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('mp_rma_form')})
+                ]"/>
+		</record>
+
+		<menuitem id="marketplace_exchange_rma" name="Exchange RMA" parent="marketplace_rma_root" action="marketplace_rma.mp_seller_exchange_rma_action" sequence="1" />
+		<menuitem id="marketplace_refund_rma" name="Refund RMA" parent="marketplace_rma_root" action="marketplace_rma.mp_seller_refund_rma_action" sequence="2" />
+
+		<record id="mp_rma_form_inherit" model="ir.ui.view">
+            <field name="name">mp.rma.rma.form.inherit</field>
+            <field name="model">rma.rma</field>
+            <field name="inherit_id" ref="marketplace_rma.mp_rma_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group')])]"/>
+            <field name="arch" type="xml">
+               <xpath expr="//form" position="attributes">
+					<attribute name="create">1</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/group/field[@name='order_id']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=','close')]}</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/group/field[@name='partner_id']" position="attributes">
+					<attribute name="readonly">1</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/group/field[@name='orderline_id']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=','close')]}</attribute>
+					<attribute name="required">1</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/group/field[@name='product_id']" position="attributes">
+					<attribute name="options">{'no_open':False}</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/group/field[@name='refund_qty']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=','close')]}</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/group/field[@name='reason_id']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=','close')]}</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/group/field[@name='create_date']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=','close')]}</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/group/group/field[@name='currency_id']" position="attributes">
+					<attribute name="options">{'no_open':False}</attribute>
+				</xpath>
+				<xpath expr="//form/sheet/group/field[@name='return_request_type']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=','close')]}</attribute>
+				</xpath>
+            </field>
+        </record>
+	</data>
+</odoo>

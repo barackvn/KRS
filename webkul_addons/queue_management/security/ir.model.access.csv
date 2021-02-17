@@ -1,0 +1,28 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_token_sequence_user,token.sequence user,model_token_sequence,group_queue_user,1,0,0,0
+access_token_sequence_manager,token.sequence manager,model_token_sequence,group_queue_manager,1,1,1,1
+
+access_token_interface_token_user,token.interface public user,model_token_interface,group_queue_token_public_user,1,1,0,0
+access_token_interface_user,token.interface user,model_token_interface,group_queue_user,1,1,0,0
+access_token_interface_manager,token.interface manager,model_token_interface,group_queue_manager,1,1,1,1
+
+access_token_session_token_user,token.session public user,model_token_session,group_queue_token_public_user,1,1,1,0
+access_token_session_user,token.session user,model_token_session,group_queue_user,1,1,1,0
+access_token_session_manager,token.session manager,model_token_session,group_queue_manager,1,1,1,1
+
+access_token_token_token_user,token.token public user,model_token_token,group_queue_token_public_user,1,1,0,0
+access_token_token_user,token.token user,model_token_token,group_queue_user,1,1,0,0
+access_token_token_manager,token.token manager,model_token_token,group_queue_manager,1,1,1,1
+
+access_queue_counter_user,queue.counter user,model_queue_counter,group_queue_user,1,1,0,0
+access_queue_counter_manager,queue.counter manager,model_queue_counter,group_queue_manager,1,1,1,1
+
+access_queue_process_user,queue.process user,model_queue_process,group_queue_user,1,1,1,0
+access_queue_process_manager,queue.process manager,model_queue_process,group_queue_manager,1,1,1,1
+
+access_queue_dept_user,department.department user,model_department_department,group_queue_user,1,0,0,0
+access_queue_dept_manager,department.department manager,model_department_department,group_queue_manager,1,1,1,1
+
+access_dashboard_user,qms.dashboard user,model_qms_dashboard,group_queue_user,1,0,0,0
+access_dashboard_manager,qms.dashboard manager,model_qms_dashboard,group_queue_manager,1,1,1,1

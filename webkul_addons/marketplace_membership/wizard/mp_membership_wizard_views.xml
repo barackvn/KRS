@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="mp_marketplace_wizard_view" model="ir.ui.view">
+            <field name="name">seller.membership.invoice.form</field>
+            <field name="model">mp.membership.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Seller Membership Invoice">
+                    <group>
+                        <field name="product_id" domain="[('wk_mp_membership','=',True)]" widget="selection"/>
+                        <field name="membership_fee"/>
+                    </group>
+                    <footer>
+                        <button string="Create Invoice" name="create_seller_membership_invoice" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="mp_membership_wizard_action" model="ir.actions.act_window">
+            <field name="name">Buy Marketplace Membership</field>
+            <field name="res_model">mp.membership.invoice</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="mp_marketplace_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

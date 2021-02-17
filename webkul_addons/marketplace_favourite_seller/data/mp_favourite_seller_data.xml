@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data noupdate="1">
+		<function model="ir.default"
+	  		name="set" eval="('res.config.settings', 'enable_notify_follower_on_new_product', True)"/>
+
+	  	<function model="ir.default"
+	  		name="set" eval="('res.config.settings', 'notify_follower_on_new_product_mail_template', False)"/>
+    </data>
+</odoo>

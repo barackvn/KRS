@@ -1,0 +1,37 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.modal.o_theme_customize_modal{
+    .modal-dialog{
+      left: 0 !important;
+      bottom: 0 !important;
+      padding: 0 !important;
+      right: unset !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 550px !important;
+    }
+    .o_options_container{
+      .o_theme_customize_option_list{
+      }
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      .nav-item{
+        background: white !important;
+        z-index: 1;
+        .nav-link{
+          border: 1px solid transparent !important ;
+          &.active{
+            border: 1px solid $th-color-primary !important ;
+            border-left: transparent !important;
+            border-right: transparent !important;
+            margin-right: -1px;
+          }
+
+        }
+      }
+    }
+    .tab-content{    min-height: 200px !important;}
+}

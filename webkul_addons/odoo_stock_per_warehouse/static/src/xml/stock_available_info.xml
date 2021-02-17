@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<templates id="template" xml:space="preserve">
+    <t t-name="StockAvailableInfo">
+        <div class="dropdown mt-3">
+            <button class="btn stock_available_dropdown_btn" type="button" data-toggle="dropdown">
+                CHECK AVAILABILITY IN STORE
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu stock_available_dropdown_menu">
+                <t t-foreach="warehouse_stocks" t-as="warehouse_stock">
+                    <li class="dropdown-item">
+                        <span class="mr-1">
+                            <t t-if="warehouse_stock.qty">
+                                <img src="/odoo_stock_per_warehouse/static/src/img/yes.png"/>
+                            </t>
+                            <t t-else="">
+                                <img src="/odoo_stock_per_warehouse/static/src/img/no.png"/>
+                            </t>
+                        </span>
+                        <t t-esc="warehouse_stock.name"/>
+                        <span t-if="warehouse_stock.qty and show_qty">
+                            (<t t-esc="warehouse_stock.qty"/>)
+                        </span>
+                    </li>
+                </t>
+            </ul>
+        </div>
+    </t>
+</templates>

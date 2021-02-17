@@ -1,0 +1,109 @@
+/* Copyright (c) 2019-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+#wrapwrap .o_footer {
+    background: #003152 !important;
+    color: white;
+    &.text-muted {
+        color: white !important;
+    }
+    a[href*="/"]:not(.btn) {
+        color: white;
+        transition: all .2s linear;
+        &:active,
+        &:focus,
+        &:hover {
+            color: $primary;
+            padding-left: 3px;
+        }
+    }
+    h5 {
+        margin-bottom: 10px;
+        color: white;
+    }
+    #footer_main{
+        background-color:  rgba(0,0,0,.55);
+        .categories{
+             ul{
+                 overflow-y: auto;
+                 max-height: 200px;
+
+             }
+        }
+    }
+    #footer_middle {
+        border-top: 1px solid rgba(0,0,0,.5);
+        border-bottom: 1px solid rgba(0,0,0,.5);
+        min-height: 100px;
+        .row{
+            justify-content: center;
+            align-items: center;
+        }
+        .news_letter{
+            padding: 16px 0;
+            text-align: center;
+        }
+        .js_subscribe {
+            .btn-primary,
+            .btn-success {
+                display: flex;
+                align-items: center;
+                margin: 0 10px;
+                border-radius: 4px;
+            }
+            .form-control {
+                border-radius: 4px !important;
+            }
+        }
+    }
+    #footer_copyright {
+        .follow_icons{
+            .h_tag{display: none;}
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            & > div {
+                display: flex;
+                flex-wrap: inherit;
+                justify-content: center;
+            }
+            a.btn-link {
+                background-color: rgba(0,0,0,.5);
+                color: white;
+                margin: 0 3px;
+                @include flex_center();
+                height: 30px;
+                width: 30px;
+                font-size: 10px;
+                border-radius: 50px;
+                transition: all ease-in-out 0.3s;
+                transition-delay: 0s !important;
+                &:hover{
+                    background-color: rgba(255,255,255,.5);
+                }
+            }
+        }
+        .row{
+            justify-content: center;
+            padding: 10px 0;
+            &>div{
+                text-align: center;
+            }
+        }
+    }
+    @include media-breakpoint-down(sm){
+        #footer_main{
+            .categories{
+                ul{
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+                li{
+                    padding: 5px;
+                }
+            }
+        }
+    }
+
+}

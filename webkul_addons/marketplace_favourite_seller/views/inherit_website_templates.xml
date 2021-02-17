@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+
+    <template id="mp_add_favourite_seller_template_public" name="Favourite Seller Template Public">
+        <div id="MpUserLoginModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>
+                        <i class="fa fa-info-circle text-primary" aria-hidden="true"> Alert </i>
+                        <button type="button" class="close fa fa-close" data-dismiss="modal"></button>
+                    </h4>
+                </div>
+                <div class="modal-body" style="color:black;">
+                    <h4 style="color:rgba(0, 0, 0, 0.78);">You must first
+                        <a href="/web/login" style="text-decoration: underline;" help="Click here to login."> login</a>
+                            to add <span t-field="seller.name"/> as favourite seller.
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    <button id="login_modal_close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <a t-att-class="'btn btn-danger' if profile_page else 'text-danger'" href="#" data-toggle="modal" data-target="#MpUserLoginModal"
+            t-att-title="'Add %s as favourite seller'%(seller.name)">
+            <i class="fa fa-heart"></i> Add as Favourite Seller
+        </a>
+    </template>
+
+    <template id="mp_add_favourite_seller_template" name="Contact Seller Template">
+        <form class="mp_favourite_seller_form needs-validation" action="/add/favourite" method="post">
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+            <input type="hidden" name="marketplace_seller_id" t-att-value="seller.id"/>
+            <button t-att-id="'fav_seller_form_submit' if not profile_page else ''" t-att-class="'btn btn-danger' if profile_page else 'text-danger'" type="submit"
+                t-att-title="'Add %s as favourite seller'%(seller.name)">
+                <i class="fa fa-heart"></i> Add as Favourite Seller
+            </button>
+        </form>
+    </template>
+
+    <template id="mp_favourite_seller_inherit_mp_seller_profile" inherit_id="odoo_marketplace.mp_seller_profile" name="Favourite Seller Profile Template">
+        <xpath expr="//div[@id='wrap']//a[@t-attf-href='mailto:{{ seller.email }}']" position="after">
+            <t t-set="is_user_public" t-value="website.env.user == request.website.user_id"/>
+            <t t-set="profile_page" t-value="1"/>
+            <div t-if="seller and is_user_public" class="mt8 mb8">
+                <t t-call="marketplace_favourite_seller.mp_add_favourite_seller_template_public"/>
+            </div>
+            <div t-if="seller and not is_user_public and request.env.user.partner_id.id != seller.id" class="mt8 mb8">
+                <t t-call="marketplace_favourite_seller.mp_add_favourite_seller_template"/>
+            </div>
+            <div t-if="seller and not is_user_public and request.env.user.partner_id.id == seller.id" id="SellerWarningModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title text-danger">Warning</h4>
+                    <button type="button" class="close fa fa-close" data-dismiss="modal"></button>
+
+                  </div>
+                  <div class="modal-body">
+                    <p>You cannot add yourself in the favourite seller list.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div t-if="seller and not is_user_public and request.env.user.partner_id.id == seller.id" class="mb8 mt8">
+                <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#SellerWarningModal"
+                    t-att-title="'Add %s as favourite seller'%(seller.name)">
+                    <i class="fa fa-heart"></i> Add as Favourite Seller
+                </a>
+            </div>
+        </xpath>
+        <xpath expr="//t[@t-esc='sales_count']/../.." position="after">
+            <t t-if="seller.seller_followers_count">
+                <div class="col-md-2">
+                    <span class="badge badge-pill badge-secondary fa fa-user" style="padding:5px 10px;">
+                        <![CDATA[&nbsp;&nbsp;&nbsp;&nbsp;]]><span t-esc="seller.seller_followers_count"/>
+                        <![CDATA[&nbsp;]]>Follower<span t-if="seller.seller_followers_count>1">s</span></span>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="mp_favourite_seller_inherit_product" inherit_id="website_sale.product">
+        <xpath expr="//hr[@t-if='product.description_sale']" position="before">
+            <t t-set="seller" t-value="product.sudo().marketplace_seller_id"/>
+            <t t-set="is_user_public" t-value="website.env.user == request.website.user_id"/>
+            <div t-if="product.sudo().marketplace_seller_id and is_user_public" class="mt8 mb8">
+                <t t-call="marketplace_favourite_seller.mp_add_favourite_seller_template_public"/>
+            </div>
+            <div t-if="product.sudo().marketplace_seller_id and not is_user_public and request.env.user.partner_id.id != seller.id" class="mt8 mb8">
+                <t t-call="marketplace_favourite_seller.mp_add_favourite_seller_template"/>
+            </div>
+            <div t-if="product.sudo().marketplace_seller_id and not is_user_public and request.env.user.partner_id.id == seller.id" id="SellerWarningModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title text-danger">Warning</h4>
+                    <button type="button" class="close fa fa-close" data-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>You cannot add yourself in the favourite seller list.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div t-if="product.sudo().marketplace_seller_id and not is_user_public and request.env.user.partner_id.id == seller.id" class="mb8 mt8">
+                <a t-att-class="'btn btn-danger' if profile_page else 'text-danger'" href="#" data-toggle="modal" data-target="#SellerWarningModal"
+                    t-att-title="'Add %s as favourite seller'%(seller.name)">
+                    <i class="fa fa-heart"></i> Add as Favourite Seller
+                </a>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="mp_fav_seller_inherit_mp_seller_shop" inherit_id="odoo_marketplace.mp_seller_shop">
+        <xpath expr="//t[@t-if='website.mp_seller_since']" position="before">
+            <t t-if="shop_obj.seller_id.seller_followers_count">
+                <li>
+                    <div class="fa fa-user" style="color:#656565; border-right:1px solid;margin-left:15px;">
+                        <span style="margin-right:20px;margin-left:10px;"><span t-esc="shop_obj.seller_id.seller_followers_count"/>
+                            Follower<span t-if="shop_obj.seller_id.seller_followers_count>1">s</span></span>
+                    </div>
+                </li>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

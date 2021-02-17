@@ -1,0 +1,312 @@
+body {
+    background: url("/queue_management/static/src/img/bg-patter.png") repeat;
+}
+
+.company_logo {
+    background-color: white;
+    padding: 1%;
+}
+
+.o_qms_div {
+    // transform: translate(-50%, -50%);
+    min-width: 300px;
+    width: 90%;
+    // background-color: white;
+    padding: 15px;
+    // position: fixed;
+    // top:50%;
+    // left: 50%;
+    margin: auto;
+}
+
+.admin_details {
+    background-color: white;
+    // margin-right: 1%;
+    // width: 45%;
+    min-height: 360px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.09);
+}
+
+.token_listing{
+    background-color: white;
+    // margin-left: 1%;
+    // width: 45%;
+    min-height: 360px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.09);
+}
+
+.o_next_token_div {
+    transform: translate(-50%, -50%);
+    min-width: 300px;
+    width: 40%;
+    background-color: white;
+    padding: 15px;
+    position: fixed;
+    top:50%;
+    left: 50%;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.09);
+}
+
+.queue_listing {
+    font-family: Arial-BoldMT !important;
+    font-size: 22px !important;
+    color: #555555 !important;
+}
+
+.qlist_header {
+    font-family: ArialMT !important;
+    font-size: 16px !important;
+    color: #555555 !important;
+}
+
+
+.o_token_div {
+    transform: translate(-50%, -50%);
+    min-width: 300px;
+    width: 40%;
+    background-color: white;
+    padding: 15px;
+    position: fixed;
+    top:50%;
+    left: 50%;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.09);
+}
+
+.qms_front1 {
+    font-family: Arial-BoldMt !important;
+    font-size: 22px !important;
+    color: #555555;
+}
+
+.qms_front2 {
+    font-family: Arial-BoldMt !important;
+    font-size: 18px;
+    color: #555555;
+}
+
+.token_print {
+    font-family: ArialMT !important;
+    // size: 22px !important;
+    font-size:22px !important;
+    color: #14A67B;
+    border-radius: 4px !important;
+    background-color: #ffffff !important;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.23) !important;
+    clear: both;
+}
+
+.token_no_div {
+    margin-left: 27%;
+    margin-right: 27%;
+}
+
+.token_no {
+    font-family: Arial-BOldMT !important;
+    font-size: 58px !important;
+    color: #3899F3;
+    background-color: #dfeffe !important;
+    border-radius: 4px !important;
+    padding: 5px 25px;
+}
+
+.token_queue {
+    font-family: Arial-BOldMT !important;
+    font-size: 18px !important;
+    color: #3899F3;
+}
+
+.wk_label_info {
+    font-size:18px;
+}
+
+#wk_div_info {
+    overflow: hidden;
+    padding: 0px 20px;
+}
+
+.wk_label_info span{
+    margin-left: 11px;
+}
+
+.cancel_btn {
+    font-family: ArialMT !important;
+    font-size: 16px !important;
+    color: #555555;
+    background-color: #ffffff !important;
+    border-radius: 5px !important;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.23) !important;
+}
+
+.wk_clear {
+    clear: both;
+}
+
+#wk_print_button {
+    overflow: hidden;
+    padding: 0px 20px ;
+    margin: -10px 0px;
+
+}
+
+.wk_time {
+    font-family: ArialMT !important;
+    font-size: 14px !important;
+    color: #6D6D6D;
+    float: right;
+}
+
+#cust_detail_head {
+    font-family: Arial-BoldMT !important;
+    font-size: 22px !important;
+    color: #555555;
+
+}
+
+.upper_div {
+    padding: 12px;
+}
+
+.cust_detail_label {
+    font-family: ArialMT !important;
+    font-size: 18px !important;
+    color: #555555;
+}
+
+.cust_input_label {
+    font-family: Arial-BoldMT !important;
+    font-size: 18px !important;
+    color: #555555;
+}
+
+.process_label {
+    font-family: Arial-BoldMT !important;
+    font-size: 18px !important;
+    color: #555555;
+}
+
+.process_detail {
+    font-family: ArialMT !important;
+    font-size: 14px !important;
+    color: #555555;
+}
+
+.topcorner{
+   position:absolute;
+   top:8px;
+   right:0px;
+   margin-right: 10px; 
+}
+
+.oe_status{
+    float:right; 
+    color: rgba(255,255,255,0.4);
+    padding: 14px;
+    line-height: 20px;
+    font-size: 20px;
+    vertical-align:middle;
+    font-style: italic;
+    cursor:pointer;
+}
+
+.oe_hidden{
+    display: none !important;
+}
+
+.qms_red {
+    color: rgb(197, 52, 0);
+}
+
+.qms_green {
+    color: rgb(94, 185, 55);
+}
+
+
+#table_page{
+   position:absolute;
+   bottom:10px;
+   right:10px;
+}
+
+.o_display_div {
+    transform: translate(-50%, -50%);
+    min-width: 300px;
+    width: 40%;
+    background-color: white;
+    padding: 15px;
+    position: fixed;
+    top:50%;
+    left: 50%;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.09);
+}
+
+.qs_div {
+    width: 89%; 
+    margin: 3% auto 0% auto;
+    min-width: 200px;
+    background-color: #f4f8fa;
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+}
+
+.dept_div {
+    clear:both;
+    background-color: #ffffff !important;
+    min-width: 200px;
+    margin: 2%;
+    // height: 361px;
+    width: 100%;
+}
+
+.dept_label {
+    font-family: Arial-BoldMT !important;
+    font-size: 45px !important;
+    color: #555555;
+    margin-left: 16px;
+}
+
+.dep_counter {
+    float: left;
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.16);
+    margin-right: 2px;
+    margin-left: 16px;
+    width: 30%;
+    margin-bottom: 20px;
+}
+
+.dep_counter_token {
+    height: 200px;
+    text-align: center;
+    font-family: Arial-BoldMT !important;
+    font-size: 100px !important;
+    padding-top:10%;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    color: #ffffff;
+    background-color: #2a98f5;
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.16)
+}
+
+.dep_counter_name {
+    height: 65px;
+    background: #f4f8fa;
+    font-weight : 600;
+    text-align: center;
+    font-family: Arial-BoldMT !important;
+    font-size: 40px !important;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.16)
+}
+
+.qms_hr {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #e1e1e1;
+}

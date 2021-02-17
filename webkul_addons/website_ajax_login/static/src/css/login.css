@@ -1,0 +1,383 @@
+#wk_ajax_loader{
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url(/website_ajax_login/static/src/images/wk_ajax_loader.gif) center no-repeat rgba(255, 255, 255, 0.5);
+  text-shadow: 0 1px 1px white;
+}
+
+#wk_ModalLabel{
+    font-family: 'Opensans' Sans-serif;
+     font-weight: 400;
+    color: #252525;
+    font-size: 29px;
+  }
+  #subtitle{
+
+    font-family: 'Opensans' Sans-serif;
+     font-weight: 400;
+    color: #252525;
+    font-size: 15px;
+
+
+  }
+.oe_login_form, .oe_signup_form{
+    max-width: 310px;
+    position: relative;
+    margin: 25px auto
+}
+
+ #wk_Modal_login input ,#wk_Modal_signup input {
+
+color:#252525;
+ font-weight: 400;
+ font-family: 'Opensans' Sans-serif;
+ font-size: 16px;
+
+ }
+ #wk_Modal_login input::-webkit-input-placeholder ,#wk_Modal_signup input::-webkit-input-placeholder  {
+    font-family: 'Opensans' Sans-serif;
+     font-weight: 400;
+    color: #CCCCCC;
+    font-size: 16px;
+}
+
+    #footertitle{
+
+      font-family: 'Opensans' Sans-serif;
+     font-weight: 600;
+    color: #777777;
+    font-size: 15px;
+
+    }
+    #wk_login_button,#wk_signup_button,#wk_reset_confirm_button{
+      font-family: 'Opensans' Sans-serif;
+     font-weight: 600;
+    color: #FFFFFF;
+    font-size: 17px;
+    }
+
+    #linksignup,#linklogin{
+      font-family: 'Opensans' Sans-serif;
+     font-weight: 700;
+    color: #4061a4;
+    font-size: 15px;
+    }
+
+
+
+
+#socialmedia >li> a{
+  width: 100%;
+  font-family: 'Opensans' Sans-serif;
+     font-weight: 400;
+    color: #FFFFFF;
+    font-size: 16px;
+
+}
+
+#wk_model > .input-group-addon, .input-group-btn {
+  width: 0%;
+}
+
+#wk_model > .modal-footer{
+
+border-top:0px;
+text-align: left;
+}
+#wk_model > .modal-header{
+
+border-bottom:0px;
+}
+#socialmedia{
+
+top:0px;
+width:265px;
+padding-left:29px;
+}
+
+#socialmedia >.list-group-item{
+
+  border: 0px;
+}
+.test{
+
+  background: url("../images/icon-fb.png") no-repeat ;
+  /*background: url("../images/1.png") no-repeat ;    */
+  border: green 1px solid;
+
+}
+.icon-odoo{
+
+  padding-left: 20px;
+  padding-top:4px;
+
+     background:  url("../images/icon-odoo.png") no-repeat ;
+
+}
+.icon-fb {
+  padding-left: 20px;
+  padding-top:3px;
+    background: url("../images/icon-fb.png") no-repeat ;
+}
+.icon-google-plus{
+padding-left: 20px;
+padding-top:3px;
+  background: url('../images/icon-google-plus.png') no-repeat ;
+}
+.icon-twitter{
+  padding-left: 36px;
+height: 20px;
+background: url('../images/icon-twitter.png') no-repeat ;
+}
+
+.btn-twitter {
+    background: #00acee;
+    border-radius: 0;
+    color: #fff
+}
+.btn-odoo{
+   background: rgb(217, 50, 200);
+    border-radius: 0;
+    color: #fff
+
+}
+
+.btn-facebook {
+    background: #3b5998;
+    border-radius: 0;
+    color: #fff
+}
+.btn-googleplus {
+    background: #e93f2e;
+    border-radius: 0;
+    color: #fff
+}
+.btn-odoo:active ,.btn-odoo:hover {
+  background:rgb(164, 73, 140);
+    color: #fff;
+}
+.btn-facebook:active, .btn-facebook:hover {
+    background: #30477a;
+    color: #fff
+}
+.btn-googleplus:active, .btn-googleplus:hover {
+    background: #ba3225;
+    color: #fff
+}
+.btn-twitter:active, .btn-twitter:hover {
+    background: #0087bd;
+    color: #fff
+}
+
+.wk_close {
+    overflow: hidden;
+    transition-duration: 0.5s;
+    transition-property: transform;
+}
+.wk_close:hover {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+}
+
+/*.modal-wide .modal-dialog {
+  width: auto !important;
+}
+*/
+
+  .wk_main{
+    max-height: 460px;
+    overflow-y: auto;
+    height: auto;
+    width: 100%;
+}
+
+
+
+  .wk_left {
+    text-align: left;
+    float: left;
+    width: 60%;
+
+    height: inherit;
+  margin-right: 20px;
+  margin-left:22px;
+  padding: 55px;
+
+
+}
+.wk_left  .form-control {
+
+height: 44px;
+
+}
+.wk_right{
+
+    height: inherit;
+    width: 35%;
+    float: left;
+  position: relative;
+
+  padding: 12;
+}
+.wk_box{
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  background-color: white;
+   z-index:12;
+ left:-50px;
+ top:54px;
+ padding:10px;
+
+
+}
+.wk_footer{
+
+    height: 40px;
+   width: 100%;
+   float:left;
+   margin-bottom: 0px;
+   /*margin-left:159px;*/
+  margin-top:25px;
+}
+
+
+#wk_Modal_login   .form-control-feedback{
+
+top:7px  ;
+
+
+}
+
+ #wk_Modal_signup .form-control-feedback{
+
+top:0px ;
+right: -30%;
+
+}
+/*#wk_login_error,#wk_signup_error{
+width: 100%;
+height:58px;
+/*margin-top:-30  px;*/
+
+
+
+
+#wk_Modal_signup  .popover {
+   background: red;
+    font-family: 'Opensans' Sans-serif;
+     font-weight: 200;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+ #wk_Modal_signup .popover.right .arrow:after {
+    border-right-color: red;
+}
+/* #wk_Modal_signup .popover.left .arrow:after {
+    border-left-color: red;
+}*/
+#wk_Modal_login  .alert-danger{
+background: #f2dede;
+    font-family: 'Opensans' Sans-serif;
+     font-weight: 200;
+    color: #a94442;
+    font-size: 20px;
+    text-align: center;
+    border-color: #ebccd1;
+
+}
+#wk_Modal_login .alert{
+
+padding:1px !important;
+
+}
+ #wk_Modal_signup .modal-footer ,#wk_Modal_login .modal-footer {
+
+  /*padding-bottom:30px;*/
+border-top:0px;
+/*padding-top:0px;*/
+
+ }
+
+ .top_ribbon{
+
+
+  /*background-color: red;*/
+ }
+
+.top_ribbon_login,.top_ribbon_signup{
+border-radius: 10px;
+  padding:0px ;
+margin:-15px -15px 0px;
+  /*background-color: red;*/
+  list-style:none;
+/*  margin-left:-17px;
+  margin-right:-17px;*/
+  font-size:0;
+}
+
+
+.top_ribbon_login > li,.top_ribbon_signup>li{
+
+  margin: 0%;
+  display:inline-block;
+  width:25%;
+  height:12px;
+
+
+
+}
+
+.top_ribbon_login li:nth-child(1) ,.top_ribbon_signup li:nth-child(1){
+  background:#2ecc71;
+
+ border-top-left-radius: 10px;
+}
+
+.top_ribbon_login li:nth-child(2) , .top_ribbon_signup li:nth-child(2){
+  background:#3498db;
+}
+
+.top_ribbon_login li:nth-child(3), .top_ribbon_signup li:nth-child(3){
+  background:#f1c40f;
+}
+
+.top_ribbon_login li:nth-child(4) ,.top_ribbon_signup li:nth-child(4){
+  background:#e74c3c;
+  border-top-right-radius: 10px;
+}
+
+
+
+#wk_model{
+  border-left-color: red;
+}
+.modal-content{
+
+
+  border-radius: 10px;
+}
+
+.modal {
+  overflow-y: scroll;
+}
+
+.wk_Modal_signup::-webkit-scrollbar {
+  display: none;
+}
+
+.model-open{
+  overflow: hidden;
+}
+#wk_ajax_reset_form{
+    max-width: 300px;
+    position: relative;
+    margin: 20px auto;
+}

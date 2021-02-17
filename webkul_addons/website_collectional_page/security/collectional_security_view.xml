@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data noupdate="1">
+
+	    <record id="collectional_user_access" model="res.groups">
+	        <field name="name">Manage Collection Pages</field>
+	        <field name="category_id" ref="base.module_category_hidden"/>
+	        <field name="comment">User will be able to access collectinal module</field>
+	        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+	    </record>
+	</data>
+</odoo>

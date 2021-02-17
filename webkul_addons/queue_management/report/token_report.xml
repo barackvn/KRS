@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report 
+            string="Token" 
+            id="action_report_token" 
+            model="token.token" 
+            report_type="qweb-pdf"
+            name="queue_management.report_token" 
+            file="queue_management.report_token"
+            print_report_name="'Token - %s' % (object.token_ref)"
+        />
+
+    </data>
+</odoo>

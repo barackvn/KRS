@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="stock_notify_config_setting_1" model="website.notifiy.config.settings">
+            <field name="name">Demo Notify Setting</field>
+            <field name="is_active">True</field>
+        </record>
+        
+    </data>
+</odoo>
+
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->

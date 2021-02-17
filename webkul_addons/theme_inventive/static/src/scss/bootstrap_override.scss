@@ -1,0 +1,342 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+#wrap >.container{
+    padding-top: 0 !important;
+}
+// .card {
+//     border: 1px solid #E8E8E8;
+//     padding: 0 15px;
+//     box-shadow: 0 2px 6px 0 rgba(0,0,0,0.07);
+//     transition:  all .2s linear;
+//     .card-header {
+//         margin-top: 15px;
+//     }
+//     .card-body {
+//         padding: 10px 0;
+//         background-color: white !important;
+//         border: none !important;
+//
+//         table.table th {
+//             border-top: none !important;
+//         }
+//     }
+//     .card-footer {
+//         border: none !important;
+//         background-color: white;
+//     }
+//     &:hover{
+//         box-shadow: 0 2px 8px 4px rgba(0,0,0,0.07);
+//
+//     }
+// }
+
+.form-group label {
+    color: $text-color;
+    padding-bottom: 0;
+}
+
+.badge{
+    &.badge-primary {
+        background-color: $primary;
+        color: white;
+    }
+    &.badge-secondary {
+        background-color: $secondary;
+        color: white;
+    }
+    &.badge-light{
+        width: 32px;
+        height: 20px;
+        margin-left: 10px;
+        opacity: 0.36;
+        background: #FFFFFF;
+        border-radius: 12px;
+    }
+
+}
+
+// ............................Dropdown..............................................................
+#wrapwrap{
+
+    .dropdown.show > .btn-secondary.dropdown-toggle {
+        background-color: white;
+        color: $text-color;
+    }
+    .dropdown-submenu{
+        position:relative;
+        &>.dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top:-6px;
+        }
+    }
+    .dropdown-toggle {
+        color: $text-color;
+        &.btn-secondary,&.btn {
+            border: $theme-border;
+            background-color: white;
+            color: $text-color;
+            border: $theme-border;
+            border-color: $text-color-light !important;
+            &:active,
+            &:focus,
+            &:hover {
+                background-color: white !important;
+                color: $text-color-dark !important;
+            }
+        }
+        //
+        &::after {
+            font: normal normal normal 14px/1 FontAwesome;
+            content: '\f107';
+            vertical-align: 0;
+            width: 15px;
+            height: 15px;
+            text-align: center;
+            border: none !important;
+            font-size: 16px;
+            color: #000;
+            font-weight: 800;
+            // border-color: transparent !important;
+        }
+
+    }
+    .dropdown-menu {
+        border: none;
+        box-shadow: 3px 3px 7px 4px rgba(0, 0, 0, 0.1);
+        margin-top: 0px;
+        .arrow {
+            top: -25px;
+            left: 96%;
+            width: 0;
+            height: 0;
+            position: relative;
+            &:after,&:before{
+                content: "";
+                position: absolute;
+                display: block;
+                width: 0;
+                height: 0;
+                border-width: 9px 10px;
+                border-style: solid;
+                border-color: transparent;
+                z-index: 1001;
+            }
+            &:after{
+                bottom: -18px;
+                right: -8px;
+                border-bottom-color: #fff;
+            }
+        }
+    }
+    .dropdown-item {
+        padding: 5px 15px;
+        cursor: pointer;
+        &.active,
+        &:active,
+        &:focus,
+        &:hover {
+            background-color: white;
+            color: $th-color-primary !important;
+        }
+    }
+}
+// ...................................Popover..................................................
+
+.popover {
+    border: unset;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2);
+
+    .popover-header {
+        background-color: white;
+        font-size: 18px;
+    }
+
+    &.mycart-popover {
+        min-width: 350px !important;
+        transform: unset !important;
+        left: unset !important;
+        right: 0;
+
+        .arrow {
+            left: 91.5% !important;
+
+            &:after,
+            &:before {
+                top: -13px;
+                border-width: 11px 12px;
+            }
+        }
+
+        .popover-body {
+            img {
+                width: 100%;
+            }
+        }
+        top: 40px !important;
+    }
+}
+// ..............................buttons........................................................
+
+.fa {
+    cursor: pointer;
+}
+button:focus {
+    outline: none !important;
+}
+
+.btn {
+    cursor: pointer !important;
+    border-radius: 0;
+    border-radius: 2px;
+}
+
+.btn-default {
+    color: $primary;
+    background-color: white;
+}
+
+.btn-primary {
+    border-color: transparent !important;
+    background-color: $primary;
+    &.active,
+    &:focus,
+    &:hover {
+        color: white;
+        box-shadow: unset !important;
+        background-color: darken($primary,10%) !important;
+    }
+}
+
+.btn-secondary {
+    border-color: transparent !important;
+    background-color: $th-color-secondary;
+    &.active,
+    &:focus,
+    &:hover {
+        color: white;
+        box-shadow: unset !important;
+        background-color: darken($th-color-secondary,5%) !important;
+    }
+}
+.btn-link {
+    color: $text-color;
+    &:active,
+    &:hover {
+        color: $text-color-dark;
+    }
+}
+
+.btn-danger {
+    color: white !important;
+}
+
+.btn-yellow {
+    background: #FEAF24;
+    border-radius: 2px;
+    color: white;
+    padding: 0.45rem 1.35rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+
+    &:hover {
+        background-color: darken(#FEAF24,10%);
+    }
+}
+// /...............................breadcrumbs........................../.......................
+.breadcrumb {
+    padding: 0.250rem 0;
+    list-style: none;
+    background-color: transparent;
+    border: none;
+    // border-bottom: 1px solid $gray-xlight;
+    border-radius: 0.25rem;
+    .breadcrumb-item{
+        a {
+            color: #777777 !important;
+        }
+        &.active{
+            color: #151515;
+            span{
+                color: #151515;
+            }
+        }
+    }
+    .breadcrumb-item + .breadcrumb-item {
+            padding-left: 0;
+
+    }
+    .breadcrumb-item + .breadcrumb-item::before{
+        padding: 0px 5px 0 5px;
+        transform: rotateZ(10deg);
+        margin-top: -1px;
+        font-size: 15px;
+    }
+}
+
+// .................................nav-elements..................................................
+.nav {
+    .nav-item {
+        .nav-link {
+        }
+    }
+}
+.nav-pills{
+    .nav-link {
+        &.active , &:hover, &:focus{
+            transition: color .2s linear;
+            color: $primary;
+            background-color: transparent;
+        }
+    }
+}
+
+.nav-tabs {
+    border-bottom: none;
+    justify-content: center;
+    .nav-item {
+        z-index: 1;
+        background-color: white !important;
+        .nav-link {
+            color: #333333;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 3px 18px;
+            border-color: #D8D8D8;
+            border-radius: 0px;
+            margin: 0 5px;
+            &.active,
+            &.show {
+                color: $primary !important;
+                border-color: $primary;
+            }
+            &:hover,
+            &focus {
+                // color: $th-color-primary !important;
+                // border-color: transparent!important;
+            }
+
+        }
+    }
+
+}
+
+.navbar {
+    .nav-item {
+        .nav-link {
+            color: $text-color;
+            &.active,
+            &.show {}
+            &:hover,
+            &focus {
+                color: $primary !important;
+                border-color: transparent!important;
+            }
+        }
+    }
+}
+
+.tab-content {
+    padding: 15px 0;
+}

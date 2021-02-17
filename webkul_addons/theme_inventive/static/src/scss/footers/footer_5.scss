@@ -1,0 +1,113 @@
+/* Copyright (c) 2019-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+#wrapwrap .o_footer {
+    background: #01385C !important;
+    color: white;
+    &.text-muted {
+        color: white !important;
+    }
+    a[href*="/"] {
+        color: white;
+        transition: all .2s linear;
+        &:active,
+        &:focus,
+        &:hover {
+            color: $primary;
+            padding-left: 3px;
+        }
+    }
+    h5 {
+        margin-bottom: 10px;
+        color: white;
+    }
+    #footer_main{
+        .categories{
+             ul{
+                 overflow-y: auto;
+                 max-height: 200px;
+             }
+        }
+    }
+    #footer_middle {
+        border-top: 1px solid rgba(255,255,255,.2);
+        border-bottom: 1px solid rgba(255,255,255,.2);
+        min-height: 100px;
+        .row{
+            align-items: center;
+        }
+        .news_letter{
+            padding: 15px;
+        }
+        .js_subscribe {
+            .btn-primary,
+            .btn-success {
+                display: flex;
+                align-items: center;
+                margin: 0 10px;
+                border-radius: 4px;
+            }
+            .form-control {
+                border-radius: 4px !important;
+            }
+        }
+    }
+    #footer_copyright {
+        .follow_icons{
+            .h_tag{display: none;}
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-end;
+            & > div {
+                @include flex_center();
+            }
+            a.btn-link {
+                background-color: rgba(0,0,0,.5);
+                color: white;
+                margin: 0 3px;
+                @include flex_center();
+                height: 35px;
+                width: 35px;
+                font-size: 10px;
+                border-radius: 50px;
+                transition: all ease-in-out 0.3s;
+                transition-delay: 0s !important;
+                
+            }
+        }
+        .row{
+            justify-content: space-between;
+            flex-direction: row-reverse;
+            padding: 10px 0;
+            &:first-of-type{
+                border-bottom: 1px solid rgba(0,0,0,.5);
+            }
+        }
+        .c_name,.b_promotion{
+            display: flex;
+            align-items: center;
+        }
+    }
+    @include media-breakpoint-down(sm){
+        #footer_main{
+            .categories{
+                ul{
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+                li{
+                    padding: 5px;
+                }
+            }
+        }
+        #footer_copyright {
+            .follow_icons{
+                justify-content: center;
+            }
+            .c_name,.b_promotion{
+                justify-content: center;
+            }
+        }
+    }
+}

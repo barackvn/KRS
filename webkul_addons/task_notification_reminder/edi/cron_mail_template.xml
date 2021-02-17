@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <!-- Mail template is done in a NOUPDATE block so users can freely customize/delete them -->
+    <data noupdate="1">
+        <!--Email template -->
+        <record id="email_template_edi_wk_task_reminder" model="mail.template">
+            <field name="name">Task Deadline Reminder</field>
+            <field name="email_from">no-reply@webkul.com</field>
+            <field name="subject">Task Deadline Notice</field>
+            <field name="email_to">${object.email_to()}</field>
+            <!-- <field name="email_recipients"></field> -->
+            <field name="model_id" ref="project.model_project_task"/>
+            <field name="auto_delete" eval="False"/>
+            <!-- <field name="lang">${object.lang}</field> -->
+            <field name="body_html" type="html">
+                <p>
+ Task <b>${object.name}</b> which is on <b>${object.stage_id.name} stage </b>  assigned to <b>${object.user_id.name}</b> is  due on ${object.date_deadline}. Kindly, request you to take a follow up.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

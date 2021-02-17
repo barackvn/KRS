@@ -1,0 +1,479 @@
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<section class='oe_container oe_dark'>
+    <section class="oe_container oe_dark lead">
+        <div class="oe_row oe_spaced" style="max-width:100%">
+            <h2 class="oe_slogan" style="color:#875A7B;">
+                 Odoo Queue Management
+            </h2>
+            <h3 class="oe_slogan">
+                The best possible queue management can be when your 
+                queue is invisible
+            </h3>
+            <p class="oe_mt16" style="text-align:justify">
+                Effective queue management system helps to provide better customer service 
+                even at peak hours and shorten the waiting line. Now, implement the token system for 
+                customers/client to manage queues using Odoo and Odoo Queue Management Module to render
+                a unique Queue management system at your disposal.
+            </p>
+            <p class="oe_mt16" style="text-align:justify">
+                Provide a self-ticketing system for the customers and a neatly designed
+                token display screen on the front-end while managing every aspect of Checkout Line Management 
+                on the back-end. Overview of various stats like total tickets generated, 
+                total customers served, canceled tokens, total counters present etc on a single
+                screen. Track tokens history and status for all counters/departments from a single screen. 
+                Manage counters and assign counters to different departments as per need 
+                for efficient waiting line management and to show that you value your customers' time.
+            </p>
+        </div>
+        <center>
+            <a href="screenshot/token_screen.gif">
+                <img class="img-border img-responsive thumbnail" src="screenshot/token_screen.gif">
+            </a>
+            <a href="screenshot/queue_process.gif">
+                <img class="img-border img-responsive thumbnail" src="screenshot/queue_process.gif">
+            </a>
+        </center>
+        <div class="oe_row" style="max-width:100%">
+            <div class="panel panel-primary" id="wkid0">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="font-size: 25px;">
+                        <i class="fa fa-mail-forward"></i> Features:</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <li>
+                            <i class="fa fa-check text-primary"></i>
+                            Provides the feature to introduce the token system for the Queue management in the store
+                        </li>
+                        <li>
+                            <i class="fa fa-check text-primary"></i>
+                            The customer can generate and print out the tokens themselves and wait for their turn.
+                        </li>
+                        <li>
+                            <i class="fa fa-check text-primary"></i>
+                            The token counter incorporated in the menu which can be displayed on the screen.
+                        </li>
+                        <li>
+                            <i class="fa fa-check text-primary"></i>
+                            The token counter also displays the departments catering to the customers.
+                        </li>
+                        <li>
+                            <i class="fa fa-check text-primary"></i>
+                            Neatly designed dashboard for the admin to overview all the necessary information like the total tickets generated in a month or year, total customers served etc.
+                        </li>
+                        <li>
+                            <i class="fa fa-check text-primary"></i>
+                            The status of the token can be marked as Done, Progress or cancel by the admin depending upon the necessity and requirement of the customer
+                        </li>
+                        <li>
+                            <i class="fa fa-check text-primary"></i>
+                            Different departments can be created according to the type of service and products. 
+                        </li>
+                        <li>
+                            <i class="fa fa-check text-primary"></i>
+                            The admin can see the token creation history in the Odoo back-end.
+                        </li>
+                        <li>
+                            <i class="fa fa-check text-primary"></i>
+                            The token dispensing sequence can be customized by the admin in the Odoo backend.
+                        </li>
+                        <li>
+                            <i class="fa fa-check text-primary"></i>
+                            Admin can configure <a href="https://www.odoo.com/documentation/user/10.0/point_of_sale/overview/setup.html#posboxless-guide-advanced" target="new">POSBoxless</a> with the Queue Management.
+                            Then tokens generated for the people waiting in the Queue 
+                            can be printed out with the POS receipt printer.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="oe_container">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#queue_management_view_admin">
+                    <h3 class="panel-title">
+                        <i class="fa fa-user"></i>
+                        <b>Admin View</b>
+                    </h3>
+                </a>
+            </li>
+            <li>
+                <a href="#queue_management_view_customer">
+                    <h3 class="panel-title">
+                        <i class="fa fa-users"></i>
+                        <b>Customer View</b>
+                    </h3>
+                </a>
+            </li>
+            <li>
+                <a href="#queue_management_view_queue_processing">
+                    <h3 class="panel-title">
+                        <i class="fa fa-tv"></i>
+                        <b>Queue Processing View</b>
+                    </h3>
+                </a>
+            </li>
+            <!-- <li>
+                <a href="#queue_management_configuration_tab">
+                    <h3 class="panel-title">
+                        <i class="fa fa-cogs"></i>
+                        <b>Configuration</b>
+                    </h3>
+                </a>
+            </li> -->
+            <li>
+                <a href="#queue_management_change_log_tab">
+                    <h3 class="panel-title">
+                        <i class="fa fa-code"></i>
+                        <b>Change Log</b>
+                    </h3>
+                </a>
+            </li>
+        </ul>
+
+        <div id="my-tab-content" class="">
+            <div class="active" id="queue_management_view_admin">
+                <h2 style='text-align: center;'>
+                    <i class="fa fa-globe"></i> Admin View</h2>
+                <section class="oe_container oe_dark">
+                    <div class="oe_row" style="max-width:100%">
+                        <div class="panel panel-primary" id="wkid0">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <b>Dashboard</b>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                    <b> A complete and efficient overview: Pie Chart &amp; Line Chart</b>
+                                </div>
+                                <a href="screenshot/QMS1.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS1.png">
+                                </a>
+                                <a href="screenshot/QMS2.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS2.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="oe_container oe_dark">
+                    <div class="oe_row" style="max-width:100%">
+                        <div class="panel panel-primary" id="wkid0">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <b>Sequnce Generation</b>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                    <b> Configure the token prefix sequence. </b>
+                                </div>
+                                <a href="screenshot/QMS3.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS3.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="oe_container oe_dark">
+                    <div class="oe_row" style="max-width:100%">
+                        <div class="panel panel-primary" id="wkid0">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <b>Department</b>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                    <b>Manage your customer queue according to your service departments </b>
+                                </div>
+                                <a href="screenshot/QMS4.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS4.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="oe_container oe_dark">
+                    <div class="oe_row" style="max-width:100%">
+                        <div class="panel panel-primary" id="wkid0">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <b>Token Interface</b>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                    <b> Interface for token print screen.</b>
+                                </div>
+                                <a href="screenshot/QMS5.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS5.png">
+                                </a>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                    <b>Configure <a href="https://www.odoo.com/documentation/user/10.0/point_of_sale/overview/setup.html#posboxless-guide-advanced" target="new">POSBoxless</a></b>
+                                </div>
+                                <a href="screenshot/QMS_proxy1.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS_proxy1.png">
+                                </a>
+                                <a href="screenshot/QMS_proxy2.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS_proxy2.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="tab-pane" id="queue_management_view_customer">
+                <h2 style='text-align: center;'>
+                    <i class="fa fa-users"></i>
+                    <b>Customer View</b>
+                </h2>
+                <section class="oe_container oe_dark">
+                    <div class="oe_row" style="max-width:100%">
+                        <div class="panel panel-primary" id="wkid0">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <b>Token Screen</b>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                    <b> Print token after fill up details. </b>
+                                </div>
+                                <a href="screenshot/QMS6.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS6.png">
+                                </a>
+                                <a href="screenshot/QMS7.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS7.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="oe_row" style="max-width:100%">
+                        <div class="panel panel-primary" id="wkid0">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <b>Print Token</b>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                    <b> If <a href="https://www.odoo.com/documentation/user/10.0/point_of_sale/overview/setup.html#posboxless-guide-advanced" target="new">POSBoxless</a> is confiured with Odoo, then queue token can be printed.</b>
+                                </div>
+                                <a href="screenshot/QMS_token.png">
+                                    <img class="img-border img-responsive thumbnail" style="width:90%;" src="screenshot/QMS_token.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="oe_container oe_dark">
+                    <div class="oe_row" style="max-width:100%">
+                        <div class="panel panel-primary" id="wkid0">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <b>Current Queue Status</b>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                    <b> Current Queue Status Dispaly. </b>
+                                </div>
+                                <a href="screenshot/QMS13.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS13.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="tab-pane" id="queue_management_view_queue_processing">
+                <h2 style='text-align: center;'>
+                    <i class="fa fa-user"></i>
+                    <b>Queue Processing View</b>
+                </h2>
+                <section class="oe_container oe_dark">
+                    <div class="oe_row" style="max-width:100%">
+                        <div class="panel panel-primary" id="wkid0">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <b>Counter Dashboard</b>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                    <b> Process queue with multiple counter. </b>
+                                </div>
+                                <a href="screenshot/QMS10.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS10.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="oe_container oe_dark">
+                    <div class="oe_row" style="max-width:100%">
+                        <div class="panel panel-primary" id="wkid0">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <b>Start Processing</b>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                    <b> Processing view with current queue listing. </b>
+                                </div>
+                                <a href="screenshot/QMS11.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS11.png">
+                                </a>
+                                <div class="alert alert-info">
+                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                    <b> Token view to perform action. </b>
+                                </div>
+                                <a href="screenshot/QMS12.png">
+                                    <img class="img-border img-responsive thumbnail" src="screenshot/QMS12.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-pane" id="queue_management_change_log_tab">
+                <h2 style='text-align: center;'>
+                    <i class="fa fa-code"></i>
+                    <b>Change Log</b>
+                </h2>
+                <section class="oe_container oe_dark">
+                    <div class="oe_row" style="max-width:100%">
+                        <div class="panel panel-primary" id="wkid0">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <b>Module Change Log</b>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    Notations description used in this document.
+                                </p>
+                                <ul class="list-unstyled ">
+                                    <li>
+                                        <i class="fa fa-plus text-success"></i> [Features Added]</li>
+                                    <li>
+                                        <i class="fa fa-minus text-danger"></i> [Features Removed]</li>
+                                    <li>
+                                        <i class="fa fa-bug text-warning"></i> [Bug Fixed]</li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-plus-circle"></i>
+                                    <b> App Released version 1.0.0</b>
+                                    <b style="float:right"> Released In June, 2018 </b>
+                                </div>
+                                <div class="oe_span12" style="max-width:100%">
+                                    <p>
+                                        <i class="fa fa-plus text-success"></i>
+                                        Provides the feature to introduce the token system for the Queue management in the store.
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-plus text-success"></i>
+                                        The customer can generate and print out the tokens themselves and wait for their turn.
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-plus text-success"></i>
+                                        The token counter incorporated in the menu which can be displayed on the screen.
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-plus text-success"></i>
+                                        The token counter also displays the departments catering to the customers.
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-plus text-success"></i>
+                                        Neatly designed dashboard for the admin to overview all the necessary information like the total tickets generated in a month or year, total customers served etc.
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-plus text-success"></i>
+                                        The status of the token can be marked as Done, Progress or cancel by the admin depending upon the necessity and requirement of the customer.
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-plus text-success"></i>
+                                        Different departments can be created according to the type of service and products.
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-plus text-success"></i>
+                                        The admin can see the token creation history in the Odoo back-end.</p>
+                                    <p>
+                                        <i class="fa fa-plus text-success"></i>
+                                        The token dispensing sequence can be customized by the admin in the Odoo backend.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row" style="max-width:100%">
+        <div class="oe_span12" style="max-width:100%">
+            <h2 class="oe_slogan">Complimentary Support</h2>
+            <p>
+                You will get 90 days free support for any doubt, queries, and bug fixing (excluding data recovery) or any type of issue related
+                to this module.
+            </p>
+        </div>
+    </div>
+    <div class="oe_row oe_spaced" style="max-width:100%">
+        <div class="oe_span12" style="max-width:100%">
+            <h2 class="oe_slogan">Help and Support</h2>
+        </div>
+        <div class="oe_slogan oe_spaced">
+            <img src="icon-help.png">
+            <span>
+                <a onMouseOver="this.style.color='#AC1EE0'" onMouseOut="this.style.color='#7c7bad'" style="color:#7c7bad;" target="_blank"
+                    href="https://webkul.com/ticket/open.php">Help</a>
+            </span>
+            <img src="icon-support.png">
+            <span>
+                <a onMouseOver="this.style.color='#AC1EE0'" onMouseOut="this.style.color='#7c7bad'" style="color:#7c7bad;" target="_blank"
+                    href="https://webkul.com/ticket/open.php">Support</a>
+            </span>
+            <img src="icon-features.png">
+            <span>
+                <a onMouseOver="this.style.color='#AC1EE0'" onMouseOut="this.style.color='#7c7bad'" style="color:#7c7bad;" target="_blank"
+                    href="https://webkul.com/ticket/open.php">Request new Features</a>
+            </span>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_span12">
+        <!-- Piwik Image Tracker-->
+        <img src="http://odooimg.webkul.com/analytics/piwik/piwik.php?idsite=3&rec=1&action_name=ODOO-QUEUE-MANAGEMENT&url=https://apps.openerp.com/apps/modules/13.0/queue_management&uid=queue_management"
+            style="border:0" alt="" />
+        <!-- End Piwik -->
+    </div>
+</section>

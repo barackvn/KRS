@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+
+    <!-- ***********************Theme Assets listing ******************************** -->
+        <!-- =========== 1> Theme common assets ================== -->
+        <!-- =========== 2> Theme Specific assets ===================== -->
+        <!-- =========== 3> Theme Customize modal ===================== -->
+        
+
+    <template id="inventive_frontend_assets_common" inherit_id="website.assets_frontend" priority="1000">
+        <xpath expr="link[last()]" position="after">
+            <!-- SCSS files -->
+            <link rel="stylesheet" type="text/css" href="/theme_inventive/static/src/scss/animate.css"/>
+            <link rel="stylesheet" type="text/css" href="/theme_inventive/static/src/scss/loader-wave.css"/>
+
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/theme_customize/customize_color.scss" />
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_default.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/bootstrap_override.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/theme_inventive_mixins.scss"/>
+
+            <!--Owl Carousel2 assets  -->
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/OwlCarousel2/dist/assets/owl.carousel.min.css"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/OwlCarousel2/dist/assets/owl.theme.default.css"/>
+            <script type="text/javascript" src="/theme_inventive/static/src/OwlCarousel2/dist/owl.carousel.min.js"/>
+            <script type="text/javascript" src="/theme_inventive/static/src/external_lib/jquery.countdown.min.js"></script>
+				    <link rel="stylesheet" href="/theme_inventive/static/src/external_lib/jquery.countdown.css"/>
+
+
+            <!-- Js Files -->
+            <script type="text/javascript" src="/theme_inventive/static/src/js/main.js"/>
+            <script type="text/javascript" src="/theme_inventive/static/src/js/editor.js"/>
+            <script type="text/javascript" src="/theme_inventive/static/src/js/snippet_options.js"/>
+            <script type="text/javascript" src="/theme_inventive/static/src/js/smooth-scrollbar.js"/>
+        </xpath>
+    </template>
+    <!-- Jrange slider -->
+    <template id="inventive_assets_frontend_jrange_slider" inherit_id="web.assets_frontend" priority="1000">
+        <xpath expr="//link[last()]" position="after">
+            <link rel="stylesheet" type="text/css" href="/theme_inventive/static/src/jRange/jquery-range.css"/>
+            <script type="text/javascript" src="/theme_inventive/static/src/jRange/jquery-range-min.js"/>
+        </xpath>
+    </template>
+
+    <!-- SHOP PAGE SCSS -->
+    <template id="shop_page_view_1_assets" name="Shop page view" inherit_id='website.assets_frontend' active="True" priority="1001">
+        <xpath expr="link[last()]" position="after">
+            <!-- scss files -->
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/shop_page/shop_page_default.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/shop_page/four_column_view_1.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/shop_page/three_column_view_1.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/shop_page/two_column_view_1.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/shop_page/list_view_1.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/product_view/product_view_1.scss"/>
+        </xpath>
+    </template>
+
+
+
+    <!-- OTHER PAGES SCSS -->
+    <template id="other_pages_assets" name="Other Pages" inherit_id='website.assets_frontend' active="True" priority="1001">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/headers/header_default.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/login/theme_login_page.scss"/>
+
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/other_pages/contact_us.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/other_pages/cart_page.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/other_pages/payment_page.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/other_pages/confirmation_page.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/other_pages/checkout_page.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/other_pages/address_page.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/other_pages/portal_pages.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/other_pages/error_pages.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/other_pages/whislist_page.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/other_pages/compare_page.scss"/>
+
+            <!-- js files -->
+            <script type="text/javascript" src="/theme_inventive/static/src/js/shop_page.js"/>
+            <!-- <script type="text/javascript" src="/theme_inventive/static/src/js/product_page.js"/> -->
+            <script type="text/javascript" src="/theme_inventive/static/src/js/wishlist.js"/>
+            <script type="text/javascript" src="/theme_inventive/static/src/js/product_comparison.js"/>
+            <script type="text/javascript" src="/theme_inventive/static/src/js/payment_page.js"/>
+            <script type="text/javascript" src="/theme_inventive/static/src/js/header.js"/>
+            <script type="text/javascript" src="/theme_inventive/static/src/js/mega_menu.js"/>
+            <script type="text/javascript" src="/theme_inventive/static/src/js/footer.js"/>
+
+            <!-- ========================= Mega Menu ===================================-->
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/mega_menu/mega_menu_1.scss"/>
+        </xpath>
+    </template>
+    <!-- SHOP PAGE SCSS -->
+    <template id="snippets_frontend_assets" name="Snippets Frontend Assets" inherit_id='website.assets_frontend' active="True" priority="1001">
+        <xpath expr="link[last()]" position="after">
+            <!-- Scss files -->
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/home/home_page.scss"/>
+
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/snippets/snippet_animations.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/snippets/general_snippets.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/snippets/snippets_option_classes.scss"/>
+            <!-- js files -->
+            <!-- <script type="text/javascript" src="/theme_inventive/static/src/js/snippets.js"/> -->
+        </xpath>
+    </template>
+
+
+    <!-- ................................DYNAMIC ASSETS..................................... -->
+
+    <!-- Colors -->
+    <template id="color_1" name="COLOR_1" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_1.scss"/>
+        </xpath>
+    </template>
+    <template id="color_2" name="COLOR_2" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_2.scss"/>
+        </xpath>
+    </template>
+    <template id="color_3" name="COLOR_3" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_3.scss"/>
+        </xpath>
+    </template>
+    <template id="color_4" name="COLOR_4" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_4.scss"/>
+        </xpath>
+    </template>
+    <template id="color_5" name="COLOR_5" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_5.scss"/>
+        </xpath>
+    </template>
+    <template id="color_6" name="COLOR_6" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_6.scss"/>
+        </xpath>
+    </template>
+    <template id="color_7" name="COLOR_7" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_7.scss"/>
+        </xpath>
+    </template>
+    <template id="color_8" name="COLOR_8" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_8.scss"/>
+        </xpath>
+    </template>
+    <template id="color_9" name="COLOR_9" inherit_id='website.assets_frontend' priority="999" active="True">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_9.scss"/>
+        </xpath>
+    </template>
+    <template id="color_10" name="COLOR_10" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_10.scss"/>
+        </xpath>
+    </template>
+    <template id="color_11" name="COLOR_11" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_11.scss"/>
+        </xpath>
+    </template>
+    <template id="color_12" name="COLOR_12" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_12.scss"/>
+        </xpath>
+    </template>
+    <template id="color_13" name="COLOR_13" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_13.scss"/>
+        </xpath>
+    </template>
+    <template id="color_14" name="COLOR_14" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_14.scss"/>
+        </xpath>
+    </template>
+    <template id="color_15" name="COLOR_15" inherit_id='website.assets_frontend' priority="999" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/colors/color_15.scss"/>
+        </xpath>
+    </template>
+ <!-- HEADERS -->
+    <template id="header_1_assets" name="Header_1 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+
+           <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/headers/header_1.scss"/>
+       </xpath>
+    </template>
+    <template id="header_2_assets" name="Header_2 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+           <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/headers/header_2.scss"/>
+       </xpath>
+    </template>
+    <template id="header_3_assets" name="Header_3 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+           <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/headers/header_3.scss"/>
+       </xpath>
+    </template>
+    <template id="header_4_assets" name="Header_4 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+           <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/headers/header_4.scss"/>
+       </xpath>
+    </template>
+    <template id="header_5_assets" name="Header_5 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+           <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/headers/header_5.scss"/>
+       </xpath>
+    </template>
+    <template id="header_6_assets" name="Header_6 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+           <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/headers/header_6.scss"/>
+       </xpath>
+    </template>
+    <template id="header_7_assets" name="Header_7 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+           <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/headers/header_7.scss"/>
+       </xpath>
+    </template>
+    <template id="header_8_assets" name="Header_8 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+           <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/headers/header_8.scss"/>
+       </xpath>
+    </template>
+    <template id="header_9_assets" name="Header_9 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+           <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/headers/header_9.scss"/>
+       </xpath>
+    </template>
+    <template id="header_10_assets" name="Header_10 Assets" inherit_id='website.assets_frontend' priority="1001" active="True">
+        <xpath expr="link[last()]" position="after">
+           <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/headers/header_10.scss"/>
+       </xpath>
+    </template>
+<!-- FOOTERS -->
+    <template id="footer_1_assets" name="Footer_1 Assets" inherit_id='website.assets_frontend' priority="1001" active="True">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/footers/footer_1.scss"/>
+        </xpath>
+    </template>
+
+    <template id="footer_2_assets" name="Footer_2 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/footers/footer_2.scss"/>
+        </xpath>
+    </template>
+    <template id="footer_3_assets" name="Footer_3 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/footers/footer_3.scss"/>
+        </xpath>
+    </template>
+    <template id="footer_4_assets" name="Footer_4 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/footers/footer_4.scss"/>
+        </xpath>
+    </template>
+    <template id="footer_5_assets" name="Footer_5 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/footers/footer_5.scss"/>
+        </xpath>
+    </template>
+    <template id="footer_6_assets" name="Footer_6 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/footers/footer_6.scss"/>
+        </xpath>
+    </template>
+    <template id="footer_7_assets" name="Footer_7 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/footers/footer_7.scss"/>
+        </xpath>
+    </template>
+
+    <template id="footer_8_assets" name="Footer_8 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/footers/footer_8.scss"/>
+        </xpath>
+    </template>
+    <template id="footer_9_assets" name="Footer_9 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/footers/footer_9.scss"/>
+        </xpath>
+    </template>
+    <template id="footer_10_assets" name="Footer_10 Assets" inherit_id='website.assets_frontend' priority="1001" active="False">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/theme_inventive/static/src/scss/footers/footer_10.scss"/>
+        </xpath>
+    </template>
+
+
+
+    <template id="inventive_customize_options_template" inherit_id="website.theme_customize" >
+        <xpath expr="//div" position="replace">
+            <div>
+                <!-- Color options -->
+                <content id="theme_redazzled_customize_colors" string="Colors" title="Choose The Theme Colors">
+                  <opt id="theme_rd_color_1" data-xmlid="theme_inventive.color_1"   data-icon="/theme_inventive/static/src/img/theme_customize/color_1.png"/>
+                  <opt id="theme_rd_color_2" data-xmlid="theme_inventive.color_2"   data-icon="/theme_inventive/static/src/img/theme_customize/color_2.png"/>
+                  <opt id="theme_rd_color_3" data-xmlid="theme_inventive.color_3"   data-icon="/theme_inventive/static/src/img/theme_customize/color_3.png"/>
+                  <opt id="theme_rd_color_4" data-xmlid="theme_inventive.color_4"   data-icon="/theme_inventive/static/src/img/theme_customize/color_4.png" />
+                  <opt id="theme_rd_color_5" data-xmlid="theme_inventive.color_5"   data-icon="/theme_inventive/static/src/img/theme_customize/color_5.png"/>
+                  <opt id="theme_rd_color_6" data-xmlid="theme_inventive.color_6"   data-icon="/theme_inventive/static/src/img/theme_customize/color_6.png"/>
+
+                  <opt id="theme_rd_color_7" data-xmlid="theme_inventive.color_7"   data-icon="/theme_inventive/static/src/img/theme_customize/color_7.png"/>
+                  <opt id="theme_rd_color_8" data-xmlid="theme_inventive.color_8"   data-icon="/theme_inventive/static/src/img/theme_customize/color_8.png"/>
+                  <opt id="theme_rd_color_9" data-xmlid="theme_inventive.color_9"   data-icon="/theme_inventive/static/src/img/theme_customize/color_9.png"/>
+                  <opt id="theme_rd_color_10" data-xmlid="theme_inventive.color_10"   data-icon="/theme_inventive/static/src/img/theme_customize/color_10.png"/>
+                  <opt id="theme_rd_color_11" data-xmlid="theme_inventive.color_11"   data-icon="/theme_inventive/static/src/img/theme_customize/color_11.png"/>
+                  <opt id="theme_rd_color_12" data-xmlid="theme_inventive.color_12"   data-icon="/theme_inventive/static/src/img/theme_customize/color_12.png"/>
+                  <opt id="theme_rd_color_13" data-xmlid="theme_inventive.color_13"   data-icon="/theme_inventive/static/src/img/theme_customize/color_13.png"/>
+                  <opt id="theme_rd_color_14" data-xmlid="theme_inventive.color_14"   data-icon="/theme_inventive/static/src/img/theme_customize/color_14.png"/>
+                  <opt id="theme_rd_color_15" data-xmlid="theme_inventive.color_15"   data-icon="/theme_inventive/static/src/img/theme_customize/color_15.png"/>
+
+                </content>
+
+                <!-- Layout Options -->
+                <content id="theme_customize_content_layout" string="Layout" title="Choose your layout">
+                    <more data-depends="">
+                        <list string="Body">
+                            <opt string="Full" data-xmlid="" data-icon="/website/static/src/img/options/layout-full.png"/>
+                            <opt id="option_layout_boxed" string="Boxed" data-xmlid="website.option_layout_boxed_variables" data-icon="/website/static/src/img/options/layout-boxed.png"/>
+                        </list>
+                        <list string="Background">
+                            <opt id="option_no_background" string="None" data-xmlid=""/>
+                            <opt string="Choose an image" data-xmlid="website.option_custom_body_image"/>
+                            <opt string="Choose a pattern" data-xmlid="website.option_custom_body_image, website.option_custom_body_pattern"/>
+                        </list>
+                    </more>
+                </content>
+
+                <!-- Font options -->
+                <content id="theme_customize_content_fonts" string="Fonts" title="Choose your fonts">
+                    <list id="theme_customize_content_fonts_title" string="Title">
+                        <opt data-xmlid="" data-font="1"/>
+                        <opt data-xmlid="website.option_font_title_02_variables" data-font="2"/>
+                        <opt data-xmlid="website.option_font_title_03_variables" data-font="3"/>
+                        <opt data-xmlid="website.option_font_title_04_variables" data-font="4"/>
+                        <opt data-xmlid="website.option_font_title_05_variables" data-font="5"/>
+                        <opt data-xmlid="website.option_font_title_06_variables" data-font="6"/>
+                    </list>
+                    <list id="theme_customize_content_fonts_body" string="Body">
+                        <opt data-xmlid="" data-font="1"/>
+                        <opt data-xmlid="website.option_font_body_02_variables" data-font="2"/>
+                        <opt data-xmlid="website.option_font_body_03_variables" data-font="3"/>
+                        <opt data-xmlid="website.option_font_body_04_variables" data-font="4"/>
+                        <opt data-xmlid="website.option_font_body_05_variables" data-font="5"/>
+                        <opt data-xmlid="website.option_font_body_06_variables" data-font="6"/>
+                    </list>
+                    <list id="theme_customize_content_fonts_button" string="Button">
+                        <opt data-xmlid="" data-font="1"/>
+                        <opt data-xmlid="website.option_font_button_02_variables" data-font="2"/>
+                        <opt data-xmlid="website.option_font_button_03_variables" data-font="3"/>
+                        <opt data-xmlid="website.option_font_button_04_variables" data-font="4"/>
+                        <opt data-xmlid="website.option_font_button_05_variables" data-font="5"/>
+                        <opt data-xmlid="website.option_font_button_06_variables" data-font="6"/>
+                    </list>
+                    <list id="theme_customize_fonts_navbar" string="Navbar">
+                        <opt data-xmlid="" data-font="1"/>
+                        <opt data-xmlid="website.option_font_navbar_02_variables" data-font="2"/>
+                        <opt data-xmlid="website.option_font_navbar_03_variables" data-font="3"/>
+                        <opt data-xmlid="website.option_font_navbar_04_variables" data-font="4"/>
+                        <opt data-xmlid="website.option_font_navbar_05_variables" data-font="5"/>
+                        <opt data-xmlid="website.option_font_navbar_06_variables" data-font="6"/>
+                    </list>
+                </content>
+                <!--Headers  -->
+                <content id="theme_customize_headers" string="Headers" title="Choose Theme Headers">
+                   <opt data-xmlid="theme_inventive.header_1_assets,theme_inventive.header_1" data-icon="/theme_inventive/static/src/img/theme_customize/header_1.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.header_2_assets,theme_inventive.header_2" data-icon="/theme_inventive/static/src/img/theme_customize/header_2.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.header_3_assets,theme_inventive.header_3" data-icon="/theme_inventive/static/src/img/theme_customize/header_3.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.header_4_assets,theme_inventive.header_4" data-icon="/theme_inventive/static/src/img/theme_customize/header_4.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.header_5_assets,theme_inventive.header_5" data-icon="/theme_inventive/static/src/img/theme_customize/header_5.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.header_6_assets,theme_inventive.header_6" data-icon="/theme_inventive/static/src/img/theme_customize/header_6.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.header_7_assets,theme_inventive.header_7" data-icon="/theme_inventive/static/src/img/theme_customize/header_7.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.header_8_assets,theme_inventive.header_8" data-icon="/theme_inventive/static/src/img/theme_customize/header_8.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.header_9_assets,theme_inventive.header_9" data-icon="/theme_inventive/static/src/img/theme_customize/header_9.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.header_10_assets,theme_inventive.header_10" data-icon="/theme_inventive/static/src/img/theme_customize/header_10.png" data-reload="/*"/>
+                </content>
+                <!--Footers  -->
+                <content id="theme_customize_footers" string="Footers" title="Choose Theme Footers">
+                   <opt data-xmlid="theme_inventive.footer_1_assets,theme_inventive.footer_1" data-icon="/theme_inventive/static/src/img/theme_customize/footer_1.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.footer_2_assets,theme_inventive.footer_2" data-icon="/theme_inventive/static/src/img/theme_customize/footer_2.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.footer_3_assets,theme_inventive.footer_3" data-icon="/theme_inventive/static/src/img/theme_customize/footer_3.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.footer_4_assets,theme_inventive.footer_4" data-icon="/theme_inventive/static/src/img/theme_customize/footer_4.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.footer_5_assets,theme_inventive.footer_5" data-icon="/theme_inventive/static/src/img/theme_customize/footer_5.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.footer_6_assets,theme_inventive.footer_6" data-icon="/theme_inventive/static/src/img/theme_customize/footer_6.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.footer_7_assets,theme_inventive.footer_7" data-icon="/theme_inventive/static/src/img/theme_customize/footer_7.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.footer_8_assets,theme_inventive.footer_8" data-icon="/theme_inventive/static/src/img/theme_customize/footer_8.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.footer_9_assets,theme_inventive.footer_9" data-icon="/theme_inventive/static/src/img/theme_customize/footer_9.png" data-reload="/*"/>
+                   <opt data-xmlid="theme_inventive.footer_10_assets,theme_inventive.footer_10" data-icon="/theme_inventive/static/src/img/theme_customize/footer_10.png" data-reload="/*"/>
+                </content>
+
+            </div>
+        </xpath>
+    </template>
+
+
+</odoo>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+   <!-- See LICENSE URL <https://store.webkul.com/license.html/> for full copyright and licensing details. -->
+<odoo>
+	<data>
+
+
+		<!-- wizzard Form view  -->
+        <record id="website_deal_wizard_pricelist_warning_form_view" model="ir.ui.view">
+            <field name="name">Webiste Daily Deal Wizard</field>
+            <field name="model">deal.wizard.message</field>
+            <field name="arch" type="xml">
+                <form string="Webiste Daily Deal Wizard">
+                      <p><field name="msg"/></p>
+                      <footer>
+                          <button name="change_pricelist_on_website" string="Apply" type="object" class="btn-primary"/>
+                          <button special="cancel" class="oe_highlight" string="Close" />
+                      </footer>
+                </form>
+            </field>
+        </record>
+
+         <record id="product_pricelist_item_website_deals_m2o" model="ir.ui.view">
+            <field name="name">product.pricelist.item.my_deals_m2o</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_tree_view"/>
+        	<field name="arch" type="xml">
+                <field name="date_end" position="after">
+                    <field name="website_deals_m2o"/>
+                </field>
+        	</field>
+        </record>
+        <record id="website_deals_tree_view" model="ir.ui.view">
+            <field name="name">website.deals.tree</field>
+            <field name="model">website.deals</field>
+            <field name="arch" type="xml">
+                <tree string="Website Deals"  decoration-danger="state == 'cancel'" decoration-info="state == 'draft'" decoration-success="state == 'validated'" decoration-warning="state == 'expired'">
+                    <field name="name"/>
+                    <field name="title"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+					<field name="deal_pricelist"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="website_daily_deals_form_view" model="ir.ui.view">
+            <field name="name">website.deals.form</field>
+            <field name="model">website.deals</field>
+            <field name="arch" type="xml">
+                <form string="Website Daily Deals" version="7.0">
+                    <header>
+                        <button name="button_validate_the_deal" string="Validate"   class="oe_highlight" type="object" attrs="{'invisible':[('state','!=','draft')]}"/>
+						<button name="set_to_draft" string="Set To Draft"   class="oe_highlight" type="object" attrs="{'invisible':[('state','=','draft')]}"/>
+                         <button name="cancel_deal" string="Cancel"   class="oe_highlight" type="object" attrs="{'invisible':[('state','=','cancel')]}"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                       	<separator string="Deal Info" style="text-decoration: underline"/>
+                    	<group col="4">
+                            <field name="name"/>
+                            <field name="title"/>
+                    	</group>
+
+                        <separator string="Validity" style="text-decoration: underline;"/>
+                        <group col="4">
+                            <field name="start_date" />
+                            <field name="end_date" />
+                            <field name="cron_id" />
+
+                        </group>
+
+						<separator string="Override Default Configuration" style="text-decoration: underline; color:#01579B"/>
+						<group style="margin-left:0px">
+	                        <group col="3" >
+	                        	<field name="overide_config"/>
+	                    	</group>
+						</group>
+
+					 	<separator string="Customize Website View" style="font-size:16px" attrs="{'invisible':[('overide_config','=',False)]}"/>
+					 	<group attrs="{'invisible':[('overide_config','=',False)]}">
+						 	<group >
+	                            <field name="item_to_show" widget="radio" attrs="{'invisible':[('overide_config','=',False)]}"/>
+								<field name="display_products_as" widget="radio" attrs="{'invisible':['|',('item_to_show','=','banner_only'),('overide_config','=',False)]}" />
+							</group>
+							<group >
+								<field name="d_state_after_expire" widget="radio" attrs="{'invisible':[('overide_config','=',False)]}"/>
+								<field name="show_title"   attrs="{'invisible':['|',('item_to_show','!=','products_only'),('overide_config','=',False)]}"/>
+							</group>
+                    	</group>
+
+						<separator string="Messages and Notifications" style="font-size:16px" />
+                        <group col="1" attrs="{'invisible':[('overide_config','=',False)]}" >
+							<group >
+								<field name="show_message_before_expiry"/>
+								<field name="message_before_expiry" attrs="{'required':[('show_message_before_expiry','=',True)],'invisible':[('show_message_before_expiry','=',False)]}"/>
+							</group>
+							</group>
+							<group >
+							  <field name="interval_before" attrs="{'required':[('show_message_before_expiry','=',True)],'invisible':['|',('show_message_before_expiry','=',False),('overide_config','=',False)]}" class="oe_inline"/>
+							  <field name="unit_of_time" attrs="{'required':[('show_message_before_expiry','=',True)],'invisible':['|',('show_message_before_expiry','=',False),('overide_config','=',False)]}" class="oe_inline"/>
+						  	</group>
+					  	<newline/>
+                        <group attrs="{'invisible':[('overide_config','=',False)]}" >
+                            <field name="show_message_after_expiry"/>
+                         	<field name="message_after_expiry" attrs="{'required':[('show_message_after_expiry','=',True)],'invisible':[('show_message_after_expiry','=',False)]}"/>
+                        </group>
+                        <group style="margin-left:0px">
+                            <group col="3">
+                                <field name="deal_pricelist"/>
+                                <!-- <button type="object"  name="button_apply_this_pricelist" class="btn btn-primary btn-sm"> Apply this Pricelist</button> -->
+                            </group>
+                        </group>
+						<notebook>
+                            <page name="product_lines" string="Deal Items" >
+                                <field name="pricelist_items" context="{'default_deal_applied_on':'1_product','default_applied_on': '1_product'}">
+									<form string="Pricelist Items" >
+					                    <h1><field name="name"/></h1>
+					                    <group>
+					                        <group>
+					                            <field name="deal_applied_on" widget="radio"/>
+												<field name="applied_on" widget="radio" attrs="{'invisible':1}"/>
+					                            <field name="product_tmpl_id" attrs="{'invisible':[('applied_on', '!=', '1_product')],'required':[('applied_on', '=', '1_product')]}" string="Product"/>
+					                            <field name="product_id" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')],'required':[('applied_on', '=', '0_product_variant')]}" string="Product Variant"/>
+					                        </group>
+											<group>
+                                               <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+											   <field name="actual_price"/>
+											   <field name="discounted_price" readonly="1"/>
+											   <p class="text-muted"> Discounted Price will be calculated after validating the deal</p>
+										   </group>
+					                    </group>
+					                    <separator string="Price Computation"/>
+					                    <group>
+					                        <group>
+					                            <label for="compute_price" string="Compute Price"/>
+					                            <div>
+					                                <field name="compute_price" widget="radio"/>
+					                                <field name="currency_id" invisible="1"/>
+					                                <div attrs="{'invisible':[('compute_price', '!=', 'fixed')]}">
+					                                    <field name="fixed_price" nolabel= "1" widget='monetary' options="{'currency_field': 'currency_id'}"/></div>
+					                                <div attrs="{'invisible':[('compute_price', '!=', 'percentage')]}">
+					                                    <field name="percent_price" nolabel="1" class="oe_inline"/>%%
+					                                </div>
+					                            </div>
+					                        </group>
+					                    </group>
+					                    <div class="oe_grey" groups="uom.group_uom">
+					                        <p>The computed price is expressed in the default Unit of Measure of the product.</p>
+					                    </div>
+					                    <group col="6" attrs="{'invisible':[('compute_price', '!=', 'formula')]}">
+					                        <field name="base" colspan="6"/>
+					                        <label for="" string="New Price ="/>
+					                        <div>
+					                            <span attrs="{'invisible':[('base', '!=', 'list_price')]}">Public Price  -  </span>
+					                            <span attrs="{'invisible':[('base', '!=', 'standard_price')]}">Cost  -  </span>
+					                            <span attrs="{'invisible':[('base', '!=', 'pricelist')]}">Other Pricelist  -  </span>
+					                        </div>
+					                        <label for="price_discount"/>
+					                        <div class="o_row">
+					                            <field name="price_discount"/>
+					                            <span>%%</span>
+					                        </div>
+					                        <label string=" + " for="price_surcharge"/>
+					                        <field name="price_surcharge" nolabel="1"/>
+
+					                        <field name="price_round" string="Rounding Method"/>
+					                        <field name="price_min_margin" string="Min. Margin"/>
+					                        <field name="price_max_margin" string="Max. Margin"/>
+
+					                        <field name="base_pricelist_id" attrs="{'invisible':[('base', '!=', 'pricelist')],'required': [('base','=', 'pricelist')], 'readonly': [('base','!=', 'pricelist')]}"/>
+					                    </group>
+					                </form>
+									<tree>
+                                        <field colspan="2" name="name"/>
+									 	<field colspan="2" name="compute_price"/>
+                                        <field colspan="2" name="actual_price"/>
+                                        <field colspan="2" name="discounted_price"/>
+										<field colspan="2" name="pricelist_id"/>
+                                	</tree>
+								</field>
+                            </page>
+                            <page name="description" string="Description">
+                                 <group>
+                                    <field name="description"/>
+                                </group>
+                            </page>
+                            <page name="banner" string="Banner">
+	                         	<group>
+		                            <field name="banner" widget="image" nolabel="1" options='{"size": [750, 300]}'/>
+	                         	</group>
+                        	</page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+         <record id="website_daily_deals_action_id" model="ir.actions.act_window">
+            <field name="name">Website Daily Deals</field>
+            <field name="res_model">website.deals</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'daily_deals':True}</field>
+            <field name="view_id" ref="website_deals_tree_view"/>
+        </record>
+         <menuitem id="menu_id_website_daily_deals" name="Deals and Offers" parent="website_sale.menu_catalog" sequence="2"  action="website_daily_deals_action_id"/>
+    </data>
+</odoo>

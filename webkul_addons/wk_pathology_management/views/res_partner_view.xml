@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data>
+        <record id="add_pathologist_technician_in_res_partner_formview" model="ir.ui.view">
+            <field name="name">Partner.As.pathologist.technician</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//notebook" position="inside">
+                    <page name="pathology" string="Pathology">
+                        <group>
+                            <label for="pathologist" string="Is a Pathologist"/>
+                            <div>
+                                <field name="pathologist" nolabel="1" class="oe_inline"/>
+                                <label for="pathologist" string="Enable if the person is a pathologist" class="oe_inline"/>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="technician" string="Is a Technician"/>
+                            <div>
+                                <field name="technician" nolabel="1" class="oe_inline"/>
+                                <label for="technician" string="Enable if the person is a technician" class="oe_inline"/>
+                            </div>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="collection_center_id"
+                                    options='{"no_create_edit": True}'
+                                    attrs="{'required': ['|',('pathologist','=', True),('technician','=', True)], 'invisible': [('pathologist','!=', True),('technician','!=', True)]}"/>
+                                <field name="lab_center_id" options='{"no_create_edit": True}'
+                                    groups="wk_pathology_management.patho_mgmt_manager_group"
+                                    attrs="{'required': ['|',('pathologist','=', True),('technician','=', True)], 'invisible': [('pathologist','!=', True),('technician','!=', True)]}"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

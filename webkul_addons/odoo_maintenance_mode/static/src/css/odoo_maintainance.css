@@ -1,0 +1,114 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+.maintenance_header {
+	color: #333333;
+	margin-top: 20%;
+	font-size: 34px;
+}
+.wk_maintinance_body {
+	height: 90%;
+	display:flex;
+}
+.wk_maintinance_footer {
+	height: 10%;
+	width: 100%;
+	background-color: #424242;
+}
+.maintainance_img {
+
+	/*margin-left: -10%;*/
+	max-height: 100%;
+	min-height: 100%;
+	margin-left: -10%;
+}
+.maintenance_body_txt {
+	color: 555555;
+	font-size: 20px;
+	word-wrap: break-word;
+}
+.sigin_header {
+	float: right;
+	margin-right: 50px;
+	width: 70px;
+	border: 1px solid;
+	margin-top: 20px;
+}
+.login_wk {
+	color: #9C5789;
+	margin-top: 10px;
+}
+.close_header {
+	float: right;
+	margin-right: -50px;
+	width: 70px;
+	border: 1px solid;
+	margin-top: 20px;
+}
+.wk_company_footer1, .wk_company_footer2 {
+	font-size: 20px;
+	display: inline-block;
+	color: #F5F5F5;
+	padding-top: 1%;
+}
+.wk_company_footer2 {
+	padding-left: 3%;
+}
+.admin_msg_web {
+	padding-left: 10%;
+	padding-right: 10%;
+	font-size: 18px;
+	padding-top: 4px;
+	color: #01579B;
+}
+.wk_text {
+	padding-left: 4px;
+	color: #fc5a69;
+	font-style: italic;
+}
+.wk_invalid_email_msg, .wk_valid_email_msg, .wk_email_noti_hdr, .wk_exists_email_msg {
+	font-weight: 700;
+	font-style: italic;
+	text-align: center;
+	float: none;
+}
+.wk_invalid_email_msg, .wk_valid_email_msg, .wk_exists_email_msg {
+	border: 1px solid #3E2723;
+	display: none;	/*width: 60%;*/
+
+	/*margin-top: 2%;*/	/*margin-left: 20%;*/
+	margin: 2% auto;
+	text-align: center;
+}
+.wk_invalid_email_msg {
+	color: red;
+}
+.wk_valid_email_msg {
+	color: green;
+}
+.wk_exists_email_msg {
+	color: #00796B;
+}
+.wk_email_noti_hdr {
+	color: #ee783e;
+	margin-top: 3%;
+	padding-bottom: 2%;
+}
+.wk_scbscriber_input {
+	margin: 0 auto;
+	text-align: center;
+}
+.wk_maintenance_subscriber {
+	background-color: #424242;
+	color: white;
+}
+.admin_header {
+	height: 30px;
+	background-color: #2e3d50;
+	font-style: italic;
+}
+.maintainance_img img {
+	max-width: 100%;
+	min-width: 100%;
+	min-height: 100%;
+	max-height: 100%;
+}

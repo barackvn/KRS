@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+        <template id="wk_product_return_inherit" name="Return Product Inherited" inherit_id="rma.wk_product_return">
+            <xpath expr="//select[@id='rma_return_type']" position="replace">
+                <select name="return_type" class="form-control input-sm" id="rma_return_type">
+                    <option>Select Request Type</option>
+                    <t t-if="return_type">
+                        <t t-foreach="return_type" t-as="return_type_tuple">
+                            <t t-if="orderline.product_id.marketplace_seller_id">
+                                <option t-if="return_type_tuple[0] != 'repair'" t-att-value="return_type_tuple[0]"><t t-esc="return_type_tuple[1]"/></option>
+                            </t>
+                            <t t-else="">
+                                <option t-att-value="return_type_tuple[0]"><t t-esc="return_type_tuple[1]"/></option>
+                            </t>
+                        </t>
+                    </t>
+                </select>
+            </xpath>
+        </template>
+    </data>
+</odoo>

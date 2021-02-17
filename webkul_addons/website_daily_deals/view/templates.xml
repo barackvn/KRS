@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+   <!-- See LICENSE URL <https://store.webkul.com/license.html/> for full copyright and licensing details. -->
+	<data>
+		<template id="assets_frontend" name="website_ribbon_assets_frontend" inherit_id="website.assets_frontend">
+			<xpath expr="." position="inside">
+
+				<link rel="stylesheet" href="/website_daily_deals/static/src/OwlCarousel2/dist/assets/owl.carousel.css"/>
+				<script type="text/javascript" src="/website_daily_deals/static/src/OwlCarousel2/dist/owl.carousel.min.js"></script>
+				<script type="text/javascript" src="/website_daily_deals/static/src/CountdownClock/jquery.countdown.min.js"></script>
+				<link rel="stylesheet" href="/website_daily_deals/static/src/CountdownClock/jquery.countdown.css"/>
+				<link rel="stylesheet" href="/website_daily_deals/static/src/scss/website_daily_deals.scss"/>
+				<script type="text/javascript" src="/website_daily_deals/static/src/js/daily_deals.js"></script>
+			</xpath>
+		</template>
+		<template id="header" inherit_id="website.layout" name="Header Daily Deals" customize_show="True" active="True">
+			<xpath expr="//header//ul[@id='top_menu']/li" position="after">
+				<li  class="nav-item">
+					<a class="nav-link" href="/daily/deals">
+						Deals &amp; Offers
+					</a>
+				</li>
+			</xpath>
+		</template>
+		<template id="daily_deals_page" name="Daily Deals">
+			<t t-call="website.layout">
+				<div id="wrap" class="website_daily_deals oe_website_sale">
+					<div class="modal" id="deal_product_item_view_modal">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header" style="border:none;">
+									<button type="button" class="close" data-dismiss="modal">x</button>
+								</div>
+								<div class="modal-body " style="min-height:400px;">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="oe_structure">
+						<div class="container">
+							<div class="row">
+								<div class="col-12 deal_header" >
+									<h1 class="h_tag"> DEALS &amp; OFFERS</h1>
+									<div class="breadcrumbs">
+										<span class="first-item">
+											<a href="/">Home</a>
+										</span>
+										<span class="separator">&gt;</span>
+										<span class="last-item">Deals</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<section class="s_parallax parallax s_parallax_is_fixed bg-black-50 pt64 pb80" data-scroll-background-ratio="1">
+							<span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-image: url('/web/image/website.s_parallax_default_image'); background-position: 50% 75%;"/>
+							<div class="oe_structure">
+								<section>
+									<div class="container">
+										<div class="row s_nb_column_fixed">
+											<div class="col-lg-12 s_title pt16 pb16" style="text-align: center;">
+												<h1 >Your Deal Title</h1>
+											</div>
+										</div>
+									</div>
+								</section>
+							</div>
+						</section>
+					</div>
+					<div class="oe_structure"/>
+
+					<div class="oe_structure">
+						<section>
+							<div class="container">
+								<div class='row deal_main_row' t-foreach="daily_deals" t-as="deal">
+
+									<div t-if="deal.state_after_expiration()!= 'delete' and deal.deal_pricelist == website.get_current_pricelist()"
+										t-attf-class="col-12 pt16 pb16 deal_main_div #{'blur' if deal.state_after_expiration()== 'blur'  else ''}">
+										<input name="deal_id" type="hidden" t-att-value="deal.id"/>
+										<input name="end_date" type="hidden" t-att-value="datetime.datetime.strftime(deal.end_date,'%Y/%m/%d %H:%M:%S')"/>
+										<t t-set="msg_before_offset" t-value="deal.get_message_before_expiry_and_offset()['offset']"/>
+										<input t-if="msg_before_offset" name="msg_before_offset" type="hidden" t-att-value="datetime.datetime.strftime(msg_before_offset,'%Y/%m/%d %H:%M:%S')"/>
+										<input name="state" type="hidden" t-att-value="deal.state"/>
+										<div class="d-flex justify-content-between aline-items-center pt8">
+											<div class="d-flex align-items-center">
+												<h2 t-field="deal.name" class="deal_name text-uppercase">Deal Name</h2>
+											</div>
+											<div class="countdown d-flex align-items-center">
+												<ul class="deal_countdown_timer deal_name">
+													<li><p class="m-0">Ending in</p></li>
+													<li><span class="days"></span> <p class="days_text"></p></li>
+													<li class="seperator"> </li>
+													<li><span class="hours"></span> <p class="hours_text"> hrs</p></li>
+													<li class="seperator"> </li>
+													<li><span class="minutes"></span> <p class="minutes_text"> min</p></li>
+													<li class="seperator"> </li>
+													<li><span class="seconds"></span> <p class="seconds_text"> sec</p></li>
+												</ul>
+											</div>
+
+										</div>
+										<!-- Banner  -->
+										<div class="deal_banner_description row mt24 mb8 m-0">
+											<div t-attf-class="d_banner col-md-7 col-12 p-0 #{'banner_icon' if not deal.is_deal_banner_shown() else''}">
+												<a t-if="deal.is_deal_banner_shown()">
+													<span t-field="deal.banner" t-options='{"widget": "image"}'/>
+												</a>
+											</div>
+											<div class="d_description_div col-md-5 col-12">
+												<div>
+													<h4 class="m-0" t-field="deal.title"></h4>
+													<div class="description">
+														<span class="text-muted" t-field="deal.description"/>
+														<span t-if="msg_after_exp" t-esc="msg_after_exp"/>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- Products  -->
+										<t t-set="display_as" t-value="deal.get_display_products_as()"/>
+										<div class="deal_products" t-if="deal.pricelist_items and deal.is_deal_product_shown()">
+											<!-- Slider View  -->
+											<div t-if="display_as and display_as=='slider'" class="deals_owl_carousel owl-carousel">
+												<div t-foreach="deal.pricelist_items" t-as="deal_item" >
+													<t t-call="website_daily_deals.deal_product_template"/>
+												</div>
+											</div>
+											<!-- Grid View -->
+											<div  t-if="display_as and display_as=='grid'" class="deals_grid_view row m-0">
+												<t t-foreach="deal.pricelist_items" t-as="deal_item">
+													<t t-call="website_daily_deals.deal_product_template"/>
+												</t>
+											</div>
+										</div>
+										<t t-set="msg_before_exp" t-value="deal.get_message_before_expiry_and_offset()['message']"/>
+										<div class="row d-flex align-items justify-content-center m-0" t-if="msg_before_exp">
+											<div class="expiry_message col-12">
+												<p t-esc="msg_before_exp" class="msg_before_exp"/>
+											</div>
+										</div>
+										<t t-set="msg_after_exp" t-value="deal.get_message_after_expiry()"/>
+										<div class="expiry_message" t-if="msg_after_exp">
+											<span t-if="msg_after_exp" t-esc="msg_after_exp"/>
+										</div>
+									</div>
+									</div>
+									<div class="deal_main_div blur w-100" style="min-height:200px;"
+										t-if="not daily_deals.filtered(lambda deal : deal.deal_pricelist == website.get_current_pricelist())">
+										<div class="expiry_message">
+											<span> Currently No Deal Available!</span>
+										</div>
+									</div>
+								</div>
+						</section>
+					</div>
+					<div class="oe_structure mb32"/>
+				</div>
+			</t>
+		</template>
+
+
+
+		<template id="deal_product_template" name="Website Daily Deal Product Template">
+			<t t-set="product_tmpl_id" t-value="deal_item.product_tmpl_id if deal_item.applied_on=='1_product' else deal_item.product_id.product_tmpl_id"/>
+			<div t-attf-class="deal_item #{'col-12 col-sm-6 col-md-3 col-lg-2 p-0' if display_as and display_as=='grid' else ''}">
+				<t t-set="p_name" t-value="product_tmpl_id.name if deal_item.applied_on=='1_product' else deal_item.product_id.display_name"/>
+				<div class='div_img'>
+					<a t-att-href="'/shop/product/%s' % (product_tmpl_id.id)">
+						<span itemprop="image" t-field="product_tmpl_id.image_1920" t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256'}" t-att-alt="p_name"/>
+					</a>
+					<div class="item_mask">
+						<button type="button" role="button" class="btn btn-default deal_product_quick_view"  title="Quick View" t-att-product-template-id="product_tmpl_id.id">Quick View</button>
+						<a t-att-href="'/shop/product/%s' % (product_tmpl_id.id)" type="button" role="button" class="btn btn-default"  title="Quick View" t-att-product-template-id="product_tmpl_id.id">Choose Options</a>
+					</div>
+				</div>
+				<div class="deal_item_details">
+					<div class="product_name">
+						<a t-att-href="'/shop/product/%s' % (product_tmpl_id.id)" itemprop="name" t-esc="p_name"/>
+					</div>
+					<div class="discounted_price">
+						<span t-esc="deal_item.discounted_price" t-options="{'widget': 'monetary', 'display_currency': deal.deal_pricelist.currency_id}"/>
+					</div>
+					<div>
+						<div class="actual_price">
+							<del class="text-danger mr8" t-esc="deal_item.actual_price" t-options="{'widget': 'monetary', 'display_currency' : deal.deal_pricelist.currency_id,}" />|
+						</div>
+						<div  class="deal_discount">
+							<span t-esc="deal_item.actual_price - deal_item.discounted_price" t-options="{'widget': 'monetary', 'display_currency' : deal.deal_pricelist.currency_id,}"/>
+							<span> OFF</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+	</data>
+</odoo>

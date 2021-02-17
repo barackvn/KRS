@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+	<data>
+        <template id="seller_profile_tab_content">
+            <t t-foreach="seller.seller_profile_tab_ids.filtered(lambda o: o.website_published == True)[0:]" t-as="seller_profile_tab_id">
+                <div t-att-id="'info%s'%(seller_profile_tab_id.id)" class="tab-pane fade">
+                    <t t-raw='seller_profile_tab_id.content'/>
+                </div>
+            </t>
+        </template>
+
+        <template id="seller_profile_nav_multi_tab">
+            <t t-foreach="seller.seller_profile_tab_ids.filtered(lambda o: o.website_published == True)[0:]" t-as="seller_profile_tab_id">
+                <li class="nav-item">
+                    <a data-toggle="tab" t-att-href="'#info%s'%(seller_profile_tab_id.id)" class="nav-link">
+                        <t t-esc='seller_profile_tab_id.profile_tab_id.name'/>
+                    </a>
+                </li>
+            </t>
+        </template>
+
+        <template id="wk_seller_profile_tabs" inherit_id="odoo_marketplace.mp_seller_profile" name="Seller Profile Tabs">
+            <xpath expr="//t[@t-if='website.mp_shipping_address']" position="after">
+                <t t-if="seller.allow_profile_tabs">
+                    <t t-if='seller.seller_profile_tab_ids'>
+                        <t t-call='marketplace_seller_profile_tabs.seller_profile_nav_multi_tab'/>
+                    </t>
+                </t>
+            </xpath>
+            <xpath expr="//div[@id='contact_us_tab']" position="after">
+                <t t-if="seller.allow_profile_tabs">
+                    <t t-if='seller.seller_profile_tab_ids'>
+                        <t t-call='marketplace_seller_profile_tabs.seller_profile_tab_content'/>
+                    </t>
+                </t>
+            </xpath>
+		</template>
+    </data>
+</odoo>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="0">
+        <record id="show_seller_voucher_product_rule" model="ir.rule">
+	        <field name="name">Seller Voucher Product</field>
+	        <field name="model_id" ref="product.model_product_template"/>
+	        <field name="domain_force">[('marketplace_seller_id','=',user.partner_id.id)]</field>
+	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+	    </record>
+        <record id="seller_sees_only_own_voucher" model="ir.rule">
+            <field name="name">Seller Voucher</field>
+            <field name="model_id" ref="wk_coupons.model_voucher_voucher"/>
+            <field name="domain_force">[('marketplace_seller_id','=',user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+        </record>
+        <record id="seller_sees_only_own_voucher_history" model="ir.rule">
+            <field name="name">Seller Voucher History</field>
+            <field name="model_id" ref="wk_coupons.model_voucher_history"/>
+            <field name="domain_force">[('marketplace_seller_id','=',user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+        </record>
+        <record id="show_officer_voucher_product_rule" model="ir.rule">
+            <field name="name">Officer Voucher Product</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_officer_group'))]"/>
+        </record>
+        <record id="officer_sees_all_voucher" model="ir.rule">
+            <field name="name">Officer Voucher</field>
+            <field name="model_id" ref="wk_coupons.model_voucher_voucher"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_officer_group'))]"/>
+        </record>
+        <record id="officer_sees_all_voucher_history" model="ir.rule">
+            <field name="name">Officer Voucher History</field>
+            <field name="model_id" ref="wk_coupons.model_voucher_history"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_officer_group'))]"/>
+        </record>
+        <record id="show_manager_voucher_product_rule" model="ir.rule">
+            <field name="name">Manager Voucher Product</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+        </record>
+        <record id="manager_sees_all_voucher" model="ir.rule">
+            <field name="name">Manager Voucher</field>
+            <field name="model_id" ref="wk_coupons.model_voucher_voucher"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+        </record>
+        <record id="manager_sees_all_voucher_history" model="ir.rule">
+            <field name="name">Manager Voucher History</field>
+            <field name="model_id" ref="wk_coupons.model_voucher_history"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+        </record>
+
+        <record id="show_seller_voucher_product_move_order_line_rule" model="ir.rule">
+	        <field name="name">Show Seller voucher product move line only</field>
+	        <field name="model_id" ref="account.model_account_move_line"/>
+	        <field name="domain_force">[('product_id.type','=','service'), ('product_id.sale_ok','=',True), ('product_id.website_published','=',False)]</field>
+ 	        <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+	    </record>
+
+    </data>
+</odoo>

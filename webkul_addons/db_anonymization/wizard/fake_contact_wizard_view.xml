@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="fake_record_wizard_message_form" model="ir.ui.view">
+            <field name="name">Fake Record Wizard Form</field>
+            <field name="model">fake.contact.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Fake Records">
+                  <h1>Here you can create fake records to anonymize data : </h1>
+
+                      <div>
+												<h2>There is total <field name="total_contact_count" readonly="1" /> numbers of contacts present in current Database.</h2>
+											</div>
+
+                      <div>
+                        <label for="create_contact_count" string="Enter the no. of Fake Records you want to create." class="oe_inline"/>
+                        <group>
+                          <group>
+                            <field name="create_contact_count" required="1" nolabel="1" style="width:15%;"/>
+                          </group>
+                        </group>
+                      </div>
+                    <field name="database_backup_id" invisible="1" />
+                    <newline/>
+                    <separator colspan="6" />
+                    <footer>
+                      <button
+                         class="btn-primary"
+                         name="action_create_fake_record"
+                         type="object"
+                         string="Create Fake Records" />
+                        <button special="cancel" class="oe_highlight" string="Close" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="fake_reocrd_wizard_message_action" model="ir.actions.act_window">
+            <field name="name">Fake Record Wizard Action</field>
+            <field name="res_model">fake.contact.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~ Collection Page Tree, Form view ~~~~~~~~~~~~~~~~~~ -->
+
+        <record id="inherit_website_collectional_page_treeview" model="ir.ui.view">
+            <field name="name">MP Collection Page Tree</field>
+            <field name="model">website.collectional.page</field>
+            <field name="mode">primary</field>
+            <field name="priority">100</field>
+            <field name="inherit_id" ref="website_collectional_page.website_collectional_page_treeview"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='name']" position="after">
+                    <field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+                </xpath>
+            </field>
+        </record>
+
+         <record id="inherit_website_collectional_page_formview" model="ir.ui.view">
+            <field name="name">Mp Collection Page Form</field>
+            <field name="model">website.collectional.page</field>
+            <field name="mode">primary</field>
+            <field name="priority">100</field>
+            <field name="inherit_id" ref="website_collectional_page.website_collectional_page_formview"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group[1]" position="after">
+                    <group groups="odoo_marketplace.marketplace_officer_group">
+                        <group>
+                            <field name="id" invisible="1"/>
+                            <field name="marketplace_seller_id"
+                                   required="1"
+                                   attrs="{'readonly': [('id', '!=', False)]}"
+                                   options="{'no_create_edit':True}"
+                                   domain="[('seller','=',True),('state','=','approved')]"
+                                   context="{'form_view_ref':'odoo_marketplace.wk_seller_form_view'}"
+                                   />
+                       </group>
+                   </group>
+                </xpath>
+                <xpath expr="//form/sheet[2]/field[@name='template_ids']" position="attributes">
+                    <attribute name="context">{'tree_view_ref' : 'odoo_marketplace.wk_seller_product_template_tree_view', 'form_view_ref' : 'odoo_marketplace.wk_seller_product_template_form_view'}</attribute>
+                    <attribute name="domain"></attribute>
+                    <attribute name="options">{'no_create_edit': True,'no_open':True,'no_create':True}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ Collection Group Tree, Form View ~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+        <record id="inherit_website_collectional_group_treeview" model="ir.ui.view">
+			<field name="name">Mp Collectional Group Tree</field>
+			<field name="model">website.collectional.group</field>
+            <field name="mode">primary</field>
+            <field name="priority">100</field>
+            <field name="inherit_id" ref="website_collectional_page.website_collectional_group_treeview"/>
+			<field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='name']" position="after">
+                    <field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+                </xpath>
+			</field>
+		</record>
+
+        <record id="inherit_website_collectional_group_formview" model="ir.ui.view">
+			<field name="name">Mp Collectional Group Form</field>
+			<field name="model">website.collectional.group</field>
+            <field name="mode">primary</field>
+            <field name="priority">100</field>
+            <field name="inherit_id" ref="website_collectional_page.website_collectional_group_formview"/>
+			<field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='published_date']" position="before">
+                    <field name="id" invisible="1"/>
+                    <field name="marketplace_seller_id"
+                           required="1"
+                           attrs="{'readonly': [('id', '!=', False)]}"
+                           groups="odoo_marketplace.marketplace_officer_group"
+                           options="{'no_create_edit':True}"
+                           domain="[('seller','=',True),('state','=','approved')]"
+                           context="{'form_view_ref':'odoo_marketplace.wk_seller_form_view'}"
+                           />
+                </xpath>
+                <xpath expr="//form/sheet/field[@name='collectional_page_ids']" position="attributes">
+                    <attribute name="domain"> [('marketplace_seller_id', '=', marketplace_seller_id)]</attribute>
+                    <attribute name="attrs">{'readonly': [('marketplace_seller_id', '=', False)]}</attribute>
+                    <attribute name="context">{'form_view_ref' : 'marketplace_seller_collection_page.inherit_website_collectional_page_formview'}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~ Seller Dashboard collection Page ~~~~~~~~~~~~~~~~~~ -->
+
+        <record id="mp_seller_collection_page_filter" model="ir.ui.view">
+            <field name="name">Seller Collection Page Filter</field>
+            <field name="model">website.collectional.page</field>
+            <field name="arch" type="xml">
+                <search string="Search Collection Page">
+                    <group string="Group By">
+                        <filter string="Published"
+                                domain="[('state','=','published')]"
+                                name="page_published_in_website"
+                                />
+                        <filter string="Unpublished"
+                                domain="[('state','=','unpublished')]"
+                                name="page_unpublished_in_website"
+                                />
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="mp_seller_collection_page_filter_at_officer_end" model="ir.ui.view">
+            <field name="name">Apply Seller Page On Collection Page</field>
+            <field name="model">website.collectional.page</field>
+            <field name="inherit_id" ref="marketplace_seller_collection_page.mp_seller_collection_page_filter"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
+            <field name="arch" type="xml">
+                <group position="inside">
+                    <filter string="Seller"
+                        context="{'group_by':'marketplace_seller_id'}"
+                        name="pageby_marketplace_seller_id"
+                        groups="odoo_marketplace.marketplace_officer_group"
+                        />
+                </group>
+            </field>
+        </record>
+
+        <record id="mp_seller_collection_page_action" model="ir.actions.act_window">
+            <field name="name">Sellers Collection Pages</field>
+            <field name="res_model">website.collectional.page</field>
+            <field name="view_mode">tree,form</field>
+            <field name="binding_view_types">form</field>
+            <field name="domain">[('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
+            <field name="context">{'mp_seller_collec_page':1,'search_default_pageby_marketplace_seller_id': 1}</field>
+        </record>
+        <record id="mp_seller_collection_page_action_for_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="sequence">1</field>
+            <field name="view_id" ref="marketplace_seller_collection_page.inherit_website_collectional_page_treeview"/>
+            <field name="act_window_id" ref="marketplace_seller_collection_page.mp_seller_collection_page_action"/>
+        </record>
+        <record id="mp_seller_collection_page_action_for_form" model="ir.actions.act_window.view">
+            <field name="view_mode">form</field>
+            <field name="sequence">2</field>
+            <field name="view_id" ref="marketplace_seller_collection_page.inherit_website_collectional_page_formview"/>
+            <field name="act_window_id" ref="marketplace_seller_collection_page.mp_seller_collection_page_action"/>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ Seller Dashboard Collection Groups ~~~~~~~~~~~~~~~~~ -->
+
+        <record id="mp_seller_collection_group_filter" model="ir.ui.view">
+            <field name="name">Mp Seller Collection Group Filter</field>
+            <field name="model">website.collectional.group</field>
+            <field name="arch" type="xml">
+                <search string="Search Collection Group">
+                    <group string="Group By">
+                        <filter string="Published"
+                                domain="[('state','=','published')]"
+                                name="group_published_in_website"
+                                />
+                        <filter string="Unpublished"
+                                domain="[('state','=','unpublished')]"
+                                name="group_unpublished_in_website"
+                                />
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="mp_seller_collection_group_filter_at_officer_end" model="ir.ui.view">
+            <field name="name">Apply Seller Group On Collection Page</field>
+            <field name="model">website.collectional.group</field>
+            <field name="inherit_id" ref="marketplace_seller_collection_page.mp_seller_collection_group_filter"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
+            <field name="arch" type="xml">
+                <group position="inside">
+                    <filter string="Seller"
+                        context="{'group_by':'marketplace_seller_id'}"
+                        name="groupby_marketplace_seller_id"
+                        groups="odoo_marketplace.marketplace_officer_group"
+                        />
+                </group>
+            </field>
+        </record>
+
+        <record id="mp_seller_collection_group_action" model="ir.actions.act_window">
+            <field name="name">Sellers Collection Group</field>
+            <field name="res_model">website.collectional.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="binding_view_types">form</field>
+            <field name="domain">[('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
+            <field name="context">{'mp_seller_collec_group':1,'search_default_groupby_marketplace_seller_id': 1}</field>
+            <field name="search_view_id" ref="marketplace_seller_collection_page.mp_seller_collection_group_filter"/>
+        </record>
+        <record id="mp_seller_collection_group_action_for_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="sequence">1</field>
+            <field name="view_id" ref="marketplace_seller_collection_page.inherit_website_collectional_group_treeview"/>
+            <field name="act_window_id" ref="marketplace_seller_collection_page.mp_seller_collection_group_action"/>
+        </record>
+        <record id="mp_seller_collection_group_action_for_form" model="ir.actions.act_window.view">
+            <field name="view_mode">form</field>
+            <field name="sequence">2</field>
+            <field name="view_id" ref="marketplace_seller_collection_page.inherit_website_collectional_group_formview"/>
+            <field name="act_window_id" ref="marketplace_seller_collection_page.mp_seller_collection_group_action"/>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~  Seller Dashboard Collections Menus ~~~~~~~~~~~~~~~~~~~~~~ -->
+
+        <menuitem name= "Collections"
+            id= "mp_seller_collection_main_menu"
+            sequence= "8"
+            parent= "odoo_marketplace.wk_seller_dashboard"
+            groups="marketplace_seller_collection_page.group_for_mp_collections,odoo_marketplace.marketplace_officer_group"
+        />
+        <menuitem name= "Collection Page"
+                  id= "mp_seller_collection_page_menu"
+                  action= "marketplace_seller_collection_page.mp_seller_collection_page_action"
+                  parent= "marketplace_seller_collection_page.mp_seller_collection_main_menu"
+                  sequence= "1"
+                  groups="marketplace_seller_collection_page.group_for_mp_collections,odoo_marketplace.marketplace_officer_group"
+                />
+        <menuitem name= "Collection Group"
+                  id= "mp_seller_collection_group_menu"
+                  action= "marketplace_seller_collection_page.mp_seller_collection_group_action"
+                  parent= "marketplace_seller_collection_page.mp_seller_collection_main_menu"
+                  sequence= "2"
+                  groups="marketplace_seller_collection_page.group_for_mp_collections,odoo_marketplace.marketplace_officer_group"
+                />
+    </data>
+</odoo>

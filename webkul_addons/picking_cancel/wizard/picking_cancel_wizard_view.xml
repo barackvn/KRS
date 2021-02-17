@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data>
+        <record id="view_cancel_picking" model="ir.ui.view">
+            <field name="name">Cancel Done Picking</field>
+            <field name="model">picking.cancel.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cancel Picking Wizard">
+                    <group>
+                        <field name="reason_id" options="{'no_create_edit': True, 'no_open':True,'no_create':True}"/>
+                        <field name="reason" placeholder="Please describe your reason for canceling the done picking."/>
+                    </group>
+                    <footer>
+                        <button name="cancel_done_picking" string="Cancel Now" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_cancel_picking_wizard" model="ir.actions.act_window">
+            <field name="name">Cancel Picking Wizard</field>
+            <field name="res_model">picking.cancel.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_cancel_picking"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

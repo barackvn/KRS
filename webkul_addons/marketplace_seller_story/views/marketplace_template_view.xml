@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="assets_frontend_mp_seller_story" inherit_id="website.assets_frontend" name="Seller Story Assets Frontend">
+			<xpath expr="." position="inside">
+                <link rel="stylesheet" href="/marketplace_seller_story/static/src/css/seller_story.css" media="all" type="text/css"/>
+				<script src="/marketplace_seller_story/static/src/js/seller_story.js" type="text/javascript"></script>
+
+                <link rel='stylesheet' href='/marketplace_seller_story/static/src/css/owl.carousel.css'/>
+                <link rel='stylesheet' href='/marketplace_seller_story/static/src/css/owl.theme.css'/>
+                <script type="text/javascript" src="/marketplace_seller_story/static/src/js/owl.carousel.min.js"></script>
+			</xpath>
+		</template>
+
+        <template id="mp_seller_stories_page" name="Seller Stories Page">
+            <t t-call="website.layout">
+				<div class="oe_structure"/>
+                <div class="seller_story_bgi">
+                    <div class='container'>
+                        <t t-set="story" t-value="seller_stories"/>
+                        <div class="row mb32 mt32" id="" style="background-color: #ffffff;padding: 0px;display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display:flex;">
+                            <div t-attf-class="#{'col-md-8' if popular_stories else 'col-md-12'}" id="" style="">
+                                <div class="col-12 mb16 mt16">
+                                    <h2 class="wk_caps text-primary">
+                                        Recent Stories
+                                    </h2>
+                                </div>
+                                <div class="col-12 row" style="padding: 0px;margin: 0;">
+                                    <t t-foreach="seller_stories" t-as="story">
+                                        <div t-attf-class="#{'col-md-6' if popular_stories else 'col-md-4'}">
+                                            <t t-call="marketplace_seller_story.mp_seller_stories_box"/>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="col-12 products_pager mt16 mb16">
+                                    <t t-call="website.pager"/>
+                                </div>
+                            </div>
+                            <t t-if="popular_stories">
+                                <div class="col-md-4" id="" style="vertical-align: top;border-left: 1px solid #e7e7e7;border-left-style: double;border-left-width: 2px;">
+                                    <div class="col-md-12 mt16 mb16" style="padding: 0px;">
+                                        <h2 class="wk_caps text-primary">
+                                            Popular Stories
+                                        </h2>
+                                    </div>
+                                    <div class="p_story_box" style="padding-left: 15px;padding-right: 15px;">
+                                        <t t-foreach="popular_stories" t-as="p_story">
+                                            <a t-attf-href="#{'/seller/story/'+str(p_story.id)}">
+                                                <div class="col-md-12 mb16 wk_story_border seller-story-box" style="padding: 20px 0px 20px 0px;background-color: #fff;display: flex;align-items: center;">
+                                                    <div class="col-md-3 col-sm-2 col-xs-3" style="width: auto;">
+                                                        <span itemprop="image" t-field="p_story.image" t-options="{'widget': 'image', 'class': 'rounded-circle', 'style':'width: 60px;'}" t-att-alt="p_story.seller_id.name"/>
+                                                    </div>
+                                                    <div class="col-md-9 col-sm-10 col-xs-9" style="padding-left: 0px;">
+                                                        <div class="short_description-2">
+                                                            <t t-esc="p_story.short_description"/>
+                                                        </div>
+                                                        <div class="story-seller-details" style="float:right">
+                                                            <span style="font-size: 12px;margin: 5px;" class="fa fa-minus text-primary" /><t t-esc="p_story.seller_id.name"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+                <div t-if="website.env.user and not website.env.user.partner_id.seller" class="container">
+                    <div class="row">
+                        <div class="col-md-12 mt64 mb64" style="text-align:center">
+                            <div>
+                                <h1>Start selling with us &amp; reach across the world.</h1>
+                            </div>
+                            <div class="mt16">
+                                <a class="btn btn-lg btn-primary" href="/my/marketplace/become_seller">Start Selling Online</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </t>
+        </template>
+
+        <template id="mp_seller_stories_box" name="Seller Story Box">
+            <div class="col-md-12 mb16 seller-story-box wk_story_border">
+                <div class="mb16">
+                    <t t-if="story.story_video_link">
+                        <div style="height: 130px;text-align:center;">
+                            <img class="youtube-img" t-attf-src="#{'https://img.youtube.com/vi/'+story.story_video_link+'/maxresdefault.jpg'}"/>
+                            <div class="video-overlay">
+                                <a t-attf-id="#{story.story_video_link}" class="video-play" href="#">
+                                    <i class="fa fa-play-circle-o fa-3x" style="top:45px;position:relative;color: white;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-if="not story.story_video_link">
+                        <blockquote class="wk_story_quote" >
+                            <div class="short_description-1" style="position: relative;top:-10px;padding: 0px 22px 0px 22px;height: 100px;">
+                                <t t-esc="story.short_description"/>
+                            </div>
+                        </blockquote>
+                    </t>
+                    <!-- <div class="mt4">
+                        <a t-attf-href="#{'/seller/story/'+str(story.id)}">More Details</a>
+                    </div> -->
+                </div>
+                <a t-attf-href="#{'/seller/story/'+str(story.id)}" class="no_Uline">
+                    <div style="align-items: center; display:flex;padding: 0px;" class="col-md-12 ss-box-hover">
+                        <div class="col-md-4">
+                            <span itemprop="image" t-field="story.image" t-options="{'widget': 'image', 'class': 'rounded-circle', 'style':'width: 80px;'}" t-att-alt="story.seller_id.name"/>
+                        </div>
+                        <div style="padding:0px" class="col-md-8 story-seller-details">
+                            <div class="stop_breaking_line">
+                                <t t-esc="story.seller_id.name"/>
+                            </div>
+                            <div class="stop_breaking_line">
+                                <t t-esc="story.designation"/>
+                            </div>
+                            <div class="stop_breaking_line">
+                                <span t-esc="story.seller_id.state_id.name" ></span>
+                                <t t-if="story.seller_id.state_id and story.seller_id.country_id">
+                                    <span>,</span>
+                                </t>
+                                <span t-esc="story.seller_id.country_id.name"/>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </template>
+
+        <template id="mp_seller_story_page" name="Seller Story">
+            <t t-call="website.layout">
+				<div class="oe_structure"/>
+                <div class='container'>
+                    <div class="row">
+                        <div class="col-md-10 offset-1 mb32" style="padding:0px">
+                            <div class="col-md-12 mb16 mt16">
+                                <h2 class="wk_caps" style="text-align: center;text-decoration-line: underline;">
+                                    Seller Story
+                                </h2>
+                            </div>
+                            <div class="col-md-12 row" style="margin: 0;">
+                                <div class="col-md-6 mt16 mb16" style="align-items: center; display:flex;padding: 0px;">
+                                    <div class="col-md-3" style="padding: 0px;    height: 100%;    width: auto;">
+                                        <span itemprop="image" t-field="story.image" t-options="{'widget': 'image', 'class': 'rounded-circle', 'style':'width: 80px;'}" t-att-alt="story.seller_id.name"/>
+                                    </div>
+                                    <div style="" class="col-md-8 story-seller-details">
+                                        <div>
+                                            <t t-esc="story.seller_id.name"/>
+                                        </div>
+                                        <div>
+                                            <t t-esc="story.designation"/>
+                                        </div>
+                                        <div>
+                                            <span t-esc="story.seller_id.state_id.name"></span>
+                                            <t t-if="story.seller_id.state_id and story.seller_id.country_id">
+                                                <span>,</span>
+                                            </t>
+                                            <span t-esc="story.seller_id.country_id.name"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt16 mb16 pull-right wk_story_border">
+                                    <t t-esc="story.short_description"/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 row mt16" style="padding: 0px;margin: 0px;">
+                                <div class="col-md-4 mt4">
+                                    <div class="wk_story_border" style="align-items: center; display:flex;padding: 0px;">
+                                        <div class="col-md-2" style="padding: 10px; height:100%;width: auto;">
+                                            <img style="width:80px;;height:100%" src="/marketplace_seller_story/static/src/img/Slice-Total-Rating.png" alt="Seller Rating"/>
+                                        </div>
+                                        <div style="text-align:center;padding: 0px;" class="col-md-10">
+                                            <div style="font-weight: 600;font-size: 20px;color: #4a4a4a;">
+                                                <span t-esc="str(len(story.seller_id.fetch_active_review(story.seller_id.sudo().id))).zfill(2)"></span>
+                                            </div>
+                                            <div style="color: #4a4a4a;font-size: 15px;">
+                                            <span class="wk_caps">Total Rating</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt4">
+                                    <div class="wk_story_border" style="align-items: center; display:flex;padding: 0px;">
+                                        <div class="col-md-2" style="padding: 10px; height:100%;width: auto;">
+                                            <img style="width:80px;;height:100%" src="/marketplace_seller_story/static/src/img/Slice-Total-Product.png"/>
+                                        </div>
+                                        <div style="text-align:center;padding: 0px;" class="col-md-10">
+                                            <div style="font-weight: 600;font-size: 20px;color: #4a4a4a;">
+                                                <span t-esc="str(story.seller_id.seller_products_count()).zfill(2)"></span>
+                                            </div>
+                                            <div style="color: #4a4a4a;font-size: 15px;">
+                                                <span class="wk_caps">Total Products</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt4">
+                                    <div class="wk_story_border" style="align-items: center; display:flex;padding: 0px;">
+                                        <div class="col-md-2" style="padding: 10px; height:100%;width: auto;">
+                                            <img style="width:80px;;height:100%" src="/marketplace_seller_story/static/src/img/Slice-Total-Sales.png" alt="Seller Rating"/>
+                                        </div>
+                                        <div style="text-align:center;padding: 0px;" class="col-md-10">
+                                            <div style="font-weight: 600;font-size: 20px;color: #4a4a4a;">
+                                            <span t-esc="str(story.seller_id.seller_sales_count()).zfill(2)"></span>
+                                            </div>
+                                            <div style="color: #4a4a4a;font-size: 15px;">
+                                                <span class="wk_caps">Total Sales</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <t t-if="story.description">
+                                <div class="col-md-12 mt16">
+                                    <div class="col-md-12 wk_story_border" style="padding:15px 15px 15px 15px;">
+                                        <blockquote class="wk_story_quote">
+                                            <div style="padding: 0px 20px 0px 20px;" t-raw="story.description"/>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-if="story.story_video_link">
+                                <div class="col-md-12 mt16" style="">
+                                    <div class="col-md-12 wk_story_border" style="text-align: center;padding: 10px;">
+                                        <iframe class="seller-story-iframe" id="video_tutorial" type="text/html" style="height: 347px;width: 100%;" t-attf-src="#{'https://www.youtube.com/embed/'+story.story_video_link}" frameborder="0" allowfullscreen=""></iframe>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </t>
+        </template>
+
+        <template id="seller_story_video_modal" name="Story Story Modal">
+            <div class="modal fade seller-story-modal" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                    <div class="">
+                        <button type="button" class="close fa fa-times wk_closed_btn" data-dismiss="modal"/>
+                        <div class="seller-story-iframe-div" style="text-align: center;">
+                            <iframe class="seller-story-iframe" id="video_tutorial" type="text/html" style="height: 347px;width: 841px;" frameborder="0" allowfullscreen=""></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Seller Story Snippets -->
+        <template id="seller_story_snippet" name="Story Carousel">
+            <section class="s_text_block_image_fw oe_img_bg oe_custom_bg" style="background-color:#e7eff3">
+                <div class="container">
+                    <div class="col-md-12">
+                        <h2 class="wk_caps" style="padding-left: 10px;font-weight: bold;font-size: 22px;font-family: OpenSans;color: #3c3c3c;">
+                            Seller Story
+                        </h2>
+                    </div>
+                    <t t-set="seller_stories" t-value="request.env['seller.story'].sudo().search([('website_published', '=', True), ('seller_id.state', '=', 'approved')], order='id desc')"/>
+                    <div class="col-md-12 mp_story_owl-carousel mt8 mb16">
+                        <t t-foreach="seller_stories" t-as="story">
+                            <div class="item" style="padding: 10px;">
+                                <div class="">
+                                    <t t-call="marketplace_seller_story.mp_seller_stories_box"/>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
+                </div>
+            </section>
+        </template>
+
+        <!-- Snippets menu -->
+        <template id="mp_seller_story_inherit_snippet" inherit_id="website.snippets" >
+            <xpath expr="//div[@id='o_scroll']/div[4]" position="after">
+                <div id="mp_seller_story_panel" class="o_panel">
+                    <div class="o_panel_header">
+                        <i class="fa fa-address-card-o"/> Seller Story
+                    </div>
+                    <div class="o_panel_body wk_o_panel_body" style="display: flex;justify-content: center;">
+                        <t t-snippet="marketplace_seller_story.seller_story_snippet" t-thumbnail="/marketplace_seller_story/static/src/img/Seller-Stories.png" style="width: auto;"/>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="header_footer_custom_seller_story" inherit_id="website.footer_custom" name="Footer Seller Story Link">
+		    <xpath expr="//div[hasclass('col-lg-4')][1]//ul" position="inside">
+		        <li>
+                    <a href="/seller/story" target="_blank">Seller Stories</a>
+                </li>
+		    </xpath>
+		</template>
+    </data>
+</odoo>

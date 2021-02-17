@@ -1,0 +1,93 @@
+<odoo>
+    <data>
+    <!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+        <template id="assets_frontend_quick" inherit_id="website.assets_frontend" name="order_cancel">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src='/website_order_cancel/static/src/js/website_order_cancel.js'></script>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+            </xpath>
+        </template>
+        <template id="layout_cancel_order" inherit_id="sale.portal_my_quotations" customize_show="True" name="Enable Order Cancellation ">
+            <xpath expr="//td[hasclass('text-center')]" position="inside">
+                <span t-if="quotation.state != 'cancel'">
+                    <input type='hidden' class="order_id" name="order_id" t-att-value="int(quotation.id)" />
+                    <span class="btn btn-danger btn-cancel" id="cancel_btn"><i class="fa fa-fw fa-remove"/> Cancel</span>
+                </span>
+
+            </xpath>
+        </template>
+        <template id="form_layout_cancel_order" inherit_id="sale.sale_order_portal_content" customize_show="True" name="Order Cancellation">
+            <xpath expr="//div[@id='introduction']/h2" position="inside">
+                <t t-if="sale_order.state in ['draft','sent']">
+                    <input type='hidden' class="order_id" name="order_id" t-att-value="int(sale_order.id)" />
+                    <span class="btn btn-danger ml8 pull-right mt4 mr8"  id="cancel_btn"><i class="fa fa-fw fa-remove"/> Cancel</span>
+                </t>
+            </xpath>
+            <xpath expr="//div[@id='total']" position="after">
+                <t t-if="sale_order.reason_id">
+                    <div class="card" id="additional-remark">
+                        <div class="card-header bg-danger">
+                            Cancellation Reason:
+                        </div>
+                        <div class="card-body bg-danger-light" >
+                            <h4>
+                            <t t-raw="sale_order.reason_id.name" />
+                            </h4>
+                            <t t-if="sale_order.additional_remark">
+                            <strong>Additional Remark: </strong>
+                            <t t-raw="sale_order.additional_remark" />
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="modal_cancel_order" name="Order Cancel View">
+          <div id="cancel_modal" class="modal fade" tabindex="-1" role="dialog" >
+              <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                      <h4 class="modal-title text-center"><span t-field="order.name"/>(Order Cancel)</h4>
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                      </div>
+                      <div class="modal-body">
+                          <div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale">
+                          <section t-attf-class="container mt8 oe_website_sale" id="order_cancel">
+                            <form action="" method="post" class="checkout_autoformat">
+                            <div class="row">
+                              <div class="clearfix" />
+                              <div id="reason-error" class="form-group col-lg-12">
+                                  <input type='hidden'  name="order_id" id="order_id" t-att-value="int(order.id)" />
+                                  <label class="control-label" for="reason">Select Cancellation Reason </label>
+                                  <select id="resaon_id" name="resaon_id" class="form-control" required="1">
+                                      <option value="">Reason...</option>
+                                      <t t-foreach="reasons" t-as="r">
+                                          <option t-att-value="r.id">
+                                              <t t-esc="r.name" />
+                                          </option>
+                                      </t>
+                                  </select>
+                              </div>
+                              <div  id="remark-error" class="form-group col-lg-12">
+                                  <label class="control-label" for="name">Additional Remark</label>
+                                  <textarea class="form-control o_website_form_input" placeholder="Describe in brief..."  name="remark" id="remark" required="1"/>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary pull-right" id="cancel_order" style="margin-right: 10px;">Cancel Order</button>
+                                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+                             </div>
+                             <input type='hidden' id="view_type" name="view_type" t-att-value="view_type" />
+                            </form>
+                          </section>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </template>
+    </data>
+</odoo>

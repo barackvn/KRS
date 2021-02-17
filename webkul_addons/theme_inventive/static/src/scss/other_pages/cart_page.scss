@@ -1,0 +1,50 @@
+
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.th_cart_page{
+    padding: 0px;
+    .oe_cart{
+        margin-top: 30px;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+    .js_cart_summary{
+
+    }
+    #cart_total{
+        width: 50%;
+        padding: 0 15px;
+        display: inline-block;
+        .coupon_form{
+            display: inline-block;
+            width:100%;
+            .a-submit{
+                padding: 4px 12px;
+                display: flex;
+                align-items: center;
+            }
+        }
+
+    }
+    @include media-breakpoint-down(sm){
+        #cart_total{
+            width: 100%;
+        }
+    }
+}
+table.js_cart_lines .td-img{
+    text-align: left;
+    img{
+        max-height: 100px;
+        background:  linear-gradient(45deg, rgba(237,237,237,1) 0%, rgba(244,244,244,1) 50%, rgba(246,246,246,1) 61%, rgba(255,255,255,1) 100%);
+    }
+}
+table#cart_products td:first-child, table#cart_products th:first-child{
+    max-width: 125px;
+    width: 150px;
+    padding-left: 0 !important;
+}
+table#cart_products .td-product_name{
+    max-width: 400px;
+}

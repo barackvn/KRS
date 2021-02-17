@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<menuitem name="Pathology" id="patho_mgmt_root_menu"
+			groups="wk_pathology_management.patho_mgmt_user_group"
+			/>
+
+		<menuitem name="Pathology"
+			id="patho_mgmt_patho_menu"
+			parent="patho_mgmt_root_menu"
+			web_icon="wk_pathology_management,static/description/icon.png"
+			sequence="3"
+			groups="wk_pathology_management.patho_mgmt_user_group"
+		/>
+
+	</data>
+</odoo>

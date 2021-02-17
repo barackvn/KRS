@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="inventive_res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">inventive.res.config.settings.view</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Website" string="Theme Inventive" data-key="theme_inventive" groups="website.group_website_designer">
+                        <div class="settingSearchHeader justify-content-center pl0 mt0">
+                            <img alt="Search" class="icon" src="/theme_inventive/static/description/theme_logo.png" style="width:100px;"/>
+                            <span class="appName">
+                                <b>Theme Inventive</b>
+                            </span>
+                        </div>
+                        <h2>Price Filter Settings</h2>
+                        <div class="row mt16 o_settings_container" id="theme_inventive_settings">
+                            <!-- ...............Price Filter Settings............. -->
+                            <div class="col-xs-12 col-md-6 o_setting_box" id="price_filter_settings">
+                                <div class="o_setting_left_pane">
+                                    <field name="show_price_filter" widget="checkbox"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label string="Show Price Range Filter" for="show_price_filter"/>
+                                    <div class="text-muted">
+                                        Display the price range filter on website
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('show_price_filter', '=', False)]}">
+                                        <div class="row">
+                                            <label string="Default Min Price" for="slider_min_price_" class="col-md-4 o_light_label"/>
+                                            <field name="slider_min_price" attrs="{'required':[('show_price_filter','=',True)]}" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                        </div>
+                                        <div class="row">
+                                            <label string="Default Max Price" for="slider_max_price" class="col-md-4 o_light_label"/>
+                                            <field name="slider_max_price" attrs="{'required':[('show_price_filter','=',True)]}" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                        </div>
+
+                                        <div class="row">
+                                            <label string="Price Range Step" for="price_range_step" class="col-md-4 o_light_label"/>
+                                            <field name="price_range_step" attrs="{'required':[('show_price_filter','=',True)]}" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--........................................................................ -->
+                        <h2>Shop Page Settings</h2>
+                        <div class="row mt16 o_settings_container" id="theme_inventive_settings">
+                            <!--product_quick_view  -->
+                            <div class="col-xs-12 col-md-6 o_setting_box" id="product_quick_view_settings">
+                                <div class="o_setting_left_pane">
+                                    <field name="product_quick_view"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label string="Product Quick View" for="product_quick_view"/>
+                                    <div class="text-muted">
+                                        Enable/Disable the Product Quick View button of Website Grid View Product.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- product_alternatives_view -->
+                            <div class="col-xs-12 col-md-6 o_setting_box" id="product_alternatives_view_settings">
+                                <div class="o_setting_left_pane">
+                                    <field name="product_alternatives_view"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label string="Product Alternatives View" for="product_alternatives_view"/>
+                                    <div class="text-muted">
+                                        Enable/Disable the Product Alternatives view button of Website Grid View Product.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- product_accessories_view -->
+                            <div class="col-xs-12 col-md-6 o_setting_box" id="product_accessories_view_settings">
+                                <div class="o_setting_left_pane">
+                                    <field name="product_accessories_view"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label string="Product Accessories View" for="product_accessories_view"/>
+                                    <div class="text-muted">
+                                        Enable/Disable the Product Accessories view button of Website Grid View Product.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o_setting_box" id="price_filter_settings">
+                                <div class="o_setting_left_pane">
+                                    <field name="enable_lazy_loading"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label string="Produc Lazy Loading" for="enable_lazy_loading"/>
+                                    <div class="text-muted">
+                                        Load The Products on Shop page with following options.
+                                    </div>
+                                    <div class="mt8">
+                                        <field name="lazy_loading_options" class="o_light_label" widget="radio" required="True"/>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o_setting_box" id="price_filter_settings">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <label string="Show/Hide Product Ratings" for="products_rating"/>
+                                    <div class="text-muted">
+                                        Configure the Product Rating Display mode.
+                                    </div>
+                                    <div class="mt8">
+                                        <field name="products_rating" class="o_light_label" widget="radio" required="True"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o_setting_box" id="price_filter_settings">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <label for="product_filter_views"/>
+                                    <div class="text-muted">
+                                        Configure the Product Filters Display mode.
+                                    </div>
+                                    <div class="mt8">
+                                        <field name="product_filter_views" class="o_light_label" widget="radio" required="True"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Theme Website Preloader Configuration Settings................. -->
+                            <div class="col-xs-12 col-md-6 o_setting_box" id="preloader_settings">
+                                <div class="o_setting_left_pane">
+                                    <field name="enable_preloader"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="enable_preloader"/>
+                                    <div class="text-muted">
+                                        Enable/disable the website theme preloader.
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('enable_preloader', '=', False)]}">
+                                        <div class="row" attrs="{'invisible':[('use_preloader_image','=',True)],'required':[('use_preloader_image','=',False)]}">
+                                            <label string="Choose Icon" for="preloader_icon_class" class="col-md-4 o_light_label"/>
+                                            <field name="preloader_icon_class" class="o_light_label" />
+                                        </div>
+                                        <div class="row" attrs="{'invisible':[('use_preloader_image','=',False)],'required':[('use_preloader_image','=',True)]}">
+                                          <label string="preloader_image" for="preloader_image" class="col-md-4 o_light_label"/>
+                                          <field name="preloader_image" widget="image" class="w-25 mt-2"/>
+                                        </div>
+                                        <div class="row">
+                                            <label string="Use Image As Icon" for="use_preloader_image" class="col-md-4 o_light_label"/>
+                                            <field name="use_preloader_image" class="o_light_label" />
+                                        </div>
+                                        <div class="row">
+                                            <label string="Background Color" for="background_color" class="col-md-4 o_light_label"/>
+                                            <field name="background_color" class="o_light_label" widget="color"/>
+                                        </div>
+                                        <div class="row">
+                                            <label string="Background Opacity" for="background_opacity" class="col-md-4 o_light_label"/>
+                                            <field name="background_opacity" class="o_light_label"/>
+                                        </div>
+                                        <div class="row">
+                                            <label string="Message" for="preloader_message" class="col-md-4 o_light_label"/>
+                                            <field name="preloader_message" class="o_light_label"/>
+                                        </div>
+                                        <div class="row">
+                                            <label string="Text Color" for="preloader_text_color" class="col-md-4 o_light_label"/>
+                                            <field name="preloader_text_color" class="o_light_label"  widget="color" />
+                                        </div>
+                                          <div class="row">
+                                            <label string="Text Size" for="preloader_text_size" class="col-md-4 o_light_label"/>
+                                            <field name="preloader_text_size" class="o_light_label"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--...................Theme Home Page CAROUSEL..................................................... -->
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_website_theme_configuration" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'theme_inventive'}</field>
+        </record>
+
+        <menuitem name="Theme Inventive" id="theme_inventive_website_menu" parent="website.menu_website_global_configuration" sequence="15"/>
+        <menuitem name="Configuration" id="theme_inventive_congiguration_menu" action="action_website_theme_configuration" parent="theme_inventive.theme_inventive_website_menu" groups="base.group_system" sequence="10"/>
+
+    </data>
+</odoo>

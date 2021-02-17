@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+        <record model="product.product" id="website_advertisement_manager.ad_block_2">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+        <record model="product.product" id="website_advertisement_manager.ad_block_5">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+        <record model="product.product" id="website_advertisement_manager.ad_block_3">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+        <record model="product.product" id="website_advertisement_manager.ad_block_4">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+        <!-- <record model="product.product" id="website_advertisement_manager.ad_block_6">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+        <record model="product.product" id="website_advertisement_manager.ad_block_7">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record> -->
+
+        <record model="product.product" id="website_advertisement_manager.ad_block_8">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+        <!-- <record model="product.product" id="website_advertisement_manager.ad_block_9">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+        <record model="product.product" id="website_advertisement_manager.ad_block_10">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+        <record model="product.product" id="website_advertisement_manager.ad_block_11">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+        <record model="product.product" id="website_advertisement_manager.ad_block_12">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+        <record model="product.product" id="website_advertisement_manager.ad_block_13">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record> -->
+
+        <record model="product.product" id="website_advertisement_manager.ad_block_14">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+        <record model="product.product" id="website_advertisement_manager.ad_block_17">
+            <field name="allow_prod_carousel">True</field>
+            <field name="max_prod">12</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+            <record id="demo_popular_products" model="redazzled.feature">
+                <field name="name">Popular Products </field>
+                <field name="feature_type">products</field>
+                <field name="publish_status">True</field>
+                <field name="featured_products" eval="[(6,0,[ref('theme_product_product_dress_1_product_template'),ref('theme_product_product_dress_2_product_template'),ref('theme_product_product_dress_3_product_template'),ref('theme_product_product_shirt_1_product_template'),ref('theme_product_product_shirt_3_product_template'),ref('theme_product_product_shirt_2_product_template')])]"/>
+            </record>
+
+            <!-- Top rated Products  -->
+            <record id="Top_rated_products" model="redazzled.feature">
+                <field name="name">Top Rated Products </field>
+                <field name="feature_type">rating</field>
+                <field name="publish_status">True</field>
+                <field name="avrg_rating">1</field>
+                <field name="product_limit">10</field>
+            </record>
+
+
+            <record id="Top_Categories" model="redazzled.feature">
+                <field name="name">Top Categories</field>
+                <field name="feature_type">categories</field>
+                <field name="publish_status">True</field>
+                <field name="featured_categories" eval="[(6,0,[ref('website_mega_menus.electonics_category_2'),ref('website_mega_menus.electonics_category_1'),ref('website_mega_menus.electonics_category_4'),ref('website_mega_menus.footwear'),ref('website_mega_menus.top_wear'),ref('website_mega_menus.sports_and_books_root_category'),ref('website_mega_menus.sports_and_books_root_category')])]" />
+            </record>
+            <record id="Offer_Products" model="redazzled.feature">
+                <field name="name">Offer Product</field>
+                <field name="publish_status">True</field>
+                <field name="feature_type">pricelist</field>
+                <field name="pricelist_id" ref="product.list0"></field>
+                <field name="featured_products" eval="[(6,0,[ref('theme_product_product_jwel_1_product_template'),ref('theme_product_product_jwel_2_product_template'),ref('theme_product_product_jwel_3_product_template'),ref('theme_product_product_jwel_4_product_template'),ref('theme_product_product_jwel_5_product_template'),ref('theme_product_product_bk1_product_template'),ref('theme_product_product_bk2_product_template')])]" />
+            </record>
+
+
+
+
+    </data>
+</odoo>

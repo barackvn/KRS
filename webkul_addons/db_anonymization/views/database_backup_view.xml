@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="database_backup_view_form" model="ir.ui.view">
+        <field name="name">database.backup.form</field>
+        <field name="model">database.backup</field>
+        <field name="arch" type="xml">
+            <form string="Database Backup Form" create="false">
+              <header>
+                <field
+                  name="state"
+                  widget="statusbar"
+                  statusbar_visible="draft,connection,ready,error"/>
+                  <!-- clickable="true" -->
+
+                <button
+                   class="btn-primary"
+                   name="action_create_fakerecord"
+                   type="object"
+                   string="Create Fake Records"
+                   attrs="{'invisible':[('is_fake_created','=',True)]}"
+                   />
+               <button
+                  class="btn-primary"
+                  name="action_check_connection"
+                  type="object"
+                  string="Confirm &#38; Test DB Connection"
+                  attrs="{'invisible':['|',('state','in',['connection','ready']),('is_fake_created','=',False)]}" />
+
+                <button
+                   class="btn-primary"
+                   name="action_create_backup"
+                   type="object"
+                   string="Create Backup"
+                   attrs="{'invisible':[('state','not in',['connection'])]}" />
+                <button
+                      class="btn-secondary"
+                      name="check_resote_db_exist"
+                      type="object"
+                      string="Check Backup"
+                      attrs="{'invisible':[('state','not in',['connection'])]}" />
+
+
+
+                <button
+                    class="btn-primary"
+                    name="action_execute_query"
+                    type="object"
+                    string="Execute Anonymize Querires"
+                    attrs="{'invisible':['|',('state','not in',['ready']),('is_execute_anonymise','=',True)]}" />
+                    <!-- <button
+                        class="btn-primary"
+                        name="action_uninstall_module"
+                        type="object"
+                        string="action_uninstall_module"/> -->
+
+
+              </header>
+                <sheet>
+                  <h1>
+
+                   <field name="name" default_focus="1" placeholder="Name" readonly="1" />
+                  </h1>
+                  <group>
+                     <field name="is_fake_created" invisible="1"/>
+                     <field name="is_execute_anonymise" invisible="1"/>
+
+                  </group>
+                  <notebook>
+                      <page string="Database Details">
+                        <group>
+                          <group string="Database Names">
+                            <field name="current_db_name" />
+                            <field name="clone_db_name" required="1" attrs="{'readonly': [('state', 'in',['ready'])]}"/>
+                          </group>
+                          <group string="Set Clone DB Superuser Credential">
+                            <field name="clone_db_login" attrs="{'readonly': [('state', 'in',['ready','error'])]}"/>
+                            <field name="clone_db_passowrd" attrs="{'readonly': [('state', 'in',['ready','error'])]}"/>
+                          </group>
+                          <group string="Postgres Details" invisible="0" >
+                              <field name="postgres_host"  required="1" attrs="{'readonly': [('state', 'not in',['draft','error'])]}"/>
+                              <field name="postgres_port"  required="1" attrs="{'readonly': [('state', 'not in', ['draft','error'])]}" />
+                              <field name="postgres_user"  required="1" attrs="{'readonly': [('state', 'not in', ['draft','error'])]}" />
+                              <field name="postgres_passowrd"  required="1" attrs="{'readonly': [('state', 'not in',['draft','error'])]}"/>
+                          </group>
+                        </group>
+                          <div style="color:red;"><b>Note :</b> If Server connection lost during click on Create Backup, then click on the Check Backup button. </div>
+                      </page>
+                      <page string="Settings" attrs="{'invisible':[('state','not in',['ready'])]}">
+                        <group string="Reset User Credential for Clone DB." >
+                          <button
+                               class="btn-primary"
+                               name="action_change_clone_db_password"
+                               type="object"
+                               string="Reset Clone DB User's Password"
+                              />
+                        </group>
+                      </page>
+                      <page string="Send Mail" attrs="{'invisible':[('state','not in',['ready'])]}">
+                        <group string="Template for the mail" >
+
+                          <field name="company_id"/>
+                          <field name="credential_mail_id"/>
+                          <field name="emails" placeholder=" -- Add Recipient Email Address --" />
+                            <!-- attrs="{'required':['&#38;',('state','in',['ready']),('is_execute_anonymise','=',True)]}" -->
+
+                          <field name="mail_subject" />
+                          <field name="body_text" widget="html"/>
+                          <field name="attachment_ids" widget="many2many_binary"/>
+                        </group>
+                        <button
+                             class="btn-primary"
+                             name="action_credential_mail"
+                             type="object"
+                             string="Send Credential Mail" />
+
+                      </page>
+                  </notebook>
+                </sheet>
+                <field name="conn_error_msg" readonly="1"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="database_backup_view_tree" model="ir.ui.view">
+        <field name="name">database.backup.tree</field>
+        <field name="model">database.backup</field>
+        <field name="arch" type="xml">
+            <tree string="Database Backup" create="false">
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="database_backup_action" model="ir.actions.act_window">
+        <field name="name">Database Backup Action</field>
+        <field name="res_model">database.backup</field>
+        <field name="view_mode">tree,form</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_id" ref="database_backup_view_tree"/>
+    </record>
+</odoo>

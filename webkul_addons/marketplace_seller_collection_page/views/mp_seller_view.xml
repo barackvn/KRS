@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+        <record id="inherit_wk_seller_form_for_collection" model="ir.ui.view">
+            <field name="name">seller.form.inherit.collections</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]/group[@name='seller_wise_settings']" position="after">
+                    <group string="Seller Collections Settings" groups="odoo_marketplace.marketplace_officer_group">
+                        <group>
+                            <label for="allow_seller_for_collection" string="Allow Seller to make Collections" help="Enable to allow seller to make collections of products."/>
+							<div groups="odoo_marketplace.marketplace_officer_group">
+							    <field name="allow_seller_for_collection" readonly="1" help="Enable to allow seller to make collections of products."/>
+							    <button name="enable_seller_coll_group" string="Click to Allow" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_collection', '=', True)]}"/>
+							    <button name="disable_seller_coll_group" string="Click to Deny" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_collection', '=', False)]}"/>
+							</div>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

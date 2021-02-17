@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Mail template is done in a NOUPDATE block So users can freely customize/delete them -->
+        <record id="website_stock_notify_email" model="mail.template">
+            <field name="name"> Stock Notify By Email</field>
+            <field name="email_from">"Test@example.com"</field>
+            <field name="subject">Product Notification</field>
+            <field name="email_to">${(object.email or '')|safe}</field>
+            <field name="model_id" ref="website_stock_notifiy.model_website_stock_notify" />
+            <field name="auto_delete" eval="True" />
+            <field name="lang">${object.wk_user.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+            <style>
+                body {
+                    background-color:#F2F2F2;
+                }
+            </style>
+            <div style="background:#FFFFFF;width:600px;margin: 0 auto;width:600px;font-size:17px;font-weight:700;font-family: Arial, Helvetica, sans-serif;">
+           
+            <div style="background:#50A9ED;height:71px;padding:2px 15px;">
+                <img src="/logo.png" alt="company-logo" style="max-height:71px;"></img>
+            </div>
+            <!-- body main content -->
+            <div style="padding:0 15px;color:#333333;">
+                <div style="margin: 32px 0;">
+                    <div style="margin-bottom:10px;">Dear<span style="color:#50A9ED;">&nbsp;${object.name},</div>
+                    <div>A product has been restocked that you were looking to buy on <span style="color:#555555">${object.create_date}</span>, Please buy it before it get Out of Stock again.</div>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <div>Product Information</div>
+                </div>
+                <table style="width:100%">
+                  <tr>
+                    <td style="width:183px">
+                        <div style="padding:2px;border: 1px solid #CCCCCC;height:153px;width:153px;overflow:hidden;">
+                            <img src=${object.product_image_url} alt=${object.wk_product.name} style="max-height:153px;max-width:153px;"></img>
+                        </div>
+                    </td>
+                    <td style="vertical-align:top;">
+                        <div style="line-height:31px;">
+                            <strong>
+                                <div style="color:#50A9ED;">${object.wk_product.display_name}</div>
+                                <div style="margin-top:16px;">
+                                    <a href="${object.wk_pageURL}" style="height:50px;width:100px;background:#50A9ED;padding:13px 26px;color:#FFFFFF;text-decoration:none;font-size:14px;">Buy Now</a>
+                                </div>
+                            </strong>
+                        </div>
+                    </td> 
+                  </tr>
+                </table><br/>
+                <div>
+                    <div style="margin-bottom:10px;">Thanks &amp; Regards,</div>
+                    <div style="color:#50A9ED;">${object.wk_user.company_id.name}</div>
+                </div>
+            </div><br/><br/>
+            <div style="background:#333333;height:50px;color:#FFFFFF;font-size:16px;padding:2px 0;">
+                <div style="text-align:center;margin-top:17px;">
+                    <div>Powered By <a style="color:#50A9ED;text-decoration:none;" href="/">${object.wk_user.company_id.name}</a></div>
+                </div>
+            <div>
+        </div>
+            ]]>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->

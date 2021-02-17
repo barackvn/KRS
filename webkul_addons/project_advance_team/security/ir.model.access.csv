@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+project.access_project_project,project.project,project.model_project_project,project.group_project_user,1,1,0,0
+access_project_project_leader,project.project,project.model_project_project,group_project_leader,1,1,1,1
+access_project_task_type_leader,project.task.type leader,project.model_project_task_type,group_project_leader,1,1,1,1
+access_report_project_task_user,report.project.task.user,project.model_report_project_task_user,group_project_leader,1,1,1,1
+access_project_tags_leader,project.project_tags_leader,project.model_project_tags,group_project_leader,1,1,1,1
+access_mail_alias,mail.alias,mail.model_mail_alias,group_project_leader,1,1,1,1
+
+access_wk_team_project_leader,wk.team,model_wk_team,group_project_leader,1,1,1,0
+access_wk_team_user,wk.team,model_wk_team,base.group_user,1,0,0,0
+access_wk_team_project_manager,wk.team,model_wk_team,project.group_project_manager,1,1,1,1
+
+access_project_stage_group_project_leader,project_stage_group,model_project_stage_group,group_project_leader,1,1,1,0
+access_project_stage_group_project_manager,project_stage_group,model_project_stage_group,project.group_project_manager,1,1,1,1
+access_project_stage_group_user,project_stage_group,model_project_stage_group,base.group_user,1,0,0,0
+
+access_project_task_leader,project.task,project.model_project_task,group_project_leader,1,1,1,1

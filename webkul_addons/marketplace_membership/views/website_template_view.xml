@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+	<data>
+		<template id="assets_frontend_mp_membership" inherit_id="website.assets_frontend" name="Assets Frontend Membership">
+			<xpath expr="." position="inside">
+			    <link rel="stylesheet" href="/marketplace_membership/static/src/css/mp_membership.css" media="all" type="text/css"/>
+				<script src="/marketplace_membership/static/src/js/mp_membership.js"></script>
+		    </xpath>
+		</template>
+
+		<template id="wk_mp_membership_plan" name="Seller Membership Plans">
+			<t t-call="website.layout">
+				<t t-set="pageName" t-value="'homepage'"/>
+				<div class="oe_structure"/>
+				<div id="wrap">
+                    <div class="container mb16 mt16">
+                        <h2 class="text-center">Seller Membership Plans</h2>
+						<t t-if="not bins">
+							<div class="alert alert-success text-center o_form_header" attrs="{'invisible': [('free_membership', '=', False)]}">
+									<div>
+											<strong>No seller membership plan defined yet. </strong>
+									</div>
+							</div>
+						</t>
+                    </div>
+                    <div class="container mb32">
+		                <div class="row">
+                    	    <t t-set="i" t-value="0"/>
+                    	    <t t-foreach="bins" t-as="tr_product">
+        	            		<t t-foreach="tr_product" t-as="td_product">
+        	            			<t t-set="i" t-value="i+1"/>
+        	                        <t t-if="td_product">
+        		                        <t t-set="product" t-value="td_product['product']"/>
+        	                            <div class="col-lg-4 col-12 oe_product_cart" t-att-data-publish="product.website_published and 'on' or 'off'">
+        									<t t-set="product_image_big" t-value="td_product['x']+td_product['y'] > 2"/>
+        									<div t-if="i%3 ==0" class="row">
+        										<t t-call="marketplace_membership.wk_mpmembership_products_item"/>
+        									</div>
+        									<div t-if="i%3 !=0" class="">
+        										<t t-call="marketplace_membership.wk_mpmembership_products_item"/>
+        									</div>
+        	                       	    </div>
+        		                    </t>
+        		                </t>
+        	            	</t>
+                        </div>
+        	        </div>
+        		</div>
+        	</t>
+		</template>
+
+		<template id="wk_mpmembership_products_item" name="Membership item">
+	        <form action="/shop/cart/update" method="post">
+	            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+	            <div itemscope="itemscope" itemtype="http://schema.org/Product">
+	                <!-- <div class="col-md-4 col-xs-12"> -->
+					    <div class="card wk_panel-panel mb16" t-att-style="'border-color:%s' % product.get_mp_color('border')">
+					        <div class="text-center wk_panel-heading" t-att-style="'border-color:%s;background-color:%s;color:%s' % (product.get_mp_color('border'), product.get_mp_color('background-color'), product.get_mp_color('text'))">
+					            <h3 style="margin: 0"><t t-esc="product.name"/></h3>
+					            <p style="margin: 0" class="text-muted" t-att-style="'color:#fff' if product.mp_membership_color == '3' else ''">
+					                <t t-esc="product.wk_tag_line"/>
+					            </p>
+					        </div>
+			                <div style="max-width: 150px;max-height: 150px;margin: auto;">
+			                    <a itemprop="url" t-att-href="keep('/shop/product/%s' % slug(product), page=(pager['page']['num'] if pager['page']['num']&gt;1 else None))">
+			                        <span itemprop="image" t-field="product.image_1920" t-options="{'widget': 'image', 'style':'height: 150px;width: 150px;', 'zoom': 'image', 'class':'mp_no_of_product'}" t-att-alt="product.name"/>
+			                    </a>
+			                </div>
+			                <div class="panel-body text-center text-muted" t-att-style="'background-color:%s;color:%s !important' % (product.get_mp_color('background-color'),'#fff' if product.mp_membership_color == '3' else '')">
+					            <h3 style="margin: 0">
+					            	<span>Fee: </span>
+					            	<t t-if="website.currency_id.position == 'before'">
+					            		<span><t t-esc="website.currency_id.symbol"/></span>
+					            	</t>
+					            	<b style="font-size: 30px"><t t-esc="str(product.list_price).split('.')[0]"/></b>
+					            	<t t-if="len(str(product.list_price).split('.')[1]) == 2">
+					            		<small t-att-style="'color:#fff' if product.mp_membership_color == '3' else ''">.<t t-esc="str(product.list_price).split('.')[1]"/></small>
+					            	</t>
+					            	<t t-if="not len(str(product.list_price).split('.')[1]) == 2">
+					            		<small t-att-style="'color:#fff' if product.mp_membership_color == '3' else ''">.<t t-esc="str(product.list_price).split('.')[1] + '0'"/></small>
+					            	</t>
+					            	<t t-if="website.currency_id.position == 'after'">
+					            		<span><t t-esc="website.currency_id.symbol"/></span>
+					            	</t>
+					           	</h3>
+					        </div>
+					        <ul class="list-group">
+					            <li class="list-group-item"><b>Time Duration: </b><i><t t-esc="product.plan_duration"/> - <t t-esc="product.duration_type"/></i> from the date of purchasing.</li>
+					            <li class="list-group-item"><b>Product Reachability:</b> Allowed <i><t t-esc="product.no_of_product"/></i> product(s) for uploading.</li>
+					            <li class="list-group-item">You can upgrade your plan any time.</li>
+					            <li class="list-group-item">All terms and conditions will apply.
+										<a class="view_mship_t_and_c" style="float:right;cursor: pointer;">
+											<input type='hidden' class="membership_product_id" name="membership_product_id" t-att-value="int(product.id)" />
+											<span style="font-size:12px; font-weight: 600;">*T&amp;C Apply</span>
+										</a>
+						        </li>
+					        </ul>
+					        <div class="wk_panel-footer text-center oe_website_sale" t-att-style="'background-color:%s;color:%s' % (product.get_mp_color('background-color'),'#fff' if product.mp_membership_color == '3' else '')">
+					            <input name="product_id" t-att-value="product.product_variant_id.id" type="hidden" />
+					            <t t-if="len(product.product_variant_ids) == 1">
+					                <a class="btn btn-light btn-lg a-submit" href="" style="border-color: #adadad;">
+					                    <span class="fa fa-shopping-cart" /> Buy Now
+					                </a>
+					            </t>
+					            <t t-if="len(product.product_variant_ids) &gt; 1">
+					                <a class="btn btn-light btn-lg" t-att-href="keep('/shop/product/%s' % slug(product), page=(pager['page']['num'] if pager['page']['num']&gt;1 else None))" style="border-color: #adadad;">
+					                    <span class="fa fa-shopping-cart" /> Buy Now
+					                </a>
+					            </t>
+					        </div>
+					    </div>
+					<!-- </div> -->
+	            </div>
+	        </form>
+	    </template>
+
+	    <template id="mp_membership_header_footer_custom2" inherit_id="website.footer_custom" name="Footer Seller Membership Plan Link">
+		    <xpath expr="//div[hasclass('col-lg-4')][1]//ul" position="inside">
+		        <li t-if="website.env.user and website.env.user.partner_id.seller">
+		            <a href="/seller-membership-plan" target="_blank"><t t-esc="website.sudo().mp_membership_plan_link_label"/></a>
+		        </li>
+		    </xpath>
+		</template>
+
+		<template id="wk_membership_product_t_and_c" name="Return Product">
+	    	<div id="rma_return_model" class="modal fade" tabindex="-1" role="dialog" >
+	    		<div class="modal-dialog modal-lg">
+	    			<div class="modal-content">
+	    				<div class="modal-header">
+					        <h4 class="modal-title" id="myModalLabel"><strong/><t t-esc="membership_product_obj.name"/>
+					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h4>
+					    </div>
+					    <div class="modal-body">
+					    	<h3>Terms &amp; Conditions</h3>
+					    	<data id="membership_t_and_c" t-att-data-terms="membership_product_obj.membership_t_and_c"/>
+					    	<div style="line-height: 1.42857143;word-break: break-all;word-wrap: break-word;color: #333333;background-color: #f5f5f5;border: 1px solid #ccc;border-radius: 4px;padding:10px;font-size: 15px;">
+					    		<t t-esc="membership_product_obj.membership_t_and_c or 'Not defined.'"/>
+					    	</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-lg fa fa-times" data-dismiss="modal" aria-hidden="true"> Close </button>
+						</div>
+					</div>
+				</div>
+			</div>
+	    </template>
+
+	</data>
+</odoo>

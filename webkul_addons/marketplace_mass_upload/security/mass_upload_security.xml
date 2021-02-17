@@ -1,0 +1,41 @@
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+
+      <record id="group_marketplace_mass_upload" model="res.groups">
+        <field name="name">Marketplace Mass Upload</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+      </record>
+
+      <!-- *************** Seller Rules ***************** -->
+      <record id="mp_mass_upload_seller_rule" model="ir.rule">
+        <field name="name">Marketplace Mass Upload Seller rules</field>
+        <field name="model_id" ref="model_mass_inventory_upload" />
+        <field name="groups" eval="[(4,ref('odoo_marketplace.marketplace_seller_group'))]" />
+        <field name="domain_force">[('seller_id','=',user.partner_id.id)]</field>
+      </record>
+      <record id="mp_mass_product_upload_seller_rule" model="ir.rule">
+        <field name="name">Marketplace Mass Product Upload Seller rules</field>
+        <field name="model_id" ref="model_mass_product_upload" />
+        <field name="groups" eval="[(4,ref('odoo_marketplace.marketplace_seller_group'))]" />
+        <field name="domain_force">[('seller_id','=',user.partner_id.id)]</field>
+      </record>
+
+      <!-- *************** Officer Rules ***************** -->
+      <record id="mp_mass_upload_officer_rule" model="ir.rule">
+        <field name="name">Marketplace Mass Upload Officer rules</field>
+        <field name="model_id" ref="model_mass_inventory_upload" />
+        <field name="groups" eval="[(4,ref('odoo_marketplace.marketplace_officer_group'))]" />
+        <field name="domain_force">[(1,'=',1)]</field>
+      </record>
+      <record id="mp_mass_product_upload_officer_rule" model="ir.rule">
+        <field name="name">Marketplace Mass Product Upload Officer rules</field>
+        <field name="model_id" ref="model_mass_product_upload" />
+        <field name="groups" eval="[(4,ref('odoo_marketplace.marketplace_officer_group'))]" />
+        <field name="domain_force">[(1,'=',1)]</field>
+      </record>
+
+    </data> 
+</odoo>

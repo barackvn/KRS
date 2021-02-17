@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_cse_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.cse</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="1"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block o_not_app" data-string="Google Custom Search" data-key="google_custom_search">
+                        <h2>Custom Search Engine Configuration</h2>
+                        <p class="text-muted" style="margin-left:5%">
+                            Default Configuration used by Google Custom Search module
+                            in order to customize Custom Search Engine for you website.
+                        </p>
+                        <div>
+                        <button name="download_file"
+                                type="object"
+                                string="Download CSE xml file"
+                                class="oe_highlight"
+                                style="margin-left: 36%"/>
+                        </div>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="cse_enable"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="cse_enable" string="Enable Custom Search Engine"/>
+                                    <div class="text-muted">
+                                        Enable custom search engine for your website.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="cse_image_search"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="cse_image_search" string="Enable Image Search"/>
+                                    <div class="text-muted">
+                                        This will work only if image search has been enabled
+                                        in the Custom Search Panel
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <label for="id" string='Search Engine Unique Id'/>
+                                    <div class="text-muted">
+                                        <b>
+                                            If don't have it, visit 
+                                            <a href="https://cse.google.com/all" target="_blank">
+                                            Here!</a>, to get one.
+                                        </b>
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label string="ID" for="cse_unique_id" class="col-md-3 o_light_label"/>
+                                            <field name="cse_unique_id"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="cse_open_new_tab"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="cse_open_new_tab" string="Open Link in New Tab"/>
+                                    <div class="text-muted">
+                                        Link will open in new tab.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <label string='No. of Records per pag'/>
+                                    <div class="text-muted">
+                                        An integer between range of 1-10
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label string="No." for="cse_records_perpage" class="col-md-3 o_light_label"/>
+                                            <field name="cse_records_perpage"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="cse_order_sorting"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="id" string="Enable Search Result Sorting"/>
+                                    <div class="text-muted">
+                                        Enable the sorting of result by relevance, date.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="cse_auto_complete"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="cse_auto_complete" string="Enable Auto Complete"/>
+                                    <div class="text-muted">
+                                        It will auto complete searching words in search bar.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="cse_open_new_tab"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label string="Open Link in New Tab"/>
+                                    <div class="text-muted">
+                                        Link will open in new tab.
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="cse_history"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label string="Enable History"/>
+                                    <div class="text-muted">
+                                        Enables history management for the browse.
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_cse_config" model="ir.actions.act_window">
+            <field name="name">Configure Google Custom Search</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_id" ref="res_config_settings_view_cse_form"/>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <record id="res_config_settings_view_form_inherit_cse_bridge" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.cse</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="google_custom_search.res_config_settings_view_cse_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@data-key='google_custom_search']" position="attributes">
+                    <attribute name="class">app_settings_block</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

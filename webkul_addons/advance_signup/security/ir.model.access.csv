@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+public_access_adv_signup_settings,adv_signup_settings_public,advance_signup.model_adv_signup_settings,,1,0,0,0
+user_access_adv_signup_settings,adv_signup_settings_user,advance_signup.model_adv_signup_settings,base.user_admin,1,1,1,1
+manager_access_adv_signup_settings,adv_signup_settings_manager,advance_signup.model_adv_signup_settings,base.group_user,1,1,1,1
+
+public_access_adv_signup_fields,adv_signup_fields_public,advance_signup.model_adv_signup_fields,,1,0,0,0
+user_access_adv_signup_fields,adv_signup_fields_user,advance_signup.model_adv_signup_fields,base.user_admin,1,1,1,1
+manager_access_adv_signup_fields,adv_signup_fields_manager,advance_signup.model_adv_signup_fields,base.group_user,1,1,1,1

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data>
+        <record id="wk_emp_work_type_filter_in_project_task_formview" model="ir.ui.view">
+            <field name="name"> Work Type Filter </field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/field[@name='name']" position="before">
+                    <field name="id" string="Task Id"/>
+                </xpath>
+                <xpath expr='//search//field[@name="stage_id"]' position='after'>
+                    <field name="log_action" string="Working Status"/>
+                </xpath>
+                <filter name="unassigned" position="after">
+                    <filter string="Working Status" name="log_action" icon="terp-personal" domain="[]" context="{'group_by':'log_action'}"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="wk_emp_work_type_change_project_task_formview" model="ir.ui.view">
+            <field name="name"> Task </field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="open_work_log" type="object" groups="base.group_user" class="oe_stat_button" icon="fa-history" string="View Work Summary"/>
+                </xpath>
+                <field name="user_id" position="replace">
+                    <field name="user_id" options='{"no_open": True,"no_create_edit": True}' attrs="{'readonly': [('log_action', '=', 'working')]}" class="oe_inline"/>
+                    <field name="log_action" invisible="1"/>
+                    <label for="task_start" string="Working Status" attrs="{'invisible': [('log_action', 'in', ['working','closed'])]}"/>
+                    <button name="task_start" string="Start Now" type="object" class="fa fa-youtube-play text-success btn-secondary" attrs="{'invisible': [('log_action', 'in', ['working','closed'])]}" />
+                    <label for="task_stop" string="Working Status" attrs="{'invisible': [('log_action', 'in', ['not_working','closed'])]}" />
+                    <button name="task_stop" string="Stop Now" type="object" class="fa fa-stop-circle text-danger btn-secondary" attrs="{'invisible': [('log_action', 'in', ['closed', 'not_working'])]}" help="To change assigned person, you must have stop this task first."/>
+                </field>
+                <field name='date_last_stage_update' position="after">
+                    <field name="completion_date"/>
+                    <button name="get_task_time_duration" string="Check Total Spent Time" type="object" help="Shows total time spent by employee on this task." class="oe_highlight" />
+                </field>
+                <field name='partner_id' position="after">
+                    <field name="last_start_time" readonly="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="wk_emp_work_type_change_project_task_formview2" model="ir.ui.view">
+            <field name="name"> Hr.Timesheet.Task </field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+            <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
+            <field name="arch" type="xml">
+                <field name="progress" position="replace"/>
+                <field name="planned_hours" position="replace"/>
+                <field name="remaining_hours" position="attributes">
+                    <attribute name="attrs"></attribute>
+                </field>
+                <field name="timesheet_ids" position="replace">
+                    <field name="timesheet_ids" context="{'default_project_id': project_id}" readonly="1">
+                        <tree editable="bottom" string="Timesheet Activities" default_order="id desc">
+                            <field name="date"/>
+                            <field name="user_id" required="1"/>
+                            <field name="name"/>
+                            <field name="unit_amount" string="Duration" widget="float_time"/>
+                            <field name="project_id" invisible="1"/>
+                        </tree>
+                        <form create="false" edit="false" delete="false">
+                            <sheet>
+                                <group col="4">
+                                    <field name="task_id"/>
+                                    <field name="start_time"/>
+                                    <field name="stop_time"/>
+                                    <field name="hours" string="Total Time"/>
+                                    <field name="user_id"/>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </field>
+            </field>
+        </record>
+
+        <record id="wk_time_log_in_task_treeview" model="ir.ui.view">
+            <field name="name">Project.Task.Tree</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-danger">
+                    date_deadline and (date_deadline&lt;current_date) and log_action != 'closed'</attribute>
+                </xpath>
+                <field name="date_deadline" position="replace">
+                    <field name="date_deadline"/>
+                </field>
+                <field name="name" position="replace">
+                    <field name="id" invisible="1"/>
+                    <field name="name" invisible="1"/>
+                    <field name="display_name" string="Task Title"/>
+                </field>
+                <field name="user_id" position="after">
+                    <field name="create_uid" string="Created By"/>
+                </field>
+                <field name="stage_id" position="after">
+                    <field name="create_date"/>
+                    <field name="write_date"/>
+                </field>
+                <field name="company_id" position="before">
+                    <field name="log_action" string="Working Status" />
+                    <button name="task_start" type="object" string="Start Now" icon="fa-youtube-play fa-2x text-success" attrs="{'invisible': [('log_action', 'in', ['working','closed'])]}" />
+                    <button name="task_stop" type="object" string="Stop Now" icon="fa-stop-circle fa-2x text-danger" attrs="{'invisible': [('log_action', 'in', ['closed','not_working'])]}" />
+                </field>
+            </field>
+        </record>
+
+        <record id="wk_time_log_view_task_kanban" model="ir.ui.view">
+            <field name="name">Project.Task.Tree</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field name="arch" type="xml">
+                <templates position="before">
+                    <field name="log_action" />
+                </templates>
+                <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+                    <t t-if="record.log_action.raw_value == 'not_working'">
+                        <button name="task_start" type="object" string="Start Now" class="fa fa-youtube-play fa-2x text-success"/>
+                    </t>
+                    <t t-if="record.log_action.raw_value == 'working'">
+                        <button name="task_stop" type="object" string="Stop Now" class="fa fa-stop-circle fa-2x text-danger" />
+                    </t>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="wk_time_log_in_task_treeview_inherit" model="ir.ui.view">
+            <field name="name">Project.Task.Tree</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_tree2_inherited"/>
+            <field name="arch" type="xml">
+                <field name="planned_hours" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="remaining_hours" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="webkul_completed_task_action">
+            <field name="name">Completed Tasks</field>
+            <field name="res_model">project.task</field>
+            <field name="context">{'search_default_my_tasks': 1}</field>
+            <field name="domain">[('log_action','=','closed')]</field>
+            <field name="search_view_id" ref="project.view_task_search_form"/>
+        </record>
+
+        <record id="project.action_view_task" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field name="context">{'search_default_my_tasks': 1}</field>
+            <field name="domain">[('log_action','!=','closed')]</field>
+            <field name="search_view_id" ref="project.view_task_search_form"/>
+            <field name="help" type="html">
+                <p>
+                    Odoo's project management allows you to manage the pipeline of your tasks efficiently. You can track progress, discuss on tasks, attach documents, etc.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="wk_daily_report_sub_main_menu3" parent="project.menu_main_pm" name="Work Summary" sequence="49" groups="project.group_project_user" />
+
+        <menuitem id="wk_daily_time_log_menu1" parent="wk_daily_report_sub_main_menu3" action="wk_task_work_log_action" name="Tasks Summary" sequence="1"/>
+
+        <menuitem id="project_complete_task" parent="project.menu_main_pm" name="Completed Tasks" sequence="5" groups="project.group_project_user" action="webkul_completed_task_action" />
+    </data>
+</odoo>

@@ -1,0 +1,1567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+
+    <template id="s_inventive_page_title" name="Page Title">
+        <section class="s_inventive_page_title" style="background-image: url('/theme_inventive/static/src/img/backgrounds/back_biker.jpg');background-position: 50% 50%;">
+            <div class="row m-0">
+                <div class="col-12 pt32 pb32" style="background-image: linear-gradient(90deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.02) 100%)">
+                    <div class="container d-flex justify-content-between align-items-center">
+                        <span class="page_strip_text" style="font-size:1.5rem; color:#FFF;">Show Page</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <!--~~~~~~~~~~~~~s_inventive_page_title_paralex~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <template id="s_inventive_page_title_paralex" name="Page Title Paralex">
+        <section class="s_inventive_page_title  parallax s_parallax_is_fixed bg-black-50 pt16 pb16" data-scroll-background-ratio="5">
+            <span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-image: url('/web/image/website.s_parallax_default_image'); background-position: 50% 75%;"/>
+            <div class="oe_structure">
+                <section>
+                    <div class="container">
+                        <div class="row s_nb_column_fixed">
+                            <div class="col-lg-12 s_title pt16 pb16">
+                                <h2 class="title_header">Your Site Title</h2>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </template>
+    <!--~~~~~~~~~~~~~s_inventive_owl_carousel_snippet ~~~~~~~~~~~~~~~~~~~~~~~-->
+    <template id="carousel_common_elements">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"/>
+            <li data-target="#myCarousel" data-slide-to="1"/>
+            <li data-target="#myCarousel" data-slide-to="2"/>
+        </ol>
+        <!-- Controls -->
+        <div class="carousel-control-prev" data-target="#myCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+            <span class="carousel-control-prev-icon"/>
+            <span class="sr-only">Previous</span>
+        </div>
+        <div class="carousel-control-next" data-target="#myCarousel" data-slide="next" role="img" aria-label="Next" title="Next">
+            <span class="carousel-control-next-icon"/>
+            <span class="sr-only">Next</span>
+        </div>
+    </template>
+    <template id="s_inventive_owl_carousel_snippet_1" name="Carousel 1">
+        <section class="s_inventive_owl_carousel_snippet design_1 th_snippet ">
+            <div class="container" style="position:relative;">
+                <div
+                    id="my_custom_carousel"
+                    class="s_carousel s_carousel_default carousel slide"
+                    data-items="1"
+                    data-autoplay="true"
+                    data-smartspeed="1000"
+                    data-nav="true"
+                    data-dots="true"
+                    data-loop="true"
+                    data-autoplaytimeout="6000">
+                    <!-- Content -->
+                    <div class="carousel-inner">
+                        <t t-foreach="range(3)" t-as="loop">
+                            <div t-attf-class="carousel-item oe_custom_bg oe_img_bg pt96 pb96 #{'active' if loop_index==0 else ''}" style="background-image: url('/web/image/website.s_carousel_default_image_2');" data-name="Slide">
+                                <div class="container">
+                                    <div class="row content">
+                                        <div class="carousel-content col-lg-6 offset-lg-1 bg-black-50 text-center pt48 pb40 d-flex flex-column align-items-center justify-content-around">
+                                            <h1 class="h_tag">Clever Slogan</h1>
+                                            <p class="p_tag m-0">Storytelling is powerful. It draws readers in and engages them.</p>
+                                            <div class="s_btn text-center pt16 pb16" data-name="Buttons">
+                                                <a href="/shop" class="btn btn-yellow">Explore More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    <t t-call="theme_inventive.carousel_common_elements"/>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_owl_carousel_snippet_2" name="Carousel 2">
+        <section class="s_inventive_owl_carousel_snippet design_2 th_snippet">
+            <div
+                id="my_custom_carousel"
+                class="s_carousel s_carousel_default carousel slide"
+                data-items="1"
+                data-autoplay="true"
+                data-smartspeed="1000"
+                data-nav="true"
+                data-dots="true"
+                data-loop="true"
+                data-autoplaytimeout="6000">
+                <!-- Content -->
+                <div class="carousel-inner">
+                    <t t-foreach="range(3)" t-as="loop">
+                        <div t-attf-class="carousel-item oe_custom_bg oe_img_bg pt96 pb96 #{'active' if loop_index==0 else ''}" style="background-image: url('/web/image/website.s_carousel_default_image_1');" data-name="Slide">
+                            <div class="container">
+                                <div class="row content">
+                                    <div class="carousel-content col-lg-6 offset-lg-1 bg-black-50 text-center pt48 pb40 d-flex flex-column align-items-center justify-content-around">
+                                        <h1 class="h_tag">Clever Slogan</h1>
+                                        <p class="p_tag m-0">Storytelling is powerful. It draws readers in and engages them.</p>
+                                        <div class="s_btn text-center pt16 pb16" data-name="Buttons">
+                                            <a href="/shop" class="btn btn-yellow">Explore More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <t t-call="theme_inventive.carousel_common_elements"/>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_owl_carousel_snippet_3" name="Carousel 3">
+        <section class="s_inventive_owl_carousel_snippet design_3 th_snippet ">
+            <div class="container" style="position:relative;">
+                <div class="row">
+                    <div class="col-3 column_left">
+                        <img class="img img-fluid" src="/website/static/src/img/library/ice_coffe.jpg"/>
+                        <div class="content row">
+                            <div class="col">
+                                <h6 class="d-flex justify-content-center" style="font-size: 36px;">Inventive</h6>
+                                <h6 class="d-flex justify-content-center" style="font-size: 18px;">GRAB IT NOW!!</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-9 column_right">
+                        <div
+                            id="my_custom_carousel"
+                            class="s_carousel s_carousel_default carousel slide"
+                            data-items="1"
+                            data-autoplay="true"
+                            data-smartspeed="1000"
+                            data-nav="true"
+                            data-dots="true"
+                            data-loop="true"
+                            data-autoplaytimeout="6000">
+                            <!-- Content -->
+                            <div class="carousel-inner">
+                                <t t-foreach="range(3)" t-as="loop">
+                                    <div t-attf-class="carousel-item oe_custom_bg oe_img_bg pt32 pb32 #{'active' if loop_index==0 else ''}" style="background-image: url('/web/image/website.s_carousel_default_image_2');" data-name="Slide">
+                                        <div class="container">
+                                            <div class="row content">
+                                                <div class="carousel-content col-lg-6 offset-lg-1 bg-black-50 text-center pt48 pb40 d-flex flex-column align-items-center justify-content-around">
+                                                    <h1 class="h_tag">Clever Slogan</h1>
+                                                    <p class="p_tag m-0">Storytelling is powerful. It draws readers in and engages them.</p>
+                                                    <div class="s_btn text-center pt16 pb16" data-name="Buttons">
+                                                        <a href="/shop" class="btn btn-yellow">Explore More</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                            <t t-call="theme_inventive.carousel_common_elements"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_owl_carousel_snippet_4" name="Carousel 4">
+        <section class="s_inventive_owl_carousel_snippet design_4 th_snippet">
+            <div
+                id="my_custom_carousel"
+                class="s_carousel s_carousel_default carousel slide"
+                data-items="1"
+                data-mobile-items="1"
+                data-tab-items="1"
+                data-desktop-items="1"
+                data-autoplay="true"
+                data-smartspeed="1000"
+                data-nav="true"
+                data-dots="true"
+                data-loop="true"
+                data-autoplaytimeout="6000">
+                <!-- Content -->
+                <div class="carousel-inner">
+                    <t t-foreach="range(3)" t-as="loop">
+                        <div t-attf-class="carousel-item oe_custom_bg oe_img_bg pt152 pb152 #{'active' if loop_index==0 else ''}" style="background-image: url('/web/image/website.s_carousel_default_image_1');" data-name="Slide">
+                            <div class="container">
+                                <div class="row content">
+                                    <div class="carousel-content col-lg-8 offset-lg-2">
+                                        <div class="s_title pb8" data-name="Title">
+                                            <h1 class="h_tag m-0">Slide Title</h1>
+                                        </div>
+                                        <p class="p_tag m-0">Use this snippet to presents your content in a slideshow-like format.<br/>
+                                            Don't write about products or services here, write about solutions.</p>
+                                        <div class="s_btn text-left pt16 pb16" data-name="Buttons">
+                                            <a href="/aboutus" class="btn btn-secondary flat rounded-0">About us</a>
+                                            <a href="/shop" class="btn btn-primary flat rounded-0">Explore Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <t t-call="theme_inventive.carousel_common_elements"/>
+            </div>
+        </section>
+    </template>
+    <!--~~~~~~~~~~~~~S_Inventive_Text_Block~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <template id="s_inventive_text_block" name="Text block">
+        <section class="s_text_block pt32 pb32 th_snippet ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-center    align-items-center">
+                            <h3 class="h_tag">Welcom To Inventive</h3>
+                        </div>
+                        <div class="">
+                            <p class="p_tag" style="text-align: center;">
+                                A great way to catch your reader's attention is to tell a story. Everything you consider writing can be told as a story. Great stories have personality.Consider telling a great story that provides personality. Writing a story with personality for
+                                potential clients will assists with making a relationship connection. This shows up in small quirks like word choices or phrases. Write from your point of view, not from someone else's experience.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_full_image_block" name="Full Image Block">
+        <section class="s_inventive_full_image_block" style="background-image:url('/theme_inventive/static/src/img/backgrounds/back_biker.jpg');">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 pb16 pt16">
+                        <h2 class="title_header" style="color:#FFFFFF;">Your Site Title</h2>
+                        <p class="p_tag" style="color:#FFFFFF;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                            scrambled it to make a type specimen book. It has survived not only five centuries,
+                        </p>
+                        <div class="s_btn" data-name="Buttons">
+                            <a href="/" class="btn btn-yellow">Discover More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_full_image_paralex" name="Full Image Paralex">
+        <section class="s_inventive_full_image_paralex  parallax s_parallax_is_fixed bg-black-50 pt32 pb32" data-scroll-background-ratio="5">
+            <span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-image: url('/web/image/website.s_parallax_default_image'); background-position: 50% 75%;"/>
+            <div class="oe_structure">
+                <section>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6 pb16 pt16">
+                                <h2 class="title_header" style="color:#FFFFFF;">Your Site Title</h2>
+                                <p class="p_tag" style="color:#FFFFFF;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                                    scrambled it to make a type specimen book. It has survived not only five centuries,
+                                </p>
+                                <div class="s_btn" data-name="Buttons">
+                                    <a href="/" class="btn btn-yellow">Discover More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </template>
+    <!--~~~~~~~~~~~~~S_Inventive_Product_Nav_Tabs~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <template id="inventive_dynamic_tab_snippet_products">
+        <div class="dyn_products">
+            <t t-foreach="products" t-as="product">
+                <t t-set="product_href" t-value="'/shop/product/%s' % slug(product)"/>
+                <t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
+                <div class="oe_product oe_product_cart" t-att-data-publish="product.website_published and 'on' or 'off'">
+                    <form action="" method="post" disable="disabled" class="card oe_product_cart">
+                        <div class="card-body p-1 oe_product_image">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                            <input type="hidden" name="product_id" t-att-value="product.product_tmpl_id.id if product.is_product_variant else product.id"/>
+                            <a t-att-href="product_href">
+                                <span t-field="product.image_1920"
+                                    t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256'}"
+                                    class="d-flex h-100 justify-content-center align-items-center"/>
+                                <span class="mask"/>
+                            </a>
+                            <t t-set="show_quick_view_btn" t-value="request.env['ir.config_parameter'].sudo().get_param('theme_inventive.product_quick_view')"/>
+                            <span t-if="show_quick_view_btn" class="btn inventive_product_quick_view"  title="Quick View" t-att-product-template-id="product.product_tmpl_id.id if product.is_product_variant else product.id" data-type="quick"><span class="fa fa-search" role="img"/></span>
+                        </div>
+                        <div class="card-body p-0 text-center o_wsale_product_information">
+                            <div class="p-2 o_wsale_product_information_text">
+                               <h6 class="o_wsale_products_item_title">
+                                   <a itemprop="name" t-att-href="product_href" t-att-content="product.display_name"><t t-esc="product.display_name"/></a>
+                               </h6>
+                               <t t-call="theme_inventive.inventive_product_rating_star_template">
+                                   <t t-if="product.is_product_variant" t-set="product" t-value="product.product_tmpl_id"/>
+                               </t>
+                               <div class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+                                    <del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                                    <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                    <span itemprop="price" style="display:none;" t-esc="combination_info['price']" />
+                                    <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+                               </div>
+                            </div>
+                            <div class="o_wsale_product_btn">
+                                <t t-if="product.is_product_variant" t-set="product" t-value="product.product_tmpl_id"/>
+                                <button type="button" role="button" class="btn btn-secondary o_add_compare" title="Compare" aria-label="Compare" t-att-data-product-product-id="product.id" data-action="o_comparelist"><span class="fa fa-exchange"/></button>
+                                <t t-set="in_wish" t-value="product._is_in_wishlist()"/>
+                                <t t-set="product_variant_id" t-value="product._get_first_possible_variant_id()"/>
+                                <button t-if="product_variant_id" type="button" role="button" class="btn btn-secondary o_add_wishlist"
+                                    t-att-disabled="in_wish or None" title="Add to Wishlist" t-att-data-product-template-id="product.id"
+                                    t-att-data-product-product-id="product_variant_id" data-action="o_wishlist">
+                                    <span class="fa fa-heart" role="img" aria-label="Add to wishlist"/>
+                                </button>
+                                <div class="btn-cart">
+                                     <a id="add_to_cart" href="#" class="btn btn-primary" aria-label="Shopping cart" title="Shopping cart">
+                                         <span class="text ">Add To Cart</span>
+                                     </a>
+                                 </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </t>
+        </div>
+    </template>
+    <template id="s_inventive_product_nav_tabs_1" name="Product Tabs 1">
+        <section class="s_inventive_product_nav_tabs_1 th_snippet pb16 pt16" data-type="1" style="background-color:#F2F2F2;">
+            <div class="container oe_website_sale">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 s_col_no_bgcolor text-center" data-name="Box">
+                        <div>
+                            <div class="pos_title">
+                                <h2 class="h_tag">
+                                    Products
+                                </h2>
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active text-uppercase" data-toggle="tab" href="#all_products">ALL</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-uppercase" data-toggle="tab" href="#latest_products">LATEST</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-uppercase" data-toggle="tab" href="#sale_products">POPULAR</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div id="all_products" class="container tab-pane active">
+                                    <div class="four_column_view s_dynamic_data" data-name="all-products"></div>
+                                </div>
+                                <div id="latest_products" class="container tab-pane">
+                                    <div class="four_column_view s_dynamic_data" data-name="latest-products"></div>
+                                </div>
+                                <div id="sale_products" class="container tab-pane">
+                                    <div class="four_column_view s_dynamic_data" data-name="sale-products"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_product_nav_tabs_2" name="Product Tabs 2">
+        <section class="s_inventive_product_nav_tabs_2 th_snippet pb16 pt16" data-type="2">
+            <div class="container oe_website_sale">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 s_col_no_bgcolor text-center" data-name="Box">
+                        <div>
+                            <div class="pos_title">
+                                <h2 class="h_tag">
+                                    <span>Our Products</span>
+                                </h2>
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active text-uppercase" data-toggle="tab" href="#all_products">ALL</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-uppercase" data-toggle="tab" href="#latest_products">LATEST</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-uppercase" data-toggle="tab" href="#sale_products">POPULAR</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div id="all_products" class="container tab-pane active">
+                                    <div class="four_column_view s_dynamic_data" data-name="all-products"></div>
+                                </div>
+                                <div id="latest_products" class="container tab-pane">
+                                    <div class="four_column_view s_dynamic_data" data-name="latest-products"></div>
+                                </div>
+                                <div id="sale_products" class="container tab-pane">
+                                    <div class="four_column_view s_dynamic_data" data-name="sale-products"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!--~~~~~~~~~~~~~~S_Inventive_Blog_Snippet~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <template id="latest_posts_template">
+        <div t-foreach="posts" class="col-12 col-sm-6 col-md-4 media mt-3 s_latest_posts_post" t-as="p">
+            <t t-set="_record" t-value="p.sudo()"/>
+            <a t-attf-href="/blog/#{p.blog_id.id}/post/#{p.id}">
+                <span class="o_record_cover_image"/>
+                <div class="media-body pb-2">
+                    <h6 class="h_tag" t-esc="_record.name"/>
+                    <p class="p_tag text-muted" t-field="_record.subtitle"/>
+                </div>
+                <div class="media-body author_detail d-flex pb-2">
+                    <span class="image" t-esc="_record.author_avatar" t-options="{'widget':'image'}"/>
+                    <span class="detail">
+                        <span class="text-muted p_date" t-esc="_record.published_date"/>
+                        <span class="name" t-esc="_record.author_id.name"/>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </template>
+    <template id="latest_posts_2_template">
+        <div t-foreach="posts" class="col-md-4 col-sm-6 col-12 pt8 pb8 s_latest_posts_post"  t-as="p" >
+            <div class="item-box-blog">
+                <div class="item-box-blog-image">
+                    <div class="item-box-blog-date">
+                        <span t-esc="p.published_date" class="mon" t-options="{'widget':'date','format':'MMMM dd'}"/>
+                    </div>
+                    <figure>
+                        <a class="s_latest_posts_post_cover position-relative d-flex flex-column shadow-sm overflow-hidden rounded text-decoration-none" t-attf-href="/blog/#{p.blog_id.id}/post/#{p.id}">
+                            <t t-call="website.record_cover">
+                                <t t-set="_record" t-value="p.sudo()"/>
+                                <t t-set="use_filters" t-value="True"/>
+                                <t t-set="additionnal_classes" t-value="'h-100 w-100 bg-600 position-absolute'"/>
+                            </t>
+                        </a>
+                    </figure>
+                </div>
+                <div class="item-box-blog-body">
+                    <t t-set="_record" t-value="p.sudo()"/>
+                    <div class="item-box-blog-heading">
+                        <a t-attf-href="/blog/#{p.blog_id.id}/post/#{p.id}" tabindex="0">
+                            <h5 class="h_tag" t-esc="p.name"/>
+                        </a>
+                    </div>
+                    <!--Data-->
+                    <div class="item-box-blog-data" style="padding:15px;">
+                        <p>
+                            <i class="fa fa-user-o"/>
+                            <span class="uname" t-esc="_record.author_id.name"/>
+                            <i class="fa fa-comments-o"/>
+                            <span class="visits">
+                                visits(<t t-esc="_record.visits"/>)
+                            </span>
+                        </p>
+                    </div>
+                    <!--Text-->
+                    <div class="item-box-blog-text">
+                        <p t-field="_record.subtitle"></p>
+                    </div>
+                    <!-- Read More Button-->
+                    <div class="item-box-blog-btn">
+                        <a class="btn read" t-attf-href="/blog/#{p.blog_id.id}/post/#{p.id}">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="latest_posts_3_template">
+        <figure t-foreach="posts" t-as="p" class="col-12 col-md-6 col-xl-4 my-3 s_latest_posts_post">
+            <a class="s_latest_posts_post_cover position-relative d-flex flex-column shadow-sm overflow-hidden rounded text-decoration-none" t-attf-href="/blog/#{p.blog_id.id}/post/#{p.id}">
+                <t t-call="website.record_cover">
+                    <t t-set="_record" t-value="p.sudo()"/>
+                    <t t-set="use_filters" t-value="True"/>
+                    <t t-set="additionnal_classes" t-value="'h-100 w-100 bg-600 position-absolute'"/>
+                </t>
+
+                <figcaption class="text-center w-100 h-100 px-3 d-flex flex-column flex-grow-1">
+                    <div class="s_latest_posts_post_title text-white" t-field="p.name"/>
+                    <div class="s_latest_posts_post_subtitle text-white" t-field="p.subtitle"/>
+                </figcaption>
+
+                <div class="s_latest_posts_loader d-flex align-items-center justify-content-center bg-200">
+                    <div class="d-none rounded-circle bg-black-25 w-25 h-25"/>
+                </div>
+            </a>
+        </figure>
+    </template>
+
+    <template id="s_inventive_blog_snippet" name="Blogs 1">
+        <section class="s_latest_posts s_inventive_blog_snippet th_snippet pt16 pb16">
+            <div class="container">
+                <h2 class="text-center">Latest Posts</h2>
+                <div class="row js_get_posts"
+                    data-loading="true"
+                    data-template="theme_inventive.latest_posts_template"/>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_blog_snippet_2" name="Blog 2">
+        <section class="s_latest_posts s_inventive_blog_snippet_2 th_snippet pt16 pb16">
+            <div class="container">
+                <h2 class="text-center">Latest Posts</h2>
+                <div class="row js_get_posts"
+                    data-loading="true"
+                    data-template="theme_inventive.latest_posts_2_template"/>
+            </div>
+        </section>
+    </template>
+    <!--~~~~~~~~~~~~~~S_Inventive_Featured_Products~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <template id="inventive_featured_products_dynamic_1">
+        <div class="dyn_products">
+            <t t-if="products" t-foreach="products" t-as="product">
+                <div class="s_product in-view" t-att-data-publish="product.website_published and 'on' or 'off'">
+                    <t t-set="product_href" t-value="'/shop/product/%s' % slug(product)"/>
+                    <t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
+
+                    <div class="s_product_image">
+                        <a itemprop="url" t-att-href="product_href" t-field="product.image_256" t-options="{'widget': 'image'}"/>
+                    </div>
+                    <div class="s_product_content">
+                        <h5>
+                            <a itemprop="name" t-att-href="product_href" t-att-content="product.name" t-field="product.name"/>
+                            <a role="button" t-if="not show_publish and not product.website_published" t-att-href="product_href" class="btn btn-secondary btn-sm btn-danger" title="This product is unpublished.">Unpublished</a>
+                        </h5>
+                        <span class="inventive_product_price">
+                            <t t-if="True">
+                                <del t-attf-class="text-danger mr8 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                            </t>
+                            <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                            <span itemprop="price" style="display:none;" t-esc="combination_info['price']"/>
+                            <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name"/>
+                        </span>
+                        <t t-if="is_top_rated" t-call="theme_inventive.inventive_product_rating_star_template"/>
+                    </div>
+                </div>
+            </t>
+
+        </div>
+    </template>
+    <template id="s_inventive_featured_products_1" name="Feature Products 1">
+        <section class="s_inventive_featured_products_1 th_snippet pt16 pb16" data-ref="featured_products" data-type="1">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <h4 style="" class="pb16">New Products</h4>
+                        <div class="f_products_div s_dynamic_data" data-name="new-product" contenteditable="False">
+                            <t t-call="theme_inventive.inventive_featured_products_dynamic_1"/>
+                        </div>
+                    </div>
+                    <div class="">
+                        <h4 style="" class="pb16">Featured</h4>
+                        <div class="f_products_div s_dynamic_data" data-name="featured-product" contenteditable="False">
+                            <t t-call="theme_inventive.inventive_featured_products_dynamic_1"/>
+                        </div>
+                    </div>
+                    <div class="">
+                        <h4 style="" class="pb16">Top Rated</h4>
+                        <div class="f_products_div s_dynamic_data" data-name="rated-product" contenteditable="False">
+                            <t t-call="theme_inventive.inventive_featured_products_dynamic_1"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_featured_products_2" name="Feature Products 2">
+        <section class="s_inventive_featured_products_2 th_snippet pt16 pb16" data-ref="featured_products" data-type="2">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <div class="heading d-flex justify-content-between align-items-center">
+                            <h4 class="h_tag">NEW PRODUCTS</h4>
+                            <div class="f_product_nav">
+                                <a class="owl-prev disabled"><i class="fa fa-angle-left"/></a>
+                                <a class="owl-next"><i class="fa fa-angle-right"/></a>
+                            </div>
+                        </div>
+                        <div class="f_products_div s_dynamic_data owl-carousel" data-name="new-product" data-nav="false" data-autoplay="false" data-loop="false" contenteditable="False"></div>
+                    </div>
+                    <div class="">
+                        <div class="heading d-flex justify-content-between align-items-center">
+                            <h4 class="h_tag">TOP RATED</h4>
+                            <div class="f_product_nav">
+                                <a class="owl-prev disabled"><i class="fa fa-angle-left"/></a>
+                                <a class="owl-next"><i class="fa fa-angle-right"/></a>
+                            </div>
+                        </div>
+                        <div class="f_products_div s_dynamic_data owl-carousel" data-name="rated-product" data-nav="false" data-autoplay="false" data-loop="false" contenteditable="False"></div>
+                    </div>
+                    <div class="">
+                        <div class="heading d-flex justify-content-between align-items-center">
+                            <h4 class="h_tag">FEATURED</h4>
+                            <div class="f_product_nav">
+                                <a class="owl-prev disabled"><i class="fa fa-angle-left"/></a>
+                                <a class="owl-next"><i class="fa fa-angle-right"/></a>
+                            </div>
+                        </div>
+                        <div class="f_products_div s_dynamic_data owl-carousel" data-name="featured-product" data-nav="false" data-autoplay="false" data-loop="false" contenteditable="False"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="inventive_featured_products_dynamic_2">
+        <t t-if="products" t-foreach="product_groups" t-as="group">
+            <div class="dyn_products_item">
+                <div t-if="group" t-foreach="group" t-as="product">
+                    <t t-if="product">
+                        <div class="s_product" t-att-data-publish="product.website_published and 'on' or 'off'">
+                            <t t-set="product_href" t-value="'/shop/product/%s' % slug(product)"/>
+                            <t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
+                            <div class="s_product_image">
+                                <a itemprop="url" t-att-href="product_href" t-field="product.image_256" t-options="{'widget': 'image'}"/>
+                            </div>
+                            <div class="s_product_content">
+                                <p class="m-0">
+                                    <a itemprop="name" t-att-href="product_href" t-att-content="product.name" t-field="product.name"/>
+                                    <a role="button" t-if="not show_publish and not product.website_published" t-att-href="product_href" class="btn btn-secondary btn-sm btn-danger" title="This product is unpublished.">Unpublished</a>
+                                </p>
+                                <t t-call="theme_inventive.inventive_product_rating_star_template"/>
+                                <span class="inventive_product_price">
+                                    <t t-if="True">
+                                        <del t-attf-class="text-danger mr8 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                    </t>
+                                    <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                    <span itemprop="price" style="display:none;" t-esc="combination_info['price']"/>
+                                    <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name"/>
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!--~~~~~~~~~~~~~~~S_Inventive_Gallery_types~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <template id="s_inventive_gallery_type_1" name="Gallery 1">
+        <section class="s_inventive_gallery_type_1 th_snippet pt16 pb16 " style="background-image: url('/website/static/src/img/backgrounds/la.jpg')">
+            <div class="container ">
+                <div class="row">
+                    <!-- SEVENTH EXAMPLE -->
+                    <t t-foreach="range(6)" t-as="item">
+                        <div t-attf-class="col-4 view_column #{'design_%s' % (item_index + 1)}">
+                            <div class="view">
+                                <img class="img img-fluid" src="/website/static/src/img/library/mobile.jpg"/>
+                                <div class="mask">
+                                    <h2>Hover Style #<t t-esc="item_index +1 "/></h2>
+                                    <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</p>
+                                    <a href="#" class="info">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_gallery_type_2" name="Gallery 2">
+        <section class="s_inventive_gallery_type_2 th_snippet pt16 pb16 " style="background-image: url('/website/static/src/img/backgrounds/la.jpg')">
+            <div class="container pt32 pb32">
+                <div class="row">
+                    <div class="view_column col-lg-6 col-md-6 col-sm-6" t-foreach="range(2)" t-as="item">
+                        <a href="/">
+                            <div class='s_image'>
+                                <img class="img img-fluid" src="/theme_inventive/static/src/img/backgrounds/background_04.jpg" alt="Odoo • Text and Image"/>
+                            </div>
+                            <div class="content">
+                                <h4 class="h_tag">Get</h4>
+                                <p class="p_tag">Limited Offer</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_gallery_type_3" name="Gallery 3">
+        <section class="s_inventive_gallery_type_3 th_snippet pt16 pb16">
+            <div class="container">
+                <div class="row">
+                    <div class="banner col-lg-6 col-md-6 col-sm-6" t-foreach="range(2)" t-as="item">
+                        <div class='s_image'>
+                            <img src="/website/static/src/img/library/shop.jpg" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                        </div>
+                        <div class="content">
+                            <a href="/">
+                                <h4 class="h_tag">Hiking Bags</h4>
+                            </a>
+                            <div class="s_btn pt16 pb16" data-name="Buttons">
+                                <a href="/" class="btn btn-secondary rounded-0">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="s_banner  col-lg-4 col-md-4 col-sm-4" t-foreach="range(3)" t-as="item">
+                        <div class='s_image'>
+                            <img src="/website/static/src/img/library/shop.jpg" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                        </div>
+                        <a href="/">
+                            <h4 class="h_tag">Sport Items</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!--~~~~~~~~~~~~~~~S_Inventive_Shopping_Display~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <template id="s_inventive_shopping_display" name="Shopping Display">
+        <section class="s_inventive_shopping_display th_snippet pt16 pb16">
+            <div class="shopping row m-0">
+                <div class="focus-product p_column col-12 col-md-6" style="background-image:url('/theme_inventive/static/src/img/backgrounds/sport-908264_1920.jpg')">
+                    <h2 class="title">Best Sellers</h2>
+                    <a class="button button--primary" href="/shop/all-shoes/">Shop Now</a>
+                </div>
+                <div class="sub-product p_column col-12 col-md-3" style="background-image:url('/theme_inventive/static/src/img/snippet/aboutus.jpg');">
+                    <h2 class="title">Apparel</h2>
+                    <a class="button button--primary" href="/shop/gear/tees/">Shop Now</a>
+                </div>
+                <div class="sub-product p_column col-12 col-md-3" style="background-image:url('/theme_inventive/static/src/img/snippet/aboutus.jpg');">
+                    <h2 class="title">Gear</h2>
+                    <a class="button button--primary" href="/shop/gear/">Shop Now</a>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_shopping_deal" name="Shopping Deal">
+        <section class="s_inventive_shopping_deal th_snippet pt16 pb16">
+            <div class="shopping row m-0">
+                <div class="p_column col-12 col-md-4" style="background-image:url('/theme_inventive/static/src/img/snippet/aboutus.jpg');">
+                    <a href="/">
+                        <div class="content">
+                            <p class="p_tag m-0">Best Offers</p>
+                            <h1 class="h_tag">New Collection</h1>
+                            <h1 class="deal">50% OFF</h1>
+                        </div>
+                    </a>
+                </div>
+                <div class="p_column col-12 col-md-4" style="background-image:url('/theme_inventive/static/src/img/snippet/aboutus.jpg');">
+                    <a href="/">
+                        <div class="content">
+                            <p class="p_tag m-0">Best Offers</p>
+                            <h1 class="h_tag">New Collection</h1>
+                            <h1 class="deal">50% OFF</h1>
+                        </div>
+                    </a>
+                </div>
+                <div class="p_column col-12 col-md-4" style="background-image:url('/theme_inventive/static/src/img/snippet/aboutus.jpg');">
+                    <a href="/">
+                        <div class="content">
+                            <p class="p_tag m-0">Best Offers</p>
+                            <h1 class="h_tag">New Collection</h1>
+                            <h1 class="deal">50% OFF</h1>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_shopping_category" name="Shopping Category">
+        <section class="s_inventive_shopping_category th_snippet pt16 pb16">
+            <div class="draggable">
+                <div class="super_row row m-0">
+                    <div class="home-category col-md-4" t-foreach="range(3)" t-as="item">
+                        <div class="wrapper">
+                            <img class="img img-fluid" src="/theme_inventive/static/src/img/snippet/backpack_man_2.jpeg" alt="Bags &amp; Jackets" style="width: 100%;"/>
+                            <div class="overlay"></div>
+                            <div class="content">
+                                <span class="heading">Bags &amp; Jackets
+                                </span>
+                                <span class="subheading">Complete the look with Classic Bags</span>
+                                <a class="photo-link" href="/" tabindex="0">Shop Accessories</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_shop_now" name="Shop Now">
+        <section class="s_inventive_shop_now th_snippet pt16 pb16">
+            <div class="row m-0">
+                <div class="sub_banner_product col-6 col-md-4 p-0" t-foreach="range(3)" t-as="item">
+                    <div class="hovereffect">
+                        <img class="img img-responsive img-fluid" src="/theme_inventive/static/src/img/snippet/backpack_man_2.jpeg"/>
+                        <div class="overlay">
+                            <a href="/">
+                                <h2>One Nation. One Team.</h2>
+                            </a>
+                            <p>
+                                <a href="/">Shop Now</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_inventive_interactive_display" name="Interactive Display">
+        <section class="s_inventive_interactive_display th_snippet pt16 pb16">
+            <div class="container">
+                <div class="row" style="margin-left:-5px;margin-right:-5px;">
+                    <div class="p_column col-6 col-md-6 design_1" t-foreach="range(2)" t-as="item">
+                        <div class="figure">
+                            <img class="img img-fluid" src="/theme_inventive/static/src/img/snippet/people-3288257_640.jpg" alt="img10"/>
+                            <div class="figcaption">
+                                <h2 class="heading">Happy
+                                    <span>XYZ</span>
+                                </h2>
+                                <p class="msg">
+                                    XYZ is a tiny-winged bird.
+                                </p>
+                                <a class="link btn btn-success btn-block btn-sm" href="#">View more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_banner_newsletter" name="Banner Newsletter">
+        <section class="s_inventive_banner_newsletter th_snippet pt16 pb16" style="background-image:url('/theme_inventive/static/src/img/snippet/Newsletter.png');">
+            <div class="row justify-content-center m-0">
+                <div class="banner_newsletter col-12 col-md-6 d-flex justify-content-center align-items-center text-center flex-column">
+                    <h1 class="text-center ns_heading">JOIN OUR NEWSLETTER</h1>
+                    <p class="text-center ns_text">Subscribe to receive special offers and info about new products</p>
+                    <div class="input-group js_subscribe" data-list-id="2" data-subscribe="off">
+                        <input type="email" name="email" class="js_subscribe_email form-control" placeholder="your email..."/>
+                        <span class="">
+                            <a role="button" href="#" class="btn btn-defalut js_subscribe_btn o_default_snippet_text">Subscribe</a>
+                            <a role="button" href="#" class="btn btn-defalut js_subscribed_btn d-none o_default_snippet_text" disabled="disabled">Thanks</a>
+                        </span>
+                        <div class="alert alert-success d-none o_default_snippet_text" role="status">Thanks for your subscription!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_company_stats" name="Company Stats">
+        <section class="s_inventive_company_stats th_snippet pt16 pb16" style="background: #F8F8F8;">
+            <div class="container">
+                <div class="row justify-content-center pt64 pb64">
+                    <div class="summary col-12 col-sm-16 col-md-6">
+                        <h5 class="h_tag mb4">Over All Stats</h5>
+                        <h6 class="h_tag_2 mb4">Lorem Ipsum is simply dummy text of the printing</h6>
+                        <p class="p_tag">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.
+                        </p>
+                    </div>
+                    <div class="detail col-12 col-sm-16 col-md-6">
+                        <div class="heading">
+                            <h1 class="h_tag">
+                                Stats</h1>
+                            <h5 class="h_tag_2">Over All Stats</h5>
+                        </div>
+                        <div class="stats">
+                            <div class="d-flex flex-column">
+                                <h5>15</h5>
+                                <span>Year</span>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <h5>1200</h5>
+                                <span>Happy Customers</span>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <h5>2500</h5>
+                                <span>Products</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_company_team" name="Company Team">
+        <section class="s_inventive_company_team th_snippet pt16 pb16">
+            <div class="container">
+                <h2 class="text-center">OUR TEAM</h2>
+                <div class="inventive_carousel owl-theme row">
+                    <div class="carousel_item col-2 p-0">
+                        <div class="user_image">
+                            <img class="img img-fluid" src="/web/image/website.s_company_team_image_1"/>
+                        </div>
+                        <div class="user_detail">
+                            <h6 class="h_tag">Tony Fred</h6>
+                            <h5 class="h_tag_2">CEO</h5>
+                        </div>
+                    </div>
+                    <div class="carousel_item col-2 p-0">
+                        <div class="user_image">
+                            <img class="img img-fluid" src="web/image/website.s_company_team_image_2"/>
+                        </div>
+                        <div class="user_detail">
+                            <h6 class="h_tag">Mich Stark</h6>
+                            <h5 class="h_tag_2">COO</h5>
+                        </div>
+                    </div>
+                    <div class="carousel_item col-2 p-0">
+                        <div class="user_image">
+                            <img class="img img-fluid" src="/web/image/website.s_company_team_image_3"/>
+                        </div>
+                        <div class="user_detail">
+                            <h6 class="h_tag">Aline Turner</h6>
+                            <h5 class="h_tag_2">CTO
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="carousel_item col-2 p-0">
+                        <div class="user_image">
+                            <img class="img img-fluid" src="/web/image/website.s_company_team_image_4"/>
+                        </div>
+                        <div class="user_detail">
+                            <h6 class="h_tag">Iris Joe</h6>
+                            <h5 class="h_tag_2">CFO</h5>
+                        </div>
+                    </div>
+                    <div class="carousel_item col-2 p-0">
+                        <div class="user_image">
+                            <img class="img img-fluid" src="/web/image/website.s_company_team_image_3"/>
+                        </div>
+                        <div class="user_detail">
+                            <h6 class="h_tag">Aline Turner</h6>
+                            <h5 class="h_tag_2">CTO
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="carousel_item col-2 p-0">
+                        <div class="user_image">
+                            <img class="img img-fluid" src="web/image/website.s_company_team_image_2"/>
+                        </div>
+                        <div class="user_detail">
+                            <h6 class="h_tag">Mich Stark</h6>
+                            <h5 class="h_tag_2">COO</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_inventive_testimonials" name="Testimonials 1">
+        <section class="s_inventive_testimonials th_snippet pt16 pb16">
+            <div class="s_div">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 s_col_no_bgcolor pt24 pb24">
+                            <div class="container text-center">
+                                <h1 style="color:#fff;">Testimonials</h1>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div id="tab_1" class="container tab-pane active">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-lg-8">
+                                                <h4 style="color:#fff;" class="pt8 pb8 text-uppercase">TONY FRED, CEO</h4>
+                                                <p style="color:#fff;">
+                                                    Founder and chief visionary, Tony is the driving force behind Company. He loves to keep his hands full by participating in the development of the software, marketing and the Customer Experience strategies.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_2" class="container tab-pane fade">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-lg-8">
+                                                <h4 style="color:#fff;" class="pt8 pb8 text-uppercase">MICH STARK, COO</h4>
+                                                <p style="color:#fff;">
+                                                    Mich loves taking on challenges. With his multi-year experience as Commercial Director in the software industry, Mich has helped Company to get where it is today. Mich is among the best minds.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_3" class="container tab-pane fade">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-lg-8">
+                                                <h4 style="color:#fff;" class="pt8 pb8 text-uppercase">ALINE TURNER, CTO</h4>
+                                                <p style="color:#fff;">
+                                                    Aline is one of the iconic person in life who can say she loves what she does. She mentors 100+ in-house developers and looks after the community of over thousands developers.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_4" class="container tab-pane fade">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-lg-8">
+                                                <h4 style="color:#fff;" class="pt8 pb8 text-uppercase">IRIS JOE, CTO</h4>
+                                                <p style="color:#fff;">
+                                                    Iris, with her international experience, helps us easily understand the numbers and improves them. She is determined to drive success and delivers her professional acumen to bring Company at the next level.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs d-flex justify-content-center" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#tab_1">
+                                            <img alt="Company team" src="/web/image/website.s_company_team_image_1" class="img img-fluid rounded-circle d-block mx-auto shadow"/>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab_2">
+                                            <img alt="Company team" src="/web/image/website.s_company_team_image_2" class="img img-fluid rounded-circle d-block mx-auto shadow"/>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab_3">
+                                            <img alt="Company team" src="/web/image/website.s_company_team_image_3" class="img img-fluid rounded-circle d-block mx-auto shadow"/>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab_4">
+                                            <img alt="Company team" src="/web/image/website.s_company_team_image_4" class="img img-fluid rounded-circle d-block mx-auto shadow"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <p/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_testimonial_carousel" name="Testimonials 2">
+        <section class="s_inventive_testimonial_carousel th_snippet pt16 pb16" style="background: #F8F8F8;">
+            <div class="container">
+                <h2 class="text-center">
+                    Testimonial
+                </h2>
+                <div id="myTestimonialCarousel" class="s_carousel_default carousel slide pt16 pb16" data-interval="10000">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myQuoteCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myQuoteCarousel" data-slide-to="1"></li>
+                        <li data-target="#myQuoteCarousel" data-slide-to="2"></li>
+                    </ol>
+                    <!-- Content -->
+                    <div class="carousel-inner">
+                        <!-- #01 -->
+                        <div class="carousel-item active" data-name="Slide">
+                            <div class="row">
+                                <div class="col-lg-8 offset-lg-2">
+                                    <div class="user_details">
+                                        <span class="user_image">
+                                            <img class="img img-fluid" src="/web/image/website.s_company_team_image_2"/>
+                                        </span>
+                                        <div class="user_name">
+                                            <h6 class="mb4 h_tag">john Doe</h6>
+                                            <h5 class="mb4 h_tag_2">Trainer</h5>
+                                        </div>
+                                        <p class="p_tag">
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. when
+                                            an unknown printer took a galley of type and scrambled it to make a type specimen book. when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- #02 -->
+                        <div class="carousel-item" data-name="Slide">
+                            <div class="row content">
+                                <div class="col-lg-8 offset-lg-2">
+                                    <div class="user_details">
+                                        <span class="user_image">
+                                            <img class="img img-fluid" src="/web/image/website.s_company_team_image_4"/>
+                                        </span>
+                                        <div class="user_name">
+                                            <h6 class="mb4 h_tag">Iris Joe</h6>
+                                            <h5 class="mb4 h_tag_2">CFO</h5>
+                                        </div>
+                                        <p class="p_tag">
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. when
+                                            an unknown printer took a galley of type and scrambled it to make a type specimen book. when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Controls -->
+                    <div class="carousel-control-prev" data-target="#myQuoteCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                        <span class="carousel-control-prev-icon"/>
+                        <span class="sr-only">Previous</span>
+                    </div>
+                    <div class="carousel-control-next" data-target="#myQuoteCarousel" data-slide="next" role="img" aria-label="Next" title="Next">
+                        <span class="carousel-control-next-icon"/>
+                        <span class="sr-only">Next</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_inventive_services" name="Our Services">
+        <section class="s_inventive_services th_snippet pt32 pb32">
+            <div class="container">
+                <div class="super_row row">
+                    <div class="super_col col-6 col-sm-3" t-foreach="['fast delivery','Easy Checkout','Easy Returns &amp; Exchanges','Free international Delivery']" t-as="item">
+                        <div class="main_div">
+                            <div class="icon_div">
+                                <span t-attf-class="icon fa #{'icon_%s' % (item_index + 1)}"/>
+                            </div>
+                            <div class="content">
+                                <h6 class="h_tag text-center" t-esc="item"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="xtremo_client_word" name="Client Words">
+        <section class="xtremo_client_word">
+            <div class="container">
+                <h1>Our Clients Words</h1>
+                <p class="m-text">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                </p>
+                <div>
+                    <div id="myCarousel" class="s_carousel s_carousel_default carousel slide" data-interval="10000">
+                        <div class="carousel-inner">
+                            <t t-foreach="range(2)" t-as="item">
+                                <div t-attf-class="carousel-item #{'active' if item_index==0 else ''} oe_custom_bg oe_img_bg" data-name="Slide">
+                                    <div class="item">
+                                        <div class="img">
+                                            <div>
+                                                <img t-att-src="'/theme_inventive/static/src/img/snippet/team-%s.png' % (item_index + 3)" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                                            </div>
+                                            <div class="text">
+                                                <p>Dummy Name</p>
+                                                <h5>Designation</h5>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            <p>
+                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                                                the industry's standard dummy text ever since the 1500s,
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                        <div class="carousel-control-prev" data-target="#myCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                            <span class="carousel-control-prev-icon"/>
+                            <span class="sr-only">Previous</span>
+                        </div>
+                        <div class="carousel-control-next" data-target="#myCarousel" data-slide="next" role="img" aria-label="Next" title="Next">
+                            <span class="carousel-control-next-icon"/>
+                            <span class="sr-only">Next</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="xtremo_banner_product_1" name="Home Banner 1">
+        <section style="background-color: white;">
+            <section id="xtremo_banner_product" class="oe_img_bg oe_custom_bg" style="background-image: url('/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg');">
+                <div class="hover-a">
+                    <p>Lorem Ipsum standard dummy</p>
+                    <h1>Best Collections For Men</h1>
+                    <a href="/shop">Go For Shop Now</a>
+                </div>
+                <div class="dummy dummy-left">
+                    <div></div>
+                </div>
+                <div class="dummy dummy-right">
+                    <div></div>
+                </div>
+            </section>
+        </section>
+    </template>
+    <template id="xtremo_banner_product_2" name="Home Banner 2">
+        <section id="xtremo_banner_product_2" style="background-color: #E9E9E9;">
+            <section class="item semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg');">
+                <div class="item-div">
+                    <div>
+                        <a href="/shop">
+                            Best Offers for Today</a>
+                        <div class="contain">
+                            <h1>Best Collections For Men, Women And Kids is Here</h1>
+                            <p>Only for Today</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="absolute-item container">
+                <h3>Best Collections</h3>
+                <div class="hr"><div/></div>
+                <div class="name-product">
+                    <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg');"/>
+                    <h3>Collection 1</h3>
+                </div>
+                <div class="name-product">
+                    <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg');"/>
+                    <h3>Collection 2</h3>
+                </div>
+                <div class="name-product">
+                    <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg');"/>
+                    <h3>Collection 3</h3>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_banner_product_3" name="Home Banner 3">
+        <section class="s_inventive_banner_product_3 pt32 pb32">
+            <div class="container">
+                <div class="row super_row align-items-center">
+                    <div class="col-lg-5 pt16 pb16 super_col">
+                        <div class="row sub_row">
+                            <div class="col-md pt0 pb0">
+                                <img src="/web/image/website.s_carousel_default_image_1" class="img r1i1 img-fluid mx-auto" alt="Odoo • Image and Text"/>
+                                <img src="/web/image/website.s_carousel_default_image_2" class="img r1i2 img-fluid mx-auto" alt="Odoo • Image and Text"/>
+                            </div>
+                        </div>
+                        <div class="row sub_row">
+                            <div class="col-md pt0 pb0">
+                                <img src="/web/image/website.s_carousel_default_image_1" class="img r2i1 img-fluid mx-auto" alt="Odoo • Image and Text"/>
+                                <img src="/web/image/website.s_carousel_default_image_2" class="img r2i2 img-fluid mx-auto" alt="Odoo • Image and Text"/>
+                                <img src="/web/image/website.s_carousel_default_image_3" class="img r2i3 img-fluid mx-auto" alt="Odoo • Image and Text"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 super_col pt16 pb16 animated bounceInRight">
+                        <h2 class="h_tag"></h2>
+                        <p class="p_tag">Your personal reflection
+                            <br/>To be successful your content needs to be useful to your readers.</p>
+                        <p class="h_tag">Start with the customer – find out what they want and give it to them.</p>
+                        <div class="s_btn text-left pt16 pb16">
+                            <a href="#" class="a_tag btn btn-primary">Discover more
+                                <i class="fa fa-long-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+        <template id="s_inventive_banner_product_4" name="Home Banner 4">
+        <section class="s_inventive_banner_product_4 s_cover parallax s_parallax_is_fixed bg-black-50 w-100" data-scroll-background-ratio="1" style="padding-top:300px;">
+            <span class="s_parallax_bg oe_img_bg oe_custom_bg animated zoom m-auto" style="background-image: url('/web/image/website.s_cover_default_image'); background-position: 50% 0;"/>
+            <div class="container">
+                <div class="row s_nb_column_fixed">
+                    <div class="col-lg-12 s_title" data-name="Title">
+                        <h1 class="s_title_thin" style="font-size: 62px;">Catchy Headline</h1>
+                    </div>
+                    <div class="col-lg-12 s_btn pt16 pb16" data-name="Buttons">
+                        <a href="/shop" class="btn btn-primary">Shop now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="xtremo_bubble_description" name="Product Bubble">
+        <section id="xtremo_bubble_description">
+            <div class="container">
+                <div class="item animatable fadeInLeft">
+                    <div>
+                      <h1>Best Collections</h1>
+                      <p>
+                        Lorem Ipsum is simply dummy. Lorem Ipsum is simply dummy
+                        Lorem Ipsum is simply dummy. Lorem Ipsum is simply dummy
+                        Lorem Ipsum is simply dummy. Lorem Ipsum is simply dummy
+                        Lorem Ipsum is simply dummy. Lorem Ipsum is simply dummy
+                      </p>
+                    </div>
+                    <div>
+                      <a href="shop" class="see-related"> See All Related Products</a>
+                    </div>
+                </div>
+                <div class="item img anima">
+                    <div class="bubble">
+                        <div><p><img src="/theme_inventive/static/src/img/snippet/bubble-icon1.png" alt="left image"/></p></div>
+                        <div><p><img src="/theme_inventive/static/src/img/snippet/bubble-icon2.png" alt="left image"/></p></div>
+                        <div><p><img src="/theme_inventive/static/src/img/snippet/bubble-icon-3.png" alt="left image"/></p></div>
+                    </div>
+                    <div class="full-img"><img src="/theme_inventive/static/src/img/snippet/aboutus.jpg" alt="left image"/></div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="xtremo_grip_view_1" name="Image Grid 1">
+        <section class="s_inventive_image_grid">
+            <div class="item_1 hover">
+                <img src="/theme_inventive/static/src/img/snippet/aboutus.jpg" alt="left image"/>
+            </div>
+            <div class="item_2">
+                <div class="hover">
+                    <img src="/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg" alt="left image"/>
+                </div>
+                <div class="hover">
+                    <img src="/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg" alt="left image"/>
+                </div>
+            </div>
+            <div class="item-child-2 hover">
+                <img src="/theme_inventive/static/src/img/snippet/aboutus.jpg" alt="left image"/>
+            </div>
+        </section>
+    </template>
+    <template id="inventive_grip_view_2" name="Image Grid 2">
+        <section class="inventive_grip_view_2 pt16 pb16">
+            <h1 class="h_tag">Best Collections</h1>
+            <div class="items row super_row m-0">
+                <div class="item col-6 col-sm-3 super_row p-0" t-foreach="range(4)" t-as="item">
+                    <div class="content">
+                        <a class="a_tag" href="#">See More</a>
+                        <img src="/theme_inventive/static/src/img/backgrounds/background_04.jpg" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="xtremo_grip_view_3" name="Image Grid 3">
+        <section id="grip_view_3" style="background-color: white;">
+            <div  class="container">
+                <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg');">
+                    <div>
+                        <div>
+                            <a href="/shop"><i class="fa fa-shopping-cart"/></a>
+                            <div class="text">
+                                <h4>
+                                    <strong>Collection</strong>
+                                </h4>
+                                <p>Lorem Ipsum</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg');">
+                    <div>
+                        <div>
+                            <a href="/shop"><i class="fa fa-shopping-cart"/></a>
+                            <div class="text">
+                                <h4>
+                                    <strong>Collection</strong>
+                                </h4>
+                                <p>Lorem Ipsum</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg');">
+                    <div>
+                        <div>
+                            <a href="/shop"><i class="fa fa-shopping-cart"/></a>
+                            <div class="text">
+                                <h4>
+                                    <strong>Collection</strong>
+                                </h4>
+                                <p>Lorem Ipsum</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </template>
+    <template id="xtremo_grip_view_4" name="Image Grid 4">
+        <section style="background-color: #E9E9E9;">
+            <div id="grip_view_4" class="container">
+                <div class="left-item">
+                    <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg');">
+                        <a href="/shop" class="hover-a">
+                            <i class="fa fa-shopping-cart"/>
+                            <p>Lorem Ipsum is simply dummy text of the printing</p>
+                        </a>
+                    </section>
+                    <div class="item-text">
+                        <h2>
+                            <a href="/shop">Best Collections For Men, Women and Kids</a>
+                        </h2>
+                        <p class="text">Lorem Ipsum is simply dummy text of the printing</p>
+                        <div class="hr"/>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500.
+                        </p>
+                        <a href="/shop" class="btn btn-primary">Shop Now</a>
+                    </div>
+                </div>
+                <div class="rigth-item">
+                    <div class="child-container">
+                        <t t-foreach="range(8)" t-as="item">
+                            <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_inventive/static/src/img/snippet/backpack_man_3.jpeg');">
+                                <a href="/shop" class="hover-a">
+                                    <i class="fa fa-shopping-cart"/>
+                                    <p>Lorem Ipsum standard dummy</p>
+                                </a>
+                            </section>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="xtremo_grip_view_5" name="Image Grid 5">
+        <section id="grip_view_8">
+            <t t-foreach="['background-color:rgb(237, 105, 103)','background-color:rgb(254, 201, 107)','background-color:rgb(64, 130, 146)','background-color:rgb(92, 102, 104)']" t-as="background">
+                <section class="item" t-att-style="background">
+                    <div class="contain">
+                        <div clas="icon"><span class="fa fa-shopping-cart"/></div>
+                        <h3>Collections</h3>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        </p>
+                    </div>
+                </section>
+            </t>
+        </section>
+    </template>
+    <template id="s_inventive_grid_view_6" name="Image Grid 6">
+        <section class="s_inventive_grid_view_6 pb16 pt16" >
+            <div class="container">
+                <h1 class="heading text-center mb16">Best Collections</h1>
+                <div class="super_row row m-0">
+                    <div class="super_col col-12 col-md-4" t-foreach="range(3)" t-as="item">
+                        <div class="item">
+                            <img src="/theme_inventive/static/src/img/snippet/people-3288257_640.jpg" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                            <div class="content">
+                                <h4 class="h_tag">Sports</h4>
+                                <p>A huge collection of running shoes and sports equipments</p>
+                                <div class="btns_div">
+                                    <a href="/" class="btn btn-defalut">Badminton</a>
+                                    <a href="/" class="btn btn-defalut">Football</a>
+                                    <a href="/" class="btn btn-defalut">Tennis</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_grid_view_7" name="Image Grid 7">
+        <section class="s_inventive_grid_view_7 pb16 pt16">
+            <div class="container">
+                <div class="row super_row">
+                    <div class="col-sm-4 col-12 super_col" t-foreach="range(3)" t-as="item">
+                        <div class="item">
+                            <img src="/theme_inventive/static/src/img/backgrounds/background_04.jpg" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                            <div class="header_prod_hover">
+                                <div class="all_text">
+                                    <h3 class="t_tag">Product Name</h3>
+                                    <p class="p_tag">A short product description that suits it best</p>
+                                </div>
+                                <svg id="rectangle_product_hover">
+                                    <rect id="product_hover_rect"></rect>
+                                </svg>
+                            </div>
+                            <a class="a_tag btn btn-primary" hrf="#">Visit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="s_inventive_grid_view_8" name="Image Grid 8">
+        <section class="s_inventive_grid_view_8 pt16 pb16">
+            <div class="container">
+                <div class="heading">
+                    <div class="row">
+                        <div class="col-7">
+                            <h3 class="h_tag">NEW ARRIVALS</h3>
+                        </div>
+                        <div class="col-5" style="text-align:right;">
+                            <a class="a_tag" href="/shop">View all</a>
+                        </div>
+                        <div class="col-12">
+                            <p>Some quick example text to build on the card title and make</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="items row super_row">
+                    <div class="col-12 col-sm-6 col-md-3 super_col" t-foreach="range(0,4)" t-as="item">
+                        <div class="item card h-100">
+                            <img class="card-img-top" src="/theme_inventive/static/src/img/backgrounds/background_04.jpg"/>
+                            <div class="card-body">
+                                <h5 class="card-title">Title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- Theme Snippets entry -->
+    <template id="inventive_common_website_snippets" inherit_id="website.snippets" name="Theme Inventive Common Website Snippets Entry">
+        <xpath expr="//div[@id='o_scroll']//div[@id='snippet_structure']" position="before">
+            <div id="snippet_theme_inventive" class="o_panel">
+                <div class="o_panel_header">
+                    <i class="fa fa-th-large"/>
+                    Inventive Snippets
+                </div>
+                <div class="o_panel_body">
+                    <t t-snippet="theme_inventive.s_inventive_page_title" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_page-title-1.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_page_title_paralex" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_page-title-1.png"/>
+
+                    <t t-snippet="theme_inventive.s_inventive_owl_carousel_snippet_1" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_carousel-1.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_owl_carousel_snippet_2" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_carousel-2.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_owl_carousel_snippet_3" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_carousel-3.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_owl_carousel_snippet_4" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_carousel-4.png"/>
+
+                    <t t-snippet="theme_inventive.xtremo_banner_product_1" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_banner_1.png"/>
+                    <t t-snippet="theme_inventive.xtremo_banner_product_2" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_banner_2.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_banner_product_3" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_banner_2.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_banner_product_4" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_banner_2.png"/>
+
+                    <t t-snippet="theme_inventive.s_inventive_full_image_block" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_full_image_block.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_full_image_paralex" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_full_image_block.png"/>
+
+                    <t t-snippet="theme_inventive.s_inventive_product_nav_tabs_1" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_product_tabs.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_product_nav_tabs_2" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_product_tabs.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_featured_products_1" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_features.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_featured_products_2" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_features.png"/>
+
+                    <t t-snippet="theme_inventive.s_inventive_gallery_type_1" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_gallery_1.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_gallery_type_2" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_gallery_2.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_gallery_type_3" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_gallery_3.png"/>
+                    <t t-snippet="theme_inventive.xtremo_bubble_description" t-thumbnail="/theme_inventive/static/src/img/theme_customize/product-bubble.png"/>
+
+                    <t t-snippet="theme_inventive.xtremo_grip_view_1" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_image-grid-1.png"/>
+                    <t t-snippet="theme_inventive.inventive_grip_view_2" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_image-grid-2.png"/>
+                    <t t-snippet="theme_inventive.xtremo_grip_view_3" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_image-grid-3.png"/>
+                    <t t-snippet="theme_inventive.xtremo_grip_view_4" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_image-grid-4.png"/>
+                    <t t-snippet="theme_inventive.xtremo_grip_view_5" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_image-grid-5.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_grid_view_6" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_image-grid-6.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_grid_view_7" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_image-grid-2.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_grid_view_8" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_image-grid-2.png"/>
+
+                    <t t-snippet="theme_inventive.s_inventive_shopping_display" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_shopping-display.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_shopping_deal" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_shopping-deal.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_shopping_category" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_shopping-category.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_shop_now" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_shop-now.png"/>
+
+
+                    <t t-snippet="theme_inventive.s_inventive_blog_snippet" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_latest-post.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_blog_snippet_2" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_latest-post.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_services" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_service.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_interactive_display" t-thumbnail="/theme_inventive/static/src/img/theme_customize/interactive-display.png"/>
+
+                    <t t-snippet="theme_inventive.s_inventive_text_block" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_text_block.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_testimonial_carousel" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_testimonials-carousel.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_testimonials" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_testimonials.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_banner_newsletter" t-thumbnail="/theme_inventive/static/src/img/theme_customize/s_banner_newsletter.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_company_stats" t-thumbnail="/theme_inventive/static/src/img/theme_customize/company-stats.png"/>
+                    <t t-snippet="theme_inventive.s_inventive_company_team" t-thumbnail="/theme_inventive/static/src/img/theme_customize/company-team.png"/>
+                    <t t-snippet="theme_inventive.xtremo_client_word" t-thumbnail="/theme_inventive/static/src/img/theme_customize/clients-words.png"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

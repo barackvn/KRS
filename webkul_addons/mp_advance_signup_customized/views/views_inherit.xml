@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+
+    <record id="view_partner_form_inherit_mp_advance_signup_customized" model="ir.ui.view">
+        <field name="name">res.partner.view.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <field name="partner_speciality_id" />
+            </field>
+        </field>
+    </record>
+
+    <record id="wk_seller_product_template_form_view_mp_advance_signup_customized" model="ir.ui.view">
+        <field name="name">product.template.view.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
+        <field name="arch" type="xml">
+            <field name="default_code" position="after">
+                <field name="exclusively_id" />
+            </field>
+        </field>
+    </record>
+
+    <record id="mp_product_product_form_view_mp_advance_signup_customized" model="ir.ui.view">
+        <field name="name">product.product.view.form.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="odoo_marketplace.mp_product_product_form_view"/>
+        <field name="arch" type="xml">
+            <field name="default_code" position="after">
+                <field name="exclusively_id" />
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="view_mp_preorder_config_settings" model="ir.ui.view">
+            <field name="name">Website Pre-order Settings</field>
+            <field name="model">website.preorder.config.settings</field>
+            <field name="inherit_id" ref="website_preorder.view_wk_website_preorder_config_settings"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/field[@name='payment_type']" position="before">
+                    <field name="preorder_for_seller"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

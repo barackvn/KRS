@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <record model="ir.ui.view" id="credit_limit_exceed_wizard">
+        <field name="name">Customer Credit Limit Form</field>
+        <field name="model">credit.limit.exceed.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="partner_currency_id" invisible="1"/>
+                    <field name="partner_id"/>
+                    <field name="credit_limit" widget="monetary" options="{'currency_field': 'partner_currency_id'}"/>
+                    <field name="pending_amount" widget="monetary" options="{'currency_field': 'partner_currency_id'}" attrs="{'invisible': [('pending_amount','==', 0)]}"/>
+                    <field name="overdue_invoice_amount" style="color: red;" widget="monetary" options="{'currency_field': 'partner_currency_id'}" attrs="{'invisible': [('overdue_invoice_amount','==', 0)]}"/>
+                    <field name="order_amount" widget="monetary" options="{'currency_field': 'partner_currency_id'}"/>
+                    <field name="exceeded_credit" style="color: red;" widget="monetary" options="{'currency_field': 'partner_currency_id'}" attrs="{'invisible': [('exceeded_credit','&lt;=', 0)]}"/>
+                    <field name="pending_invoice_ids" attrs="{'invisible': [('pending_invoice_ids','==', [])]}" >
+                        <tree decoration-info="state == 'draft'" decoration-danger="invoice_date_due &lt; current_date" decoration-muted="state == 'cancel'" string="Invoice">
+                            <field name="partner_id" groups="base.group_user" string="Customer"/>
+                            <field name="invoice_date"/>
+                            <field name="name"/>
+                            <field name="commercial_partner_id" invisible="1"/>
+                            <field name="ref" invisible="1"/>
+                            <field name="journal_id" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            <field name="invoice_date_due"/>
+                            <field name="invoice_origin"/>
+                            <field name="amount_total_signed" string="Total" sum="Total"/>
+                            <field name="amount_residual_signed" string="Amount Due" sum="Amount Due"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_currency_id" invisible="1"/>
+                            <field name="state"/>
+                            <field name="type" invisible="context.get('type',True)"/>
+                        </tree>
+                    </field>
+                    <field name="unpaid_order_ids" attrs="{'invisible': [('unpaid_order_ids','==', [])]}">
+                        <tree string="Sales Orders" decoration-info="state in ['need_approval']">
+                            <field name="message_needaction" invisible="1"/>
+                            <field name="name" string="Order Number" readonly="1"/>
+                            <field name="date_order" string="Order Date"/>
+                            <field name="commitment_date"/>
+                            <field name="expected_date"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="user_id" optional="show"/>
+                            <field name="team_id" optional="hide"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="show" readonly="1"/>
+                            <field name="amount_untaxed" sum="Total Tax Excluded" widget="monetary" optional="hide"/>
+                            <field name="amount_tax" sum="Tax Total" widget="monetary" optional="hide"/>
+                            <field name="amount_total" sum="Total Tax Included" widget="monetary" optional="show"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="invoice_status" optional="show"/>
+                            <field name="state"/>
+                            <field name="activity_exception_decoration" widget="activity_exception"/>
+                        </tree>
+                    </field>
+                </group>
+                <h3><field name="message" style="color: red;" readonly="1"/></h3>
+                <footer>
+                    <button string="Cancel" special="cancel" class="oe_highlight"/>
+                    <button name="action_exceed_limit" string="Exceed Limit" type="object" class="oe_link" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

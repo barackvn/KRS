@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+
+<odoo>
+    <data>
+        <record id="wk_website_collectional_config" model="ir.ui.view">
+            <field name="name">Collection Addons Setting</field>
+            <field name="model">webkul.website.addons</field>
+            <field name="inherit_id" ref="website_webkul_addons.config_webkul_website_addons_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/table[4]/tbody" position="inside">
+                    <td>9</td>
+                    <td><label for="module_website_collectional_page"/></td>
+                    <td><field name="module_website_collectional_page"/></td>
+                    <td name="module_website_collectional_page">
+                        <button type="action" name="website_collectional_page.action_website_collectional_page_conf" string="Configuration" class="oe_link"></button>
+                    </td>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

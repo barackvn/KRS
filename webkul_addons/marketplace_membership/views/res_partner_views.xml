@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="wk_membership_inherit_seller_form">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/div[@name='button_box']" position="after">
+                  <div class="alert alert-success alert-dismissible text-center o_form_header" role="alert" attrs="{'invisible': [('free_membership', '=', False)]}">
+                      <a class="close fa fa-times" aria-label="Alert" data-dismiss="alert" href="#" aria-hidden="true"></a>
+                      <div attrs="{'invisible': [('free_membership', '=', 'False')]}">
+                          <strong>You are a free member on our marketplace. Please purchase a seller membership plan according to your need.</strong>
+                          <br/>
+                          <span>For seller membership plans <a href="/seller-membership-plan" target="_blank">Click here</a>.</span>
+                      </div>
+                  </div>
+                </xpath>
+                <notebook position="inside">
+                    <page string="MP Membership" groups="odoo_marketplace.marketplace_seller_group">
+                        <group>
+                            <group>
+                                <field name="free_membership" attrs="{'readonly':[('mp_membership_state','=','paid')]}" readonly="1"/>
+                                <field name="mp_membership_state"/>
+                                <label for="no_of_product"/>
+                                <div>
+                                    <field name="no_of_product" attrs="{'readonly':['|',('free_membership', '!=', True),('set_seller_wise_settings', '!=', True)]}" readonly="1" force_save="1"/>
+                                </div>
+                                
+                            </group>
+                            <group>
+                                <field name="mp_membership_start_date" attrs="{'invisible':[('mp_membership_start_date','=',False)]}"/>
+                                <field name="mp_membership_stop_date" attrs="{'invisible':[('mp_membership_stop_date','=',False)]}"/>
+                                <field name="membership_cancel_date" attrs="{'invisible':[('membership_cancel_date','=',False)]}"/>
+                            </group>
+                        </group>
+                        <div  attrs="{'invisible':[('free_membership','=',True)]}">
+                            <i class="fa fa-user fa-2x mb16" aria-label="plans" attrs="{'invisible':[('free_membership','=',True)]}">
+                                <label for="mp_membership_plan_ids" class="ml4" string="Marketplace Membership Plan"/>
+                            </i>
+                            <button name="%(mp_membership_wizard_action)d" type="action" string="Buy Marketplace Membership" attrs="{'invisible':['|', ('free_membership','=',True), ('mp_membership_state','=','paid')]}" class="oe_right oe_highlight" icon="fa-shopping-cart" groups="odoo_marketplace.marketplace_manager_group" invisible="1"/>
+                            <button name="cancel_seller_mp_membership" type="object" string="Cancel Marketplace Membership" confirm="Confirm to cancel this membership" attrs="{'invisible':[('free_membership','=',False), ('mp_membership_state','!=','paid')]}" class="oe_right oe_highlight" icon="fa-close" groups="odoo_marketplace.marketplace_manager_group"/>
+                        </div>
+                        <field name="mp_membership_plan_ids" nolabel="1" colspan="4" readonly="1" attrs="{'invisible':[('free_membership','=',True)]}">
+                            <tree string="MP Memberships" decoration-success="is_active!=False">
+                                <field name="is_active" invisible="1"/>
+                                <field name="date"/>
+                                <field name="mp_membership_plan_id"/>
+                                <field name="mp_membership_date_from"/>
+                                <field name="mp_membership_date_to"/>
+                                <field name="no_of_product" string="Allowed Products"/>
+                                <field name="state" groups="odoo_marketplace.marketplace_manager_group"/>
+                                <!-- <field name="currency_id" invisible="1"/> -->
+                                <field name="mp_membership_fee" widget="monetary" />
+                                <field name="is_active" invisible="1"/>
+                            </tree>
+                            <form string="Memberships">
+                                <group col="2">
+                                    <group>
+                                        <field name="mp_membership_plan_id" widget="selection"/>
+                                        <!-- <field name="currency_id" invisible="1"/> -->
+                                        <field name="mp_membership_fee" widget="monetary"/>
+                                        <field name="no_of_product"/>
+                                        <field name="account_invoice_id" widget="selection" context="{'form_view_ref': 'account.view_move_form'}"/>
+                                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                        <field name="state" groups="odoo_marketplace.marketplace_manager_group"/>
+                                    </group>
+                                    <group>
+                                        <field name="date"/>
+                                        <field name="mp_membership_date_from"/>
+                                        <field name="mp_membership_date_to"/>
+                                        <field name="order_id" widget="selection"/>
+                                        <field name="is_active" invisible="1"/>
+                                    </group>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record id="membership_not_readonly_to_manager" model="ir.ui.view">
+                <field name="name">Marketplace Membership</field>
+                <field name="model">res.partner</field>
+                <field name="inherit_id" ref="marketplace_membership.wk_membership_inherit_seller_form"/>
+                <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_manager_group') ])]"/>
+                <field name="arch" type="xml">
+                    <field name='free_membership' position="attributes">
+                        <attribute name="readonly">0</attribute>
+                    </field>
+                    <field name='no_of_product' position="attributes">
+                        <attribute name="readonly">0</attribute>
+                    </field>
+                    <field name='no_of_product' position="after">
+                        <br/>
+                        <label for="no_of_product" string="Over-ride seller's default settings to edit allow products" attrs="{'invisible':[('free_membership','!=',True)]}"/>
+                    </field>
+                </field>
+            </record>
+
+        <record model="ir.ui.view" id="wk_membership_inherit_seller_tree">
+            <field name="name">res.partner.tree.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="payment_method" position="after">
+                    <field name="mp_membership_state"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- <record id="mp_membership_filter_for_seller" model="ir.ui.view">
+            <field name="name">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_view_filter"/>
+            <field name="priority">37</field>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="mp_membership_start_date" invisible="1" groups="odoo_marketplace.marketplace_manager_group"/>
+                    <field name="mp_membership_stop_date" string="End Membership Date" groups="odoo_marketplace.marketplace_manager_group"/>
+                    <separator/>
+                    <filter name="all_non_members" domain="[('mp_membership_state', 'in', ['draft','canceled','old','pending'])]" string="Non Member Sellers" help="Sellers having draft/cancelled/expired/pending membership." groups="odoo_marketplace.marketplace_manager_group"/>
+                    <filter name="all_members" domain="[('mp_membership_state', 'in', ['paid','free'])]" string="Member Sellers" help="Sellers having Paid/Free membership." groups="odoo_marketplace.marketplace_manager_group"/>
+                </field>
+                <xpath expr="//search//group//filter[@name='seller_status_filter']" position="after">
+                    <filter string="MP Membership State" domain="[]" context="{'group_by':'mp_membership_state'}" groups="odoo_marketplace.marketplace_manager_group"/>
+                    <filter string="Valid From" help="Starting Of Membership" domain="[]" context="{'group_by':'mp_membership_start_date'}" groups="odoo_marketplace.marketplace_manager_group"/>
+                    <filter string="Expire On" help="Ending Of Membership" domain="[]" context="{'group_by':'mp_membership_stop_date'}" groups="odoo_marketplace.marketplace_manager_group"/>
+                </xpath>
+            </field>
+        </record> -->
+    </data>
+</odoo>

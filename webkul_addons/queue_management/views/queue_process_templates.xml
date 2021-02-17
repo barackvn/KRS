@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+    <template id="queue_index" name="QPS Index">&lt;!DOCTYPE html&gt;
+        <html>
+            <head>
+                <title>Queue Management System</title>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+                <meta http-equiv="content-type" content="text/html, charset=utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <meta name="apple-mobile-web-app-capable" content="yes"/>
+                <meta name="mobile-web-app-capable" content="yes"/>
+
+                <link rel="shortcut icon" href="/web/static/src/img/favicon.ico" type="image/x-icon"/>
+
+                <script type="text/javascript">
+                    var odoo = {
+                        csrf_token: "<t t-esc="request.csrf_token(None)"/>",
+                        session_info: <t t-raw="session_info"/>,
+                    };
+                </script>
+
+                <t t-call-assets="web.assets_common"/>
+                <t t-call-assets="web.assets_frontend"/>
+                <t t-call-assets="queue_management.assets"/>
+                <script type="text/javascript" id="qps-loading-script" t-raw="init">
+                    odoo.define('web.web_client', function (require) {
+                        var WebClient = require('web.AbstractWebClient');
+                        var web_client = new WebClient();
+                        web_client._title_changed = function() {};
+                        web_client.show_application = function() {
+                            return web_client.action_manager.do_action("qpms.ui");
+                        };
+
+                        $(function () {
+                            web_client.setElement($(document.body));
+                            web_client.start();
+                        });
+                        return web_client;
+                    });
+                </script>
+            </head>
+            <body>
+                <div class="o_main_content container">
+                    <div class="company_logo">
+                        <span t-field="company.logo" 
+                            t-options="{'widget': 'image', 'style':'width: 158px;height:30px'}"
+                        />
+                    </div>
+                    <t t-if="mode == 'processing_queue'">
+                        <div class='row o_qms_div'>
+                            <div  class="col-5 admin_details">
+                                <br/>
+                                <div>
+                                    <span class="wk_time" t-esc="tdate"/>
+                                </div>
+                                <div>
+                                    <label class="process_label"><b>User:</b></label>
+                                    <span id="process_detail" style="margin-left:20px;" t-field='user.name'/>
+                                </div>
+                                <hr/>
+                                <div>
+                                    <label class="process_label"><b>Counter: </b></label><br/>
+                                    <span class="process_detail" t-field='counter.name'/>
+                                </div>
+                                <hr/>
+                                <div>
+                                    <label class="process_label"><b>Department: </b></label><br/>
+                                    <span class="process_detail" t-field='department.name'/>
+                                </div>
+                                <hr/>
+                                <div>
+                                    <a  class="btn pull-left btn-primary"
+                                            t-attf-href="/qms/process/next/?session=#{qp_session}">
+                                        <span>CALL NEXT </span>
+                                    </a>
+                                </div>
+                                <div t-if="empty_queue" style="clear:both;">
+                                    <br/>
+                                    <label>
+                                        <u><b><i><t t-esc="msg"/></i></b></u>
+                                    </label>
+                                </div>
+                            </div>
+                            <div  class="col-7 token_listing">
+                                <div>
+                                    <label class="queue_listing">
+                                        <u><b>Queue Listing</b></u>
+                                    </label>
+                                </div>
+                                <br/>
+                                <table class="table table-striped table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="qlist_header">S. No.</th>
+                                            <th class="qlist_header">Counter</th>
+                                            <th class="qlist_header">Token No.</th>
+                                            <th class="qlist_header">Called</th>
+                                            <th class="qlist_header">Recall</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="token_body">
+                                        <tr t-foreach="tokens" t-as="token">
+                                            <td class=''>
+                                                <div id="">
+                                                    <span t-esc="token.token_day_number"/>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <t t-if="token.queue_session and token.queue_session.config_id">
+                                                    <span t-field="token.queue_session.config_id"/>
+                                                </t>
+                                                <t t-if="not token.queue_session">
+                                                    <span> - </span>
+                                                </t>
+                                            </td>
+                                            <td class=''>
+                                                <div id="">
+                                                    <span t-esc="token.token_day_number"/>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <t t-if="token.process_by">
+                                                    <span t-field="token.process_by"/>
+                                                </t>
+                                                <t t-if="not token.process_by">
+                                                    <span> - </span>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-if="token.process_by">
+                                                    <a t-attf-href="/token/recall/?session=#{qp_session}&amp;token=#{token.id}">
+                                                        <img src="/queue_management/static/src/img/recall.png" height="18px;"/>
+                                                    </a>
+                                                </t>
+                                                <t t-if="not token.process_by">
+                                                    <span> - </span>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br/>
+                                <div id="table_page">
+                                    <input  type="hidden" id="q_session" name="qp_session_id" t-att-value="qp_session" />
+                                    <button title="Refresh" id="list_refr" value="0" >
+                                        <i class="fa fa-refresh"></i>
+                                    </button>
+                                    <button title="Previous" id="list_left" value="-1" >
+                                        <i class="fa fa-arrow-left" title="" aria-label=""></i>
+                                    </button>
+                                    <button title="Next" id="list_right" value="1">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-if="mode=='token_details'">
+                        <div class='o_next_token_div'>
+                            <div class="upper_div">
+                                <div class="o_cust_details">
+                                    <span class="wk_time" 
+                                          t-field="next_token.date" 
+                                          t-options='{"format": "dd MMMM yyyy HH:m:s"}'/>
+                                </div>
+                                <label class="qms_front1">
+                                    <u>Customer Details</u>
+                                </label>
+                                <br/>
+                                <br/>
+                                <div>
+                                    <div style="float:left">
+                                        <label class="cust_detail_label"><b>User :</b></label>
+                                        <span id="process_detail" 
+                                              class="cust_detail_label" 
+                                              style="margin-left:20px;" 
+                                              t-field='next_token.name'/><br/>
+                                        <label class="cust_detail_label"><b>Token No. :</b></label>
+                                        <span id="process_detail" 
+                                              class="cust_detail_label" 
+                                              style="margin-left:20px;" 
+                                              t-field='next_token.token_day_number'/>
+                                    </div>
+                                    <div style="float:right;">
+                                        <label class="cust_detail_label"><b>Mobile No :</b></label>
+                                        <span id="process_detail" 
+                                              class="cust_detail_label" 
+                                              style="margin-left:20px;" 
+                                              t-field='next_token.user_mobile'/><br/>
+                                        <label class="cust_detail_label"><b>Department :</b></label>
+                                        <span id="process_detail" 
+                                              class="cust_detail_label" 
+                                              style="margin-left:20px;" t-field='next_token.token_dept'/>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="wk_clear"/>
+                            <form name="/process/next/token" action="/process/next/token" method="post">
+                                <div t-attf-class="col-md-12">
+                                    <label class="control-label cust_input_label"  for="name"><b>Customer Query</b></label>
+                                    <textarea class="form-control" rows="3" cols="52"
+                                              t-att-value="next_token.cust_query"
+                                              name="cust_query" id="inputNote"><t t-esc="next_token.cust_query"/></textarea>
+                                    <br/>
+                                </div>
+                                <div t-attf-class="col-md-12">
+                                    <label class="control-label cust_input_label" for="name"><b>Feedback</b></label>
+                                    <textarea class="form-control" rows="3" cols="52"
+                                              t-att-value="next_token.feedback"
+                                              name="admin_feedback" id="inputNote"><t t-esc="next_token.feedback"/></textarea>
+                                    <br/>
+                                </div>
+                                <input  type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                <input  type="hidden" name="qp_session_id" t-att-value="qp_session" />
+                                <input  type="hidden" name="token" t-att-value="next_token.id" />
+                                <div>
+                                    <button type="submit" class="btn btn-primary">SUBMIT</button>
+                                    <div t-attf-class="col-md-4" style="float:left;">
+                                        <select  id="token_state" name="token_state" class="form-control" required="">
+                                            <t t-foreach="states" t-as="state">
+                                                <option t-att-value="state[0]">
+                                                    <t t-esc="state[1]" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                        <br/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </t>
+                </div>
+                <div t-if="mode=='processing_queue'" class="topcorner">
+                    <div t-attf-class="js_session_close" t-att-data-id="t_session">
+                        <a t-attf-href="/qpsession/close/#{qp_session}">
+                            <span>
+                                <button type="button">Close</button>
+                            </span>
+                        </a>
+                        <a><button type="button" id="qms_enter" class="qms_fs">Full Sceen</button></a>
+                        <a>
+                            <button type="button" id="qms_leave" class="qms_fs" style="display:none">
+                                Leave Full Sceen
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </template>
+
+</odoo>

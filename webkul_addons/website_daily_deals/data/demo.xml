@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE URL <https://store.webkul.com/license.html/> for full copyright and licensing details. -->
+<odoo>
+    <record id="wk_deals_pricelist" model="product.pricelist">
+        <field name="name">Deals Pricelist</field>
+        <field name="discount_policy">without_discount</field>
+        <field name="selectable">True</field>
+        <field name="sequence">1</field>
+        <field name="website_id" ref="website.default_website"/>
+    </record>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'show_page_header', True)"/>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'page_header_text', 'DONT MISS A DEAL THIS TIME')"/>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'item_to_show', 'both')"/>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'display_products_as', 'grid')"/>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'deal_pricelist', ref('website_daily_deals.wk_deals_pricelist'))"/>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'show_message_before_expiry', True)"/>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'message_before_expiry', 'Hurry Up!!! This deal is about to expire.')"/>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'show_message_after_expiry', True)"/>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'message_after_expiry', 'Opps!! This deal has been expired.')"/>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'interval_before', 5)"/>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'unit_of_time','hours' )"/>
+    <function model="ir.default" name="set" eval="('website.daily.deals.conf', 'd_state_after_expire','blur' )"/>
+
+
+    <record id="daily_deals_product_1" model="product.product">
+        <field name="name">Woollen Coat</field>
+        <field name="standard_price">300.0</field>
+        <field name="list_price">280.0</field>
+        <field name="website_published">True</field>
+        <field name="image_1920" type="base64" file="website_daily_deals/static/description/15.png"></field>
+    </record>
+
+    <record id="daily_deals_product_2" model="product.product">
+        <field name="name">Woollen Sweater</field>
+        <field name="standard_price">305.0</field>
+        <field name="list_price">280.0</field>
+        <field name="website_published">True</field>
+        <field name="image_1920" type="base64" file="website_daily_deals/static/description/16.png"></field>
+    </record>
+
+    <record id="daily_deals_product_3" model="product.product">
+        <field name="name">Baby Shoes</field>
+        <field name="standard_price">200.0</field>
+        <field name="list_price">180.0</field>
+        <field name="website_published">True</field>
+        <field name="image_1920" type="base64" file="website_daily_deals/static/description/14.png"></field>
+    </record>
+
+    <record id="daily_deals_product_4" model="product.product">
+        <field name="name">Ladies Bag</field>
+        <field name="standard_price">150.0</field>
+        <field name="list_price">140.0</field>
+        <field name="website_published">True</field>
+        <field name="image_1920" type="base64" file="website_daily_deals/static/description/1.png"></field>
+    </record>
+    <record id="daily_deals_product_5" model="product.product">
+        <field name="name">Gents Suits</field>
+        <field name="standard_price">300.0</field>
+        <field name="list_price">280.0</field>
+        <field name="website_published">True</field>
+        <field name="image_1920" type="base64" file="website_daily_deals/static/description/8.png"></field>
+    </record>
+    <record id="daily_deals_product_6" model="product.product">
+        <field name="name">Ladies Shoes high Heel</field>
+        <field name="standard_price">300.0</field>
+        <field name="list_price">280.0</field>
+        <field name="website_published">True</field>
+        <field name="image_1920" type="base64" file="website_daily_deals/static/description/6.png"></field>
+    </record>
+    <record id="daily_deals_product_7" model="product.product">
+        <field name="name">Transparent Googles</field>
+        <field name="standard_price">300.0</field>
+        <field name="list_price">280.0</field>
+        <field name="website_published">True</field>
+        <field name="image_1920" type="base64" file="website_daily_deals/static/description/12.png"></field>
+    </record>
+    <!--pricelist items  -->
+    <record id="daily_deals_item_1" model="product.pricelist.item">
+        <field name="product_tmpl_id" ref='daily_deals_product_1_product_template'></field>
+        <field name="actual_price">280.0</field>
+        <field name="min_quantity">1</field>
+        <field name="deal_applied_on">1_product</field>
+        <field name="applied_on">1_product</field>
+        <field name="pricelist_id" ref="website_daily_deals.wk_deals_pricelist" />
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">20</field>
+    </record>
+    <record id="daily_deals_item_2" model="product.pricelist.item">
+        <field name="product_tmpl_id" ref='daily_deals_product_2_product_template'></field>
+        <field name="actual_price">280.0</field>
+        <field name="min_quantity">1</field>
+        <field name="deal_applied_on">1_product</field>
+        <field name="applied_on">1_product</field>
+        <field name="pricelist_id" ref="website_daily_deals.wk_deals_pricelist" />
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">20</field>
+    </record>
+    <record id="daily_deals_item_3" model="product.pricelist.item">
+        <field name="product_tmpl_id" ref='daily_deals_product_3_product_template'></field>
+        <field name="actual_price">180.0</field>
+        <field name="min_quantity">1</field>
+        <field name="deal_applied_on">1_product</field>
+        <field name="applied_on">1_product</field>
+        <field name="pricelist_id" ref="website_daily_deals.wk_deals_pricelist" />
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">20</field>
+    </record>
+    <record id="daily_deals_item_4" model="product.pricelist.item">
+        <field name="product_tmpl_id" ref='daily_deals_product_4_product_template'></field>
+        <field name="actual_price">140.0</field>
+        <field name="min_quantity">1</field>
+        <field name="deal_applied_on">1_product</field>
+        <field name="applied_on">1_product</field>
+        <field name="pricelist_id" ref="website_daily_deals.wk_deals_pricelist" />
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">25</field>
+    </record>
+    <record id="daily_deals_item_5" model="product.pricelist.item">
+        <field name="product_tmpl_id" ref='daily_deals_product_5_product_template'></field>
+        <field name="actual_price">280.0</field>
+        <field name="min_quantity">1</field>
+        <field name="deal_applied_on">1_product</field>
+        <field name="applied_on">1_product</field>
+        <field name="pricelist_id" ref="website_daily_deals.wk_deals_pricelist" />
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">30</field>
+    </record>
+    <record id="daily_deals_item_6" model="product.pricelist.item">
+        <field name="product_tmpl_id" ref='daily_deals_product_6_product_template'></field>
+        <field name="actual_price">280.0</field>
+        <field name="min_quantity">1</field>
+        <field name="deal_applied_on">1_product</field>
+        <field name="applied_on">1_product</field>
+        <field name="pricelist_id" ref="website_daily_deals.wk_deals_pricelist" />
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">15</field>
+    </record>
+    <record id="daily_deals_item_7" model="product.pricelist.item">
+        <field name="product_tmpl_id" ref='daily_deals_product_7_product_template'></field>
+        <field name="actual_price">280.0</field>
+        <field name="min_quantity">1</field>
+        <field name="deal_applied_on">1_product</field>
+        <field name="applied_on">1_product</field>
+        <field name="pricelist_id" ref="website_daily_deals.wk_deals_pricelist" />
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">10</field>
+    </record>
+
+    <record id="daily_deals_1" model="website.deals">
+        <field name="name">Winter Sale</field>
+        <field name="title">Get a heavy discount on the winter collection</field>
+        <field name="banner" type="base64" file="website_daily_deals/static/description/5.png"></field>
+        <field name="deal_pricelist" ref="website_daily_deals.wk_deals_pricelist" />
+        <field
+            name="pricelist_items" 
+            eval="[(6, 0, [
+                ref('website_daily_deals.daily_deals_item_1'), 
+                ref('website_daily_deals.daily_deals_item_2'),
+                ref('website_daily_deals.daily_deals_item_3'),
+                ref('website_daily_deals.daily_deals_item_4')]
+                )]"/>
+        <field name="state">draft</field>
+    </record>
+
+    <record id="daily_deals_2" model="website.deals">
+        <field name="name">Summer Sale</field>
+        <field name="title">Get a heavy discount on the summer collection</field>
+        <field name="overide_config">True</field>
+        <field name="deal_pricelist" ref="website_daily_deals.wk_deals_pricelist"></field>
+        <field name="display_products_as">slider</field>
+        <field name="banner" type="base64" file="website_daily_deals/static/description/4.png"></field>
+        <field
+            name="pricelist_items"
+            eval="[(6, 0, [
+                ref('website_daily_deals.daily_deals_item_5'), 
+                ref('website_daily_deals.daily_deals_item_6'),
+                ref('website_daily_deals.daily_deals_item_7')]
+            )]"/>
+        <field name="state">draft</field>
+    </record>
+
+    <function model="website.deals" name="button_validate_the_deal" eval="([ref('website_daily_deals.daily_deals_1')])"/>
+    <function model="website.deals" name="button_validate_the_deal" eval="([ref('website_daily_deals.daily_deals_2')])"/>
+</odoo>

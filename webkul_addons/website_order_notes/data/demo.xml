@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+    <data >
+        <record id='website.default_website' model='website'>
+            <field name='wk_show_notes_input'>1</field>
+            <field name='wk_show_desire_date'>1</field>
+            <field name='maxium_delivery_date'>5</field>
+            <field name='minimum_delivery_date'>2</field>
+        </record>
+
+        <record id='website.website2' model='website'>
+            <field name='wk_show_notes_input'>1</field>
+            <field name='wk_show_desire_date'>1</field>
+            <field name='maxium_delivery_date'>10</field>
+            <field name='minimum_delivery_date'>5</field>
+        </record>
+    </data>
+</odoo>

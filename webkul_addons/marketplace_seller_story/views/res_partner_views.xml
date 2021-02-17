@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="wk_seller_story_inherit_seller_form">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='url_handler']//..//.." position="after">
+                <button name="%(marketplace_seller_story.wk_mp_seller_story_action2)d" string=" Create Your Story " icon="fa-address-card-o fa-2x" class="btn-primary pull-right" type="action" attrs="{'invisible':[('seller_story_id','!=',False)]}" style="font-weight:600" context="{'seller_id': id}" groups="odoo_marketplace.marketplace_seller_group"/>
+                <group attrs="{'invisible':[('seller_story_id','=',False)]}" groups="odoo_marketplace.marketplace_seller_group">
+                    <field name="seller_story_id" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="task_timesheet_report">
+    <tbody t-call="web.html_container">
+        <table t-foreach="docs" t-as="o">
+            <tbody t-call="web.external_layout">
+                <div class="page">
+                <br/>
+                     <div style="text-align:left;color:black!important;"><strong><h1>Task :- <span t-field="o.name"/></h1></strong></div>
+                    <table class="table table-condensed table-bordered">
+                        <tr>
+                            <td><strong>Project</strong></td>
+                            <td><span t-field="o.project_id"/></td>
+                            <td><strong>Assigned To</strong></td>
+                            <td><span t-field="o.user_id"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Customer</strong></td>
+                            <td><span t-field="o.partner_id"/></td>
+                            <td> <strong>Deadline</strong></td>
+                            <td> <span t-field="o.date_deadline"/></td>
+                        </tr>
+                    </table>
+
+                    <h2>Timesheet Details</h2>
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr style="background-color:#9b9da0 !important;">
+                                <th class="text-center"><strong>Description</strong></th>
+                                <th class="text-center"><strong>User</strong></th>
+                                <th class="text-center"><strong>Date</strong></th>
+                                <th class="text-center"><strong>Duration</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.timesheet_ids" t-as="timesheet">
+                                <td>
+                                    <span t-field="timesheet.name"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="timesheet.user_id.name"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="timesheet.date"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="'%s:%02.0f' % tuple(int(round(x)) for x in divmod(timesheet.unit_amount*60,60))"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </tbody>
+        </table>
+    </tbody>
+</template>
+
+<template id="project_task_timesheet_report">
+    <tbody t-call="web.html_container">
+        <table t-foreach="docs" t-as="o">
+            <tbody t-call="web.external_layout">
+                <div class="page">
+                <br/>
+                    <div style="text-align:left;color:black!important;"><strong><h1>Project :- <span t-field="o.name"/></h1></strong></div>
+                    <div style="text-align:left;color:black!important;"><strong><p>Project Manager:- <span t-field="o.user_id"/></p></strong></div>
+
+                    <t t-if="o.task_ids">
+                        <div style="text-align:left;color:black!important;"><strong><h2>Task Details </h2></strong></div>
+                        <table class="table table-condensed table-bordered">
+                            <thead>
+                                <tr style="background-color:#9b9da0 !important;">
+                                    <th class="text-center"><strong>Tasks</strong></th>
+                                    <th class="text-center"><strong>Assigned to </strong></th>
+                                    <th class="text-center"><strong>Status</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.task_ids" t-as="task">
+                                    <td>
+                                        <span t-field="task.name"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-if="task.user_id">
+                                            <span t-field="task.user_id"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-center">
+                                        
+                                        <t t-if="task.stage_id">
+                                            <span t-field="task.stage_id"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <br/>
+                        
+                    <t t-if="o.analytic_account_id.line_ids">
+                    
+                        <div style="text-align:left;color:black!important;"><strong><h2>Timesheet Details</h2></strong></div>
+                        <table class="table table-condensed table-bordered">
+                            
+                            <thead>
+                                <tr style="background-color:#9b9da0 !important;">
+                                    <th class="text-center"><strong>Description</strong></th>
+                                    <th class="text-center"><strong>User</strong></th>
+                                    <th class="text-center"><strong>Task</strong></th>
+                                    <th class="text-center"><strong>Date</strong></th>
+                                    <th class="text-center"><strong>Duration</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.analytic_account_id.line_ids" t-as="line">
+                                    <td>
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="line.user_id.name"/>
+                                    </td>
+                                    <td class="text-center">
+                                        
+                                        <t t-if="line.task_id">
+                                            <span t-field="line.task_id.name"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="line.date"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="'%s:%02.0f' % tuple(int(round(x)) for x in divmod(line.unit_amount*60,60))"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </tbody>
+        </table>
+    </tbody>
+</template>
+
+
+<template id="report_project_timesheet">
+    <tbody t-call="web.html_container">
+        <table t-foreach="docs" t-as="o">
+            <tbody t-call="web.external_layout">
+                <div class="page">
+                <br/>
+                    <div style="text-align:left;color:black!important;"><strong><h1>Project :- <span t-field="o.name"/></h1></strong></div>
+                    <div style="text-align:left;color:black!important;"><strong><p>Project Manager:- <span t-field="o.user_id"/></p></strong></div>
+
+                    <t t-if="o.task_ids">
+                        <div style="text-align:left;color:black!important;"><strong><h2>Task Details </h2></strong></div>
+                        <table class="table table-condensed table-bordered">
+                            <thead>
+                                <tr style="background-color:#9b9da0 !important;">
+                                    <th class="text-center"><strong>Tasks</strong></th>
+                                    <th class="text-center"><strong>Assigned to </strong></th>
+                                    <th class="text-center"><strong>Status</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.task_ids" t-as="task">
+                                    <td>
+                                        <span t-field="task.name"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-if="task.user_id">
+                                            <span t-field="task.user_id"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-center">
+                                        
+                                        <t t-if="task.stage_id">
+                                            <span t-field="task.stage_id"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <br/>
+                    <t t-foreach="timesheets.get(o.id, [])" t-as="timesheet">    
+                        <t t-if="timesheet.get('timesheet_ids')">
+                    
+                            <div style="text-align:left;color:black!important;"><strong><h2>Timesheet Details</h2></strong></div>
+                            <table class="table table-condensed table-bordered">
+                                
+                                <thead>
+                                    <tr style="background-color:#9b9da0 !important;">
+                                        <th class="text-center"><strong>Description</strong></th>
+                                        <th class="text-center"><strong>User</strong></th>
+                                        <th class="text-center"><strong>Task</strong></th>
+                                        <th class="text-center"><strong>Date</strong></th>
+                                        <th class="text-center"><strong>Duration</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr t-foreach="timesheet.get('timesheet_ids', [])" t-as="line">
+                                            <td>
+                                                <span t-esc="line.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="line.user_id.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                
+                                                <t t-if="line.task_id">
+                                                    <span t-esc="line.task_id.name"/>
+                                                </t>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="line.date"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="'%s:%02.0f' % tuple(int(round(x)) for x in divmod(line.unit_amount*60,60))"/>
+                                            </td>
+                                        </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </t>
+                    </t>
+                </div>
+            </tbody>
+        </table>
+    </tbody>
+</template>
+
+
+</odoo>

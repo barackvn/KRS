@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+
+		<record id= "inherit_website_ad_order_sol_form_view" model= "ir.ui.view">
+			<field name= "name">website.ad.order.form.mp.inherit</field>
+			<field name= "model">sale.order.line</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="website_advertisement_manager.website_ad_order_sol_form_view"/>
+			<field name= "arch" type= "xml">
+				<xpath expr="//form/sheet//page[@name='ad_block_content']/group[2]" position="attributes">
+					<attribute name="invisible">0</attribute>
+				</xpath>
+				<xpath expr="//form/sheet//page[@name='ad_block_content']/separator" position="after">
+					<group attrs="{'invisible': [('ad_display_type', '!=', 'ad_products')]}">
+						<field name="ad_product_ids" widget="many2many_tags" options="{'no_create_edit': True}"
+							attrs="{'required': [('ad_display_type', '=', 'ad_products')],'readonly': [('ad_block_status','=','expire')]}"
+							domain="[('is_ad_block', '=', False),('website_published','=',True)]"
+							help="Select products to be shown in this block position. Minimum products to be added is 3." />
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="inherit_website_ad_inherit_view_order_form" model="ir.ui.view">
+			<field name="name">sale.order.form.mp.inherit.ad.order</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="website_advertisement_manager.website_ad_inherit_view_order_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//notebook//form//group[@name='ad_block_content_group']">
+					<group>
+						<field name="ad_product_ids" attrs="{'readonly': [('is_ad_block_line', '=', True)],
+							'invisible': [('ad_display_type','!=','ad_products')]}" widget="many2many_tags"/>
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+		<record model='ir.ui.view' id='mp_inherit_website_ad_order_menu_sol_action_filter'>
+			<field name="name">sale.order.line.ad.filter.mp.inherit</field>
+			<field name="model">sale.order.line</field>
+			<field name="type">search</field>
+			<field name="inherit_id" ref="website_advertisement_manager.website_ad_order_menu_sol_action_filter"/>
+			<field name="arch"  type="xml">
+				<xpath expr="//search//group//filter[@name='group_ad_content_status_denied']" position="after">
+					<filter name="group_ad_display_type_products" string="Display Products" domain="[('ad_display_type', '=', 'ad_products')]"/>
+					<filter name="group_ad_display_type_banner" string="Display Banner" domain="[('ad_display_type', '=', 'banner')]"/>
+					<filter name="group_all_seller_lines" string="Seller Ads" domain="[('order_partner_id.seller','=',True)]"/>
+				</xpath>
+			</field>
+		</record>
+
+
+		<record model="ir.ui.view" id="mp_inherit_website_ad_order_sol_kanban_view">
+			<field name="name">website.ad.order.kanban.mp.inherit</field>
+			<field name="model">sale.order.line</field>
+			<field name="type">kanban</field>
+			<field name="inherit_id" ref="website_advertisement_manager.website_ad_order_sol_kanban_view"/>
+			<field name= "arch" type= "xml">
+				<xpath expr="//div/div[3]" position="after">
+					<div class="o_kanban_record_top mb8">
+						<div class="o_kanban_record_headings">
+							<strong class="o_kanban_record_title"><span><b>Display Type: </b><t t-esc="record.ad_display_type.value"/></span></strong>
+						</div>
+					</div>
+				</xpath>
+			</field>
+		</record>
+
+
+
+	</data>
+</odoo>

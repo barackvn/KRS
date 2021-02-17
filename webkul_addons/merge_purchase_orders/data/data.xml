@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data noupdate="0">
+        <record id="action_merge_purchase_order" model="ir.actions.server">
+            <field name="name">Merge Purchase Order</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="state">code</field>
+            <field name="code">action = env["merge.po.wizard"].open_merge_wizard()</field>
+            <field name="binding_model_id" ref="merge_purchase_orders.model_purchase_order"/>
+        </record>
+    </data>
+</odoo>

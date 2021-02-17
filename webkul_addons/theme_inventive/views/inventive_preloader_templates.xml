@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <!-- Theme Website Preloader -->
+    <template id="inventive_preloader_icons" name="Inventive Preloader Icons">
+        <!-- Dot -->
+        <div class="sk-dot" t-if="config.get('preloader_icon_class')=='sk-dot' or not config.get('preloader_icon_class')">
+            <div class="sk-dot1"/>
+            <div class="sk-dot2"/>
+        </div>
+        <!-- rect -->
+        <div class="sk-rect" t-if="config.get('preloader_icon_class')=='sk-rect'">
+           <div class="rect1"></div>
+           <div class="rect2"></div>
+           <div class="rect3"></div>
+           <div class="rect4"></div>
+           <div class="rect5"></div>
+        </div>
+        <!--Cube  -->
+        <div class="sk-cube" t-if="config.get('preloader_icon_class')=='sk-cube'"> <div class="sk-cube1"></div> <div class="sk-cube2"></div> </div>
+        <!-- Bounce -->
+        <div class="sk-bounce" t-if="config.get('preloader_icon_class')=='sk-bounce'"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>
+        <!-- circle -->
+        <div class="sk-circle" t-if="config.get('preloader_icon_class')=='sk-circle'">
+          <t t-foreach="range(1,13)" t-as="count">
+            <div t-attf-class="#{'sk-circle'+str(count)} sk-child"></div>
+          </t>
+        </div>
+        <!-- Cube Grid -->
+        <div class="sk-cube-grid" t-if="config.get('preloader_icon_class')=='sk-cube-grid'">
+           <t t-foreach="range(1,10)" t-as="count">
+             <div t-attf-class="sk-cube-child #{'sk-cube-grid'+str(count)}"></div>
+           </t>
+        </div>
+        <!-- folding Cube -->
+        <div class="sk-folding-cube" t-if="config.get('preloader_icon_class')=='sk-folding-cube'">
+           <div class="sk-cubechild1 sk-cube-parent"></div>
+           <div class="sk-cubechild2 sk-cube-parent"></div>
+           <div class="sk-cubechild4 sk-cube-parent"></div>
+           <div class="sk-cubechild3 sk-cube-parent"></div>
+        </div>
+        <!-- Fading Circle  -->
+        <div class="sk-fading-circle" t-if="config.get('preloader_icon_class')=='sk-fading-circle'">
+           <t t-foreach="range(1,13)" t-as="count">
+             <div t-attf-class="#{'sk-fading-circle'+str(count)} sk-circle-child"></div>
+           </t>
+        </div>
+    </template>
+    <template id="inventive_preloader_content_template" name="Inventive Preloader Content Template">
+      <t t-set="config" t-value="request.website.get_preloader_config()"/>
+      <div id="inventive_preloader" t-if="config.get('enable_preloader',False)">
+          <div id="holdon-overlay" t-attf-style="#{'background-color:'+config.get('background_color', '#000000')};#{'opacity:'+config.get('background_opacity', '.4')}"/>
+          <div id="holdon-content-container">
+              <div id="holdon-content">
+                <t t-if="not config.get('use_preloader_image')" t-call="theme_inventive.inventive_preloader_icons"/>
+                <span t-else="" t-esc="request.website.preloader" t-options="{'widget': 'image'}" role="img"/>
+              </div>
+              <div t-if="config.get('preloader_message',Flase)"
+                 id="holdon-message"
+                 t-esc="config.get('preloader_message','Loading ...')"
+                 t-attf-style="#{'font-size:'+config.get('preloader_text_size','16px')};#{'color:'+config.get('preloader_text_color','#FFFFFF')}"
+                 />
+           </div>
+      </div>
+    </template>
+    <template id="inventive_web_layout_inherit" inherit_id="web.layout" name="Inventive preloader insert ">
+        <xpath expr="//body" position="after">
+          <link href="/theme_inventive/static/src/external_lib/HoldOn.css" rel="stylesheet"/>
+          <t t-call="theme_inventive.inventive_preloader_content_template"/>
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,0 +1,263 @@
+/* Copyright (c) 2019-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+// Default Variables
+
+$text-color: #555555;
+$text-color-light: #aaaaaa;
+$text-color-dark: #333333; // ** Default Border:
+$gray-darker: #111; // #222
+$gray-dark: #333;
+// #333
+$gray: lighten(#000, 33.5%); // #555
+$gray-light: #aaa;
+$gray-lighter: #ddd;
+$gray-xlight: #eee;
+// $theme-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.09);
+$theme-shadow: 0 2px 6px 0 rgba(0,0,0,0.07);
+$light-border: 1px solid $gray-lighter;
+$light-gray-border: 1px solid $gray-light;
+$gray-border: 1px solid $text-color;
+$theme-border: 1px solid #D8D8D8;
+
+.border_primary {
+    border: $theme-border;
+}
+// ICONS url and Svgs
+
+
+$line_bag_white_svg: "theme_inventive/static/src/lib/svg/white/line-shopping-bag.svg";
+$line_bag_black_svg: "theme_inventive/static/src/lib/svg/black/line-shopping-bag.svg";
+$cart_black_svg: "theme_inventive/static/src/lib/svg/black/shopping-cart.svg";
+$cart_white_svg: "theme_inventive/static/src/lib/svg/white/shopping-cart.svg";
+
+$bag_black_svg: "theme_inventive/static/src/lib/svg/black/shopping-bag.svg";
+$bag_white_svg: "theme_inventive/static/src/lib/svg/white/shopping-bag.svg";
+
+$line_wish_black_svg: "theme_inventive/static/src/lib/svg/black/line-wishlist.svg";
+$line_wish_white_svg: "theme_inventive/static/src/lib/svg/white/line-wishlist.svg";
+$wishlist_white_svg:"theme_inventive/static/src/lib/svg/white/wishlist.svg";
+$wishlist_black_svg:"theme_inventive/static/src/lib/svg/black/wishlist.svg";
+
+$line_bar_chart_white_svg: "theme_inventive/static/src/lib/svg/white/line-bar-chart.svg";
+$line_bar_chart_black_svg: "theme_inventive/static/src/lib/svg/black/line-bar-chart.svg";
+
+
+
+// user icons..............................
+$user_white_svg:"theme_inventive/static/src/lib/svg/white/user.svg";
+$user_black_svg:"theme_inventive/static/src/lib/svg/black/user.svg";
+$user2_black_svg:"theme_inventive/static/src/lib/svg/black/user2.svg";
+
+$line_search_black_svg:"theme_inventive/static/src/lib/svg/black/line-search.svg";
+$line_search_white_svg:"theme_inventive/static/src/lib/svg/white/line-search.svg";
+$search_black_svg:"theme_inventive/static/src/lib/svg/black/search.svg";
+
+$line_setting_black_svg:"theme_inventive/static/src/lib/svg/black/line-setting.svg";
+$line_setting_white_svg:"theme_inventive/static/src/lib/svg/white/line-setting.svg";
+$setting_black_svg:"theme_inventive/static/src/lib/svg/black/setting.svg";
+
+$cross_black_svg:"theme_inventive/static/src/lib/svg/black/cross.svg";
+$cross_white_svg:"theme_inventive/static/src/lib/svg/white/cross.svg";
+$cross_red_svg:"theme_inventive/static/src/lib/svg/cross_red.svg";
+
+
+$compare_white_svg:"theme_inventive/static/src/lib/svg/compare.svg";
+
+$accessary_white_svg:"theme_inventive/static/src/lib/svg/accessary.svg";
+
+$alternate_white_svg:"theme_inventive/static/src/lib/svg/alternate.svg";
+
+
+$checkbox_checked_svg:"theme_inventive/static/src/lib/svg/checkbox_checked.svg";
+$checkbox_blank_svg:"theme_inventive/static/src/lib/svg/checkbox_blank.svg";
+
+// other svges
+
+$fast_delivery_svg: "theme_inventive/static/src/lib/svg/other/fast-delivery.svg";
+$checkout_svg:      "theme_inventive/static/src/lib/svg/other/checkout.svg";
+$exchange_svg:      "theme_inventive/static/src/lib/svg/other/exchange.svg";
+$delivery_svg:      "theme_inventive/static/src/lib/svg/other/delivery.svg";
+
+
+
+
+@mixin background_image($url,$size){
+    background-image: url("/#{$url}");
+    background-repeat: no-repeat;
+    background-position: center;
+    @if($size){
+        background-size:$size;
+    }
+}
+
+#wrapwrap {
+    .scrollbar-track{
+        &.scrollbar-track-x,&.scrollbar-track-y{
+            width: 4px;
+            background-color: white;
+        }
+    }
+    .scrollbar-thumb{
+        &.scrollbar-thumb-x,&.scrollbar-thumb-y{
+            width: 4px;
+            background: $primary;
+        }
+    }
+    a[href*="/"]:not(.btn):not(.badge) {
+        color: $text-color-dark;
+        text-decoration: none;
+        transition: color 0.2s linear;
+
+        &.active,
+        &:hover {
+            color: $th-color-primary;
+        }
+    }
+    .text-info {
+        color: $text-color !important;
+        font-size: 14px;
+    }
+
+    a {
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .form-control,
+    .form-control-sm,
+    input[type='number'] {
+        height: 35px;
+        box-shadow: none !important;
+
+        &:focus,
+        &:hover {
+            outline: none;
+            border: 1px solid $th-color-primary;
+        }
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+        cursor: pointer;
+        visibility: hidden;
+        margin-right: 5px;
+        position: relative;
+        width:1rem;
+        height:1rem;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        &:before {
+            content: "\f096";
+            visibility: visible;
+            position: absolute;
+            font-size: 0px;
+            margin-top:2px;
+            width:0.875rem;
+            height:0.875rem;
+            @include background_image($checkbox_blank_svg,0.875rem);
+
+
+        }
+    }
+    input[type="radio"]:checked,
+    input[type="checkbox"]:checked {
+        &:before {
+            content: "\f046";
+            @include background_image($checkbox_checked_svg,0.875rem);
+
+        }
+    }
+    label.css_attribute_color{
+        margin-right:5px;
+        margin-bottom: 0;
+        height: 20px;
+        width: 20px;
+        border: 1px solid #D8D8D8;
+        input{
+            margin: 0;
+        }
+        &.active{
+            border: 2px solid #FFFFFF;
+            box-shadow:
+                0 0 0 2px #333333;
+                height: 16px;
+                width: 16px;
+                margin:-1px 7px 0px 2px;
+        }
+    }
+
+    .overlay{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: -1;
+    }
+    &.apply_overlay .overlay{
+        background-color: rgba(0,0,0,.7);
+        transition: background-color .5s ease-in-out;
+        z-index: 100;
+    }
+    .fa.fa-times{
+        &:before{content: ""}
+        height: 20px;
+        width: 12px;
+        @include background_image($cross_white_svg,10px);
+        &:hover{
+            @include background_image($cross_red_svg,10px);
+        }
+    }
+
+
+}
+// .....Scrollbar Design.................
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: $th-color-primary;
+    border-radius: 10px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+}
+// table
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: white;
+}
+
+table.table th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $gray-xlight !important;
+    border-top: 1px solid $gray-xlight !important;
+    color: $text-color;
+}
+
+table.table td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none !important;
+}

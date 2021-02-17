@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+	<data>
+
+         <record id="social_media_tabs_tree_view" model="ir.ui.view">
+            <field name="name">social.media.tabs.form.view</field>
+            <field name="model">social.media.tabs</field>
+            <field name="arch" type="xml">
+                <tree string="Social Media Tabs">
+                    <field name="media_type"/>
+                    <field name="social_tab" attrs= "{'invisible':[('media_type','!=', 'social_tab')]}"/>
+                    <field name="custom_tab_name" attrs="{'invisible':[('media_type','!=','custom')],'required':[('media_type','=','custom')]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="social_media_tabs_form_view" model="ir.ui.view">
+            <field name="name">social.media.tabs.form.view</field>
+            <field name="model">social.media.tabs</field>
+            <field name="arch" type="xml">
+                <form string="Social Media Tabs" class="oe_form_configuration">
+                    <header>
+                        <button class="btn btn-primary" string='Generate Code' type='object' name='generate_code' attrs="{'invisible':['|', ('social_tab','!=','instagram'),('instagram_access_token','!=',False)]}"></button>
+                    </header>
+                    <sheet>
+                       <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="publish_button"
+                                type="object" icon="fa-globe">
+                                <field name="publish" widget="website_button"/>
+                            </button>
+                        </div>
+                        <field name="icon" widget="image" class="oe_avatar oe_inline" nolabel="1"/>
+                        <div class="oe_title">
+                            <label for="media_type" string="Media Type" nolabel="1"/>
+                            <field name="media_type" style="width:300px"/>
+                        </div>
+                        <group col="4" name="media_type">
+                            <field name="custom_tab_name" attrs="{'invisible':[('media_type','!=','custom')],'required':[('media_type','=','custom')]}"/>
+                            <field name="social_tab" attrs= "{'invisible':[('media_type','!=', 'social_tab')],'required':[('media_type','=', 'social_tab')]}" />
+                        </group>
+                        <group col="4">
+                            <field name="tab_sequence" attrs= "{'invisible':[('media_type','=',False)]}"/>
+                            <field name="color" attrs="{'invisible':[('media_type','=',False)], 'required':[('media_type','!=',False)]}"/>
+                            <field name="title" attrs="{'invisible':[('media_type','=',False)], 'required':[('media_type','!=',False)]}"/>
+                            <field name="folow" attrs="{'invisible':[('media_type','!=','social_tab')], 'required':[('media_type','=','social_tab')]}"/>
+                            <field name="limit" attrs="{'invisible':['|',('media_type','!=','social_tab'),('social_tab','in',['facebook', 'twitter', 'pinterest'])]}"/>
+                            <field name="logo" attrs="{'invisible':[('media_type','=',False)], 'required':[('media_type','!=',False)]}" widget="image" class="oe_avatar"/>
+                        </group>
+
+                        <group col="2" name="facebook_details" attrs="{'invisible':[('social_tab','not in',('facebook'))]}">
+                            <field name="facebook_id" attrs="{'required':[('social_tab','in',('facebook','fblike'))]}"/>
+                        </group>
+
+                        <group col="4" name="youtube_details" attrs="{'invisible':[('social_tab','!=','youtube')]}">
+                            <field name="yt_api_key" attrs="{'required':[('social_tab','=','youtube')]}"/>
+                            <field name="yt_channel_id" attrs="{'required':[('social_tab','=','youtube')]}"/>
+                            <field name="yt_user_id" attrs="{'required':[('social_tab','=','youtube')]}"/>
+                            <field name="yt_show_subscribe"/>
+                        </group>
+
+                        <group name="flickr_credentials" attrs="{'invisible':[('social_tab','!=','flickr')]}">
+                            <field name="flickr_id" attrs="{'required':[('social_tab','=','flickr')]}"/>
+                        </group>
+                        <group name="twitter_credentials" attrs="{'invisible':[('social_tab','!=','twitter')]}">
+                            <field name="twiter_user_id" attrs="{'required':[('social_tab','=','twitter')]}"/>
+                        </group>
+                        <group name="pintrest_credentials" attrs="{'invisible':[('social_tab','!=','pinterest')]}">
+                            <field name="pinterest_id" attrs="{'required':[('social_tab','=','pinterest')]}"/>
+                        </group>
+                        <group name="viemo_credentials" attrs="{'invisible':[('social_tab','!=','vimeo')]}">
+                            <field name="vimeo_id" attrs="{'required':[('social_tab','=','vimeo')]}"/>
+                            <field name="vimeo_token" attrs="{'required':[('social_tab','=','vimeo')]}"/>
+                            <field name="vimeo_client_id" attrs="{'required':[('social_tab','=','vimeo')]}"/>
+                            <field name="vimeo_client_secret" attrs="{'required':[('social_tab','=','vimeo')]}"/>
+                        </group>
+
+                        <group name="tumblr_credentials" attrs="{'invisible':[('social_tab','!=','tumblr')]}">
+                            <field name="tumblr_id" attrs="{'required':[('social_tab','=','tumblr')]}"/>
+                        </group>
+
+                        <group name="Instagram" attrs="{'invisible':[('social_tab','!=','instagram')]}">
+                            <field name="instagram_user" attrs="{'required':[('social_tab','=','instagram')]}"/>
+                            <field name="instagram_client_id" attrs="{'required':[('social_tab','=','instagram')]}"/>
+                            <field name="instagram_client_secret" attrs="{'required':[('social_tab','=','instagram')]}"/>
+                            <span/>
+                            <span/>
+                            <field name="instagram_access_token"/>
+                        </group>
+                        <group col="2">
+                            <field name="custom_html" attrs="{'invisible':[('media_type','!=', 'custom')],'required':[('media_type','=', 'custom')]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_media_tabs">
+            <field name="name">Social Media Tabs</field>
+            <field name="res_model">social.media.tabs</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="social_media_tabs_tree_view"/>
+        </record>
+
+        <menuitem id="menu_social"
+            name="Social Media Tabs"
+            sequence="20"
+            action="social_media_tabs.action_media_tabs"
+            parent="website.menu_website_global_configuration"/>
+
+	</data>
+</odoo>

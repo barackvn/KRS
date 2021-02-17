@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<record id="patho_inherit_view_partner_tree" model="ir.ui.view">
+            <field name="name">res.partner.patient.tree</field>
+            <field name="model">res.partner</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree string="Pathology Patients">
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="mobile"/>
+                </tree>
+            </field>
+        </record>
+		<record id="patho_lab_operators_form_view" model="ir.ui.view">
+			<field name="name">res.partner.form.lab.operators</field>
+			<field name="model">res.partner</field>
+			<field name="mode">primary</field>
+			<field name="arch" type="xml">
+				<form string="Lab Operators Form View">
+					<header>
+						<button name="patho_generate_user_login" type="object"
+							string="Generate User &amp; Send Login Invitation"
+							class="oe_button oe_highlight"
+							icon="fa-envelope-o"
+							title="Generate a login user and a mail will be send on successfull registration"
+							attrs="{'invisible': ['|', ('id','=', False), ('patho_user_count','!=',0)]}"
+							groups="wk_pathology_management.patho_mgmt_manager_group"
+							confirm="Are you sure you want to create a new user ?"/>
+					</header>
+					<sheet>
+						<field name="active" invisible="True"/>
+						<div class="oe_button_box" name="button_box">
+							<button name="action_view_current_patho_user" type="object"
+								icon="fa-user"
+								class="oe_stat_button"
+								attrs="{'invisible': [('patho_user_count', '=', 0)]}"
+								groups="wk_pathology_management.patho_mgmt_manager_group">
+								View User
+							</button>
+							<button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-danger" attrs="{'invisible':[('active', '=', True)]}">
+									<span class="o_stat_text">Active</span>
+								</button>
+								<button class="oe_stat_button" name="toggle_active" type="object" icon="fa-archive text-success" attrs="{'invisible':[('active', '!=', True)]}">
+									<span class="o_stat_text">Archive</span>
+								</button>
+						</div>
+						<field name="image_1920" widget='image' class="oe_avatar"
+							options='{"preview_image": "image_1920", "size": [90, 90]}'/>
+						<div class="oe_title">
+							<div class="oe_edit_only">
+								<label for="name"/>
+							</div>
+							<h1>
+								<field name="name" default_focus="1" placeholder="Name" required="1"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<label for="street" string="Address"/>
+								<div>
+									<field name="street" placeholder="Street..."/>
+									<field name="street2" />
+									<div class="address_format">
+										<field name="city" placeholder="City" style="width: 40%%"/>
+										<field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True, "no_create": True}'/>
+										<field name="zip" placeholder="ZIP" style="width: 22%%"/>
+									</div>
+									<field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}'/>
+								</div>
+								<field name="pathologist" invisible="1"/>
+								<field name="technician" invisible="1"/>
+							</group>
+							<group>
+								<field name="phone" placeholder="e.g. +32.81.81.37.00"/>
+								<field name="mobile"/>
+								<field name="patho_user_count" invisible="1"/>
+								<field name="email" widget="email"/>
+								<field name="title" options='{"no_open": True,"no_create": True}'/>
+							</group>
+						</group>
+						<separator string="Lab Center"/>
+						<group style="margin:0px;">
+							<group>
+								<field name="collection_center_id"
+									options='{"no_create_edit": True}' required="1"/>
+							</group>
+							<group>
+								<field name="lab_center_id" options='{"no_create_edit": True}' required="1"
+									groups="wk_pathology_management.patho_mgmt_manager_group" readonly="0"/>
+
+							</group>
+						</group>
+						<notebook>
+							<page name="" string="Diagnosis" attrs="{'invisible': [('technician','=',False)]}">
+								<field name="tech_diagnosis_ids" readonly="1" options='{"no_open": True,"no_create_edit": True}'>
+									<tree string="">
+										<field name="name"/>
+										<field name="labtest"/>
+										<field name="diagnosis_states"/>
+										<field name="create_date"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Internal Notes">
+								<field name="comment" placeholder="Internal Note..."/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record model="ir.ui.view" id="patho_inherit_view_partner_kanban_view">
+            <field name="name">Patho Lab Operator kanban View</field>
+            <field name="model">res.partner</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="color"/>
+                    <field name="name"/>
+                    <field name="title"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                    <field name="street"/>
+                    <field name="street2"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="country_id"/>
+                    <field name="mobile"/>
+                   	<field name="image_1920"/>
+                    <field name="state_id"/>
+										<field name="collection_center_id"/>
+										<field name="lab_center_id"/>
+										<field name="id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+							<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown" >
+									<a class="dropdown-toggle btn" data-toggle="dropdown" href="#" role='button'>
+										<span class="fa fa-bars fa-lg" aria-label="Dropdown" title="Manage"/>
+									</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+										<li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+									</ul>
+								</div>
+                                <div class="oe_kanban_content oe_kanban_details">
+                                    <div class="o_kanban_image">
+                                        <a type="open">
+                                            <t t-if="record.image_1920">
+                                                <img alt="Not Found" t-att-src="kanban_image('res.partner', 'image_128', record.id.raw_value)"/>
+                                            </t>
+                                            <t t-if="!record.image_1920">
+                                                <img alt="Not Found" t-att-src='_s + "/base/static/src/img/avatar.png"' class="o_kanban_image"/>
+                                            </t>
+                                        </a>
+                                    </div>
+                                        <div name="tags">
+                                            <ul>
+                                                <li t-if="record.name">
+                                                    <b>
+                                                        <field name="name"/>
+                                                    </b>
+                                                </li>
+                                                <li t-if="record.mobile">
+                                                    <field name="mobile"/>
+                                                </li>
+                                                <li t-if="record.email">
+													<field name="email"/>
+												</li>
+												<li t-if="record.collection_center_id.value">
+													<i class="fa fa-hospital-o" aria-hidden="false" style="font-weight:bold;font-size:15px;"></i>
+													<field name="collection_center_id"/>
+												</li>
+												<li t-if="record.lab_center_id.value" groups="wk_pathology_management.patho_mgmt_manager_group">
+													<i class="fa fa-flask" aria-hidden="false" style="font-weight:bold;font-size:15px;"></i>
+													<field name="lab_center_id"/>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="patho_mgmt_test_pathologist_action">
+			<field name="name">Pathologist</field>
+			<field name="res_model">res.partner</field>
+			<field name="view_mode">kanban,tree,form,search</field>
+			<field name="context">{"default_pathologist":1,"default_technician":0}</field>
+			<field name="domain">[('pathologist','=',True)]</field>
+		</record>
+		<record id="patho_mgmt_test_pathologist_action_for_kanban" model="ir.actions.act_window.view">
+			<field name="view_mode">kanban</field>
+			<field name="sequence">1</field>
+			<field name="view_id" ref="wk_pathology_management.patho_inherit_view_partner_kanban_view"/>
+			<field name="act_window_id" ref="wk_pathology_management.patho_mgmt_test_pathologist_action"/>
+		</record>
+		<record id="patho_mgmt_test_pathologist_action_for_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="sequence">2</field>
+			<field name="view_id" ref="wk_pathology_management.patho_inherit_view_partner_tree"/>
+			<field name="act_window_id" ref="wk_pathology_management.patho_mgmt_test_pathologist_action"/>
+		</record>
+		<record id="patho_mgmt_test_pathologist_action_for_form" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="sequence">3</field>
+			<field name="view_id" ref="wk_pathology_management.patho_lab_operators_form_view"/>
+			<field name="act_window_id" ref="wk_pathology_management.patho_mgmt_test_pathologist_action"/>
+		</record>
+		<menuitem name="Pathologist"
+			id="patho_mgmt_test_pathologist_menu"
+			parent= "wk_pathology_management.patho_mgmt_patho_menu"
+			sequence= "2"
+			action= "patho_mgmt_test_pathologist_action"
+			groups="wk_pathology_management.patho_mgmt_user_group"
+		/>
+		<record model="ir.actions.act_window" id="patho_mgmt_test_specialist_action">
+				<field name="name">Lab Technicians</field>
+				<field name="res_model">res.partner</field>
+				<field name="view_mode">kanban,tree,form,search</field>
+				<field name="context">{"default_technician":1,"default_pathologist":0}</field>
+				<field name="domain">[('technician','=',True)]</field>
+		</record>
+		<record id="patho_mgmt_test_specialist_action_for_kanban" model="ir.actions.act_window.view">
+			<field name="view_mode">kanban</field>
+			<field name="sequence">1</field>
+			<field name="view_id" ref="wk_pathology_management.patho_inherit_view_partner_kanban_view"/>
+			<field name="act_window_id" ref="wk_pathology_management.patho_mgmt_test_specialist_action"/>
+		</record>
+		<record id="patho_mgmt_test_specialist_action_for_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="sequence">2</field>
+			<field name="view_id" ref="wk_pathology_management.patho_inherit_view_partner_tree"/>
+			<field name="act_window_id" ref="wk_pathology_management.patho_mgmt_test_specialist_action"/>
+		</record>
+		<record id="patho_mgmt_test_specialist_action_for_form" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="sequence">3</field>
+			<field name="view_id" ref="wk_pathology_management.patho_lab_operators_form_view"/>
+			<field name="act_window_id" ref="wk_pathology_management.patho_mgmt_test_specialist_action"/>
+		</record>
+		<menuitem name="Technicians"
+			id="patho_mgmt_test_specialist_menu"
+			parent= "wk_pathology_management.patho_mgmt_patho_menu"
+			sequence= "3"
+			action= "patho_mgmt_test_specialist_action"
+			groups="wk_pathology_management.patho_mgmt_user_group"
+		/>
+	</data>
+</odoo>

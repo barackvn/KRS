@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */ -->
+<!-- /* See LICENSE file for full copyright and licensing details. */ -->
+
+<templates id="inventive_compare_products" xml:space="preserve">
+
+    <t t-name="th_product_comparison_template">
+        <div class="p_comp_panel">
+            <h4 class="h_tag text-center"> Product Compare List </h4>
+            <div class="compare_list_products"/>
+            <div class="comparelist_limit_warning" style="display:none;">
+                <div class="o_shortlog alert alert-warning text-center" role="alert" style="padding: 10px; margin:10px;">
+                    <span><i class="fa fa-warning text-danger" role="img" aria-label="Warning" title="Warning"></i> You can compare max 4 products.</span>
+                </div>
+            </div>
+            <div class="comparelist_button">
+                <a role="button" class="btn btn-primary btn-block" href="#"><i class="fa fa-exchange mr4"/>Compare</a>
+            </div>
+        </div>
+    </t>
+</templates>

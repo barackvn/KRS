@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+        <record id="show_seller_own_blogs_rule" model="ir.rule">
+           <field name="name">Seller Sees Own Blogs Only</field>
+           <field name="model_id" ref="model_blog_post"/>
+           <field name="domain_force">[('marketplace_seller_id','=',user.partner_id.id)]</field>
+           <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+       </record>
+
+       <record id="show_manager_all_blogs_rule" model="ir.rule">
+           <field name="name">Manager Sees All Blogs</field>
+           <field name="model_id" ref="model_blog_post"/>
+           <field name="domain_force">[(1, '=', 1)]</field>
+           <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+       </record>
+    </data>
+</odoo>

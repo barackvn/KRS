@@ -1,0 +1,19 @@
+<svg width="125px" height="110px" viewBox="0 0 125 110" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Secure-icons/fast-delivery</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="Secure-icons/fast-delivery" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Secure-icons-fast-delivery">
+            <path d="M27.4800773,7.84360579 C8.29734572,25.4917188 68.9800773,53.5 18.4800773,71.5 C-32.0199227,89.5 32.9800773,112 70.4800773,109 C107.980077,106 127.980077,92 124.262393,58.3436058 C120.544708,24.6872116 82.7623926,7.84360579 82.7623926,7.84360579 C82.7623926,7.84360579 46.6628088,-9.80450724 27.4800773,7.84360579 Z" id="bg" fill-opacity="0.0874943388" fill="#FB4A26" fill-rule="nonzero"/>
+            <g id="delivery" transform="translate(10.000000, 27.000000)" stroke="#FB4A26">
+                <rect id="Rectangle-path" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" x="20.7894737" y="0" width="57.8947368" height="47.0769231"/>
+                <polygon id="Shape" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="93.7218045 15.6923077 105 27.4615385 105 47.0769231 78.6842105 47.0769231 78.6842105 15.6923077"/>
+                <ellipse id="Oval" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" cx="89.5139319" cy="47.4615385" rx="8.51393189" ry="8.46153846"/>
+                <ellipse id="Oval-Copy" stroke-width="1.5" fill="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" cx="44.5139319" cy="47.4615385" rx="8.51393189" ry="8.46153846"/>
+                <rect id="Rectangle-4" fill="#15AFB6" fill-rule="nonzero" x="10.5" y="10.5" width="20.0526316" height="1" rx="0.5"/>
+                <path d="M0.769230769,18.5 C0.620538721,18.5 0.5,18.6205387 0.5,18.7692308 C0.5,18.9179228 0.620538721,19.0384615 0.769230769,19.0384615 L30.2834008,19.0384615 C30.4320929,19.0384615 30.5526316,18.9179228 30.5526316,18.7692308 C30.5526316,18.6205387 30.4320929,18.5 30.2834008,18.5 L0.769230769,18.5 Z" id="Rectangle-4-Copy-2" fill="#15AFB6" fill-rule="nonzero"/>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="inherit_mp_seller_form_for_mass_upload" model="ir.ui.view">
+            <field name="name">seller.form.inherit.mass.upload</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]//group[@name='seller_wise_settings']" position="inside">
+                    <group groups="odoo_marketplace.marketplace_officer_group">
+                        <label for="allow_seller_for_mass_upload" string="Allow Mass Upload" help="Enable to allow seller mass upload products and inventory."/>
+                        <div>
+                            <field name="allow_seller_for_mass_upload" readonly="1" help="Enable to allow seller mass upload products and inventory."/>
+                            <button name="enable_seller_mass_upload_group" string="Click to Allow" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_mass_upload', '=', True)]}"/>
+                            <button name="disable_seller_mass_upload_group" string="Click to Deny" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_mass_upload', '=', False)]}"/>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

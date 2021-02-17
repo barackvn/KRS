@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data>
+        <record id="add_mp_seller_profile_tab_in_mp_settings" model="ir.ui.view">
+            <field name="name">mp.config.settings.seller.profle.tab</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="odoo_marketplace.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='config_mail_notify']/div" position="inside">
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <separator string="Seller Profile Tabs Settings"/>
+                        <div class="o_setting_left_pane" title="Enable to display custom tab option to seller."/>
+                        <div class="o_setting_left_pane">
+                            <field name="group_seller_profile_tabs"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="group_seller_profile_tabs" string="Enable Seller Profile Tabs"/>
+                            <div class="text-muted">
+                                Enable to display custom tab option to seller.
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

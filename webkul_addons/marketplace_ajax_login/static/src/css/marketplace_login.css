@@ -1,0 +1,31 @@
+/* Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+/* @License       : https://store.webkul.com/license.html */
+#wk_Modal_signup .ajax_url_info .popover{
+    width: 70%;
+    color: #fff;
+    background: #333;
+}
+#wk_Modal_signup .ajax_url_info .popover > .arrow:after {
+    border-top-color: #333;
+}
+#wk_Modal_signup .ajax_url_info .popover > .popover-body{
+    color: #fff;
+}
+#wk_Modal_signup .ajax_url_info .popover > .arrow{
+    bottom: -10px;
+}
+.mp_ajax_form_button{
+	font-family: 'Opensans' Sans-serif;
+	font-weight: 600;
+	color: #FFFFFF;
+	font-size: 17px;
+}
+
+.mail-invite{
+	background-color: #e7e7e7;
+	background-color: #e7e7e7;
+	padding: 5px;
+	font-weight: 600;
+	border-radius: 5px;
+}

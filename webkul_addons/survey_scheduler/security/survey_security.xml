@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+
+        <!-- Record rules -->
+        <record id="survey.survey_survey_rule_survey_user_read" model="ir.rule">
+            <field name="name">Access to survey for regular users</field>
+            <field name="model_id" ref="survey.model_survey_survey"/>
+            <field name="domain_force">[('authorised_user_ids','in',[user.id])]</field>
+            <field name="groups" eval="[(4, ref('survey.group_survey_user'))]"/>
+        </record>
+
+
+        <record id="survey.survey_user_input_rule_survey_user_read" model="ir.rule">
+            <field name="name">Access to user_input for regular users</field>
+            <field name="model_id" ref="survey.model_survey_user_input"/>
+            <field name="domain_force">['|', '|',('create_uid', '=', user.id), ('partner_id', '=', user.partner_id.id),('survey_id.authorised_user_ids','in',[user.id])]</field>
+            <field name="groups" eval="[(4, ref('survey.group_survey_user'))]"/>
+        </record>
+
+        <record id="survey_follow_up_user_access" model="ir.rule">
+            <field name="name">Survey Follow-up User access rights</field>
+            <field name="model_id" ref="model_survey_followup_history"/>
+            <field name="domain_force">[('survey_id.authorised_user_ids','in',[user.id])]</field>
+            <field name="groups" eval="[(4, ref('survey.group_survey_user'))]"/>
+        </record>
+
+        <record id="survey_follow_up_manager_access" model="ir.rule">
+            <field name="name">Survey Follow-up Manager access rights</field>
+            <field name="model_id" ref="model_survey_followup_history"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('survey.group_survey_manager'))]"/>
+        </record>
+
+    </data>
+</odoo>

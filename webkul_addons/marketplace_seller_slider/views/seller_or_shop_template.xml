@@ -1,0 +1,107 @@
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data>
+        <template id="add_image_carousel_in_seller_profile_page" inherit_id="odoo_marketplace.mp_seller_profile">
+            <xpath expr="//div[@id='wrap']/div[1]" position="replace">
+                <div style="height: 320px;">
+                    <t t-set="seller_main_banner" t-value="seller.sudo().profile_banner"/>
+                    <t t-set="seller_banners" t-value="seller.sudo().seller_banner_ids.filtered('in_carousel')"/>
+                    <div t-if="seller_banners" id="myCarousel" class="carousel slide" data-ride="carousel">
+                        <ul class="carousel-indicators">
+                            <t t-set="i" t-value="0"/>
+                            <t t-if="seller_main_banner">
+                                <li data-target="#myCarousel" t-att-data-slide-to="i if i else '0'" class="active"></li>
+                                <t t-set="i" t-value="i+1"/>
+                            </t>
+                            <t t-foreach="seller_banners" t-as="banner_id">
+                                <li data-target="#myCarousel" t-att-data-slide-to="i if i else '0'" t-att-class="'active' if not seller_main_banner and banner_id.sudo().id == seller_banners[0].sudo().id else ''"></li>
+                                <t t-set="i" t-value="i+1"/>
+                            </t>
+                        </ul>
+
+                        <div class="carousel-inner" style="height: 320px;">
+                            <div t-if="seller_main_banner" class="carousel-item oe_img_bg oe_custom_bg active" t-attf-style="background-image: url('/web/image/res.partner/#{seller.id}/profile_banner');width: 100%;background-size:100% 320px;height: 320px;"></div>
+                            <t t-foreach="seller_banners" t-as="banner_id">
+                                <t t-set="banner_url" t-value="banner_id.sudo().url"/>
+                                <div t-if="banner_url" t-att-class="'carousel-item oe_img_bg oe_custom_bg active' if not seller_main_banner and banner_id.sudo().id == seller_banners[0].sudo().id else 'carousel-item oe_img_bg oe_custom_bg'" style="height: 320px;">
+                                    <a t-att-href="banner_url" target="new">
+                                        <img t-attf-src="/web/image/seller.banner.image/#{banner_id.sudo().id}/image" style="width: 100%;height:100%" alt="Banner Image"/>
+                                    </a>
+                                </div>
+                                <div t-if="not banner_url" t-att-class="'carousel-item oe_img_bg oe_custom_bg active' if not seller_main_banner and banner_id.sudo().id == seller_banners[0].sudo().id else 'carousel-item oe_img_bg oe_custom_bg'" t-attf-style="background-image: url('/web/image/seller.banner.image/#{banner_id.sudo().id}/image');width: 100%;background-size:100% 320px;height: 320px;"></div>
+                            </t>
+                        </div>
+
+                        <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </a>
+                    </div>
+                    <div t-if="not seller_banners" class="carousel-inner">
+                        <t t-if="seller_main_banner">
+                            <div class="carousel-item oe_img_bg oe_custom_bg active" t-attf-style="background-image: url('/web/image//res.partner/#{seller.id}/profile_banner');width: 100%;background-size:100% 320px;height: 320px;"></div>
+                        </t>
+                        <t t-if="not seller_main_banner">
+                            <div class="carousel-item oe_img_bg oe_custom_bg active" t-attf-style="background-image: url('/odoo_marketplace/static/src/img/dummy-banner.png');width: 100%;background-size:100% 320px;height: 320px;"></div>
+                        </t>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="add_image_carousel_in_seller_shop_page" inherit_id="odoo_marketplace.mp_seller_shop">
+            <xpath expr="//div[@id='wrap']/div[1]" position="replace">
+                <div style="height: 320px;">
+                    <t t-set="shop_main_banner" t-value="shop_obj.sudo().shop_banner"/>
+                    <t t-set="shop_banners" t-value="shop_obj.sudo().shop_banner_ids.filtered('in_carousel')"/>
+                    <div t-if="shop_banners" id="myCarousel" class="carousel slide" data-ride="carousel">
+                        <ul class="carousel-indicators">
+                            <t t-set="i" t-value="0"/>
+                            <t t-if="shop_main_banner">
+                                <li data-target="#myCarousel" t-att-data-slide-to="i if i else '0'" class="active"></li>
+                                <t t-set="i" t-value="i+1"/>
+                            </t>
+                            <t t-foreach="shop_banners" t-as="banner_id">
+                                <li data-target="#myCarousel" t-att-data-slide-to="i if i else '0'" t-att-class="'active' if not shop_main_banner and banner_id.sudo().id == shop_banners[0].sudo().id else ''"></li>
+                                <t t-set="i" t-value="i+1"/>
+                            </t>
+                        </ul>
+
+                        <div class="carousel-inner" style="height: 320px;">
+                            <div t-if="shop_main_banner" class="carousel-item oe_img_bg oe_custom_bg active" t-attf-style="background-image: url('/web/image/seller.shop/#{shop_obj.id}/shop_banner');width: 100%;background-size:100% 320px;height: 320px;"></div>
+                            <t t-foreach="shop_banners" t-as="banner_id">
+                                <t t-set="banner_url" t-value="banner_id.sudo().url"/>
+                                <div t-if="banner_url" t-att-class="'carousel-item oe_img_bg oe_custom_bg active' if not shop_main_banner and banner_id.sudo().id == shop_banners[0].sudo().id else 'carousel-item oe_img_bg oe_custom_bg'" style="height: 320px;">
+                                    <a t-att-href="banner_url" target="new">
+                                        <img t-attf-src="/web/image/seller.banner.image/#{banner_id.sudo().id}/image" style="width: 100%;height:100%" alt="Banner Image"/>
+                                    </a>
+                                </div>
+                                <div t-if="not banner_url" t-att-class="'carousel-item oe_img_bg oe_custom_bg active' if not shop_main_banner and banner_id.sudo().id == shop_banners[0].sudo().id else 'carousel-item oe_img_bg oe_custom_bg'" t-attf-style="background-image: url('/web/image/seller.banner.image/#{banner_id.sudo().id}/image');width: 100%;background-size:100% 320px;height: 320px;height: 320px;"></div>
+                            </t>
+                        </div>
+
+                        <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </a>
+                    </div>
+                    <div t-if="not shop_banners" class="carousel-inner">
+                        <t t-if="shop_main_banner">
+                            <div class="carousel-item oe_img_bg oe_custom_bg active" t-attf-style="background-image: url('/web/image/seller.shop/#{shop_obj.id}/shop_banner');width: 100%;background-size:100% 320px;height: 320px;"/>
+                        </t>
+                        <t t-if="not shop_main_banner">
+                            <div class="carousel-item oe_img_bg oe_custom_bg active" t-attf-style="background-image: url('/odoo_marketplace/static/src/img/dummy-banner.png');width: 100%;background-size:100% 320px;height: 320px;"/>
+                        </t>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

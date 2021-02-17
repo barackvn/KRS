@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_order_cancel_reason_public,order.cancel.reason,model_order_cancel_reason,,1,0,0,0
+access_order_cancel_reason_editor,order.cancel.reason,model_order_cancel_reason,website.group_website_publisher,1,1,1,0
+access_order_cancel_reason_designer,order.cancel.reason,model_order_cancel_reason,website.group_website_designer,1,1,1,1

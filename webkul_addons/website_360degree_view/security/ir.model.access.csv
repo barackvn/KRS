@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+,,,,,,,
+access_product_website_360_view_public_user,product.extra.images,model_product_360_view,base.group_public,1,0,0,0
+access_product_website_360_view_users,product.extra.images,model_product_360_view,,1,0,0,0
+access_product_website_360_view_portal_user,product.extra.images,model_product_360_view,base.group_portal,1,0,0,0
+access_product_website_360_view_sales_manager,product.extra.images,model_product_360_view,sales_team.group_sale_manager,1,1,1,1

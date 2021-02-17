@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_maintenance_mode_public,maintenance.mode,model_maintenance_mode,,1,0,0,0
+access_maintenance_mode,maintenance.mode,model_maintenance_mode,website.group_website_designer,1,1,1,1
+,,,,,,,
+access_wk_subscriber_emails_public,wk.subscriber.emails,model_wk_subscriber_emails,,1,0,0,0
+access_wk_subscriber_emails,wk.subscriber.emails,model_wk_subscriber_emails,website.group_website_designer,1,1,1,1

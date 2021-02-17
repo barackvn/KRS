@@ -1,0 +1,164 @@
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<record id="email_now_action" model="ir.actions.act_window">
+			<field name="name">Email now</field>
+			<field name="res_model">email.now</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+			<field name="binding_model_id" ref="odoo_reminder.model_reminder_reminder" />
+		</record>
+	
+		<record id="reminder_list" model="ir.ui.view">
+			<field name="name">reminder list</field>
+			<field name="model">reminder.reminder</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="date"/>
+					<field name="create_uid" string="By"/>
+					<field name="auto_email"/>
+					<field name="repeat"/>
+					<field name="mail_template"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="reminder_form" model="ir.ui.view">
+			<field name="name">reminder.form</field>
+			<field name="model">reminder.reminder</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button
+							name   ="%(email_now_action)d"
+							type   ="action"
+							string ="Email now"
+						/>
+						<button
+							name   ="clearHistory"
+							type   ="object"
+							string ="Clear History"
+							confirm="Are you sure?"
+						/>
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<h1>
+								<field name="name" default_focus="1" placeholder="Subject"/>
+							</h1>
+						</div>
+						<group col="4">
+							<label for="recipients" string="For"/>
+							<field
+								name   ="recipients"
+								widget ="many2many_tags"
+								options="{'no_create_edit':True}"
+								nolabel='1'
+							/>
+							<label for="create_uid" string="By" class="oe_read_only"/>
+							<field name="create_uid" string="By" class="oe_read_only" nolabel='1'/>
+						</group>
+						<group>
+							<group>
+								<field name="date" attrs="{'required':[('auto_email','=',True)]}"/>
+								<field name="auto_email"/>
+							</group>
+							<group></group>
+						</group>
+						<group col="4">
+							<field
+								name ="repeat"
+								attrs="
+								{
+									'required':[('auto_email','=',True)],
+									'invisible':[('auto_email','=',False)],
+								}"
+							/>
+							<field
+								name  ="mail_template"
+								domain="[('model','=','reminder.reminder')]"
+								attrs ="
+								{
+									'required':[('auto_email','=',True)],
+									'invisible':[('auto_email','=',False)],
+								}"
+							/>
+							<field
+								name ="end_date"
+								attrs="{
+									'invisible':[
+										'|',
+										('auto_email','=',False),
+										('repeat','in',[False,0])
+									]
+								}"
+							/>
+						</group>
+						<div><field name="description" widget="html"/></div>
+					</sheet>
+					<div class="oe_chatter">
+						<field
+							name  ="message_follower_ids"
+							widget="mail_followers"
+							groups="base.group_user"
+						/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="reminder_search" model="ir.ui.view">
+			<field name="name">Reminder Search</field>
+			<field name="model">reminder.reminder</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name" string="Reminder"/>
+					<filter
+						string="By me"
+						name  ="creator_filter"
+						domain="[('create_uid','=',uid)]"
+					/>
+					<filter
+						string="For me"
+						name  ="recipient_filter"
+						domain="[('recipients','=',uid)]"
+					/>
+					<filter
+						name   ="group_by_creator"
+						string ="Created by"
+						context="{'group_by':'create_uid'}"
+					/>
+				</search>
+			</field>
+		</record>
+
+		<act_window
+			id       ="reminder_action_current"
+			name     ="Current Reminders"
+			res_model="reminder.reminder"
+			view_mode="tree,form"
+		/>
+
+		<menuitem
+			id  ="reminder_menu_root"
+			name="Reminders"
+		/>
+
+		<menuitem
+			parent="reminder_menu_root"
+			id    ="reminder_menu"
+			name  ="Reminders"
+		/>
+
+		<menuitem
+			parent="reminder_menu"
+			id    ="reminder_submenu_current"
+			name  ="Current"
+			action="reminder_action_current"
+		/>
+	</data>
+</odoo>

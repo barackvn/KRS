@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+		<record id="wk_sale_order_view_form_inherit_website_order_notes" model="ir.ui.view">
+            <field name="name">sale.order</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Notes" attrs="{'invisible':[('visibility_value', 'in', [2, 4])]}">
+                        <group>
+                            <field name="wk_notes" placeholder="Add Your Notes Here..." nolabel="1"/>
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//field[@name='validity_date']" position="after">
+                    <field name="visibility_value" invisible="1"/>
+                    <field name="wk_desire_date" attrs="{'invisible':[('visibility_value', 'in', [3, 4])]}" readonly="1"/>
+                </xpath>
+            </field>
+        </record> 
+	</data>
+</odoo>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="website_stock_notifier_tree" model="ir.ui.view">
+        <field name="name">website.stock.notify.tree</field>
+        <field name="model">website.stock.notify</field>
+        <field name="arch" type="xml">
+            <tree string="Stock Notifier">
+                <field name="name" />
+                <field name="email" />
+                <field name="wk_product" />
+                <field name="create_date" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="website_stock_notifier_form" model="ir.ui.view">
+        <field name="name">website.stock.notify.form</field>
+        <field name="model">website.stock.notify</field>
+        <field name="arch" type="xml">
+            <form string="Stock Notifier" version="7.0">
+                <header>
+                    <button name="action_button_cancel" states="draft" string="Cancel" type="object" class="oe_highlight" />
+                    <button name="action_button_resend" states="cancel" string="Resend" type="object" class="oe_highlight" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,cancel,done" statusbar_colors='{"approved":"blue"}' />
+                </header>
+                <sheet>
+                    <group col="4">
+                        <field name="name" />
+                        <field name="email" />
+                        <field name="wk_user" />
+                        <field name="wk_product" />
+                        <field name="create_date" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_stock_notify_filter" model="ir.ui.view">
+        <field name="name">Stock.Notify.Filter</field>
+        <field name="model">website.stock.notify</field>
+        <field name="arch" type="xml">
+            <search string="Notify Search">
+                <field name="name" string="By Name" filter_domain="[('name', 'ilike', self)]" />
+                <separator/>
+                <filter string="Draft" name="draft_notify" domain="[('state', '=', 'draft')]" />
+                <filter string="Done" name="done_notify" domain="[('state', '=', 'done')]" />
+                <filter string="Cancel" name="cancel_notify" domain="[('state', '=', 'cancel')]" />
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_website_stock_notifier" model="ir.actions.act_window">
+        <field name="name">Website stock Notify</field>
+        <field name="res_model">website.stock.notify</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_draft_notify': 1}</field>
+        <field name="view_id" ref="website_stock_notifier_tree" />
+    </record>
+
+    <menuitem id="menu_wk_customer_group" name="Website Stock Notify" parent="website.menu_website_global_configuration" action="action_website_stock_notifier" sequence="20" />
+    
+</odoo>
+
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->

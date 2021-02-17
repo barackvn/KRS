@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data noupdate="1">
+        <!--Mail to customer to remind for testrequest state changed-->
+        <record id="patho_reminder_mail_to_customer" model="mail.template">
+            <field name="name">Pathology Reminder Mail to Customer</field>
+            <field name="email_from">${object.company_id.partner_id.email or '' | safe}</field>
+            <field name="subject">Test Reminder</field>
+            <field name="email_to">${object.customer_id.email or '' | safe}</field>
+            <field name="model_id" ref="wk_pathology_management.model_patho_testrequest"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html"><![CDATA[
+
+                                    Hello ${object.customer_id.name},
+                                    <p>&nbsp;</p>
+                                    <p>This is a reminder mail.</p>
+                                    <p>Your Test Request ${object.name} has been scheduled on ${object.test_date} and the details are as follows :-</p>
+                                    <table>
+                                        <tr>
+                                            <td><b>Id </b></td>
+                                            <td>: ${object.name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Date </b></td>
+                                            <td>: ${object.test_date}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><b>Status </b></td>
+                                            <td style="text-transform:capitalize;"><b>: ${object.status}</b></td>
+                                        </tr>
+                                    </table>
+                                    <p>Kindly be on time.
+                                    <p>&nbsp;</p>
+                                    <p>Thank you,</p>
+                                    <p style="color:#eeeeee;">
+                                    % if object.company_id.partner_id.user_ids and object.company_id.partner_id.user_ids[0].signature:
+                                        ${object.company_id.partner_id.user_ids[0].signature | safe}
+                                    % endif
+                                    </p>
+                            ]]>
+
+            </field>
+        </record>
+    </data>
+</odoo>
+<!-- % if object.timeslot:
+    <tr>
+        <td><b>Timeslot </b></td>
+        <td>: ${object.time_slot} </td>
+    </tr>
+%endif -->

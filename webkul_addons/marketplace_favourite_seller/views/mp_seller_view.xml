@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+        <record id="inherit_wk_seller_form_for_mp_seller_followers" model="ir.ui.view">
+            <field name="name">seller.form.inherit.marketplace.seller.followers</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/div[@name='button_box']" position="inside">
+					<button name="action_seller_view_followers" type="object" class="oe_stat_button" icon="fa-users">
+						<field name="seller_follower_ids" invisible="1"/>
+						<field string="Followers" name="seller_followers_count" widget="statinfo"/>
+					</button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

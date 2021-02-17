@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- *************************Theme UInventive Header Templates Inherits*************************** -->
+    <!-- =============1. inventive_website_sale_cart_popover ==================-->
+    <!-- =============2. theme_inventive_header_1 ==================-->
+    <!-- =============3. inventive_search_for_header_1 ==================-->
+    <!-- =============4. Shop_Page_Products_Grid_Header_and_Item_View_modal ==================-->
+    <!--==============5. Products_Item_Inherit_for_Price_and_Quantity ==================-->
+    <!-- =============6. Products_Item_ADD_to_Cart_Inherit ==================-->
+
+    <!-- =============1. inventive_website_sale_cart_popover ==================-->
+
+    <template id="website_submenu_theme_inheritance"  inherit_id="website.submenu"  name="Theme Ineventive inherit website Submenu">
+        <li t-if="has_visible_submenu" position="attributes">
+            <attribute name="t-attf-class" add="#{'inventive_mega_menu' if submenu.is_mega_menu else 'dropdown_menu'} #{'show_on_hover' if submenu.show_on_hover else ''}" separator=" "/>
+        </li>
+    </template>
+
+    <template id="cart_popover" inherit_id="website_sale.cart_popover">
+        <xpath expr="//div[hasclass('alert-info')]" position="after">
+            <div t-if="not (website_sale_order and website_sale_order.cart_quantity)" class="d-flex align-items-center justify-content-center pt16 pb16" style="order:4;">
+                <a href="/shop" class="btn btn-primary"> Shop Now </a>
+            </div>
+            <h5 class="text-center">
+                You have
+                <b><span t-esc="website_sale_order and website_sale_order.cart_quantity or '0'"/></b>
+                item(s) in your cart
+                <span t-if="not (website_sale_order and website_sale_order.cart_quantity)"> :( </span>
+                <span t-if="website_sale_order and website_sale_order.cart_quantity"> :) </span>
+            </h5>
+
+        </xpath>
+        <xpath expr="//div[hasclass('alert-info')]" position="replace">
+            <div t-if="not website_sale_order or not website_sale_order.website_order_line" class="empty_cart_div">
+                <img src="/theme_inventive/static/src/img/empty-cart-illustration.png" style="float:right"/>
+            </div>
+        </xpath>
+        <!-- Popover remove button -->
+        <xpath expr="//div[hasclass('cart_line')]//div[hasclass('col-9')]" position="inside">
+            <span class="js_delete_product hidden-xs no-decoration btn btn-secondary circle" title="Remove from cart">
+                <span class="remove_button">X</span>
+            </span>
+            <input
+                type="hidden"
+                class="js_quantity form-control quantity"
+                t-att-data-line-id="line.id"
+                t-att-data-product-id="line.product_id.id"
+                t-att-value="int(line.product_uom_qty) == line.product_uom_qty and int(line.product_uom_qty) or line.product_uom_qty"/>
+        </xpath>
+        <!-- cart buttons -->
+        <a role="button" class="btn btn-primary" href="/shop/cart" position="replace">
+            <div class="d-flex align-items-center justify-content-between">
+                <a role="button" class="btn btn-secondary" href="/shop/cart">
+                    View Cart (<t t-esc="website_sale_order.cart_quantity"/>
+                    items)
+                </a>
+                <span>
+                    OR
+                </span>
+                <a role="button" class="btn btn-primary" href="/shop/checkout">
+                    Checkout
+                </a>
+            </div>
+        </a>
+    </template>
+    <template id="inventive_search_template" name="Inventive Search Box">
+        <div t-att-class="_classes">
+            <form t-att-action="keep('/shop'+ ('/category/'+slug(category)) if category else None, search=0) if keep else '/shop'" method="get">
+                <t t-if="attrib_values">
+                    <t t-foreach="attrib_values" t-as="a">
+                        <input type="hidden" name="attrib" t-att-value="'%s-%s' % (a[0], a[1])"/>
+                    </t>
+                </t>
+                <div t-attf-class="input-group #{'search' if search else ''}">
+                    <input type="text" name="search" class="search-query form-control oe_search_box" placeholder="Search" t-att-value="search"/>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary oe_search_button" aria-label="Search" title="Search"><i class="fa fa-search"/></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </template>
+    <template id="inventive_search_for_header" inherit_id="portal.frontend_layout" name="Inventive Header Search">
+        <xpath expr="//div[@id='top_menu_collapse']" position="inside">
+            <t t-call="theme_inventive.inventive_search_template">
+                <t t-set="_classes">header_search_bar</t>
+            </t>
+        </xpath>
+        <xpath expr="//ul[@id='top_menu']" position="before">
+            <a class=" btn btn-default navbar-close d-flex justify-content-between align-items-center d-md-none" data-target="#top_menu_collapse">
+                <i class="fa fa-long-arrow-left"/>
+                <span href="/" class="navbar-brand logo">
+                    <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                </span>
+            </a>
+        </xpath>
+        <xpath expr="//header" position="inside">
+            <div id="th_mycart_slider">
+                <a class=" btn btn-default navbar-close justify-content-between align-items-center">
+
+                    <span href="/" class="navbar-brand logo">
+                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </span>
+                    <span class="close_icon"><i class="fa fa-times"/></span>
+                </a>
+                <div class="dynamic_cart_content">
+                    <div class='data_loader' data-loader='wave'></div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="inventive_header_language_drop_down" name="Inventive Header Lang">
+        <div class="th_header_lang dropdown" t-if="(request and request.is_frontend_multilang and len(languages) &gt; 1) or (website and (editable or translatable))">
+            <span class="d-none d-lg-inline">Language:</span>
+            <a data-toggle="dropdown" class="current_lang dropdown-toggle">
+                <span t-esc="list(filter(lambda lg : lg[0] == lang, languages))[0][2].split('/').pop()"/>
+            </a>
+            <div class="dropdown-menu js_language_selector" t-if="(request and request.is_frontend_multilang and len(languages) &gt; 1) or (website and (editable or translatable))">
+                <t t-foreach="languages" t-as="lg">
+                    <a  t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang_code=lg[0])"
+                        t-attf-class="dropdown-item js_change_lang #{'active' if lang == lg[0] else ''}"
+                        t-att-data-url_code="lg[1]">
+                        <t t-esc="lg[2].split('/').pop()"/>
+                    </a>
+                </t>
+                <a  class="d-none d-sm-block"
+                    t-attf-href="/web#action=base.action_view_base_language_install&amp;website_id=#{website.id if website else ''}&amp;url_return=#{url_return}"
+                    groups="website.group_website_publisher">
+                    <i class="fa fa-plus-circle"/>
+                    Add a language...
+                </a>
+            </div>
+        </div>
+    </template>
+    <template id="inventive_header_pricelist_drop_down" name="Inventive Header pricelist">
+        <div class="th_header_pricelist d-none d-md-inline">
+            <t t-set="website_sale_pricelists" t-value="website.get_pricelist_available(show_visible=True)"/>
+            <div t-attf-class="#{website_sale_pricelists and len(website_sale_pricelists)&gt;1 and 'dropdown' or 'd-none'}">
+                <span class="d-none d-lg-inline">Currency:
+                </span>
+                <t t-set="curr_pl" t-value="website.get_current_pricelist()"/>
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    <t t-esc="curr_pl and curr_pl.name or ' - '"/>
+                </a>
+                <div class="dropdown-menu" role="menu">
+                    <t t-foreach="website_sale_pricelists" t-as="pl">
+                        <a t-att-href="'/shop/change_pricelist/%s' % pl.id" t-attf-class="dropdown-item #{'active' if pl == curr_pl else ''}">
+                            <span class="switcher_pricelist" t-att-data-pl_id="pl.id" t-esc="pl.name"/>
+                        </a>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="header_top_bar" name="Theme Inventive Header Top Bar Template">
+        <div class="inventive_header_top">
+            <div class="d-flex">
+                <t t-call="theme_inventive.inventive_header_language_drop_down"/>
+                <t t-call="theme_inventive.inventive_header_pricelist_drop_down"/>
+                <div class="th_header_top_menu list-unstyled" t-if="not user_id._is_public()">
+                    <div class="th_header_top_login d-flex align-items-center">
+                        <span class="user_icon ml-2 mr-2"/>
+                        <span class="user_name">
+                            Hello
+                            <t t-esc="user_id.name"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="header_middle_btns" name="Theme Inventive Header Middle Buttons Template">
+        <div class="header_middle_btn">
+            <t t-if="request.website.viewref('website_sale_wishlist.add_to_wishlist').active">
+                <div id="my_wish" class="btn-group o_wsale_my_wish">
+                    <a href="/shop/wishlist">
+                        <span class="th_icon active">
+                            <span class="th_wish_icon"/>
+                        </span>
+                        <span class="btn">
+                            Wishlist
+                            <sup t-attf-class="my_wish_quantity o_animate_blink badge badge-light"><t t-esc='wishcount'/></sup>
+                        </span>
+                    </a>
+                </div>
+            </t>
+            <div id="my_cart" class="btn-group o_wsale_my_cart">
+                <a href="/shop/cart" class="th_cart_btn">
+                    <span class="th_icon active">
+                        <span class="th_cart_icon"/>
+                    </span>
+                    <span class="btn">
+                        <t t-set="website_sale_order" t-value="website.sale_get_order()"/>
+                        Your Cart
+                        <sup t-attf-class="my_cart_quantity o_animate_blink badge badge-light" t-esc="website_sale_order and website_sale_order.cart_quantity or '0'"/>
+                    </span>
+                </a>
+            </div>
+            <div id="my_account" class="dropdown btn-group">
+                <span class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="th_icon active">
+                        <span class="th_account_icon"/>
+                    </span>
+                    <span class="btn">Account</span>
+                </span>
+                <div class="th_d_menu dropdown-menu">
+                    <div class="arrow"/>
+                    <div class="dropdown-item" t-if="not user_id._is_public()">
+                        <a href="/my/orders" role="menuitem">Orders</a>
+                    </div>
+                    <div class="dropdown-item product_comp_menu">
+                        <a id="comp_menu_link" role="menuitem">Comparison List
+                            <sup class="product_comp_quantity o_animate_blink badge badge-primary"/>
+                        </a>
+                    </div>
+                    <t t-set="website_sale_pricelists" t-value="website.get_pricelist_available(show_visible=True)"/>
+                    <div t-attf-class="#{website_sale_pricelists and len(website_sale_pricelists)&gt;1 and 'dropdown-submenu' or 'd-none'}">
+                        <a data-toggle="dropdown" class="dropdown-item dropdown-toggle">
+                            Currency
+                        </a>
+                        <div class="dropdown-menu" role="menu">
+                            <t t-set="curr_pl" t-value="website.get_current_pricelist()"/>
+                            <t t-foreach="website_sale_pricelists" t-as="pl">
+                                <a t-att-href="'/shop/change_pricelist/%s' % pl.id" t-attf-class="dropdown-item #{'active' if pl == curr_pl else ''}">
+                                    <span class="switcher_pricelist" t-att-data-pl_id="pl.id" t-esc="pl.name"/>
+                                </a>
+                            </t>
+                        </div>
+                    </div>
+                    <hr style="margin-bottom: .5rem; padding:0;"/>
+                    <div class="dropdown-item d-flex justify-content-between align-items-center" groups="base.group_public">
+                        <t t-set="is_reg_enable" t-value="request.env['ir.config_parameter'].sudo().get_param('auth_signup.invitation_scope') == 'b2c'"/>
+                        <a href="/web/login" role="menuitem"  t-attf-class="btn btn-primary #{'btn-block' if not is_reg_enable else ''}">Sign in</a>
+                        <span t-if='is_reg_enable'> OR </span>
+                        <a t-if='is_reg_enable' href="/web/signup" role="menuitem" class="btn btn-secondary">Register</a>
+                    </div>
+                    <div class="dropdown-item d-flex justify-content-between align-items-center" t-if="not user_id._is_public()">
+                        <a href="/my/home" role="menuitem" class="btn btn-primary">Account</a>
+                        <span> OR </span>
+                        <a href="/web/session/logout?redirect=/" role="menuitem" class="btn btn-secondary">Sign out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="header_middle_icons" name="Theme Inventive Header Middle Icons Template">
+        <div class="header_middle_icons">
+            <t t-if="request.website.viewref('website_sale_wishlist.add_to_wishlist').active">
+                <t t-set='wishcount' t-value="len(request.env['product.wishlist'].current())"/>
+                <span id="my_wish" class="header_icon wish_icon o_wsale_my_wish">
+                    <a href="/shop/wishlist">
+                        <i class="fa fa-heart"></i>
+                    </a>
+                    <sup t-attf-class="my_wish_quantity o_animate_blink badge"><t t-esc='wishcount'/></sup>
+                </span>
+            </t>
+            <span id="my_cart" class="header_icon th_cart_icon o_wsale_my_cart">
+                <a href="/shop/cart" class="th_cart_btn"/>
+                <t t-set="website_sale_order" t-value="website.sale_get_order()"/>
+                <sup t-attf-class="my_cart_quantity o_animate_blink badge" t-esc="website_sale_order and website_sale_order.cart_quantity or '0'"/>
+            </span>
+            <div class="btn-group dropdown">
+                <a id="my_account" class="dropdown-toggle header_icon user" data-toggle="dropdown">
+                    <i class="fa fa-cog"></i>
+                </a>
+                <div class="th_d_menu dropdown-menu">
+                    <div class="arrow"/>
+                    <div class="dropdown-item" t-if="not user_id._is_public()">
+                        <a href="/my/orders" role="menuitem">Orders</a>
+                    </div>
+                    <div class="dropdown-item product_comp_menu">
+                        <a id="comp_menu_link" role="menuitem">Comparison List
+                            <sup class="product_comp_quantity o_animate_blink badge badge-primary"/>
+                        </a>
+                    </div>
+                    <!-- <div id="" class="dropdown-item" > <a href="/shop/wishlist" > <i class="fa fa-heart"/> Wishlist <sup t-attf-class="my_wish_quantity o_animate_blink badge badge-primary"><t t-esc="wishcount"/></sup> </a> </div> -->
+                    <hr style="margin-bottom: .5rem; padding:0;"/>
+                    <div class="dropdown-item d-flex justify-content-between align-items-center" groups="base.group_public">
+                        <t t-set="is_reg_enable" t-value="request.env['ir.config_parameter'].sudo().get_param('auth_signup.invitation_scope') == 'b2c'"/>
+                        <a href="/web/login" role="menuitem" t-attf-class="btn btn-primary #{'btn-block' if not is_reg_enable else ''}">Sign in</a>
+                        <span t-if='is_reg_enable' >OR</span>
+                        <a t-if='is_reg_enable' href="/web/signup" role="menuitem" class="btn btn-secondary">Register</a>
+                    </div>
+                    <div class="dropdown-item d-flex justify-content-between align-items-center" t-if="not user_id._is_public()">
+                        <a href="/my/home" role="menuitem" class="btn btn-primary">Account</a>
+                        <span>OR</span>
+                        <a href="/web/session/logout?redirect=/" role="menuitem" class="btn btn-secondary">Sign out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Header 1 -->
+    <template id="header_1" inherit_id="website.layout" active="False" name="Theme Inventive Header 1">
+        <xpath expr="//header" position="attributes">
+            <attribute
+                name="t-attf-class"
+                add="inventive_header_1 #{main_object.header_color if 'header_color' in main_object else ''}"
+                separator=" "/>
+        </xpath>
+        <xpath expr="//nav[hasclass('navbar')]" position="before">
+            <div class="main_div">
+                <t t-call="theme_inventive.header_top_bar"/>
+                <div class="inventive_header_middle">
+                    <!-- logo -->
+                    <a href="/" class="navbar-brand logo">
+                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                    <!-- search bar-->
+                    <t t-call="theme_inventive.inventive_search_template">
+                        <t t-set="_classes">header_search_bar</t>
+                    </t>
+                    <!-- buttons -->
+                    <t t-call="theme_inventive.header_middle_btns"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='top_menu_collapse']" position="before">
+            <hr class="border-hr w-100 p-0 m-0"></hr>
+        </xpath>
+        <xpath expr="//div[@id='top_menu_collapse']" position="after">
+            <hr class="border-hr w-100 p-0 m-0"></hr>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
+            <t t-call="theme_inventive.inventive_search_template">
+                <t t-set="_classes">mobile_search_bar</t>
+            </t>
+        </xpath>
+    </template>
+    <!-- Header 2 -->
+    <template id="header_2" inherit_id="website.layout" active="False" name="Theme Inventive Header 2">
+        <xpath expr="//header" position="attributes">
+            <attribute
+                name="t-attf-class"
+                add="inventive_header_2 #{main_object.header_color if 'header_color' in main_object else ''}"
+                separator=" "/>
+        </xpath>
+        <xpath expr="//nav[hasclass('navbar')]" position="before">
+            <div class="main_div">
+                <t t-call="theme_inventive.header_top_bar"/>
+                <div class="inventive_header_middle">
+                    <!-- search bar-->
+                    <t t-call="theme_inventive.inventive_search_template">
+                        <t t-set="_classes">header_search_bar</t>
+                    </t>
+                    <!-- logo -->
+                    <a href="/" class="navbar-brand logo">
+                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                    <!-- buttons -->
+                    <t t-call="theme_inventive.header_middle_btns"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
+            <t t-call="theme_inventive.inventive_search_template">
+                <t t-set="_classes">mobile_search_bar</t>
+            </t>
+        </xpath>
+    </template>
+    <template id="header_3" inherit_id="website.layout" active="False" name="Theme Inventive Header 3">
+        <xpath expr="//header" position="attributes">
+            <attribute
+                name="t-attf-class"
+                add="inventive_header_3 #{main_object.header_color if 'header_color' in main_object else ''}"
+                separator=" "/>
+        </xpath>
+        <xpath expr="//nav[hasclass('navbar')]" position="before">
+            <div class="main_div">
+                <div class="inventive_header_middle">
+                    <!-- logo -->
+                    <a href="/" class="navbar-brand logo">
+                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                    <div class="d-flex">
+                        <!-- Search icons + bar -->
+                        <t t-call="theme_inventive.inventive_search_template">
+                            <t t-set="_classes">header_search_bar</t>
+                        </t>
+                        <!-- Icons -->
+                        <t t-call="theme_inventive.header_middle_icons"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
+            <t t-call="theme_inventive.inventive_search_template">
+                <t t-set="_classes">mobile_search_bar</t>
+            </t>
+        </xpath>
+    </template>
+    <template id="header_4" inherit_id="website.layout" active="False" name="Theme Inventive Header 4">
+        <xpath expr="//header" position="attributes">
+            <attribute
+                name="t-attf-class"
+                add="inventive_header_4 #{main_object.header_color if 'header_color' in main_object else ''}"
+                separator=" "/>
+        </xpath>
+        <xpath expr="//nav[hasclass('navbar')]" position="before">
+            <div class="main_div">
+                <div class="inventive_header_middle">
+                    <!-- logo -->
+                    <a href="/" class="navbar-brand logo">
+                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                    <!-- Search icons + bar -->
+                    <t t-call="theme_inventive.inventive_search_template">
+                        <t t-set="_classes">header_search_bar</t>
+                    </t>
+                    <!-- Icons -->
+                    <t t-call="theme_inventive.header_middle_icons"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
+            <t t-call="theme_inventive.inventive_search_template">
+                <t t-set="_classes">mobile_search_bar</t>
+            </t>
+        </xpath>
+    </template>
+    <template id="header_5" inherit_id="website.layout" active="False" name="Theme Inventive Header 5">
+        <xpath expr="//header" position="attributes">
+            <attribute
+                name="t-attf-class"
+                add="inventive_header_5 #{main_object.header_color if 'header_color' in main_object else ''}"
+                separator=" "/>
+        </xpath>
+        <xpath expr="//nav[hasclass('navbar')]" position="before">
+            <div class="main_div">
+                <div class="inventive_header_middle">
+                    <!-- logo -->
+                    <a href="/" class="navbar-brand logo">
+                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+
+                    <div class="d-flex">
+                        <!-- Search icons + bar -->
+                        <t t-call="theme_inventive.inventive_search_template">
+                            <t t-set="_classes">header_search_bar</t>
+                        </t>
+                        <!-- btons -->
+                        <t t-call="theme_inventive.header_middle_btns"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
+            <t t-call="theme_inventive.inventive_search_template">
+                <t t-set="_classes">mobile_search_bar</t>
+            </t>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="inside">
+            <div class="header_drop_downs d-flex">
+                <t t-call="theme_inventive.inventive_header_language_drop_down"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='top_menu_collapse']" position="inside">
+            <div class="header_drop_downs d-flex">
+                <t t-call="theme_inventive.inventive_header_language_drop_down"/>
+                <t t-call="theme_inventive.inventive_header_pricelist_drop_down"/>
+            </div>
+        </xpath>
+    </template>
+    <template id="header_6" inherit_id="website.layout" active="False" name="Theme Inventive Header 6">
+        <xpath expr="//header" position="attributes">
+            <attribute
+                name="t-attf-class"
+                add="inventive_header_6 #{main_object.header_color if 'header_color' in main_object else ''}"
+                separator=" "/>
+        </xpath>
+        <xpath expr="//nav[hasclass('navbar')]" position="before">
+            <div class="main_div">
+                <div class="inventive_header_middle">
+                    <!-- Search icons + bar -->
+                    <t t-call="theme_inventive.inventive_search_template">
+                        <t t-set="_classes">header_search_bar</t>
+                    </t>
+                    <!-- logo -->
+                    <a href="/" class="navbar-brand logo">
+                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                    <!-- Icons -->
+                    <t t-call="theme_inventive.header_middle_icons"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
+            <t t-call="theme_inventive.inventive_search_template">
+                <t t-set="_classes">mobile_search_bar</t>
+            </t>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="inside">
+            <div class="header_drop_downs d-flex">
+                <t t-call="theme_inventive.inventive_header_language_drop_down"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='top_menu_collapse']" position="inside">
+            <div class="header_drop_downs d-flex">
+                <t t-call="theme_inventive.inventive_header_language_drop_down"/>
+                <t t-call="theme_inventive.inventive_header_pricelist_drop_down"/>
+            </div>
+        </xpath>
+    </template>
+    <template id="header_7" inherit_id="website.layout" active="False" name="Theme Inventive Header 7">
+        <xpath expr="//header" position="attributes">
+            <attribute
+                name="t-attf-class"
+                add="inventive_header_7 #{main_object.header_color if 'header_color' in main_object else ''}"
+                separator=" "/>
+        </xpath>
+        <xpath expr="//nav[hasclass('navbar')]" position="before">
+            <div class="main_div">
+                <t t-call="theme_inventive.header_top_bar"/>
+                <div class="inventive_header_middle">
+                    <!-- logo -->
+                    <a href="/" class="navbar-brand logo">
+                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                    <!-- Search icons + bar -->
+                    <t t-call="theme_inventive.inventive_search_template">
+                        <t t-set="_classes">header_search_bar</t>
+                    </t>
+                    <!-- Icons -->
+                    <t t-call="theme_inventive.header_middle_icons"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
+            <t t-call="theme_inventive.inventive_search_template">
+                <t t-set="_classes">mobile_search_bar</t>
+            </t>
+        </xpath>
+    </template>
+    <template id="header_8" inherit_id="website.layout" active="False" name="Theme Inventive Header 8">
+        <xpath expr="//header" position="attributes">
+            <attribute
+                name="t-attf-class"
+                add="inventive_header_8 #{main_object.header_color if 'header_color' in main_object else ''}"
+                separator=" "/>
+        </xpath>
+        <xpath expr="//nav[hasclass('navbar')]" position="before">
+            <div class="main_div">
+                <div class="inventive_header_middle">
+                    <!-- logo -->
+                    <a href="/" class="navbar-brand logo">
+                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                    <!-- Search icons + bar -->
+                    <t t-call="theme_inventive.inventive_search_template">
+                        <t t-set="_classes">header_search_bar</t>
+                    </t>
+                    <!-- Icons -->
+                    <t t-call="theme_inventive.header_middle_btns"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
+            <t t-call="theme_inventive.inventive_search_template">
+                <t t-set="_classes">mobile_search_bar</t>
+            </t>
+        </xpath>
+    </template>
+    <template id="header_9" inherit_id="website.layout" active="False" name="Theme Inventive Header 9">
+        <xpath expr="//header" position="attributes">
+            <attribute
+                name="t-attf-class"
+                add="inventive_header_9 #{main_object.header_color if 'header_color' in main_object else ''}"
+                separator=" "/>
+        </xpath>
+        <xpath expr="//nav[hasclass('navbar')]" position="before">
+            <div class="main_div">
+                <div class="inventive_header_middle">
+                    <!-- logo -->
+                    <a href="/" class="navbar-brand logo">
+                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                    <!-- Search icons + bar -->
+                    <t t-call="theme_inventive.inventive_search_template">
+                        <t t-set="_classes">header_search_bar</t>
+                    </t>
+                    <!-- Icons -->
+                    <t t-call="theme_inventive.header_middle_icons"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
+            <t t-call="theme_inventive.inventive_search_template">
+                <t t-set="_classes">mobile_search_bar</t>
+            </t>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="replace">
+            <div class="d-flex">
+                <div class="header_drop_downs d-md-none d-flex">
+                    <t t-call="theme_inventive.inventive_header_language_drop_down"/>
+                </div>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#top_menu_collapse">
+                    <span class="navbar-toggler-icon"/>
+                </button>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='top_menu_collapse']" position="inside">
+            <div class="header_drop_downs d-flex">
+                <t t-call="theme_inventive.inventive_header_language_drop_down"/>
+                <t t-call="theme_inventive.inventive_header_pricelist_drop_down"/>
+            </div>
+        </xpath>
+    </template>
+    <template id="header_10" inherit_id="website.layout" active="True" name="Theme Inventive Header 10">
+        <xpath expr="//header" position="attributes">
+            <attribute
+                name="t-attf-class"
+                add="inventive_header_10 #{main_object.header_color if 'header_color' in main_object else ''}"
+                separator=" "/>
+        </xpath>
+        <xpath expr="//nav[hasclass('navbar')]" position="before">
+            <div class="main_div">
+                <div class="inventive_header_middle">
+                    <a href="/" class="navbar-brand logo">
+                        <span t-field="res_company.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                    <div class="d-flex">
+                        <!-- Search icons + bar -->
+                        <t t-call="theme_inventive.inventive_search_template">
+                            <t t-set="_classes">header_search_bar</t>
+                        </t>
+                        <!-- btons -->
+                        <t t-call="theme_inventive.header_middle_btns"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="before">
+            <t t-call="theme_inventive.inventive_search_template">
+                <t t-set="_classes">mobile_search_bar</t>
+            </t>
+        </xpath>
+        <xpath expr="//button[hasclass('navbar-toggler')]" position="replace">
+            <div class="d-flex">
+                <div class="header_drop_downs d-md-none d-flex">
+                    <t t-call="theme_inventive.inventive_header_language_drop_down"/>
+                </div>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#top_menu_collapse">
+                    <span class="navbar-toggler-icon"/>
+                </button>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='top_menu_collapse']" position="inside">
+            <div class="header_drop_downs d-flex">
+                <t t-call="theme_inventive.inventive_header_language_drop_down"/>
+                <t t-call="theme_inventive.inventive_header_pricelist_drop_down"/>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

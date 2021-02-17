@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+
+    <template id="portal_my_home_fav_sellers_list" name="Portal My Home : Favourite Sellers entries"
+        inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="fav_sellers_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">My Favourite Sellers</t>
+                <t t-set="url" t-value="'/my/favourite/sellers'"/>
+                <t t-set="count" t-value="fav_sellers_count"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_favourite_sellers_list" name="My Favourite Sellers">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Favourite Sellers</t>
+            </t>
+            <div class="card-body bg-white mb-2 mt-3 bg-white">
+                <t t-if="not fav_sellers">
+                    <p>There are currently no favourite sellers added in your account.</p>
+                 </t>
+                 <!-- <h3><i class="fa fa-users"/> My Favourite Sellers </h3> -->
+                 <t t-if="add_favourite_success">
+                     <p class="alert alert-success text-success mt8" style="display: inline;padding: 5px;border-radius: 2px;">
+                         Seller has been successfully added to your Favourite Seller List.
+                     </p>
+                 </t>
+                 <t t-if="add_favourite_error">
+                     <p class="alert alert-warning text-warning mt8" style="display: inline;padding: 5px;border-radius: 2px;">
+                         Seller has been already added to your Favourite Seller List.
+                     </p>
+                 </t>
+                 <t t-if="seller_remove_success">
+                     <p class="alert alert-info text-info mt8" style="display: inline;padding: 5px;border-radius: 2px;">
+                         Seller has been successfully removed from your Favourite Seller List.
+                     </p>
+                 </t>
+                 <t t-if="fav_sellers" class="panel panel-default">
+                 <div class="table-responsive mt16 mb16">
+                     <table id="fav_seller_table" class="table table-bordered o_portal_my_doc_table">
+                        <thead>
+                            <tr class="active success">
+                                <th width="80"> S.No. </th>
+                                <th> Image </th>
+                                <th> Seller </th>
+                                <th t-if="website.sudo().get_group_mp_shop_allow()"> Shop </th>
+                                <th> Added On </th>
+                                <th> Action </th>
+                            </tr>
+                        </thead>
+                        <t t-set="i" t-value="1"/>
+                        <t t-foreach="fav_sellers" t-as="seller">
+                            <tr>
+                                <td>
+                                    <t t-esc="i"/>.
+                                </td>
+                                <td style="height: 75px!important;">
+                                    <a t-attf-href="/seller/profile/#{seller.marketplace_seller_id.sudo().url_handler if seller.marketplace_seller_id.sudo().url_handler else seller.marketplace_seller_id.sudo().id}" title="View Seller Profile" target="new">
+                                        <img t-if="seller.marketplace_seller_id.sudo().profile_image"
+                                            t-attf-src="/web/image/res.partner/#{seller.marketplace_seller_id.sudo().id}/profile_image"
+                                            width="auto" height="100%" alt="Not found"/>
+                                        <img t-else="" src="/web/static/src/img/placeholder.png"
+                                             alt="Not found" height="100%" width="auto"/>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a t-attf-href="/seller/profile/#{seller.marketplace_seller_id.sudo().url_handler if seller.marketplace_seller_id.sudo().url_handler else seller.marketplace_seller_id.sudo().id}"
+                                        title="View Seller Profile" target="new" class="text-primary">
+                                        <t t-esc="seller.marketplace_seller_id.sudo().sudo().name"/>
+                                    </a>
+                                </td>
+                                <td t-if="website.sudo().get_group_mp_shop_allow()">
+                                    <t t-set="mp_seller_shop_id" t-value="seller.marketplace_seller_id.sudo().seller_shop_id"/>
+                                    <t t-if="mp_seller_shop_id and mp_seller_shop_id.website_published and mp_seller_shop_id.active">
+                                        <a class="text-primary" target="_blank" t-attf-href="/seller/shop/#{mp_seller_shop_id.url_handler}" title="Visit Shop"> <t t-esc="mp_seller_shop_id.name"/> </a>
+                                    </t>
+                                    <t t-else="">
+                                        -
+                                    </t>
+                                </td>
+                                <td>
+                                    <span t-field="seller.create_date" t-field-options='{"widget": "datetime" , "format": "d-MMM-y"}' style="white-space: nowrap;"/>
+                                </td>
+                                <td>
+                                    <form class="mp_remove_fav_seller_form needs-validation" action="/remove/favourite" method="post">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <input type="hidden" name="marketplace_seller_id" t-att-value="seller.marketplace_seller_id.sudo().id"/>
+                                        <button id="fav_seller_remove_form_submit" class="text-danger" type="submit"
+                                            title="Remove Seller">
+                                            <i class="fa fa-trash"></i> Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <t t-set="i" t-value="i+1"/>
+                        </t>
+                    </table>
+                </div>
+            </t>
+        </div>
+       </t>
+    </template>
+
+    <template id="portal_my_home_menu_fav_seller" name="Favourite Seller" inherit_id="portal.portal_breadcrumbs" priority="40">
+       <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+           <li t-if="page_name == 'favourite_seller'" t-attf-class="breadcrumb-item #{'active ' if not fav_sellers else ''}">
+               <a t-if="fav_sellers" t-attf-href="/my/favourite/sellers?{{ keep_query() }}"> My Favourite Sellers</a>
+               <t t-else="">My Favourite Sellers</t>
+           </li>
+       </xpath>
+   </template>
+
+
+</odoo>

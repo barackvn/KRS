@@ -1,0 +1,38 @@
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+
+      <record id="group_for_mp_360degree_view" model="res.groups">
+          <field name="name">Marketplace 360 degree view Group</field>
+          <field name="category_id" ref="base.module_category_hidden"/>
+      </record>
+
+
+      <!-- *************** Seller Rules ***************** -->
+      <record id="mp_360degree_seller_rule" model="ir.rule">
+        <field name="name">Marketplace 360degree Seller rules</field>
+        <field name="model_id" ref="model_product_360_view" />
+        <field name="groups" eval="[(4,ref('odoo_marketplace.marketplace_seller_group'))]" />
+        <field name="domain_force">[('marketplace_seller_id','=',user.partner_id.id)]</field>
+      </record>
+
+      <!-- *************** Officer Rules ***************** -->
+      <record id="mp_360degree_officer_rule" model="ir.rule">
+        <field name="name">Marketplace 360degree Officer rules</field>
+        <field name="model_id" ref="model_product_360_view" />
+        <field name="groups" eval="[(4,ref('odoo_marketplace.marketplace_officer_group'))]" />
+        <field name="domain_force">[('marketplace_seller_id','!=',False)]</field>
+      </record>
+
+      <!-- *************** Manager Rules ***************** -->
+      <record id="mp_360degree_manager_rule" model="ir.rule">
+        <field name="name">Marketplace 360degree Manager rules</field>
+        <field name="model_id" ref="model_product_360_view" />
+        <field name="groups" eval="[(4,ref('odoo_marketplace.marketplace_manager_group'))]" />
+        <field name="domain_force">[('marketplace_seller_id','!=',False)]</field>
+      </record>
+
+    </data> 
+</odoo>

@@ -1,0 +1,50 @@
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data>
+
+        <record id="seller_banners_in_seller_profile_view" model="ir.ui.view">
+            <field name="name">MP Seller Banner View</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[4]/group[4]" position="after">
+                    <group>
+                        <div>
+                            <separator string="Profile Slider Images"/>
+                        </div>
+                    </group>
+                    <group>
+                        <div>
+                            <field name="seller_banner_ids" mode="kanban" domain="[('partner_id','=',id)]"/>
+                        </div>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="seller_banners_in_seller_shop_view" model="ir.ui.view">
+            <field name="name">MP Seller Shop Banner View</field>
+            <field name="model">seller.shop</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_shop_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group[3]" position="after">
+                    <group>
+                        <div>
+                            <label for="shop_banner_ids" style="font-weight:600"/>
+                        </div>
+                    </group>
+                    <group>
+                        <div>
+                            <field name="shop_banner_ids" mode="kanban" domain="[('shop_id','=',id)]"/>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

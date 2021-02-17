@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+     <function id="redirect_to_cart_id" model="ir.values" name="set_default"
+        eval="('advance.website.settings', 'redirect_to_cart', 'cart')"/>
+        <function id="sub_total_id" model="ir.values" name="set_default"
+        eval="('advance.website.settings', 'sub_total', True)"/>
+        <function id="minimum_order_value_id" model="ir.values" name="set_default"
+        eval="('advance.website.settings', 'minimum_order_value', 100)"/>
+    </data>
+    </odoo>

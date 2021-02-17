@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="search_subscription_plan" model="ir.ui.view">
+            <field name="name">search.plan</field>
+            <field name="model">subscription.plan</field>
+            <field name="arch" type="xml">
+                <search string="Subscription Plan">
+                    <field name="name" string="Plan" filter_domain="[('name','ilike',self)]"></field>
+                    <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="subscription_plan_form_view" model="ir.ui.view">
+            <field name="name">subscription.plan.form</field>
+            <field name="model">subscription.plan</field>
+            <field name="arch" type="xml">
+                <form string="Subscription Plan">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                            </button>
+                            <button name="action_view_subscription" type="object" class="oe_stat_button" attrs="{'invisible': [('subscrption_count','=', 0)]}" groups="subscription_management.group_subscription_management_manager" help="Subscriptions" icon="fa-strikethrough">
+                                <field string="Subscriptions" name="subscrption_count" widget="statinfo"/>
+                            </button>
+                            <button name="action_view_products" type="object" class="oe_stat_button" attrs="{'invisible': [('product_count','=', 0)]}" groups="subscription_management.group_subscription_management_manager" help="Products" icon="fa-product-hunt">
+                                <field string="Products" name="product_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                           <label class="oe_edit_only" for="name" string="Plan Name"></label>
+                            <h1><field name="name" placeholder="Subscription Plan Name" ></field></h1>
+                        </div>
+                        <group name="info" string="Plan Information">
+                            <group>
+                                <label for='duration' string="Duration"></label>
+                                <div name='duration'>
+                                    <field name="duration" class="oe_inline" nolabel="1"></field>
+                                    <field name="unit" class="oe_inline" nolabel="1"></field>
+                                </div>
+                                <field name="never_expires"></field>
+                                <field name="start_immediately"></field>
+                                <field name="month_billing_day"></field>
+                            </group>
+                            <group>
+                                <field name="plan_amount"></field>
+                                <field name="num_billing_cycle" attrs="{'invisible':[('never_expires','=',True)],'required':[('never_expires','=',False)]}"></field>
+                                <field name="trial_period"></field>
+                                <label for='trial_duration' string="Trial Duration" attrs="{'invisible':[('trial_period','=',False)],'required':[('trial_period','=',True)]}"></label>
+                                <div name='trial_duration' attrs="{'invisible':[('trial_period','=',False)]}">
+                                    <field name="trial_duration" class="oe_inline" nolabel="1" attrs="{'required':[('trial_period','=',True)]}"></field>
+                                    <field name="trial_duration_unit" class="oe_inline" nolabel="1" attrs="{'required':[('trial_period','=',True)]}"></field>
+                                </div>
+                            </group>
+                        </group>
+                        <group name="product">
+                            <group name="info" string="Product Related Detail">
+                                <field name="override_product_price"></field>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <group name='plan_description' string='Description'>
+                            <field name="plan_description" nolabel="1"></field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="subscription_plan_tree_view" model="ir.ui.view">
+            <field name="name">subscription.plan.tree.view</field>
+            <field name="model">subscription.plan</field>
+            <field name="arch" type="xml">
+                <tree string="Subscription Plans">
+                    <field name="name"></field>
+                    <field name="duration"></field>
+                    <field name="unit"></field>
+                    <field name="plan_amount"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="subscription_plan_kanban_view" model="ir.ui.view">
+            <field name="name">subscription.plan.kanban.view</field>
+            <field name="model">subscription.plan</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="duration"/>
+                    <field name="unit"/>
+                    <field name="plan_amount"/>
+                    <field name="num_billing_cycle"/>
+                    <field name="trial_duration"/>
+                    <field name="trial_duration_unit"/>
+                    <field name="trial_period"/>
+                    <field name="subscrption_count"/>
+                    <field name="product_count"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown" >
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" role='button'>
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable"><li><a type="edit">Edit Plan</a></li></t>
+                                        <li><a name="action_view_subscription" type="object">Subscriptions</a></li>
+                                        <li><a name="action_view_products" type="object">Products</a></li>
+                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content oe_kanban_details">
+                                    <div style=""><b><field name="name"/> [ <field name="duration"/> <field name="unit"/> ]</b></div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left text-muted">
+                                        <div title="Price">
+                                             <b style="color: black;">Price: </b>
+                                                <field name="plan_amount"/>
+                                        </div>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right" title="Order Status">
+                                        <a name="action_view_subscription" type="object" class="" string="Subscription"><field string="Subscriptions" name="subscrption_count" /> Subscriptions</a>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left text-muted">
+                                         <div title="Number Of Billing Cycles">
+                                             <b style="color: black;">Number Of Billing Cycles: </b>
+                                                <field name="num_billing_cycle"/>
+                                        </div>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right" >
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left text-muted">
+                                        <t t-if="record.trial_period.raw_value">
+                                            <div title="Trial Period">
+                                                <b style="color: black;">Trial Period: </b>
+                                                    <field name="trial_duration"/> <field name="trial_duration_unit"/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right" >
+                                    </div>
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+
+
+        <record id="action_subscription_plan" model="ir.actions.act_window">
+            <field name="name">Subscription Plans</field>
+            <field name="res_model">subscription.plan</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="subscription_plan_kanban_view"></field>
+        </record>
+
+        <menuitem name="Subscription" id="menu_sale_subscription" parent="sale.sale_menu_root" sequence="4" groups="subscription_management.group_subscription_management_user,subscription_management.group_subscription_management_manager"></menuitem>
+        <menuitem name="Subscription Information" id="menu_sale_subscription_config" parent="sale.menu_sale_config" sequence="2" groups="subscription_management.group_subscription_management_manager"></menuitem>
+        <menuitem name="Subscription Plans" id="menu_sale_subscription_submenu1" parent="menu_sale_subscription_config" action="action_subscription_plan" groups="subscription_management.group_subscription_management_manager"></menuitem>
+    </data>
+</odoo>

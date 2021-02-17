@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~ SCHEDULAR ACTION ~~~~~~~~~~~~~~~~~~~~~~ -->
+		<record forcecreate="True" model="ir.cron" id="patho_send_mail_for_reminder_scheduler">
+			<field name="name">Pathology Send Mail Reminder Scheduler</field>
+			<field name="model_id" ref="model_patho_testrequest"/>
+			<field name="state">code</field>
+			<field name="code">model.patho_send_mail_for_reminder_scheduler_queue()</field>
+			<field name="user_id" ref="base.user_root"/>
+			<field name="interval_number">1</field>
+			<field name="interval_type">minutes</field>
+			<field name="numbercall">-1</field>
+			<field name="active" eval="True"/>
+			<field name="doall" eval="False"/>
+		</record>
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~ VIEWS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record model="ir.ui.view" id="patho_mgmt_book_testreq_tree_view">
+            <field name="name">TestRequest Tree</field>
+            <field name="model">patho.testrequest</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Test Requests" decoration-success="status=='approved'" decoration-primary="status=='inprocess'" decoration-warning="status=='pending'"
+                    decoration-muted="status=='done'" decoration-danger="status=='rejected'">
+					<field name="name" string="Test Request Number"/>
+					<field name="test_date"/>
+					<field name="customer_id"/>
+					<field name="currency_id" invisible="1"/>
+					<field name="amount_total" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+					<field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="patho_mgmt_book_testreq_form_view">
+            <field name="name">Pathology TestReq Form</field>
+            <field name="model">patho.testrequest</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<form string="Test Request">
+                    <header>
+                        <button name="button_set_to_pending" class="oe_highlight" string="Set to Pending" title="Click to set this test request to pending"
+										type="object" attrs="{'invisible': ['|',('status', 'in',['pending','approved','inprocess','rejected','done']),('id','=',False)]}"
+										groups="wk_pathology_management.patho_mgmt_pathologist_group"/>
+						<button name="button_approve_request" class="oe_highlight" string="Approve" title="Click to approve this test request"
+										type="object" attrs="{'invisible': ['|',('status', 'in',['approved','inprocess', 'rejected','done']),('id','=',False)]}"
+										groups="wk_pathology_management.patho_mgmt_pathologist_group"/>
+                        <button name="button_create_invoice" class="oe_highlight" string="Create Invoice" title="Click to create invoice for this customer"
+							type="object" attrs="{'invisible': ['|','|', ('status', 'not in',['approved','inprocess','done']), ('invoice_count', '!=', 0), ('sale_order_id', '!=', False)]}"
+							groups="wk_pathology_management.patho_mgmt_pathologist_group"/>
+                        <button name="button_reject_request" class="oe_highlight" string="Reject" title="Click to reject this test request "
+										type="object" attrs="{'invisible': ['|',('status', 'in',['rejected','approved','inprocess', 'done']),('id','=',False)]}"
+										groups="wk_pathology_management.patho_mgmt_pathologist_group"/>
+						<button name="button_reject_request" class="" string=" Cancel " title="Click to cancel this test request "
+										type="object" attrs="{'invisible': ['|',('status', 'not in',['approved']),('id','=',False)]}"
+										groups="wk_pathology_management.patho_mgmt_pathologist_group"/>
+						<button name="button_set_to_new_request" class="oe_highlight" string=" Set to New " title="Click to change the status to new "
+										type="object" attrs="{'invisible': ['|',('status', 'not in',['rejected']),('id','=',False)]}"
+										groups="wk_pathology_management.patho_mgmt_pathologist_group"/>
+
+						<button name="button_send_by_mail" icon="fa-envelope-o" string="Send Report By Email"
+							title="Click to Send Report to Patient" type="object"
+							attrs="{'invisible': [('status', '!=', 'done')]}"/>
+						<button name="button_print_report" icon="fa-file-o" string="Print Diagnosis Report"
+							title="Click to Print Diagnosis Report for this customer "
+							type="object"
+							attrs="{'invisible': [('status', '!=', 'done')]}"
+							/>
+						<field name="status" widget="statusbar" statusbar_visible="new,pending,approved,inprocess,done"/>
+					</header>
+					<div class="oe_form_box_info oe_text_center" attrs="{'invisible':['|','|','|',('amount_total','==', 0.0),('invoice_count','!=', 0),('sale_order_id', '=', False),('status', 'in', ['new','pending','rejected'])]}">
+                        <h6>Invoice for this Request can be created from the corresponding Sale Order</h6>
+                    </div>
+                    <sheet>
+                        <field name="move_ids" invisible="1"/>
+						<field name="invoice_count" invisible="1"/>
+						<field name="patho_test_report_ids" invisible="1"/>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="button_view_invoice" type="object"
+    							icon="fa-pencil-square-o"
+                                class="oe_stat_button"
+								attrs="{'invisible': [('invoice_count', '=', 0)]}">
+	                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+	                        </button>
+							<button name="button_view_sale_order" type="object"
+    							icon="fa-usd"
+                                class="oe_stat_button"
+								attrs="{'invisible': [('sale_order_id', '=', False)]}">
+	                            Sale Order
+	                        </button>
+                        </div>
+                        <h1>
+                            <field name="name" readonly="1" class="oe_left oe_title"/>
+                        </h1>
+                        <group string="" style="margin:0px;margin-bottom:0px;">
+                            <group string="">
+                                <field name="customer_id" options="{'no_open': True, 'no_create_edit': True}" string="Patient"
+                                    attrs="{'readonly':[('status','in',['approved','inprocess','done'])]}" domain="[('patient','=',True)]"/>
+								<label for="test_date"/>
+								<div>
+									<field name="test_date" placeholder="Booking date.." string="Test Date"
+										attrs="{'readonly':[('status','in',['approved','inprocess','done'])]}"/>
+	                                <span class="oe_inline">  On  </span>
+	                                <field name="test_day" nolabel="1" readonly="1" class="oe_inline"/>
+								</div>
+								<field name="ref_by"/>
+                            </group>
+                            <group>
+							    <field name="source" attrs="{'readonly':[('status','in',['approved','inprocess','done'])]}"
+                                    options="{'no_open': True}"/>
+                                <field name="create_date" readonly="1" string="Create Date" attrs="{'invisible': [('id','=',False)]}"
+									widget="date"/>
+								<field name="report_collection_date" string="Report Collection On"
+									attrs="{'invisible':[('status','in',['new','pending','rejected'])], 'readonly':[('status','in',['done'])]}" />
+                                <field name="pricelist_id" placeholder="Pricelist"
+                                    attrs="{'readonly':[('status','in',['approved','inprocess','done'])]}"
+                                    groups="product.group_sale_pricelist"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </group>
+						<separator string="Lab Center"/>
+						<group style="margin:0px;">
+							<group>
+								<field name="collection_center_id"
+									options='{"no_create_edit": True}' required="1"
+									attrs="{'readonly':[('status','in',['done'])]}"/>
+							</group>
+							<group>
+								<field name="lab_center_id" options='{"no_create_edit": True}' required="1"
+									groups="wk_pathology_management.patho_mgmt_manager_group" attrs="{'readonly':[('status','in',['done'])]}"/>
+							</group>
+						</group>
+                        <notebook>
+                            <page string="Lab Tests" name="patho_lines">
+                                <field name="patho_line_ids" context="{'default_name':'','pathology':True}" attrs="{'readonly': [('status', 'in', ['approved','inprocess','done'])]}">
+                                    <tree editable="bottom"  decoration-primary="is_test_package==False" decoration-info="is_test_package==True">
+										<field name="is_test_package" invisible="1"/>
+										<button type="object" string="This is a Test Package" icon="fa-gift"
+											class="text-primary" name="patho_test_only_show_package"
+											attrs="{'invisible': [('is_test_package','=',False)]}"/>
+										<field name="testreq_id" invisible="1"/>
+                                        <field name="product_id" options="{'no_create_edit': True, 'no_open': True}"
+											   context="{'tree_view_ref' : 'wk_pathology_management.patho_mgmt_lab_test_tree_view','form_view_ref': 'wk_pathology_management.patho_mgmt_lab_test_form_view'}"/>
+                                        <field name="name"/>
+                                        <field name="product_qty" invisible="1"/>
+                                        <field name="price_unit"/>
+										<field name="discount" groups="product.group_discount_per_so_line"/>
+
+                                        <field name="tax_id" widget="many2many_tags"/>
+                                        <field name="price_subtotal" invisible="0"/>
+                                        <field name="price_tax" invisible="1"/>
+                                        <field name="price_total" invisible="1"/>
+                                    </tree>
+                                    <form string="Invoice Line">
+                                        <group>
+                                            <group>
+                                                <field name="product_id" context="{'form_view_ref' : 'wk_pathology_management.patho_mgmt_lab_test_form_view'}"/>
+                                                <label for="product_qty" invisible="1"/>
+                                                <div invisible="1">
+                                                    <field name="product_qty" class="oe_inline"/>
+                                                </div>
+                                                <field name="price_unit"/>
+                                            </group>
+                                            <group>
+                                                <field name="tax_id" widget="many2many_tags" options="{'no_create': True}"/>
+                                            </group>
+                                        </group>
+                                        <label for="name"/>
+                                        <field name="name"/>
+                                    </form>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="patho_testreq_total">
+                                    <field name="amount_untaxed" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_tax" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="amount_total" />
+                                    </div>
+                                    <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="id" invisible="1"/>
+									<field name="inv_state" invisible="1"/>
+                                    <div colspan="4" class="oe_right" style="margin-top: 10px;margin-bottom: 10px;" attrs="{'invisible':['|','|','|',('id','=',False),('status','=','new'),('status','=','pending'),('status','=','rejected')]}">
+                                        <strong>
+                                            <span style="padding:10px;" role="status" class="alert alert-danger" attrs="{'invisible':['|',('amount_total','==', 0.0),('invoice_count','!=', 0)]}">
+                                                Not yet Invoiced !!
+                                            </span>
+                                            <span style="padding:10px;" role="status" class="alert alert-warning" attrs="{'invisible':['|','|','|',('amount_total','==', 0.0),('invoice_count','=', 0),('inv_state','!=', 'open'),('inv_state','!=', 'draft')]}">
+                                                Invoice not paid !!
+                                            </span>
+                                            <span style="padding:10px;" role="status" class="alert alert-success" attrs="{'invisible':['|','|',('amount_total','==', 0.0),('invoice_count','=', 0),('inv_state', '!=', 'paid')]}">
+                                                Invoice Paid !!
+                                            </span>
+                                            <span style="padding:10px;" role="status" class="alert alert-info" attrs="{'invisible': [('amount_total','!=', 0.0)]}">
+                                                Free !!
+                                            </span>
+                                        </strong>
+                                    </div>
+                                </group>
+
+                                <field name="description" class="oe_inline" placeholder="Description..." nolabel="1"/>
+                                <div class="oe_clear"/>
+                            </page>
+
+		                    <page string= "Lab Report" attrs="{'invisible': [('status','in',['new','pending','rejected'])]}">
+								<field name= "patho_test_report_ids"
+									context="{'tree_view_ref': 'wk_pathology_managemnet.patho_mgmt_diagnosis_tree_view1',
+											'form_view_ref': 'wk_pathology_managemnet.patho_mgmt_diagnosis_form_view1'}">
+								</field>
+		                    </page>
+
+                            <page string="Other Info">
+								<separator string="Invoice" attrs="{'invisible': [('invoice_count', '=', 0)]}"/>
+								<field name="invoice_status" attrs="{'invisible': [('invoice_count', '=', 0)]}"/>
+								<field name="move_ids" invisible="0" readonly="1"  attrs="{'invisible': [('invoice_count', '=', 0)]}"
+									widget="many2many_tags"/>
+								<br attrs="{'invisible': [('invoice_count', '=', 0)]}" />
+									<group attrs="{'invisible': [('sale_order_id', '=', False)]}">
+										<field name="sale_order_id" readonly="1"/>
+									</group>
+									<group string="Reminder">
+	                                    <label for="enable_notify_reminder" string="Notify Using Mail"/>
+	                                    <div>
+	                                        <field name="enable_notify_reminder" nolabel="1" class="oe_inline" attrs="{'readonly':[('status','in',['done'])]}"/>
+	                                        <label for="remind_time" string="Enable this to Send Reminder" class="oe_inline"/>
+	                                        <br/>
+	                                        <field name="remind_time" nolabel="1" class="oe_inline" placeholder="Reminder Time.."
+	                                            attrs="{'required' : [('enable_notify_reminder','=', True)], 'invisible' : [('enable_notify_reminder', '=', False)] ,'readonly':[('status','in',['done'])]}"
+	                                            style="margin-right:5px;"/>
+											<span class="oe_inline" attrs="{'invisible' : [('enable_notify_reminder', '=', False)] }">Day(s)</span>
+	                                    </div>
+	                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+		<record id="patho_mgmt_book_testreq_calendar_view" model="ir.ui.view">
+            <field name="name">Test Requests Calendar View</field>
+            <field name="model">patho.testrequest</field>
+            <field name="arch" type="xml">
+                <calendar date_start="test_date" string="Test Request Management"
+                    mode="month" color="customer_id" quick_add="False">
+                    <field name="customer_id"/>
+					<field name="name"/>
+                </calendar>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="patho_mgmt_book_testreq_kanban_view">
+            <field name="name">patho.testrequest.kanban</field>
+            <field name="model">patho.testrequest</field>
+			<field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="color"/>
+                    <field name="customer_id"/>
+                    <field name="test_date"/>
+                    <field name="status"/>
+                    <field name="inv_state"/>
+					<field name="invoice_count"/>
+                    <field name="invoice_status"/>
+                    <field name="patho_line_ids"/>
+                    <field name="amount_total"/>
+					<field name="sale_order_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+							<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown" >
+									<a class="dropdown-toggle btn" data-toggle="dropdown" href="#" role='button'>
+										<span class="fa fa-bars fa-lg" aria-label="Dropdown" title="Manage"/>
+									</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+										<li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+									</ul>
+								</div>
+                                <div class="o_kanban_record_top mb8">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title"><span><b><t t-esc="record.name.value"/></b></span></strong>
+                                    </div>
+                                    <strong>
+										<field name="status" widget="label_selection" options="{'classes': { 'pending': 'warning', 'approved': 'success', 'rejected': 'danger', 'done': 'default'}}"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_record_top mb8">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <i class="fa fa-user" aria-hidden="false" style="color:dimgray;"></i>
+                                            <span><t t-esc="record.customer_id.value"/></span></strong>
+                                    </div>
+                                    <strong>
+                                        <i class="fa fa-calendar" aria-hidden="false" style="margin:2px;"></i>
+                                        <t t-esc="record.test_date.value and record.test_date.value.split(' ')[0] or False"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_record_top mb8 o_kanban_record_headings">
+                                    <strong>
+                                        <div class="oe_right" attrs="{'invisible':['|','|','|',('id','=',False),('status','=','new'),('status','=','pending'),('status','=','rejected')]}">
+                                            <span t-field="record.move_id.value"/>
+                                            <strong>
+                                                <span t-if="record.amount_total.value != 0.0 and record.invoice_count.value == 0" class="text-danger">
+                                                    Not Invoiced
+                                                </span>
+                                                <span t-if="record.amount_total.value != 0.0 and record.invoice_count.value != 0 and (record.inv_state.value == 'draft' or record.inv_state.value == 'open' )" class="text-warning">
+                                                    Invoice Unpaid
+                                                </span>
+                                                <span t-if="record.amount_total.value != 0.0 and record.invoice_count.value != 0 and record.inv_state.value == 'paid'" class="text-success">
+                                                    Invoice Paid
+                                                </span>
+                                                <span t-if="record.amount_total.value == 0.0" class="text-primary">
+                                                    Free
+                                                </span>
+                                            </strong>
+                                        </div>
+								 	</strong>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ SEARCH VIEW ~~~~~~~~~~~~~~~~~~~~~~ -->
+        <record model='ir.ui.view' id='patho_mgmt_book_testreq_search_view'>
+            <field name="name">patho.testrequest.filter</field>
+            <field name="model">patho.testrequest</field>
+            <field name="type">search</field>
+            <field name="arch"  type="xml">
+                <search string="Search TestRequest">
+                    <field name="status"/>
+                    <field name="test_date"/>
+                    <field name="name" string="Name" filter_domain="['|',('name','ilike',self),('name','=',self)]"/>
+                    <group string="Group By">
+                        <filter name="group_patho_status_new" string="New" domain="[('status', '=', 'new')]"/>
+                        <filter name="group_patho_status_approved" string="Approved" domain="[('status', '=', 'approved')]"/>
+                        <filter name="group_patho_status_rejected" string="Rejected" domain="[('status', '=', 'rejected')]"/>
+						<filter name="group_patho_status_inprocess" string="In Process" domain="[('status', '=', 'inprocess')]"/>
+						<filter name="group_inv_state_no" string="Not Invoiced" domain="[('inv_state', '=', False)]"/>
+						<filter name="group_inv_state_unpaid" string="Invoice UnPaid" domain="[('inv_state', 'in', ['open', 'draft'])]"/>
+						<filter name="group_inv_state_paid" string="Invoice Paid" domain="[('inv_state', '=', 'paid')]"/>
+
+                        <filter name="test_date_today" string="Today" domain="[('test_date', '=', current_date)]"/>
+                        <filter name="group_patho_status" string="States" context="{'group_by': 'status'}"/>
+						<filter name="group_inv_state" string="Invoice States" context="{'group_by': 'inv_state'}" domain="[('status', 'not in', ['new', 'pending', 'rejected'])]"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="patho_mgmt_new_testreq_action">
+            <field name="name">New Test Request </field>
+            <field name="res_model">patho.testrequest</field>
+            <field name="view_mode">calendar</field>
+            <field name="context">{'default_name': 'New',}</field>
+			<field name="view_id" ref="wk_pathology_management.patho_mgmt_book_testreq_form_view"/>
+        </record>
+
+        <record model="ir.actions.act_window" id="patho_mgmt_all_testreq_action">
+            <field name="name">All Test Request</field>
+            <field name="res_model">patho.testrequest</field>
+            <field name="view_mode">kanban,calendar,tree,form</field>
+            <field name="context">{'search_default_test_date_today': 1, 'search_default_group_patho_status': 2,}</field>
+        </record>
+
+        <menuitem name="Test Requests"
+            id="patho_mgmt_testreq_menu"
+            parent="wk_pathology_management.patho_mgmt_root_menu"
+            sequence="1"
+			groups="wk_pathology_management.patho_mgmt_user_group"
+            />
+        <menuitem name="New Request"
+            id="patho_mgmt_new_testreq_menu"
+            parent="patho_mgmt_testreq_menu"
+            action="wk_pathology_management.patho_mgmt_new_testreq_action"
+            sequence="1"
+			groups="wk_pathology_management.patho_mgmt_user_group"
+            />
+        <menuitem name="All Requests"
+            id="patho_mgmt_all_testreq_menu"
+            parent="patho_mgmt_testreq_menu"
+            action="wk_pathology_management.patho_mgmt_all_testreq_action"
+            sequence="2"
+			groups="wk_pathology_management.patho_mgmt_user_group"
+            />
+
+	</data>
+</odoo>

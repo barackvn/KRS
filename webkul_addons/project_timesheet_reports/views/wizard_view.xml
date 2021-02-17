@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="project_timesheet_wizard_view"  model="ir.ui.view">
+            <field name="name">Project Timesheet</field>
+            <field name="model">project.timesheet.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Print Detailed Timesheet" >
+                    <group string="Set Date Interval" cols="4">
+                        <field name="from_date"/>
+                        <field name="to_date"/>
+                    </group>
+                    <footer>
+                        <button string="Send Report" class="oe_highlight" type="object" name="action_sent_report" />
+                        <button string="Close" class="oe_highlight" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="project_timesheet_wizard_action" model="ir.actions.act_window">
+            <field name="name">Project Timesheet</field>
+            <field name="res_model">project.timesheet.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="project_timesheet_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

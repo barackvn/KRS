@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_profile_tab_mp_seller,profile_tab.seller,model_profile_tab,,1,0,0,0
+access_profile_tab_mp_officer,profile_tab.mp.officer,model_profile_tab,odoo_marketplace.marketplace_officer_group,1,1,1,1
+access_profile_tab_mp_manager,profile_tab.mp.manager,model_profile_tab,odoo_marketplace.marketplace_manager_group,1,1,1,1
+
+access_seller_mp_seller,seller_profile_tabs.seller,model_seller_profile_tabs,odoo_marketplace.marketplace_draft_seller_group,1,0,0,0
+access_seller_profile_tabs_mp_seller,seller_profile_tabs.seller,model_seller_profile_tabs,mp_seller_profile_tab_group,1,1,1,1
+access_seller_profile_tabs_mp_officer,seller_profile_tabs.officer,model_seller_profile_tabs,odoo_marketplace.marketplace_officer_group,1,1,1,1
+access_seller_profile_tabs_mp_manager,seller_profile_tabs.manager,model_seller_profile_tabs,odoo_marketplace.marketplace_manager_group,1,1,1,1

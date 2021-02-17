@@ -1,0 +1,395 @@
+<odoo>
+    <data noupdate="1">
+        <!-- <record id="website_mega_menus.electonics_root_category" model="product.public.category">
+            <field name="image" type="base64" file="theme_redazzled/static/src/img/category/jewellery-1175530_1920.jpg"/>
+        </record> -->
+
+        <record id="root_categ_men" model="product.public.category">
+            <field name="name">Men</field>
+        </record>
+        <record id="root_categ_women" model="product.public.category">
+            <field name="name">Women</field>
+        </record>
+        <record id="root_categ_kids" model="product.public.category">
+            <field name="name">Kids</field>
+        </record>
+        <record id="root_categ_accessories" model="product.public.category">
+            <field name="name">Accessories</field>
+        </record>
+
+
+
+        <record id="root_categ_hiking" model="product.public.category">
+            <field name="name">Hiking</field>
+        </record>
+        <record id="root_categ_football" model="product.public.category">
+            <field name="name">Football</field>
+        </record>
+        <record id="root_categ_cycling" model="product.public.category">
+            <field name="name">Cycling</field>
+        </record>
+        <record id="root_categ_men" model="product.public.category">
+            <field name="name">Men</field>
+        </record>
+
+
+
+        <!--...................... Men Categories......................... -->
+        <record id="categ_mens_footwear" model="product.public.category">
+            <field name="name">Men's Footwear</field>
+            <field name="parent_id" ref="root_categ_men"></field>
+        </record>
+        <record id="categ_mens_tops" model="product.public.category">
+            <field name="name">Men's Tops</field>
+            <field name="parent_id" ref="root_categ_men"></field>
+        </record>
+        <record id="categ_mens_bottoms" model="product.public.category">
+            <field name="name">Men's Bottoms</field>
+            <field name="parent_id" ref="root_categ_men"></field>
+        </record>
+        <record id="categ_mens_underwear" model="product.public.category">
+            <field name="name">Men's Underwear</field>
+            <field name="parent_id" ref="root_categ_men"></field>
+        </record>
+
+
+
+
+        <!-- Footwear -->
+        <record id="categ_mens_footwear_sandals" model="product.public.category">
+            <field name="name">Men's Sandals</field>
+            <field name="parent_id" ref="categ_mens_footwear"></field>
+        </record>
+        <record id="categ_mens_footwear_shoes" model="product.public.category">
+            <field name="name">Men's Shoes</field>
+            <field name="parent_id" ref="categ_mens_footwear"></field>
+        </record>
+        <record id="categ_mens_footwear_socks" model="product.public.category">
+            <field name="name">Men's Socks</field>
+            <field name="parent_id" ref="categ_mens_footwear"></field>
+        </record>
+
+
+        <!-- .Tops............. -->
+        <record id="categ_mens_tops_t-shirts" model="product.public.category">
+            <field name="name">Men's T-shirts</field>
+            <field name="parent_id" ref="categ_mens_tops"></field>
+        </record>
+        <record id="categ_mens_tops_shirts" model="product.public.category">
+            <field name="name">Men's Shirts</field>
+            <field name="parent_id" ref="categ_mens_tops"></field>
+        </record>
+        <record id="categ_mens_tops_jackets" model="product.public.category">
+            <field name="name">Men's Jackets</field>
+            <field name="parent_id" ref="categ_mens_tops"></field>
+        </record>
+        <record id="categ_mens_tops_winter_jackets" model="product.public.category">
+            <field name="name">Men's Winter Jackets</field>
+            <field name="parent_id" ref="categ_mens_tops"></field>
+        </record>
+
+        <!-- Bottoms -->
+        <record id="categ_mens_bottoms_trousers" model="product.public.category">
+            <field name="name">Men's Trousers</field>
+            <field name="parent_id" ref="categ_mens_bottoms"></field>
+        </record>
+        <record id="categ_mens_bottoms_track_pants" model="product.public.category">
+            <field name="name">Men's Track Pants</field>
+            <field name="parent_id" ref="categ_mens_bottoms"></field>
+        </record>
+        <record id="categ_mens_bottoms_Shorts" model="product.public.category">
+            <field name="name">Men's Sorts</field>
+            <field name="parent_id" ref="categ_mens_bottoms"></field>
+        </record>
+
+        <!-- Underwear     -->
+        <record id="categ_mens_underwear_base_layer" model="product.public.category">
+            <field name="name">Men's Base Laye</field>
+            <field name="parent_id" ref="categ_mens_underwear"></field>
+        </record>
+        <record id="categ_mens_underwear_briefs" model="product.public.category">
+            <field name="name">Men's Briefs </field>
+            <field name="parent_id" ref="categ_mens_underwear"></field>
+        </record>
+
+
+
+
+        <!--...................... Women Categories......................... -->
+        <!-- Footwear -->
+        <record id="categ_women_footwear" model="product.public.category">
+            <field name="name">Women's Footwear</field>
+            <field name="parent_id" ref="root_categ_women"></field>
+        </record>
+
+        <record id="categ_women_tops" model="product.public.category">
+            <field name="name">Women's Tops</field>
+            <field name="parent_id" ref="root_categ_women"></field>
+        </record>
+        <record id="categ_women_bottoms" model="product.public.category">
+            <field name="name">Women's Bottoms</field>
+            <field name="parent_id" ref="root_categ_women"></field>
+        </record>
+        <record id="categ_women_underwear" model="product.public.category">
+            <field name="name">Women's Underwear</field>
+            <field name="parent_id" ref="root_categ_women"></field>
+        </record>
+
+        <!-- Footwear -->
+        <record id="categ_women_footwear_shoes" model="product.public.category">
+            <field name="name">Women's Shoes</field>
+            <field name="parent_id" ref="categ_women_footwear"></field>
+        </record>
+        <record id="categ_women_footwear_sandals" model="product.public.category">
+            <field name="name">Women's Sandals</field>
+            <field name="parent_id" ref="categ_women_footwear"></field>
+        </record>
+        <record id="categ_women_footwear_fip_flops" model="product.public.category">
+            <field name="name">Women's Flip Flops</field>
+            <field name="parent_id" ref="categ_women_footwear"></field>
+        </record>
+        <record id="categ_women_footwear_socks" model="product.public.category">
+            <field name="name">Women's Sockes</field>
+            <field name="parent_id" ref="categ_women_footwear"></field>
+        </record>
+
+        <!-- Top -->
+        <record id="categ_women_tops_t-shirts" model="product.public.category">
+            <field name="name">Women's T-Shirts</field>
+            <field name="parent_id" ref="categ_women_tops"></field>
+        </record>
+        <record id="categ_women_tops_shirts" model="product.public.category">
+            <field name="name">Women's Shirts</field>
+            <field name="parent_id" ref="categ_women_tops"></field>
+        </record>
+        <record id="categ_women_tops_jackets" model="product.public.category">
+            <field name="name">Women's Jackets</field>
+            <field name="parent_id" ref="categ_women_tops"></field>
+        </record>
+        <record id="categ_women_top_swimsuts" model="product.public.category">
+            <field name="name">Women's Swimsuits</field>
+            <field name="parent_id" ref="categ_women_tops"></field>
+        </record>
+        <record id="categ_women_top_winter_jackets" model="product.public.category">
+            <field name="name">Women's Winter Jackets</field>
+            <field name="parent_id" ref="categ_women_tops"></field>
+        </record>
+
+        <!-- Bottoms -->
+
+        <record id="categ_women_bottoms_leggings" model="product.public.category">
+            <field name="name">Women's Leggings</field>
+            <field name="parent_id" ref="categ_women_bottoms"></field>
+        </record>
+        <record id="categ_women_bottoms_shorts" model="product.public.category">
+            <field name="parent_id" ref="categ_women_bottoms"></field>
+            <field name="name">Women's Shorts</field>
+        </record>
+        <record id="categ_women_bottoms_track_pants" model="product.public.category">
+            <field name="name">Women's Track-Pants</field>
+            <field name="parent_id" ref="categ_women_bottoms"></field>
+        </record>
+        <record id="categ_women_bottoms_trousers" model="product.public.category">
+            <field name="name">Women's Trousers</field>
+            <field name="parent_id" ref="categ_women_bottoms"></field>
+        </record>
+        <record id="categ_women_bottoms_skirts" model="product.public.category">
+            <field name="name">Women's Skirts</field>
+            <field name="parent_id" ref="categ_women_bottoms"></field>
+        </record>
+
+        <!-- Underwear     -->
+        <record id="categ_women_underwear_base_layer" model="product.public.category">
+            <field name="name">Women's Base Laye</field>
+            <field name="parent_id" ref="categ_women_underwear"></field>
+        </record>
+        <record id="categ_women_underwear_bras" model="product.public.category">
+            <field name="name">Women's Bras </field>
+            <field name="parent_id" ref="categ_women_underwear"></field>
+        </record>
+
+
+        <!--...................... Kids Categories......................... -->
+        <record id="categ_kids_cycle" model="product.public.category">
+            <field name="name">Kids' Cycle</field>
+            <field name="parent_id" ref="root_categ_kids"></field>
+            <field name="image_256" type="base64" file="theme_inventive/static/src/img/backgrounds/baby.jpg"/>
+
+        </record>
+        <record id="categ_kids_scooters_and_skates" model="product.public.category">
+            <field name="name">Kids' Skooter And Skates</field>
+            <field name="parent_id" ref="root_categ_kids"></field>
+            <field name="image_256" type="base64" file="theme_inventive/static/src/img/backgrounds/baby.jpg"/>
+
+        </record>
+        <record id="categ_kids_tops" model="product.public.category">
+            <field name="name">Kids' Tops</field>
+            <field name="parent_id" ref="root_categ_kids"></field>
+            <field name="image_256" type="base64" file="theme_inventive/static/src/img/backgrounds/baby.jpg"/>
+        </record>
+        <record id="categ_kids_bottoms" model="product.public.category">
+            <field name="name">Kids' Bottoms</field>
+            <field name="parent_id" ref="root_categ_kids"></field>
+            <field name="image_256" type="base64" file="theme_inventive/static/src/img/backgrounds/baby.jpg"/>
+        </record>
+        <record id="categ_kids_footwears" model="product.public.category">
+            <field name="name">Kids' Footwear</field>
+            <field name="parent_id" ref="root_categ_kids"></field>
+            <field name="image_256" type="base64" file="theme_inventive/static/src/img/backgrounds/baby.jpg"/>
+        </record>
+        <record id="categ_kids_underwear" model="product.public.category">
+            <field name="name">Kids' Underwear</field>
+            <field name="parent_id" ref="root_categ_kids"></field>
+            <field name="image_256" type="base64" file="theme_inventive/static/src/img/backgrounds/baby.jpg"/>
+        </record>
+
+
+
+        <!-- Cycle -->
+        <record id="categ_kids_cycle_below_6_y" model="product.public.category">
+            <field name="name">Below 6 Years</field>
+            <field name="parent_id" ref="categ_kids_cycle"></field>
+        </record>
+        <record id="categ_kids_cycle_6-12_years" model="product.public.category">
+            <field name="name">Kids' Cycle 6-12 Years </field>
+            <field name="parent_id" ref="categ_kids_cycle"></field>
+        </record>
+        <!-- Skooter And Skates -->
+        <record id="categ_kids_scooters_and_skates_inline" model="product.public.category">
+            <field name="name">Inline Skates</field>
+            <field name="parent_id" ref="categ_kids_scooters_and_skates"></field>
+        </record>
+        <record id="categ_kids_scooters_and_skates_scooters" model="product.public.category">
+            <field name="name">Scooters</field>
+            <field name="parent_id" ref="categ_kids_scooters_and_skates"></field>
+        </record>
+        <!-- Tops -->
+        <record id="categ_kids_tops_t-shirts" model="product.public.category">
+            <field name="name">Kids' T-Shirts</field>
+            <field name="parent_id" ref="categ_kids_tops"></field>
+        </record>
+        <record id="categ_kids_tops_shirts" model="product.public.category">
+            <field name="name">Kids' Shirts</field>
+            <field name="parent_id" ref="categ_kids_tops"></field>
+        </record>
+        <record id="categ_kids_tops_jackets" model="product.public.category">
+            <field name="name">Kids' Jackets</field>
+            <field name="parent_id" ref="categ_kids_tops"></field>
+        </record>
+        <record id="categ_kids_swimsuts" model="product.public.category">
+            <field name="name">Kids' Swimsuits</field>
+            <field name="parent_id" ref="categ_kids_tops"></field>
+        </record>
+        <!-- Bottoms -->
+        <record id="categ_kids_bottoms_shorts" model="product.public.category">
+            <field name="parent_id" ref="categ_kids_bottoms"></field>
+            <field name="name">Kids' Shorts</field>
+        </record>
+        <record id="categ_kids_bottoms_trousers" model="product.public.category">
+            <field name="name">Kids' Trousers</field>
+            <field name="parent_id" ref="categ_kids_bottoms"></field>
+        </record>
+        <!-- Underwear     -->
+        <record id="categ_kids_underwear_base_layer" model="product.public.category">
+            <field name="name">Kids' Base Laye</field>
+            <field name="parent_id" ref="categ_kids_underwear"></field>
+        </record>
+        <!-- Footwear -->
+        <record id="categ_kids_footwear_shoes" model="product.public.category">
+            <field name="name">Kids' Shoes</field>
+            <field name="parent_id" ref="categ_kids_footwears"></field>
+        </record>
+        <record id="categ_kids_footwear_sandals" model="product.public.category">
+            <field name="name">Kids' Sandals</field>
+            <field name="parent_id" ref="categ_kids_footwears"></field>
+        </record>
+        <record id="categ_kids_footwear_fip_flops" model="product.public.category">
+            <field name="name">Kids' Flip Flops</field>
+            <field name="parent_id" ref="categ_kids_footwears"></field>
+        </record>
+        <record id="categ_kids_footwear_socks" model="product.public.category">
+            <field name="name">Kids' Sockes</field>
+            <field name="parent_id" ref="categ_kids_footwears"></field>
+        </record>
+
+        <!-- Sports Accessories -->
+        <record id="categ_sports_bags_and_bagpacks" model="product.public.category">
+            <field name="name">Bags And Bagpacks </field>
+            <field name="parent_id" ref="root_categ_accessories"></field>
+        </record>
+        <record id="categ_sports_clothing" model="product.public.category">
+            <field name="name">Clothing Accessories</field>
+            <field name="parent_id" ref="root_categ_accessories"></field>
+        </record>
+        <record id="categ_sports_bottle_food_storage" model="product.public.category">
+            <field name="name">Bottle And Food Storage</field>
+            <field name="parent_id" ref="root_categ_accessories"></field>
+        </record>
+        <record id="categ_sports_watches" model="product.public.category">
+            <field name="name">Sports Watches</field>
+            <field name="parent_id" ref="root_categ_accessories"></field>
+        </record>
+        <record id="categ_sports_electronics" model="product.public.category">
+            <field name="name">Electronics</field>
+            <field name="parent_id" ref="root_categ_accessories"></field>
+        </record>
+        <!-- Bags And Bagpacks -->
+        <record id="categ_sports_bags_and_bagpacks_bag" model="product.public.category">
+            <field name="name">Sports Bag</field>
+            <field name="parent_id" ref="categ_sports_bags_and_bagpacks"></field>
+        </record>
+        <record id="categ_sports_bags_and_bagpacks_bagpacks" model="product.public.category">
+            <field name="name">Sports Bagpacks</field>
+            <field name="parent_id" ref="categ_sports_bags_and_bagpacks"></field>
+        </record>
+
+        <!-- Sports Clothing -->
+        <record id="categ_sports_clothing_caps" model="product.public.category">
+            <field name="name">Caps</field>
+            <field name="parent_id" ref="categ_sports_clothing"></field>
+        </record>
+        <record id="categ_sports_clothing_hats" model="product.public.category">
+            <field name="name">Hats</field>
+            <field name="parent_id" ref="categ_sports_clothing"></field>
+        </record>
+        <record id="categ_sports_clothing_gloves" model="product.public.category">
+            <field name="name">Gloves</field>
+            <field name="parent_id" ref="categ_sports_clothing"></field>
+        </record>
+
+        <!-- Bottle And Food Storage -->
+        <record id="categ_sports_bottle_food_storage_water_bottle" model="product.public.category">
+            <field name="name">Water Bottle</field>
+            <field name="parent_id" ref="categ_sports_bottle_food_storage"></field>
+        </record>
+        <record id="categ_sports_bottle_food_storage_food_box" model="product.public.category">
+            <field name="name">Food Box</field>
+            <field name="parent_id" ref="categ_sports_bottle_food_storage"></field>
+        </record>
+
+        <!-- Sports Watches -->
+        <record id="categ_sports_watches_watches" model="product.public.category">
+            <field name="name">Watches</field>
+            <field name="parent_id" ref="categ_sports_watches"></field>
+        </record>
+        <record id="categ_sports_watches_stopwatches" model="product.public.category">
+            <field name="name">Stopwatches</field>
+            <field name="parent_id" ref="categ_sports_watches"></field>
+        </record>
+
+        <!-- Electronics -->
+        <record id="categ_sports_electronics_headlamp_torches" model="product.public.category">
+            <field name="name">Headlamp &amp; Torches</field>
+            <field name="parent_id" ref="categ_sports_electronics"></field>
+        </record>
+        <record id="categ_sports_electronics_earphones" model="product.public.category">
+            <field name="name">Earphones</field>
+            <field name="parent_id" ref="categ_sports_electronics"></field>
+        </record>
+        <record id="categ_sports_electronics_camera" model="product.public.category">
+            <field name="name">Camera</field>
+            <field name="parent_id" ref="categ_sports_electronics"></field>
+        </record>
+
+    </data>
+</odoo>

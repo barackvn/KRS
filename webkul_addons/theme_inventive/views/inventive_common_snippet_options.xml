@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <!--:::::::::::::::::::::::::s_inventive_owl_carousel_snippet_OPTIONS ::::::::::::::::::::::::::::::::::-->
+    <template id="inventive_snippet_carousel_options" name="Inventive Snippet Carousel Options" inherit_id="website.snippet_options" priority="20">
+        <xpath expr="//div[@data-js='carousel']" position="replace">
+            <div data-js="inventive_carousel"
+                data-selector=":not(.o_gallery > .container) > .carousel">
+                <we-collapse-area>
+                    <we-toggler data-no-preview="true"><i class="fa fa-fw fa-magic"/> Styles</we-toggler>
+                    <we-collapse>
+                        <we-button  data-select-class="s_carousel_default">Default</we-button>
+                        <we-button  data-select-class="s_carousel_block">Block</we-button>
+                        <we-button  data-select-class="s_carousel_boxed">Boxed</we-button>
+                        <we-button  data-select-class="s_carousel_rounded_black">Round Black</we-button>
+                        <we-button  data-select-class="s_carousel_rounded_white">Round White</we-button>
+                        <we-divider/>
+                        <we-button data-toggle-class="hover_effect">Show on Hover</we-button>
+                    </we-collapse>
+                </we-collapse-area>
+
+                <we-button data-add-slide="true" data-no-preview="true"><i class="fa fa-fw fa-plus-circle"/>Add Slide</we-button>
+                <we-button data-remove-slide="true" data-no-preview="true"><i class="fa fa-fw fa-trash-o"/>Remove Slide</we-button>
+                <we-collapse-area>
+                    <we-toggler data-no-preview="true"><i class="fa fa-fw fa-cogs"/>Settings</we-toggler>
+                    <we-collapse>
+                        <we-collapse-area>
+                            <we-toggler data-no-preview="true"><i class="fa fa-fw fa-play-circle"/>Autoplay</we-toggler>
+                            <we-collapse>
+                                <we-button  data-autoplay="true"><i class="fa fa-fw fa-play"></i>True</we-button>
+                                <we-button  data-autoplay="false"> <i class="fa fa-fw fa-stop"></i>False</we-button>
+                            </we-collapse>
+                        </we-collapse-area>
+                        <we-collapse-area>
+                            <we-toggler><i class="fa fa-fw fa-repeat"/>Repete slides</we-toggler>
+                            <we-collapse>
+                                <we-button  data-loop="true">True</we-button>
+                                <we-button  data-loop="false">False</we-button>
+                            </we-collapse>
+                        </we-collapse-area>
+                        <we-collapse-area>
+                            <we-toggler data-no-preview="true"><i class="fa fa-fw fa-tachometer"/>Slide Shifting Speed</we-toggler>
+                            <we-collapse>
+                                <we-button  data-smartspeed="500" >0.5s</we-button>
+                                <we-button  data-smartspeed="1000">1.0s</we-button>
+                                <we-button  data-smartspeed="1500">1.5s</we-button>
+                                <we-button  data-smartspeed="2000">2.0s</we-button>
+                                <we-button  data-smartspeed="2500">2.5s</we-button>
+                                <we-button  data-smartspeed="3000">3.0s</we-button>
+
+                            </we-collapse>
+                        </we-collapse-area>
+                        <we-collapse-area>
+                            <we-toggler><i class="fa fa-fw fa-clock-o"></i>Autoplay Timeout</we-toggler>
+                            <we-collapse>
+                                <we-button  data-autoplaytimeout="2000">2s</we-button>
+                                <we-button  data-autoplaytimeout="4000">4s</we-button>
+                                <we-button  data-autoplaytimeout="5000">5s</we-button>
+                                <we-button  data-autoplaytimeout="6000">6s</we-button>
+                                <we-button  data-autoplaytimeout="7000">7s</we-button>
+                                <we-button  data-autoplaytimeout="8000">8s</we-button>
+                                <we-button  data-autoplaytimeout="9000">9s</we-button>
+                                <we-button  data-autoplaytimeout="10000">10s</we-button>
+                            </we-collapse>
+                        </we-collapse-area>
+                        <we-collapse-area>
+                            <we-toggler><i class="fa fa-fw fa-chevron-circle-right"></i>Navigation</we-toggler>
+                            <we-collapse>
+                                <we-button  data-nav="true">True</we-button>
+                                <we-button  data-nav="false">False</we-button>
+                            </we-collapse>
+                        </we-collapse-area>
+                        <we-collapse-area>
+                            <we-toggler><i class="fa fa-fw fa-dot-circle-o"/>Dots</we-toggler>
+                            <we-collapse>
+                                <we-button  data-dots="true">True</we-button>
+                                <we-button  data-dots="false">False</we-button>
+                            </we-collapse>
+                        </we-collapse-area>
+                        <we-collapse-area>
+                            <we-toggler><i class="fa fa-fw fa-television"/>Animate In</we-toggler>
+                            <we-collapse>
+                                <we-button  data-animationinoff="none">default</we-button>
+                                <we-button  data-animatein="slideInRight">slideInRight</we-button>
+                                <we-button  data-animatein="slideInUpLeft">slideInUpLeft</we-button>
+                                <we-button  data-animatein="fadeIn">Fade In</we-button>
+                                <we-button  data-animatein="fadeInUpBig">Fade In Up Big</we-button>
+                                <we-button  data-animatein="bounceIn">Bounce In</we-button>
+                                <we-button  data-animatein="lightSpeedIn">lightSpeedIn</we-button>
+                                <we-button  data-animatein="flash">Flash</we-button>
+                                <we-button  data-animatein="rubberBand">Rubber Band</we-button>
+                                <we-button  data-animatein="swing">swing</we-button>
+                                <we-button  data-animatein="flip">flip</we-button>
+                                <we-button  data-animatein="zoomIn">Zoom In</we-button>
+                                <we-button  data-animatein="flip">flip</we-button>
+                            </we-collapse>
+                        </we-collapse-area>
+                        <we-collapse-area>
+                            <we-toggler><i class="fa fa-fw fa-television"/>Animate Out</we-toggler>
+                            <we-collapse>
+                                <we-button  data-animationoutoff="none">default</we-button>
+                                <we-button  data-animateout="slideOutRight">slideOutRight</we-button>
+                                <we-button  data-animateout="slideOutLeft">slideOutLeft</we-button>
+                                <we-button  data-animateout="fadeOut">Fade Out</we-button>
+                                <we-button  data-animateout="fadeOutUpBig">Fade Out Up Big</we-button>
+                                <we-button  data-animateout="bounceOut">BounceOut</we-button>
+                                <we-button  data-animateout="lightSpeedOut">lightSpeedOut</we-button>
+                                <we-button  data-animateout="zoomOut">Zoom Out</we-button>
+                            </we-collapse>
+                        </we-collapse-area>
+                    </we-collapse>
+        		</we-collapse-area>
+            </div>
+        </xpath>
+    </template>
+
+    <!--:::::::::::::::::::::::::S_Inventive_Gallery_type_1_OPTIONS::::::::::::::::::::::::::::::::::-->
+    <template id="inventive_snippets_gallery_type_1_options" name="Inventive Snippet Gallery Type One Options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="after">
+            <!-- Column shadow -->
+            <div data-js="inventive_change_img"
+                data-selector="section.s_inventive_gallery_type_1 .view_column">
+                <a tabindex="-1" href="#" data-choose-image="true" data-no-preview="true"><i class="fa fa-fw fa-picture-o"/>Change Image</a>
+            </div>
+            <div data-selector="section.s_inventive_gallery_type_1 .view_column">
+                <we-collapse-area>
+                    <we-toggler><i class="fa fa-fw fa-magic"/>Design Of Hover</we-toggler>
+                    <we-collapse>
+                        <we-button  data-select-class="design_1">Design 1</we-button>
+                        <we-button  data-select-class="design_2">Design 2</we-button>
+                        <we-button  data-select-class="design_3">Design 3</we-button>
+                        <we-button  data-select-class="design_4">Design 4</we-button>
+                        <we-button  data-select-class="design_5">Design 5</we-button>
+                        <we-button  data-select-class="design_6">Design 6</we-button>
+                    </we-collapse>
+                </we-collapse-area>
+            </div>
+        </xpath>
+    </template>
+    <!--:::::::::::::::::::::::::S_Inventive_Gallery_type_2_OPTIONS::::::::::::::::::::::::::::::::::-->
+    <template id="inventive_snippets_gallery_type_2_options" name="Inventive Snippet Gallery Type Two Options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="after">
+            <div data-js="inventive_change_background" data-selector=".s_inventive_gallery_type_2 .view">
+                <a tabindex="-1" href="#" data-choose-image="true" data-no-preview="true"><i class="fa fa-fw fa-picture-o"/>Change Image</a>
+            </div>
+            <!-- Column shadow -->
+            <div data-selector="section.s_inventive_gallery_type_2 .view_column" data-exclude="">
+                <we-collapse-area>
+                    <we-toggler><i class="fa fa-fw fa-magic"/>Design Of Hover</we-toggler>
+                    <we-collapse>
+                        <we-button  data-select-class="design_1">Design 1</we-button>
+                        <we-button  data-select-class="design_2">Design 2</we-button>
+                        <we-button  data-select-class="design_3">Design 3</we-button>
+                        <we-button  data-select-class="design_4">Design 4</we-button>
+                        <we-button  data-select-class="design_5">Design 5</we-button>
+                        <we-button  data-select-class="design_6">Design 6</we-button>
+                    </we-collapse>
+                </we-collapse-area>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="s_inventive_shopping_category_options" name="Inventive Shopping Category Options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="after">
+            <div data-js="inventive_change_img" data-selector="section.s_inventive_shopping_category .home-category">
+                <we-button data-choose-image="true" data-no-preview="true"><i class="fa fa-fw fa-picture-o"/>Change Image</we-button>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="s_inventive_shopping_display_options" name="Inventive Shopping Display Options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="after">
+            <div data-js="inventive_change_background" data-selector="section.s_inventive_shopping_display .p_column">
+                <we-button data-choose-image="true" data-no-preview="true"><i class="fa fa-fw fa-picture-o"/>Change Image</we-button>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="inventive_snippets_shop_now_options" name="Inventive Sop Now Options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="after">
+            <div data-js="inventive_change_img" data-selector="section.s_inventive_shop_now .sub_banner_product">
+                <we-button data-choose-image="true" data-no-preview="true"><i class="fa fa-fw fa-picture-o"/>Change Image</we-button>
+            </div>
+        </xpath>
+    </template>
+    <!--:::::::::::::::::::::::::S_Inventive_Gallery_type_1_OPTIONS::::::::::::::::::::::::::::::::::-->
+    <template id="inventive_snippets_interactive_display_options" name="Inventive Snippet interactive_display Options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="after">
+            <div data-js="inventive_change_img"
+                data-selector=".s_inventive_interactive_display .p_column">
+                <we-button data-choose-image="true" data-no-preview="true"><i class="fa fa-fw fa-picture-o"/>Change Image</we-button>
+            </div>
+            <div data-selector="section.s_inventive_interactive_display .p_column" data-exclude="">
+                <we-collapse-area>
+                    <we-toggler><i class="fa fa-fw fa-magic"/>Design Of Hover</we-toggler>
+                    <we-collapse>
+                        <we-button  data-select-class="design_1">Design 1</we-button>
+                        <we-button  data-select-class="design_2">Design 2</we-button>
+                        <we-button  data-select-class="design_3">Design 3</we-button>
+                        <we-button  data-select-class="design_4">Design 4</we-button>
+                        <we-button  data-select-class="design_5">Design 5</we-button>
+                        <we-button  data-select-class="design_6">Design 6</we-button>
+                    </we-collapse>
+                </we-collapse-area>
+            </div>
+        </xpath>
+    </template>
+    <template id="inventive_snippets_interactive_display_options" name="Inventive Snippet interactive_display Options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="after">
+            <div data-js="inventive_change_img"
+                data-selector=".s_inventive_interactive_display .p_column">
+                <we-button data-choose-image="true" data-no-preview="true"><i class="fa fa-fw fa-picture-o"/>Change Image</we-button>
+            </div>
+            <div data-selector="section.s_inventive_interactive_display .p_column" data-exclude="">
+                <we-collapse-area>
+                    <we-toggler><i class="fa fa-fw fa-magic"/>Design Of Hover</we-toggler>
+                    <we-collapse>
+                        <we-button  data-select-class="design_1">Design 1</we-button>
+                        <we-button  data-select-class="design_2">Design 2</we-button>
+                        <we-button  data-select-class="design_3">Design 3</we-button>
+                        <we-button  data-select-class="design_4">Design 4</we-button>
+                        <we-button  data-select-class="design_5">Design 5</we-button>
+                        <we-button  data-select-class="design_6">Design 6</we-button>
+                    </we-collapse>
+                </we-collapse-area>
+            </div>
+        </xpath>
+    </template>
+</odoo>

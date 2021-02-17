@@ -1,0 +1,27 @@
+/* Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+/* License URL : https://store.webkul.com/license.html/ */
+
+#fav_seller_form_submit{
+    padding: 0;
+    background: none!important;
+    border: none;
+    cursor: pointer;
+}
+
+#fav_seller_remove_form_submit{
+    padding: 0;
+    background: none!important;
+    border: none;
+    cursor: pointer;
+}
+
+#fav_seller_table th{
+    text-align: center;
+    vertical-align: middle;
+}
+
+#fav_seller_table td{
+    text-align: center;
+    vertical-align: middle;
+}

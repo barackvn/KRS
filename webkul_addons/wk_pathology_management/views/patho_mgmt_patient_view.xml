@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+	<data>
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~ TREE VIEW ~~~~~~~~~~~~~~~~~~~~~~ -->
+
+		<record id="patho_patient_tree_view" model="ir.ui.view">
+			<field name="name">res.partner.tree.patient</field>
+			<field name="model">res.partner</field>
+			<field name="mode">primary</field>
+			<field name="arch" type="xml">
+				<tree string="Patient Tree View">
+					<field name="name"/>
+					<field name="patient_dob"/>
+					<field name="mobile"/>
+					<field name="email"/>
+					<field name="age"/>
+					<field name="gender"/>
+					<field name="blood_group"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~ FORM VIEW ~~~~~~~~~~~~~~~~~~~~~~ -->
+		<record id="patho_patient_form_view" model="ir.ui.view">
+			<field name="name">res.partner.form.patient</field>
+			<field name="model">res.partner</field>
+			<field name="mode">primary</field>
+			<field name="arch" type="xml">
+				<form string="Patient Form View">
+					<sheet>
+						<field name="image_1920" widget='image' class="oe_avatar" options='{"preview_image": "image_1920", "size": [90, 90]}'/>
+						<div class="oe_title">
+							<div class="oe_edit_only">
+								<label for="name"/>
+							</div>
+							<h1>
+								<field name="name" default_focus="1" placeholder="Name" required="1"/>
+							</h1>
+						</div>
+						<group>
+							<group>
+								<label for="street" string="Address"/>
+								<div>
+									<field name="street" placeholder="Street..."/>
+									<field name="street2" />
+									<div class="address_format">
+										<field name="city" placeholder="City" style="width: 40%%"/>
+										<field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True, "no_create": True}'/>
+										<field name="zip" placeholder="ZIP" style="width: 22%%"/>
+									</div>
+									<field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}'/>
+								</div>
+								<field name="patient" invisible="1"/>
+
+							</group>
+							<group>
+								<field name="phone" placeholder="e.g. +32.81.81.37.00"/>
+								<field name="mobile"/>
+								<field name="email" widget="email"/>
+								<field name="title" options='{"no_open": True,"no_create": True}'/>
+							</group>
+						</group>
+						<notebook>
+							<page name="" string="Personal Information">
+								<group>
+									<group>
+										<field name="gender" required="1"/>
+										<field name="patient_dob" required="1"/>
+										<field name="age"/>
+									</group>
+									<group>
+										<field name="blood_group" required="1"/>
+										<field name="rh_factor" required="1"/>
+									</group>
+								</group>
+							</page>
+							<page name="" string="Appointments" attrs="{'invisible': [('patient','=',False)]}">
+								<field name="patient_testreq_ids" readonly="1" options='{"no_open": True,"no_create_edit": True}'>
+									<tree string="">
+										<field name="name"/>
+										<field name="test_date"/>
+										<field name="status"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Internal Notes">
+								<field name="comment" placeholder="Internal Note..."/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="patho_patient_kanban_view">
+			<field name="name">Patient kanban View</field>
+			<field name="model">res.partner</field>
+			<field name="type">kanban</field>
+			<field name="arch" type="xml">
+				<kanban>
+					<field name="color"/>
+					<field name="name"/>
+					<field name="title"/>
+					<field name="email"/>
+					<field name="phone"/>
+					<field name="street"/>
+					<field name="street2"/>
+					<field name="zip"/>
+					<field name="city"/>
+					<field name="country_id"/>
+					<field name="mobile"/>
+					<field name="state_id"/>
+					<field name="patient_dob"/>
+					<field name="image_1920"/>
+					<field name="id"/>
+					<templates>
+						<t t-name="kanban-box">
+							<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown" >
+									<a class="dropdown-toggle btn" data-toggle="dropdown" href="#" role='button'>
+										<span class="fa fa-bars fa-lg" aria-label="Dropdown" title="Manage"/>
+									</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+										<li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+									</ul>
+								</div>
+                                <div class="oe_kanban_content oe_kanban_details">
+                                    <div class="o_kanban_image">
+                                        <a type="open">
+                                            <t t-if="record.image_1920">
+                                                <img alt="Not Found" t-att-src="kanban_image('res.partner', 'image_1920', record.id.raw_value)"/>
+                                            </t>
+                                            <t t-if="!record.image_1920">
+                                                <img alt="Not Found" t-att-src='_s + "/base/static/src/img/avatar.png"' class="o_kanban_image"/>
+                                            </t>
+                                        </a>
+                                    </div>
+										<div name="tags">
+											<ul>
+												<li t-if="record.name">
+													<b>
+														<field name="name"/>
+													</b>
+												</li>
+												<li t-if="record.mobile">
+													<field name="mobile"/>
+												</li>
+												<li t-if="record.email">
+													<field name="email"/>
+												</li>
+												<li t-if="record.patient_dob">
+													<b>DOB:</b> <field name="patient_dob"/>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+						</t>
+					</templates>
+				</kanban>
+			</field>
+		</record>
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~ SEARCH VIEW ~~~~~~~~~~~~~~~~~~~~~~ -->
+		<record model='ir.ui.view' id='patho_patient_search_view'>
+			<field name="name">res.partner.filter.inherit.patient</field>
+			<field name="model">res.partner</field>
+			<field name="type">search</field>
+			<field name="mode">primary</field>
+			<field name="inherit_id" ref="base.view_res_partner_filter"/>
+			<field name="arch"  type="xml">
+				<xpath expr="//search[1]" position="inside">
+					<field name="name" string="Patient' Name" filter_domain="[('name','ilike',self)]"/>
+					<group string="Group By">
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="patho_mgmt_patient_action" model="ir.actions.act_window">
+			<field name="name">Patient</field>
+			<field name="res_model">res.partner</field>
+			<field name="view_mode">kanban,tree,form,search</field>
+			<field name="domain">[('patient','=',True)]</field>
+			<field name="context">{'default_customer':1,'default_supplier':0 ,'default_patient':1}</field>
+			<field name="search_view_id" ref="patho_patient_search_view"/>
+		</record>
+		<record id="patho_mgmt_patient_action_for_kanban" model="ir.actions.act_window.view">
+			<field name="view_mode">kanban</field>
+			<field name="sequence">1</field>
+			<field name="view_id" ref="wk_pathology_management.patho_patient_kanban_view"/>
+			<field name="act_window_id" ref="wk_pathology_management.patho_mgmt_patient_action"/>
+		</record>
+		<record id="patho_mgmt_patient_action_for_tree" model="ir.actions.act_window.view">
+			<field name="view_mode">tree</field>
+			<field name="sequence">2</field>
+			<field name="view_id" ref="wk_pathology_management.patho_patient_tree_view"/>
+			<field name="act_window_id" ref="wk_pathology_management.patho_mgmt_patient_action"/>
+		</record>
+		<record id="patho_mgmt_patient_action_for_form" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="sequence">3</field>
+			<field name="view_id" ref="wk_pathology_management.patho_patient_form_view"/>
+			<field name="act_window_id" ref="wk_pathology_management.patho_mgmt_patient_action"/>
+		</record>
+		<menuitem name="Patient"
+            id="patho_mgmt_patient_menu"
+            parent="patho_mgmt_patho_menu"
+            action="patho_mgmt_patient_action"
+            sequence="1"
+			groups="wk_pathology_management.patho_mgmt_user_group,wk_pathology_management.patho_mgmt_manager_group"
+            />
+	</data>
+</odoo>

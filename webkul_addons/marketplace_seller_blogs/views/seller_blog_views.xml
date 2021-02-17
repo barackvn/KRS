@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="inherit_view_blog_post_list" model="ir.ui.view">
+            <field name="name">blog.post.list</field>
+            <field name="model">blog.post</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="website_blog.view_blog_post_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-info">state=='draft'</attribute>
+                    <attribute name="decoration-warning">state=='pending'</attribute>
+                    <attribute name="decoration-success">state=='approved'</attribute>
+                    <attribute name="decoration-danger">state=='rejected'</attribute>
+                </xpath>
+                <xpath expr="//tree/field[@name='name']" position="after">
+                    <field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+                </xpath>
+                <xpath expr="//tree/field[@name='write_date']" position="after">
+                    <field name="state" string="State"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="mp_seller_blogs_form_view" model="ir.ui.view">
+            <field name="name">Seller Blogs Form View</field>
+            <field name="model">blog.post</field>
+            <field name="type">form</field>
+            <field name="priority">100</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="website_blog.view_blog_post_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//sheet" position="before">
+                    <header>
+                        <button name="button_set_pending_blog" string="Request to Approve" type="object" states="draft" class="btn-primary"/>
+                        <button name="button_approve_blog" string="Approve" type="object" states="pending"
+                            groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
+                        <button name="button_reject_blog" string="Deny" type="object" states="pending,approved"
+                            groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
+                        <button name="button_set_draft_blog" type="object" states="rejected" string="Set To Draft"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,pending,approved,rejected"/>
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='blog_id']" position="attributes">
+                    <attribute name="default_focus">1</attribute>
+                    <attribute name="help">Select the type of Blog</attribute>
+                </xpath>
+                <xpath expr="//field[@name='blog_id']" position="after">
+                    <field name="id" invisible="1"/>
+                    <field name="marketplace_seller_id"
+                           required="1"
+                           attrs="{'readonly': [('id', '!=', False)]}"
+                           groups="odoo_marketplace.marketplace_officer_group"
+                           options="{'no_create_edit':True}"
+                           domain="[('seller','=',True),('state','=','approved')]"
+                           context="{'form_view_ref':'odoo_marketplace.wk_seller_form_view'}"
+                           />
+                        <field name="id" invisible="1"/>
+                </xpath>
+                <xpath expr="//div[@name='button_box']//field[@name='is_published']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="toggle_is_published" type="object" attrs="{'invisible':['|',('state','!=','approved')]}"
+                            class="oe_stat_button" icon="fa-globe">
+                        <field name="is_published" widget="website_publish_button"/>
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='blog_id']" position="attributes">
+                    <attribute name="options">{'no_create_edit':     True, 'no_open': True, 'no_create': True, 'no_quick_create': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='post_date']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='write_date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group[2]" position="attributes">
+                    <attribute name="groups">odoo_marketplace.marketplace_officer_group</attribute>
+                </xpath>
+                <xpath expr="//form/sheet//notebook" position="inside">
+                    <page string="Content">
+                        <label for="seller_blog_content" string="Blog Content"/>
+                        <div>
+                            <field name="seller_blog_content" placeholder="Start writing here..."/>
+                        </div>
+                    </page>
+                    <page string="Images">
+                        <group>
+                          <group>
+                              <field name="write_date"/>
+                              <field name="cover_images" widget="image"
+                                  help="Upload a Banner of size 1285*350 for a perfect view in Website."/>
+                          </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//form/sheet/group[last()]" position="attributes">
+                    <attribute name="attrs">{'invisible':1}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='tag_ids']" position="attributes">
+                    <attribute name="options">{'no_create_edit':True}</attribute>
+                    <attribute name="context">{'form_view_ref': 'marketplace_seller_blogs.mp_seller_blogs_blog_tags_form_view','mp_blog_tag':1}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_mp_seller_blogs_form_view_for_tags_create" model="ir.ui.view">
+            <field name="name">Managers create tags of blogs</field>
+            <field name="model">blog.post</field>
+            <field name="inherit_id" ref="marketplace_seller_blogs.mp_seller_blogs_form_view"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='blog_id']" position="attributes">
+                    <attribute name="options">{'no_create_edit': False, 'no_open': False, 'no_quick_create': False}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='tag_ids']" position="attributes">
+                    <attribute name="options">{'no_create_edit':False}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mp_seller_blogs_filter" model="ir.ui.view">
+            <field name="name">Seller Blogs</field>
+            <field name="model">blog.post</field>
+            <field name="arch" type="xml">
+                <search string="Search Quote">
+                    <group string="Group By">
+                        <filter string="Published"
+                                domain="[('website_published','=',True)]"
+                                name="published_in_website"
+                                />
+                        <filter string="Unpublished"
+                                domain="[('website_published','=',False)]"
+                                name="unpublished_in_website"
+                                />
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="apply_seller_group_at_officer_end" model="ir.ui.view">
+            <field name="name">Apply Seller Group On Blogs</field>
+            <field name="model">blog.post</field>
+            <field name="inherit_id" ref="marketplace_seller_blogs.mp_seller_blogs_filter"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
+            <field name="arch" type="xml">
+                <group position="inside">
+                    <filter string="Seller"
+                        context="{'group_by':'marketplace_seller_id'}"
+                        name="by_marketplace_seller_id"
+                        groups="odoo_marketplace.marketplace_officer_group"
+                        />
+                </group>
+            </field>
+        </record>
+
+        <record id="mp_seller_blogs_blog_post_action" model="ir.actions.act_window">
+            <field name="name">Sellers Blog</field>
+            <field name="res_model">blog.post</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
+            <field name="context">{'mp_seller_blog':1,'search_default_by_marketplace_seller_id': 1}</field>
+            <field name="search_view_id" ref="marketplace_seller_blogs.mp_seller_blogs_filter"/>
+        </record>
+        <record id="mp_seller_blogs_action_for_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="sequence">1</field>
+            <field name="view_id" ref="marketplace_seller_blogs.inherit_view_blog_post_list"/>
+            <field name="act_window_id" ref="marketplace_seller_blogs.mp_seller_blogs_blog_post_action"/>
+        </record>
+        <record id="mp_seller_blogs_action_for_form" model="ir.actions.act_window.view">
+            <field name="view_mode">form</field>
+            <field name="sequence">2</field>
+            <field name="view_id" ref="mp_seller_blogs_form_view"/>
+            <field name="act_window_id" ref="marketplace_seller_blogs.mp_seller_blogs_blog_post_action"/>
+        </record>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Action for Dashboard ~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+        <record id="mp_seller_blogs_blog_post_action_published" model="ir.actions.act_window">
+            <field name="name">Sellers Blog</field>
+            <field name="res_model">blog.post</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('marketplace_seller_id','in',['get_marketplace_seller_id()']),('website_published', '=', True)]</field>
+            <field name="context">{'mp_seller_blog':1}</field>
+        </record>
+        <record id="mp_seller_blogs_blog_post_action_published_for_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="sequence">1</field>
+            <field name="view_id" ref="marketplace_seller_blogs.inherit_view_blog_post_list"/>
+            <field name="act_window_id" ref="marketplace_seller_blogs.mp_seller_blogs_blog_post_action_published"/>
+        </record>
+        <record id="mp_seller_blogs_blog_post_action_published_for_form" model="ir.actions.act_window.view">
+            <field name="view_mode">form</field>
+            <field name="sequence">2</field>
+            <field name="view_id" ref="mp_seller_blogs_form_view"/>
+            <field name="act_window_id" ref="marketplace_seller_blogs.mp_seller_blogs_blog_post_action_published"/>
+        </record>
+
+        <record id="mp_seller_blogs_blog_post_action_unpublished" model="ir.actions.act_window">
+            <field name="name">Sellers Blog</field>
+            <field name="res_model">blog.post</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('marketplace_seller_id','in',['get_marketplace_seller_id()']),('website_published', '=', False)]</field>
+            <field name="context">{'mp_seller_blog':1}</field>
+        </record>
+        <record id="mp_seller_blogs_blog_post_action_unpublished_for_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="sequence">1</field>
+            <field name="view_id" ref="marketplace_seller_blogs.inherit_view_blog_post_list"/>
+            <field name="act_window_id" ref="marketplace_seller_blogs.mp_seller_blogs_blog_post_action_unpublished"/>
+        </record>
+        <record id="mp_seller_blogs_blog_post_action_unpublished_for_form" model="ir.actions.act_window.view">
+            <field name="view_mode">form</field>
+            <field name="sequence">2</field>
+            <field name="view_id" ref="mp_seller_blogs_form_view"/>
+            <field name="act_window_id" ref="marketplace_seller_blogs.mp_seller_blogs_blog_post_action_unpublished"/>
+        </record>
+
+        <menuitem name= "Blog"
+            id= "mp_seller_blogs_blog_menu"
+            sequence= "8"
+            parent= "odoo_marketplace.wk_seller_dashboard"
+            groups="odoo_marketplace.marketplace_seller_group"
+        />
+        <menuitem name= "Blog Post"
+                  id= "mp_seller_blogs_blog_post_menu"
+                  action= "marketplace_seller_blogs.mp_seller_blogs_blog_post_action"
+                  parent= "marketplace_seller_blogs.mp_seller_blogs_blog_menu"
+                  sequence= "1"
+                  groups="odoo_marketplace.marketplace_seller_group"
+                />
+    </data>
+</odoo>

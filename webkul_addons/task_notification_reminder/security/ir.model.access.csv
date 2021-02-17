@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_notification_setting_user,notification.setting,model_task_notification_setting,project.group_project_user,1,1,1,0
+
+access_notification_setting_manager,notification.setting,model_task_notification_setting,project.group_project_manager,1,1,1,1
+

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <template id="footer_common_colums" inherit_id="theme_inventive.footer_common_colums" name="Footer Sell Link">
+        <xpath expr="//div[@t-attf-class='customer_service #{classes}']//ul" position="inside">
+            <t t-if="website.env.user and not website.env.user.partner_id.seller and website.sudo().mp_show_sell_menu_footer">
+                <t t-if="website.sudo().mp_sell_page_label">
+                    <li>
+                        <a href="/seller" target="_blank"><t t-esc="website.sudo().mp_sell_page_label"/></a>
+                    </li>
+                </t>
+                <t t-if="not website.sudo().mp_sell_page_label">
+                    <li>
+                        <a href="/seller" target="_blank">Sell</a>
+                    </li>
+                </t>
+            </t>
+            <t t-if="website.sudo().mp_show_seller_list">
+                <t t-if="website.sudo().mp_sellers_list_label">
+                    <li>
+                        <a href="/sellers/list" target="_blank"><t t-esc="website.sudo().mp_sellers_list_label"/></a>
+                    </li>
+                </t>
+                <t t-if="not website.sudo().mp_sellers_list_label">
+                    <li>
+                        <a href="/sellers/list" target="_blank">Sellers List</a>
+                    </li>
+                </t>
+            </t>
+            <t t-if="website.sudo().mp_show_seller_shop_list and website.sudo().get_group_mp_shop_allow()">
+                <t t-if="website.sudo().mp_seller_shop_list_label">
+                    <li>
+                        <a href="/seller/shops/list" target="_blank"><t t-esc="website.sudo().mp_seller_shop_list_label"/></a>
+                    </li>
+                </t>
+                <t t-if="not website.sudo().mp_seller_shop_list_label">
+                    <li>
+                        <a href="/seller/shops/list" target="_blank">Seller Shop List</a>
+                    </li>
+                </t>
+            </t>
+        </xpath>
+    </template>
+    <template id="inmp_header_middle_icons" inherit_id="theme_inventive.header_middle_icons" name="inventive Marketplace Header icons inherit ">
+        <xpath expr="//div[hasclass('th_d_menu')]//div[hasclass('arrow')]" position="after">
+            <t t-if="website.env.user and not website.env.user.partner_id.seller and website.sudo().mp_show_sell_menu_header">
+                <t t-set="sell_page_label" t-value="website.sudo().mp_sell_page_label"/>
+                <div class="dropdown-item" t-if="not user_id._is_public()">
+                   <a t-attf-class="#{'active' if request.httprequest.path == '/seller' else ''}" role="menuitem" href="/seller" target="_blank">
+                       <t t-if="sell_page_label" t-esc="sell_page_label"/>
+                       <t t-else="">Sell</t>
+                   </a>
+               </div>
+               <div class="dropdown-item" t-if="website.env.user.sudo().partner_id.seller">
+                   <a href="/my/marketplace" class="dropdown-item" role="menuitem" groups="odoo_marketplace.marketplace_draft_seller_group">Marketplace</a>
+               </div>
+            </t>
+        </xpath>
+    </template>
+    <template id="inmp_header_middle_btns" inherit_id="theme_inventive.header_middle_btns" name="inventive Marketplace Header buttons inherit">
+        <xpath expr="//div[@id='my_account']//div[hasclass('th_d_menu')]//div[hasclass('arrow')][1]" position="after">
+            <t t-if="website.env.user and not website.env.user.partner_id.seller and website.sudo().mp_show_sell_menu_header">
+                <t t-set="sell_page_label" t-value="website.sudo().mp_sell_page_label"/>
+                <div class="dropdown-item" t-if="not user_id._is_public()">
+                   <a t-attf-class="#{'active' if request.httprequest.path == '/seller' else ''}" role="menuitem" href="/seller" target="_blank">
+                       <t t-if="sell_page_label" t-esc="sell_page_label"/>
+                       <t t-else="">Sell</t>
+                   </a>
+               </div>
+               <div class="dropdown-item" t-if="website.env.user.sudo().partner_id.seller">
+                   <a href="/my/marketplace" class="dropdown-item" role="menuitem" groups="odoo_marketplace.marketplace_draft_seller_group">Marketplace</a>
+               </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

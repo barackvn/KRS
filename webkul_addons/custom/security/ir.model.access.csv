@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_snailmail_letter_portal,snailmail.letter.portal,model_snailmail_letter,base.group_portal,1,1,1,0

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2019-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+
+		<record id="voucher_wizard_wizard" model="ir.ui.view">
+			<field name="name">voucher.wizard.form</field>
+			<field name="model">voucher.wizard</field>
+			<field name="arch" type="xml">
+				<form string="" version="7.0">	
+					<group col="4">
+						<field name="voucher_code"/>
+						<button name="validate_voucher_code" string="Apply" type="object" class="oe_highlight"/>
+					</group>
+					<footer>
+						
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>			
+		</record> 
+
+        <record id="action_voucher_wizard" model="ir.actions.act_window">
+            <field name="name">Enter Voucher Code</field>
+            <field name="res_model">voucher.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="voucher_wizard_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+</odoo>
+

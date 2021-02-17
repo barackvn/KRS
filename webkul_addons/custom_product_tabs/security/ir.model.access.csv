@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tabs_users,wk.product.tabs,model_wk_product_tabs,,1,0,0,0
+access_tabs_admin,wk.product.tabs,model_wk_product_tabs,sales_team.group_sale_manager,1,1,1,1

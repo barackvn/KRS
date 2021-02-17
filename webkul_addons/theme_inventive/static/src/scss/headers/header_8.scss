@@ -1,0 +1,263 @@
+/* Copyright (c) 2020-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+#wrapwrap .inventive_header_8 {
+    nav.navbar {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        background-color: #232323 !important;
+        flex-direction: column;
+        padding: 0;
+        &>.container {
+            max-width: 100%;
+            padding: 0;
+            flex-wrap: wrap !important;
+            & > .navbar-brand {
+                display: none;
+            }
+        }
+    }
+    &>.main_div{
+        background: #232323;
+    }
+    .inventive_header_middle {
+        width: 100%;
+        max-width: 1140px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        .header_search_bar{
+            display: none;
+        }
+        .header_middle_btn {
+            position: relative;
+            .btn{
+                padding: 5px;
+                color: white;
+            }
+            .th_icon.active{
+                width: 20px;
+                background: transparent;
+            }
+            #my_account {
+                border-color: transparent !important;
+                &>.dropdown-toggle{
+                    background: transparent;
+                    .th_account_icon {
+                        display: inline-block;
+                        @include background_image($user_white_svg,16px)
+                    }
+                    &:after{
+                        margin-right: 8px;
+                        color: white;
+                        margin-left: 0;
+                    }
+                    &:hover{
+                        background: transparent;
+                    }
+                }
+                &.active,
+                &:focus,
+                &:hover {
+                    &>.dropdown-toggle{
+                        color: white !important;
+                        box-shadow: unset !important;
+                        background-color: $secondary !important;
+                    }
+                }
+            }
+            .my_wish_quantity,.my_cart_quantity{
+                margin-left: 0;
+                background-color: rgba(255,255,255,0.3);
+                color: white;
+                opacity: 1;
+            }
+            #my_wish,#my_cart {
+                background: unset !important;
+                a{
+                    .th_wish_icon {
+                        @include background_image($line_wish_white_svg,16px)
+                    }
+                }
+                &.active,
+                &:focus,
+                &:hover {
+                    a{
+                        box-shadow: unset !important;
+                        background-color: unset !important;
+                    }
+                }
+            }
+            #my_cart{
+                a{
+                    .th_icon.active{
+                        background: unset;
+                    }
+                    .th_cart_icon {
+                        @include background_image($line_bag_white_svg,16px)
+                    }
+                    &.active,
+                    &:focus,
+                    &:hover {
+                        background-color: unset !important;
+                    }
+                }
+            }
+        }
+    }
+    #top_menu_collapse {
+        max-width: 1140px;
+        margin: auto;
+        padding: 0 15px;
+        line-height: 1;
+        position: relative;
+        .header_search_bar{
+            order: 2;
+            .input-group {
+                flex-direction: row-reverse;
+                align-items: center;
+                width: 230px;
+                .form-control.oe_search_box {
+                    height: 25px !important;
+                    border: none !important;
+                    border-bottom: 1px solid white !important;
+                    border-radius: 0 !important;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                    background-color: transparent;
+                }
+            }
+            .input-group-append {
+                margin-left: unset;
+            }
+            .oe_search_button {
+                color: white !important;
+                background-color: transparent;
+                padding: 5px;
+                &:hover {
+                    color: black;
+                    background-color: unset !important;
+                }
+            }
+        }
+    }
+    #top_menu {
+        align-items: center;
+        margin-left: 0 !important;
+        width: 100%;
+        .o_wsale_my_cart,
+        .o_wsale_my_wish,
+        .divider,
+        a[href="/web/login"],
+        .dropdown:not(.o_extra_menu_items):not(.inventive_mega_menu):not(.dropdown_menu) {
+            display: none !important;
+        }
+        &>.nav-item {
+            padding: 5px 0;
+            &>a.nav-link{
+                font-size: 14px;
+                color: #FFFFFF;
+                &.active{
+                    font-weight: bold;
+                    color: $primary;
+                }
+            }
+        }
+        .dropdown-toggle:after{
+            color: #aaa;
+        }
+    }
+    .navbar-toggler-icon{
+        position: relative;
+        background-image: none !important;
+        padding: 7px 12px;
+        &:after{
+            content: "\f0c9";
+            @include absolute_cover();
+            color: white;
+            display: inline-block;
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: 21px;
+            text-rendering: auto;
+        }
+    }
+    .mobile_search_bar{
+        .oe_search_button{
+            color: #FFFFFF !important
+        }
+        .input-group {
+            .form-control{
+              border-bottom:  1px solid white !important;
+            }
+        }
+    }
+    // Media Query......................................................................]
+    @include media-breakpoint-down(md) {
+        .inventive_header_middle {
+            .navbar-brand.logo {
+                img {
+                    max-height: 40px;
+                    height: 40px;
+                }
+            }
+            .header_search_bar{
+                display: inline-block;
+                .input-group {
+                    padding: 0px;
+                    flex-direction: row;
+                    align-items: center;
+                    border:$theme-border;
+                    width: 230px;
+
+                    .form-control.oe_search_box {
+                        height: 25px !important;
+                        border: none !important;
+                        border-radius: 0 !important;
+                        background-color: transparent;
+                    }
+                }
+                .input-group-append {
+                    margin-left: unset;
+                }
+                .oe_search_button {
+
+                    color: #FFFFFF !important;
+                    background-color: transparent;
+                    padding: 3px 5px;
+                    font-size: 1.125rem;
+                    &:hover {
+                        color: black;
+                        background-color: unset !important;
+                    }
+                }
+            }
+        }
+        #top_menu_collapse {
+            #top_menu{
+                border-right: 0;
+                justify-content: center;
+            }
+            .header_search_bar{
+                display: none;
+            }
+        }
+    }
+    @include media-breakpoint-down(sm){
+        .inventive_header_middle {
+            padding: 3px 15px;
+            .header_search_bar{
+                display: none;
+            }
+        }
+        #top_menu_collapse {
+            background: #232323;
+        }
+    }
+    @include media-breakpoint-down(xs){
+        .inventive_header_middle {
+            flex-direction: column;
+        }
+    }
+}

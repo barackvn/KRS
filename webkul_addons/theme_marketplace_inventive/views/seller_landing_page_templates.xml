@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <template id="wk_mp_seller_landing_page_inherit" name="Sell Landing Page" inherit_id="odoo_marketplace.wk_mp_seller_landing_page" priority="10">
+		<xpath expr="//div[hasclass('leftContainer')]" position="replace" >
+            <div class="leftContainer">
+				<div class="promo">
+					<div style="height: 420px;">
+						<div class="mp-inner-image">
+							<t t-if="website.sudo().mp_landing_page_banner">
+								<div class="item oe_img_bg oe_custom_bg active"
+                                    t-attf-style="height:-webkit-fill-available;background-image: url('data:image/png;base64,#{website.sudo().mp_landing_page_banner}')"/>
+							</t>
+							<t t-if="not website.sudo().mp_landing_page_banner">
+								<div class="item oe_img_bg oe_custom_bg active" style="height:-webkit-fill-available;background-image: url('/odoo_marketplace/static/src/img/Hero-Banner.png')"/>
+							</t>
+						</div>
+					</div>
+					<div class="hilight" style="padding:5%">
+					</div>
+					<div class="mp_sell_header">
+						<h2>Why still Offline, Start Selling Online with us!</h2>
+						<t t-set="is_user_public" t-value="website.env.user == request.website.user_id"/>
+						<t t-set="can_comment" t-value="sha_in or token or not is_user_public"/>
+                        <p class="text-center">Selling Your Site, best opportunity for growth!!! </p>
+						<t t-if="not can_comment">
+                            <a href="/seller/signup" class="btn btn-success" style="font-weight:600;">Open a New Store</a>
+						</t>
+                        <t t-if="can_comment">
+        					<a href="/my/marketplace/become_seller" class="btn btn-success">Open a New Store</a>
+        				</t>
+					</div>
+				</div>
+                <div class="row justify-content-center m-0">
+					<p class="text-center p_tag" style="padding:5px;">
+                        More than <b> 5,000 Sellers </b> are part of our <b> Marketplace Store,</b> <br/>Join us today and get all the excited perks.
+                    </p>
+				</div>
+            </div>
+
+        </xpath>
+        <xpath expr="//div[hasclass('container-fluid')]" position="replace" >
+			<div class="container-fluid mp_process_of_selling" style="padding-bottom:45px;padding-top:16px;background-color: #f9f9f8;">
+				<div class="row mt24 justify-content-center">
+                    <div class="col-12 text-center p-4">
+                        <h4 class="h_tag"> Process Of Selling with Us </h4>
+                    </div>
+					<div class="col-md-3 col-md-offset-2">
+                        <div class="process_step">
+                            <div class="icon">
+                                <img src="/theme_marketplace_inventive/static/src/img/icon-shop.png" alt="feature-a"/>
+                                <div class="feature-text">Open a New Shop</div>
+                            </div>
+                            <div class="process_text">By opening a shop at our marketplace you can expose more of your products to more potential customers. Your best opportunity for growth could be selling in our online marketplace.</div>
+                        </div>
+					</div>
+					<div class="col-md-3">
+                        <div class="process_step">
+                            <div class="icon">
+                                <img src="/theme_marketplace_inventive/static/src/img/icon-product.png" alt="feature-b"/>
+                                <div class="feature-text">Sell Products</div>
+                            </div>
+                            <div class="process_text">Business is all about trading. It's all about creating a product so good that people pay for it. Increase your sales figure from our high traffic channel.</div>
+                        </div>
+					</div>
+					<div class="col-md-3">
+                        <div class="process_step">
+                            <div class="icon">
+    							<img src="/theme_marketplace_inventive/static/src/img/icon-commission.png" alt="feature-c"/>
+    							<div class="feature-text">Get Quick Commission</div>
+                            </div>
+                            <div class="process_text">Be smart and start earning the commission whenever a product of yours is sold through our website. Commission Management provides full transparency and flexibility for both buy-side and sell-side.</div>
+                        </div>
+					</div>
+				</div>
+			</div>
+        </xpath>
+        <xpath expr="//div[hasclass('container')]" position="replace" >
+            <div class="container mp_facilities" style="margin-bottom:35px;">
+                <div class="row mt16  justify-content-center">
+                    <h2 class="text-center h_tag" style="padding:5px;">Here are some greate Facilities/Perks of our<br/>Marketplace Store</h2>
+                </div>
+                <div class="row mt64 mb32 justify-content-center">
+                    <div class="col-md-7 content_div text-center mt32 mb16 row">
+                        <div class="col-md-1">
+                            <div class="mp_hexagon">
+                                <span class="num_dot"/>
+                                <span class="num"> 1 </span>
+                            </div>
+                        </div>
+                        <div class="col-md-11" style="padding-left:23px;">
+                            <div class="feature-text text-left">Open a New Shop</div>
+                            <div class="text-left">You can quickly start expanding your business and have a full-fledged online store without having to deal with the hassle of maintaining and investing in an e-commerce website for your products. So, start setting up your business in our marketplace.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 image_div text-center" style="height:250px;padding-left:35px;">
+                        <div class="mp-inner-image">
+                            <div class="item oe_img_bg oe_custom_bg active"
+                                style="height:-webkit-fill-available;background-position: right;background-image: url('/theme_marketplace_inventive/static/src/img/store.png');background-size: contain;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt64 mb32 hidden-xs  justify-content-center">
+                    <div class="col-md-5 image_div" style="height:250px;">
+                        <div class="mp-inner-image">
+                            <div class="item oe_img_bg oe_custom_bg active" style="height:-webkit-fill-available;background-position: left;background-image: url('/theme_marketplace_inventive/static/src/img/Support.png');background-size: contain;"/>
+                        </div>
+                    </div>
+                    <div class="col-md-7 content_div text-center mt32 row" style="padding-left: 0px;">
+                        <div class="col-md-1">
+                            <div class="mp_hexagon">
+                                <span class="num_dot"/>
+                                <span class="num"> 2 </span>
+                            </div>
+                        </div>
+                        <div class="col-md-11" style="padding-left:23px;">
+                            <div class="feature-text text-left">Multi Support</div>
+                            <div class="text-left">Our company does not want to be in a single-vendor lock-in arrangement, Multi-vendor support setups bring a numerous of benefits thus we provide Multi-vendor/seller support.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt64 mb32  justify-content-center">
+                    <div class="col-md-7 content_div text-center mt32 mb16 row">
+                        <div class="col-md-1">
+                            <div class="mp_hexagon">
+                                <span class="num_dot"/>
+                                <span class="num"> 3 </span>
+                            </div>
+                        </div>
+                        <div class="col-md-11" style="padding-left:23px;">
+                            <div class="feature-text text-left">Commission Management</div>
+                            <div class="text-left">Since trust and transparency are an important aspect of a business hence we follow Commission Management that provides the full transparency that shows our sellers the commission charged when their product is sold from our website.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 image_div text-center" style="height:250px;padding-left:35px;">
+                        <div class="mp-inner-image">
+                            <div class="item oe_img_bg oe_custom_bg active" style="height:-webkit-fill-available;background-image: url('/theme_marketplace_inventive/static/src/img/commission.png');background-size: contain;background-position:right;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt64 mb32 hidden-xs  justify-content-center">
+                    <div class="col-md-5 image_div" style="height:250px;">
+                        <div class="mp-inner-image">
+                            <div class="item oe_img_bg oe_custom_bg active" style="height:-webkit-fill-available;background-image: url('/theme_marketplace_inventive/static/src/img/generate-invoice.png');background-size: contain;background-position: left;"/>
+                        </div>
+                    </div>
+                    <div class="col-md-7 content_div text-center mt32 row" style="padding-left: 0px;">
+                        <div class="col-md-1">
+                            <div class="mp_hexagon">
+                                <span class="num_dot"/>
+                                <span class="num"> 4 </span>
+                            </div>
+                        </div>
+                        <div class="col-md-11" style="padding-left:23px;">
+                            <div class="feature-text text-left">Various Invoice Generation Option</div>
+                            <div class="text-left">Having well presented and easy to understand invoices will make you look more professional, so we will provide various invoice generation option making sure that you are using the right invoicing tool.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt64 mb32 justify-content-center">
+                    <div class="col-md-7 content_div text-center mt32 mb16 row">
+                        <div class="col-md-1">
+                            <div class="mp_hexagon">
+                                <span class="num_dot"/>
+                                <span class="num"> 5 </span>
+                            </div>
+                        </div>
+                        <div class="col-md-11" style="padding-left:23px;">
+                            <div class="feature-text text-left">Product Collection &amp; Management</div>
+                            <div class="text-left">Consumers spend more time researching product purchases online before they buy. This makes quality product content on your eCommerce store more important than ever. It's all a part of a better customer experience, which can lead to an increase in your eCommerce sales.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 image_div text-center" style="height:250px;padding-left:35px;">
+                        <div class="mp-inner-image">
+                            <div class="item oe_img_bg oe_custom_bg active" style="height:-webkit-fill-available;background-image: url('/theme_marketplace_inventive/static/src/img/manage-collection.png');background-size: contain; background-position:left;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt64 mb32 hidden-xs justify-content-center">
+                    <div class="col-md-5 image_div" style="height:250px;">
+                        <div class="mp-inner-image">
+                            <div class="item oe_img_bg oe_custom_bg active" style="height:-webkit-fill-available;background-image: url('/theme_marketplace_inventive/static/src/img/seller_profile.png');background-size: contain;background-position: left;"/>
+                        </div>
+                    </div>
+                    <div class="col-md-7 content_div text-center mt32 row" style="padding-left: 0px;">
+                        <div class="col-md-1">
+                            <div class="mp_hexagon">
+                                <span class="num_dot"/>
+                                <span class="num"> 6 </span>
+                            </div>
+                        </div>
+                        <div class="col-md-11" style="padding-left:23px;">
+                            <div class="feature-text text-left">View Other Seller Profile</div>
+                            <div class="text-left">The marketplace is made up of items offered by a variety of different merchants, both companies, and individuals. Now you can take a peek inside their seller profile and look at what other sellers are selling.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+	</template>
+</odoo>

@@ -1,0 +1,42 @@
+<odoo>
+    <data noupdate="1s">
+
+        <record model="odoo.gdpr" id="odoo_gdpr.default_odoo_gdpr_record">
+            <field name="name">GDPR Default Configuration</field>
+
+            <field name="gdpr_title">Manage Your Personal Data</field>
+            <field name="title_info">
+              &lt;p&gt;We respect your privacy rights and provide you with reasonable access to the Personal Data that you may have provided through our site.If you wish to access or amend any other Personal data,you may contact us at any time and we shall work diligently to respect your choices and requests regarding your Personal Information.&lt;/p&gt;
+              &lt;p&gt;If you have questions or concerns about the privacy policies and practices of linked third parties, please review their websites and contact them directly.&lt;/p&gt;
+              &lt;p&gt;If you have any questions about our privacy policy or concerns about our privacy practices, feel free to contact us.&lt;/p&gt;
+              &lt;p&gt;From this page, you can initiate a request for retrieving these data. We will review your request and process accordingly. Please be notified: Requests may take up to 30 days to process.&lt;/p&gt;
+            </field>
+            <field name="modal_desc">Initiating it will remove all your personal Data from our storage.
+              This process is irreversible, so be sure before proceeding.
+            </field>
+            <field name="allow_gdpr_message">True</field>
+            <field name="gdpr_message">We are fully compliant with the GDPR laws. We promise to safeguard your data and protect your privacy rights.</field>
+
+        </record>
+
+         <record model="gdpr.data.template" id="default_gdpr_data_template_record_1">
+            <field name="name">Your Personal Details</field>
+            <field name="icon" type="base64" file="odoo_gdpr/static/description/user.png"/>
+            <field name="desc">These details are used as a billing address in your order placed on our website.</field>
+            <field name="allow_delete">True</field>
+            <field name="allow_download">True</field>
+            <field name="type">user</field>
+            <field name="redirect_url">/my/account</field>
+        </record>
+        <record model="gdpr.data.template" id="default_gdpr_data_template_record_2">
+            <field name="name">Your Addresses</field>
+            <field name="icon" type="base64" file="odoo_gdpr/static/description/address.png"/>
+            <field name="desc">These details are used as a shipping address in your order placed on our website.</field>
+            <field name="allow_delete">True</field>
+            <field name="allow_download">True</field>
+            <field name="type">address</field>
+            <field name="redirect_url">/my/address</field>
+        </record>
+
+    </data>
+</odoo>

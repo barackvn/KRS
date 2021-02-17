@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <data>
+        <record id="warehouse_stock_visibility_update_form" model="ir.ui.view">
+            <field name="name">warehouse.stock.visibility.update.form</field>
+            <field name="model">warehouse.stock.visibility.update</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="user_visibility" widget="radio"/>
+                    </group>
+                    <footer>
+                        <button
+                            name  ="update_visibility"
+                            string="Update"
+                            type  ="object"
+                            class ="btn-primary"
+                        />
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window
+            id           ="warehouse_stock_visibility_update_action"
+            name         ="Warehouse Stock Visibility"
+            res_model    ="warehouse.stock.visibility.update"
+            binding_model="product.template"
+            view_mode    ="form"
+            target       ="new"
+        />
+    </data>
+</odoo>

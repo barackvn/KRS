@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+
+<odoo>
+	<record id="action_queue_process_filtered" model="ir.actions.act_window">
+			<field name="name">Sessions</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">queue.process</field>
+			
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_queue_process_search" />
+			<field name="context">{
+					'search_default_config_id': [active_id],
+					'default_config_id': active_id}
+			</field>
+	</record>
+
+	<record id="queue_counter_view_form" model="ir.ui.view">
+		<field name="name">queue.counter.form.view</field>
+		<field name="model">queue.counter</field>
+		<field name="arch" type="xml">
+			<form string="Queue Counters Configuration">
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+							<field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+						</button>
+					</div>
+					<div class="oe_title" id="title">
+						<label for="name" class="oe_edit_only"/>
+						<h1><field name="name"/></h1>
+					</div>
+					<group>
+						<group>
+						</group>
+					</group>
+				</sheet>
+
+			</form>
+		</field>
+	</record>
+
+	<record id="view_queue_counter_tree" model="ir.ui.view">
+		<field name="name">queue.counter.tree.view</field>
+		<field name="model">queue.counter</field>
+		<field name="arch" type="xml">
+			<tree string="Queue Counters Configuration">
+				<field name="name" />
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_queue_counter_search" model="ir.ui.view">
+		<field name="name">queue.counter.search.view</field>
+		<field name="model">queue.counter</field>
+		<field name="arch" type="xml">
+			<search string="Queue Counter Config">
+				<field name="name"/>
+				<filter string="Inactive" name="inactive" 
+					domain="[('active', '=', False)]" />
+			</search>
+		</field>
+	</record>
+
+	<record id="view_queue_counter_kanban" model="ir.ui.view">
+		<field name="name">queue.counter.kanban.view</field>
+		<field name="model">queue.counter</field>
+		<field name="arch" type="xml">
+			<kanban class="o_kanban_dashboard o_qm_kanban">
+				<field name="name"/>
+				<field name="session_ids"/>
+				<field name="current_session_id"/>
+				<field name="current_session_state"/>
+				<field name="last_session_closing_date"/>
+				<field name="queue_session_username"/>
+				<field name="queue_session_state"/>
+				<templates>
+					<t t-name="kanban-box">
+						<div>
+							<div class="o_kanban_card_header">
+								<div class="o_kanban_card_header_title mb16">
+									<div class="o_primary">
+										<t t-esc="record.name.value"/>
+									</div>
+									<t t-if="record.queue_session_state.raw_value == 'opening_control'">
+										<div class="badge badge-info o_kanban_inline_block">
+											Opening Control
+										</div>
+									</t>
+									<t t-if="record.queue_session_state.raw_value == 'opened'">
+										<div class="badge badge-success o_kanban_inline_block">
+											In Progress
+										</div>
+									</t>
+									<t t-if="record.queue_session_state.raw_value == 'closing_control'">
+										<div class="badge badge-info o_kanban_inline_block">
+											Stopped
+										</div>
+									</t>
+									<div class="o_secondary mt16">
+										<t t-esc="record.queue_session_username.value || 'Unused'"/>
+									</div>
+								</div>
+								<div class="o_kanban_manage_button_section">
+									<a class="o_kanban_manage_toggle_button" href="#">
+										<i class="fa fa-ellipsis-v" />
+									</a>
+								</div>
+							</div>
+							<div class="container o_kanban_card_content">
+								<div class="row">
+									<div class="col-6 o_kanban_primary_left">
+										<button 
+											t-if="_.contains(['opened', 'closing_control'], record.current_session_state.raw_value)"
+											class="btn btn-primary"
+											name="open_session_view"
+											type="object">Open</button>
+
+										<button 
+											t-if="record.current_session_state.raw_value === 'opening_control'"
+											class="btn btn-primary"
+											name="open_existing_queue_processing"
+											type="object">Start</button>
+
+										<button 
+											t-if="_.contains(['opened', 'closing_control'], record.current_session_state.raw_value)"
+											class="btn btn-default"
+											name="open_existing_queue_processing"
+											type="object">Close</button>
+
+										<button 
+											t-if="!record.current_session_id.raw_value &amp;&amp; !record.queue_session_username.value"
+											class="btn btn-primary"
+											name="open_counter_dept_wiz"
+											type="object">Start Prcoessing</button>
+
+									</div>
+									<div class="col-6 o_kanban_primary_right">
+										<div t-if="record.last_session_closing_date.value" class="row">
+											<div class="col-6">
+												<span>Last Closing Date</span>
+											</div>
+											<div class="col-6">
+												<span>
+													<t t-esc="record.last_session_closing_date.value"/>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+								<div class="row">
+									<div class="col-6 o_kanban_card_manage_section o_kanban_manage_view">
+										<div class="o_kanban_card_manage_title">
+											<span>View</span>
+										</div>
+										<div>
+											<a  name="%(action_queue_process_filtered)d"
+												type="action">Sessions</a>
+										</div>
+									</div>
+								</div>
+								<div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+									<div role="menuitem" class="col-12">
+										<a type="edit">Settings</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<act_window
+		id="act_queue_counter_process"
+		name="Sessions"
+		res_model="queue.process"
+		domain="[('config_id', '=', active_id)]" />
+
+
+	<record id="action_queue_counter_qm" model="ir.actions.act_window">
+		<field name="name">Queue Counters</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">queue.counter</field>
+		
+		<field name="view_mode">tree,kanban,form</field>
+		<field name="search_view_id" ref="view_queue_counter_search" />
+	</record>
+
+	<record id="action_queue_counter_kanban" model="ir.actions.act_window">
+		<field name="name">Queue Counters</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">queue.counter</field>
+		
+		<field name="view_mode">kanban,form</field>
+		<field name="domain"></field>
+		<field name="search_view_id" ref="view_queue_counter_search" />
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">
+				Click to create a new queue config.
+			</p><p>
+				Configure at least one queue config.
+			</p>
+		</field>
+	</record>
+
+
+</odoo>

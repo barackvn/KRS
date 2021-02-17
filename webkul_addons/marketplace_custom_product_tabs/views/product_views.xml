@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<openerp>
+<data>
+    <record id="wk_mp_product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.tabs.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="tabs" string="Tabs">
+                    <group>
+                        <group>
+                            <field name="product_tab_type" required="1"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="wk_product_tab_ids" nolabel="1">
+                            <tree decoration-muted="(not active)">
+                                <field name="sequence"/>
+                                <field name="name"/>
+                                <field name="active"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</data>
+</openerp>

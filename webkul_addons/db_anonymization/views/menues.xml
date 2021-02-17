@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <menuitem
+    id="menu_database_backup_main"
+    name="Anonymization"
+    sequence="98" />
+
+  <menuitem
+    id="menu_database_backup_submenu"
+    name="Anonymization Backup List"
+    parent="menu_database_backup_main"
+    action="database_backup_action"
+    sequence="0"
+    groups="group_anonymization_manager"/>
+
+    <menuitem
+      id="menu_database_backup_configuration_submenu"
+      name="Configuration"
+      parent="menu_database_backup_main"
+      action="database_backup_action"
+      groups="group_anonymization_manager"/>
+
+  <menuitem
+    id="menu_database_query_submenu"
+    name="Query List"
+    parent="menu_database_backup_configuration_submenu"
+    action="database_query_action"
+    sequence="1"
+    groups="group_anonymization_manager"/>
+
+    <menuitem
+      id="menu_query_history_submenu"
+      name="Query Responses History"
+      parent="menu_database_backup_configuration_submenu"
+      action="database_query_history_action"
+      sequence="2"
+      groups="group_anonymization_manager"/>
+
+
+      <menuitem
+        id="menu_faker_contact_submenu"
+        name="Faker Contact"
+        parent="menu_database_backup_configuration_submenu"
+        action="faker_contact_action"
+        sequence="3"
+        groups="group_anonymization_manager"/>
+
+
+
+</odoo>
