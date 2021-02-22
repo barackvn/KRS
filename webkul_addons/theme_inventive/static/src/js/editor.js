@@ -9,30 +9,30 @@ odoo.define("theme_inventive.editor_js", function(require) {
     var webEditor = require('web_editor.editor');
 
     var themeWebEditor = webEditor.Class.include({
-        save: function (reload) {
-            var self = this;
-            var defs = [];
-            this.trigger_up('ready_to_save', {defs: defs});
-            // custom code....................
-            defs.push(new Promise(resolve =>{
-                $(".s_dynamic_data").empty();
-                self._carousel_to_owl_carousel();
-                resolve();
-            }));
-            // custom code END..................
-            return Promise.all(defs).then(function () {
-                if (self.snippetsMenu) {
-                    self.snippetsMenu.cleanForSave();
-                }
-                return self._saveCroppedImages();
-            }).then(function () {
-                return self.rte.save();
-            }).then(function () {
-                if (reload !== false) {
-                    return self._reload();
-                }
-            });
-        },
+//        save: function (reload) {
+//            var self = this;
+//            var defs = [];
+//            this.trigger_up('ready_to_save', {defs: defs});
+//            // custom code....................
+//            defs.push(new Promise(resolve =>{
+//                $(".s_dynamic_data").empty();
+//                self._carousel_to_owl_carousel();
+//                resolve();
+//            }));
+//            // custom code END..................
+//            return Promise.all(defs).then(function () {
+//                if (self.snippetsMenu) {
+//                    self.snippetsMenu.cleanForSave();
+//                }
+//                return self._saveCroppedImages();
+//            }).then(function () {
+//                return self.rte.save();
+//            }).then(function () {
+//                if (reload !== false) {
+//                    return self._reload();
+//                }
+//            });
+//        },
         _carousel_to_owl_carousel:function(){
             const owl_carousel_div = "<div class='owl-carousel owl-theme s_carousel_default'/>"
             $("#wrapwrap .th_snippet .s_carousel").each(function(){
