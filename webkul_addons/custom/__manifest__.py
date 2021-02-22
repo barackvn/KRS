@@ -7,7 +7,7 @@
   "version"              :  "0.2.4",
   "sequence"             :  1,
   "author"               :  "Planet Odoo.",
-  "depends"              :  ['snailmail','product','stock','base','odoo_marketplace','crm'],
+  "depends"              :  ['snailmail','product','stock','base','odoo_marketplace','crm','stock'],
   "data"                 :  [
                              'data/ir_sequence_data.xml',
                              'data/cron.xml',
@@ -16,7 +16,8 @@
                              'views/res_partner_view.xml',
                              'views/product_view.xml',
                              'views/crm_lead_view.xml',
-                             'views/website_template_view.xml',
+                             'views/pre_advise_view.xml',
+                             # 'views/website_template_view.xml',
                             ],
   "demo"                 :  [],
   "images"               :  [],

@@ -22,7 +22,8 @@
                 <form class="js_product_tags form-horizontal" method="get" role="form">
                     <span class="text-center">
                         <t t-as="wk_tag" t-foreach="product_tags">
-                            <a class="text-right product_tags_link" t-att-href="'/product/tags/'+str(wk_tag.id)" t-att-style="wk_tag.website_style">
+<!--                            <a class="text-right product_tags_link" t-att-href="'/product/tags/'+str(wk_tag.id)" t-att-style="wk_tag.website_style">-->
+                            <a class="text-right product_tags_link" t-att-href="'/product/tags/'+str(wk_tag.id)">
                                 <t t-esc="wk_tag.name"/>
                             </a>
                         </t>
