@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='set_to_pending']" position="after">
                     <button name="action_reset_password_from_seller" string="Send Reset Password Instructions" type="object" class="btn-primary"/>
+                    <button name="action_create_seller_location" string="create Stock Location" type="object" class="btn-primary" attrs="{'invisible' : [('seller_location_id', '!=', False)]}" groups="odoo_marketplace.marketplace_officer_group"/>
                 </xpath>
 
                 <xpath expr="//form//field[@name='email']" position="after">
@@ -27,6 +28,8 @@
                                 />
                     </div>
                     <field name="user_id" invisible="1"/>
+                    <field name="seller_location_id" readonly="1"/>
+
                 </xpath>
                 <xpath expr="//field[@name='shipping_policy']" position="after">
                     <field name="certification_attachment" filename="certificate_name" widget="download_link"/>

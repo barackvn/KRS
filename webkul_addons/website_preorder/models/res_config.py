@@ -40,7 +40,7 @@ class WebsitePreorderConfigSettings(models.Model):
                                     help="Enabled to display avaibility date on the pre-product.")
     display_max_order_qty = fields.Boolean(string="Display Pre-ordered Quantity Range", readonly=False,
                                     help="Enabled to display the minimum and maximum pre-order quantity that can be ordered in one go.")
-    minimum_qty = fields.Float(string="Allow preorder when quantity Less than or Equal", required="1", readonly=False,
+    minimum_qty = fields.Float(string="Allow pre-order when quantity Less than or Equal", required="1", readonly=False,
                                default="1", help="Set the minimum quantity of the product when it goes to the pre-order product.")
     max_order_qty = fields.Float(string="Pre-order Maximum Quantity", required="1", readonly=False,
                                  default="1", help="Set the maximum quantity of pre-order that can be ordered.")

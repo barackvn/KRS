@@ -9,8 +9,17 @@
                 <xpath expr="//field[@name='origin']" position="after">
                     <field name="pre_advice" invisible="1"/>
                     <field name="amount_of_pallets" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
-                    <field name="measure_pallets" placeholder="Brut weight and LxWxH" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
+<!--                    <field name="measure_pallets" placeholder="Brut weight and LxWxH" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>-->
                     <field name="amount_of_case_pallets" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
+                    <field name="pre_advice_type" attrs="{'invisible': [('pre_advice', '!=', True)], 'required':[('pre_advice', '=', True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='scheduled_date']" position="after">
+                    <field name="depart_date" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
+                    <field name="arrival_date" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
+                </xpath>
+                <xpath expr="//label[@for='shipping_weight']" position="before">
+                    <field name="measure_height" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
+                    <field name="measure_length" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
                 </xpath>
                 <xpath expr="//button[@name='button_scrap']" position="replace">
                     <button name="button_scrap" type="object" string="Scrap" attrs="{'invisible': ['|','|', '|', '&amp;', ('picking_type_code', '=', 'incoming'), ('pre_advice', '=', True),('state', '!=', 'done'), '&amp;', ('picking_type_code', '=', 'outgoing'), ('state', '=', 'done'), ('is_locked', '=', False)]}"/>
@@ -21,6 +30,14 @@
                 <xpath expr="//button[@name='action_toggle_is_locked']" position="replace">
                     <button name="action_toggle_is_locked" attrs="{'invisible': ['|','|', ('state', 'in', ('draft','cancel')),('pre_advice', '=', True), ('is_locked', '=', False)]}" string="Unlock" groups="stock.group_stock_manager" type="object" help="If the picking is unlocked you can edit initial demand (for a draft picking) or done quantities (for a done picking)."/>
                 </xpath>
+                <xpath expr="//field[@name='picking_type_id']" position="replace">
+                    <field name="picking_type_id" attrs="{'readonly': [('state', '!=', 'draft')],'invisible':[('pre_advice', '=', True)]}"/>
+                    <field name="picking_type_id" domain="[('code','=','internal')]" attrs="{'readonly': [('state', '!=', 'draft')],'invisible':[('pre_advice', '!=', True)]}"/>
+                </xpath>
+<!--                <xpath expr="//field[@name='location_id']" position="replace">-->
+<!--                    <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': ['|',('picking_type_code', '=', 'incoming'),('pre_advice', '=', True)]}"/>-->
+<!--                   <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': ['|',('picking_type_code', '=', 'incoming'),('pre_advice', '!=', True)]}"/>-->
+<!--                </xpath>-->
             </field>
         </record>
 

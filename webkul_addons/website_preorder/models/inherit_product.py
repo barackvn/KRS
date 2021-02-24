@@ -51,7 +51,7 @@ class product_template(models.Model):
                                     help="Payment can be either full payment- customer need to pay full amount at the time of pre-order or percent payment- customer can pay percentage amount of the pre-order.")
     percentage = fields.Integer(string="Percent Payment For Pre-order",
                                 help="If 'payment Method Type' is 'Percent Payment' then set the percentage for percent Payment.", default=get_default_percentage_value)
-    minimum_qty = fields.Float(string="Allow preorder when quantity Less than or Equal",
+    minimum_qty = fields.Float(string="Allow pre-order when quantity Less than or Equal",
                                help="Set the minimum quantity of the product when it goes to the pre-order product.", default=get_default_minimum_qty)
     max_order_qty = fields.Float(string="Pre-order Maximum Quantity",
                                  help="Set maximum quantity will be pre-ordered.", default=get_default_max_order_qty)

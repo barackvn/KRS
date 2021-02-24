@@ -37,6 +37,15 @@ class ResPartner(models.Model):
     certificate_name = fields.Char(string="File Name", track_visibility="onchange")
     certificate_start_date = fields.Date("Certificate Start Date")
     certificate_end_date = fields.Date("Certificate End Date")
+    seller_location_id = fields.Many2one("stock.location","Seller Location")
+
+    def action_create_seller_location(self):
+        if not self.seller_location_id:
+            parent_location = self.env['stock.location'].sudo().search([('name', '=', 'WH')], limit=1)
+            if parent_location:
+                location=self.env['stock.location'].sudo().create({'name': self.name, 'location_id': parent_location.id, 'usage': 'internal', 'seller_id': self.id})
+                self.seller_location_id = location.id
+
 
     @api.model
     def create(self, vals):
