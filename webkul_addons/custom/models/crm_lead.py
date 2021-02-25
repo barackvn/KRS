@@ -46,8 +46,8 @@ class CrmLeadInherit(models.Model):
     def action_accept_lead(self):
         for record in self:
             if record.partner_id.seller:
-                if record.partner_id.state != 'approved':
-                    raise UserError(_("Please first approved the seller profile."))
+                # if record.partner_id.state != 'approved':
+                #     raise UserError(_("Please first approved the seller profile."))
                 mail_templ_id = self.env['ir.model.data'].get_object_reference(
                     'custom', 'template_accept_register_seller')[1]
                 base_url = self.env['ir.config_parameter'].get_param('web.base.url')

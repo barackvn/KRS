@@ -34,10 +34,14 @@
                     <field name="picking_type_id" attrs="{'readonly': [('state', '!=', 'draft')],'invisible':[('pre_advice', '=', True)]}"/>
                     <field name="picking_type_id" domain="[('code','=','internal')]" attrs="{'readonly': [('state', '!=', 'draft')],'invisible':[('pre_advice', '!=', True)]}"/>
                 </xpath>
-<!--                <xpath expr="//field[@name='location_id']" position="replace">-->
-<!--                    <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': ['|',('picking_type_code', '=', 'incoming'),('pre_advice', '=', True)]}"/>-->
-<!--                   <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': ['|',('picking_type_code', '=', 'incoming'),('pre_advice', '!=', True)]}"/>-->
-<!--                </xpath>-->
+                <xpath expr="//field[@name='location_id']" position="replace">
+                    <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': ['|',('picking_type_code', '=', 'incoming'),('pre_advice', '=', True)]}"/>
+                   <field name="location_id" options="{'no_create': True}" attrs="{'invisible': ['|',('picking_type_code', '=', 'incoming'),('pre_advice', '!=', True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='location_dest_id']" position="replace">
+                    <field name="location_dest_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': ['|',('picking_type_code', '=', 'outgoing'),('pre_advice', '=', True)]}"/>
+                   <field name="location_dest_id" options="{'no_create': True}" attrs="{'invisible': ['|',('picking_type_code', '=', 'outgoing'),('pre_advice', '!=', True)]}"/>
+                </xpath>
             </field>
         </record>
 

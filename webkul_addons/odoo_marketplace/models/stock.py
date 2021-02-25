@@ -77,7 +77,7 @@ class MarketplaceStock(models.Model):
             if product_obj.location_id:
                 return product_obj.location_id.id
             else:
-                return product_obj.marketplace_seller_id.get_seller_global_fields('location_id')
+                return product_obj.marketplace_seller_id.seller_location_id.id
 
     @api.model
     def _set_title(self):
