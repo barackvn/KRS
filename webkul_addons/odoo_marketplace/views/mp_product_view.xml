@@ -494,7 +494,7 @@
 										<field name="currency_id" invisible="1"/>
 									</group>
 									<group>
-										<field name="lst_price" string="wk_seller_product_template_form_view" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('product_variant_count', '&gt;', 1)]}"/>
+										<field name="lst_price" string="Advisable sales price excl. VAT" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('product_variant_count', '&gt;', 1)]}"/>
 										<field name="barcode" string="Single unit barcode/EAN13" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
 										<field name="hs_code" string="Product classification code"/>
 										<field name="default_code" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}" groups="odoo_marketplace.marketplace_officer_group"/>

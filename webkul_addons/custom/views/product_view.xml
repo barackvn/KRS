@@ -9,6 +9,70 @@
                 <xpath expr="//field[@name='default_code']" position="attributes">
                     <attribute name="readonly">1</attribute>
                 </xpath>
+                <xpath expr="//field[@name='default_code']" position="after">
+                    <field name="purchase_price_excl_vat"/>
+                    <field name="adv_sale_price_incl_vat"/>
+                    <field name="purchase_price_unit_excl_vat"/>
+                    <field name="qty_single_unit_per_cartn"/>
+                    <field name="net_weight_single_unit"/>
+                    <field name="carton_barcode"/>
+                    <field name="carton_article_no"/>
+                </xpath>
+                <xpath expr="//group[@name='pricelists']" position="before">
+                    <group>
+                        <group>
+                            <field name="product_short_discrp"/>
+                            <field name="ingredients"/>
+                            <field name="nutrition_id"/>
+                            <field name="accredit_package"/>
+                            <field name="regulatory_id"/>
+                            <field name="country_origin"/>
+                            <field name="product_place"/>
+                            <field name="origin_type"/>
+                            <field name="method_capture"/>
+                        </group>
+                        <group>
+                            <field name="area_capture"/>
+                            <field name="nutriscore"/>
+                            <field name="nutritional_info"/>
+                            <field name="allergens"/>
+                            <field name="instruction"/>
+                            <field name="storage_instructions"/>
+                            <field name="serving_sug"/>
+                            <field name="prepare_instr"/>
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='qty']" position="after">
+                    <field name="net_content_per_unit"/>
+                    <field name="drained_weight_per_unit"/>
+                    <field name="net_weight_per_unit"/>
+                    <field name="gross_weight_per_unit"/>
+                    <field name="length_unit"/>
+                    <field name="width_unit"/>
+                    <field name="height_unit"/>
+                    <field name="volume_unit"/>
+                    <field name="net_content_per_carton"/>
+                    <field name="drained_weight_per_carton"/>
+                </xpath>
+                <xpath expr="//field[@name='weight']" position="after">
+                    <field name="net_weight_per_carton"/>
+                    <field name="gross_weight_per_carton"/>
+                    <field name="volume_carton"/>
+                    <field name="pallet_quantity"/>
+                    <field name="pallet_length"/>
+                    <field name="pallet_height"/>
+                    <field name="manufacture_days"/>
+                    <field name="transport_days"/>
+                    <field name="min_shelf_delivery"/>
+                    <field name="product_use_days"/>
+                    <field name="product_removal_days"/>
+                    <field name="alert_date"/>
+                </xpath>
+                <xpath expr="//notebook/page/separator" position="before">
+                    <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>
+                </xpath>
+
             </field>
         </record>
 

@@ -1,2 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_snailmail_letter_portal,snailmail.letter.portal,model_snailmail_letter,base.group_portal,1,1,1,0
+access_nutrition_claims_seller,nutrition.claims.seller,model_nutrition_claims,odoo_marketplace.marketplace_seller_group,1,1,1,0
+access_accredited.package_seller,accredited.package.seller,model_accredited_package,odoo_marketplace.marketplace_seller_group,1,1,1,0
+access_regulatory_type_seller,regulatory.type.seller,model_regulatory_type,odoo_marketplace.marketplace_seller_group,1,1,1,0
+access_method_capture_seller,method.capture.seller,model_method_capture,odoo_marketplace.marketplace_seller_group,1,1,1,0
+access_area_capture_seller,area.capture.seller,model_area_capture,odoo_marketplace.marketplace_seller_group,1,1,1,0
