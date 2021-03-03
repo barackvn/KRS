@@ -6,68 +6,218 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='hs_code']" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='exclusively_id']" position="replace">
+                </xpath>
                 <xpath expr="//field[@name='default_code']" position="attributes">
                     <attribute name="readonly">1</attribute>
                 </xpath>
-                <xpath expr="//field[@name='default_code']" position="after">
-                    <field name="purchase_price_excl_vat"/>
-                    <field name="adv_sale_price_incl_vat"/>
-                    <field name="purchase_price_unit_excl_vat"/>
-                    <field name="qty_single_unit_per_cartn"/>
-                    <field name="net_weight_single_unit"/>
-                    <field name="carton_barcode"/>
-                    <field name="carton_article_no"/>
+                <xpath expr="//field[@name='lst_price']" position="replace">
+                    <separator string="Prices for your buyer"/>
+                    <field name="lst_price" string="Sellers price"/>
+                    <field name="purchase_price_carton_excl_vat" />
+                    <field name="purchase_price_unit_excl_vat" />
+                    <field name="adv_sale_price_excl_vat" />
+                    <field name="krs_margin" />
+                    <field name="purchase_price_carton_incl_vat" />
+                    <field name="purchase_price_unit_incl_vat" />
+                    <field name="adv_sale_price_incl_vat" />
                 </xpath>
+                <xpath expr="//field[@name='marketplace_seller_id']" position="after">
+                    <field name="hs_code" string="Product classification code / HS code"/>
+                    <field name="unit_article_no"/>
+                    <field name="carton_article_no"/>
+                    <field name="unit_barcode"/>
+                    <field name="carton_barcode"/>
+                    <field name="exclusively_id"/>
+                    <field name="qty_single_unit_per_cartn"/>
+                    <field name="conservation"/>
+                </xpath>
+                <xpath expr="//field[@name='barcode']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
                 <xpath expr="//group[@name='pricelists']" position="before">
                     <group>
                         <group>
-                            <field name="product_short_discrp"/>
+                            <separator string="Description for your buyers"/>
                             <field name="ingredients"/>
-                            <field name="nutrition_id"/>
-                            <field name="accredit_package"/>
-                            <field name="regulatory_id"/>
-                            <field name="country_origin"/>
-                            <field name="product_place"/>
-                            <field name="origin_type"/>
-                            <field name="method_capture"/>
-                        </group>
-                        <group>
-                            <field name="area_capture"/>
+                            <field name="product_short_discrp"/>
+                            <field name="product_short_discrp"/>
+                            <separator string="Nutritional information"/>
                             <field name="nutriscore"/>
-                            <field name="nutritional_info"/>
-                            <field name="allergens"/>
+                            <field name="energy_kg"/>
+                            <field name="energy_kcal"/>
+                            <field name="fat"/>
+                            <field name="saturated_fat"/>
+                            <field name="mono_unsaturated_fats"/>
+                            <field name="poly_unsaturated_fats"/>
+                            <field name="carbohydrates"/>
+                            <field name="sugar"/>
+                            <field name="protein"/>
+                            <field name="salt"/>
+                            <field name="cal_nutri_percent"/>
+<!--                            <field name="product_place"/>-->
+<!--                            <field name="origin_type"/>-->
+<!--                            <field name="method_capture"/>-->
+                            <separator string="Instructions"/>
                             <field name="instruction"/>
                             <field name="storage_instructions"/>
                             <field name="serving_sug"/>
                             <field name="prepare_instr"/>
+                            <separator string="Origins"/>
+                            <field name="place_birth"/>
+                            <field name="place_assembly"/>
+                            <field name="place_entry"/>
+                            <field name="place_milking"/>
+                            <field name="place_fattening"/>
+                            <field name="place_bottling"/>
+                            <field name="place_operation"/>
+                            <field name="place_slaughter"/>
+                            <field name="place_product_grown"/>
+                            <separator string="Fishing origins"/>
+                            <field name="fish_zone_id"/>
+                            <field name="fishing_id"/>
+
+                        </group>
+                        <group>
+                            <separator string="Allergens"/>
+                            <field name="gluten_contain_grains"/>
+                            <field name="milk_base_product"/>
+                            <field name="eggs_base_product"/>
+                            <field name="peanuts_base_product"/>
+                            <field name="nuts_base_product"/>
+                            <field name="soy_base_product"/>
+                            <field name="mustard_base_product"/>
+                            <field name="lupine_base_product"/>
+                            <field name="sesame_base_product"/>
+                            <field name="fish_base_product"/>
+                            <field name="molluscs_base_product"/>
+                            <field name="shellfish_base_product"/>
+                            <field name="sulphites_base_product"/>
+                            <separator string="Food claims"/>
+                            <field name="allergen_free"/>
+                            <field name="baby"/>
+                            <field name="dietary"/>
+                            <field name="fair_trade"/>
+                            <field name="gmo_free"/>
+                            <field name="halal"/>
+                            <field name="kosher"/>
+                            <field name="lactose_free"/>
+                            <field name="low_cholesterol"/>
+                            <field name="low_sodium"/>
+                            <field name="organic"/>
+                            <field name="palm_oil_free"/>
+                            <field name="paraben_free"/>
+                            <field name="rich_omega"/>
+                            <field name="stevia"/>
+                            <field name="sugar_free"/>
+                            <field name="vegan"/>
+                            <field name="vegon_ok"/>
+                            <field name="vegetarian"/>
+                            <field name="without_preservative"/>
+                            <separator string="Accreditations &amp; certificates"/>
+                            <field name="local_accredit_package"/>
+                            <field name="accredit_package_id"/>
+                            <field name="regulatory_id"/>
+                            <field name="nutrition_id"/>
+                            <field name="diet_id"/>
+                            <separator string="BIO origins"/>
+                            <field name="location_origin"/>
+                            <field name="country_origin_id"/>
+                            <field name="region_country"/>
+
+
+
+
+<!--                            <field name="area_capture"/>-->
+
+<!--                            <field name="allergens"/>-->
                         </group>
                     </group>
                 </xpath>
+                <xpath expr="//group[@name='operation']" position="replace">
+                    <group string="Operations" name="operation">
+                        <label for="sale_delay"/>
+                        <div>
+                            <field name="sale_ok" invisible="1"/>
+                            <field name="sale_delay" attrs="{'readonly':[('sale_ok','=',False)]}" class="oe_inline"
+                                   style="vertical-align:baseline"/>
+                            days
+                        </div>
+                        <label for="manufacture_days"/>
+                        <div>
+                            <field name="manufacture_days"  class="oe_inline"
+                                   style="vertical-align:baseline"/>
+                            days
+                        </div>
+                        <label for="transport_days"/>
+                        <div>
+                            <field name="transport_days"  class="oe_inline"
+                                   style="vertical-align:baseline"/>
+                            days
+                        </div>
+                        <label for="fulfilment_days"/>
+                        <div>
+                            <field name="fulfilment_days"  class="oe_inline"
+                                                               style="vertical-align:baseline"/>
+                            days
+                        </div>
+                    </group>
+                </xpath>
                 <xpath expr="//field[@name='qty']" position="after">
-                    <field name="net_content_per_unit"/>
-                    <field name="drained_weight_per_unit"/>
-                    <field name="net_weight_per_unit"/>
-                    <field name="gross_weight_per_unit"/>
+                    <label for="product_alert_day"/>
+                    <div>
+                        <field name="product_alert_day"  class="oe_inline"
+                                                           style="vertical-align:baseline"/>
+                        days
+                    </div>
+                    <label for="product_removal_days"/>
+                    <div>
+                        <field name="product_removal_days"  class="oe_inline"
+                                                           style="vertical-align:baseline"/>
+                        days
+                    </div>
+                    <label for="min_shelf_delivery"/>
+                    <div>
+                        <field name="min_shelf_delivery"  class="oe_inline"
+                                                           style="vertical-align:baseline"/>
+                        days
+                    </div>
+                    <label for="product_use_days"/>
+                    <div>
+                        <field name="product_use_days"  class="oe_inline"
+                                                           style="vertical-align:baseline"/>
+                        days
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='weight']" position="after">
                     <field name="length_unit"/>
                     <field name="width_unit"/>
                     <field name="height_unit"/>
                     <field name="volume_unit"/>
+                    <field name="length_carton"/>
+                    <field name="width_carton"/>
+                    <field name="height_carton"/>
+                    <field name="volume_carton"/>
+                    <field name="net_content_per_unit"/>
+                    <field name="drained_weight_per_unit"/>
+                    <field name="net_weight_per_unit"/>
+                    <field name="gross_weight_per_unit"/>
                     <field name="net_content_per_carton"/>
                     <field name="drained_weight_per_carton"/>
-                </xpath>
-                <xpath expr="//field[@name='weight']" position="after">
                     <field name="net_weight_per_carton"/>
                     <field name="gross_weight_per_carton"/>
-                    <field name="volume_carton"/>
                     <field name="pallet_quantity"/>
-                    <field name="pallet_length"/>
-                    <field name="pallet_height"/>
-                    <field name="manufacture_days"/>
-                    <field name="transport_days"/>
-                    <field name="min_shelf_delivery"/>
-                    <field name="product_use_days"/>
-                    <field name="product_removal_days"/>
-                    <field name="alert_date"/>
+                    <field name="kind_pallet"/>
+                    <field name="total_pallet_height"/>
+                </xpath>
+                <xpath expr="//field[@name='volume']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='weight']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//notebook/page/separator" position="before">
                     <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>
@@ -97,5 +247,369 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="nutrition_claims_form_view" model="ir.ui.view">
+            <field name="name">nutrition.claims.form.view</field>
+            <field name="model">nutrition.claims</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="nutrition_claims_tree_view" model="ir.ui.view">
+            <field name="name">nutrition.claims.tree.view</field>
+            <field name="model">nutrition.claims</field>
+            <field name="arch" type="xml">
+                <tree>
+                        <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="nutrition_claims_action" model="ir.actions.act_window">
+            <field name="name">Nutrition claims </field>
+            <field name="res_model">nutrition.claims</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Nutrition claims
+                </p>
+            </field>
+        </record>
+        <menuitem id="menuitem_nutrition_claims_action" action="nutrition_claims_action" name="Nutrition claims" parent="odoo_marketplace.wk_seller_dashboard_menu8" groups="odoo_marketplace.marketplace_officer_group" />
+
+        <record id="accredited_package_form_view" model="ir.ui.view">
+            <field name="name">accredited.package.form.view</field>
+            <field name="model">accredited.package</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="accredited_package_tree_view" model="ir.ui.view">
+            <field name="name">accredited.package.tree.view</field>
+            <field name="model">accredited.package</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="accredited_package_action" model="ir.actions.act_window">
+            <field name="name">Accredited Package</field>
+            <field name="res_model">accredited.package</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Accredited Package
+                </p>
+            </field>
+        </record>
+        <menuitem
+        id="menuitem_accredited_package_action"
+        name="Accredited"
+        action="accredited_package_action"
+        groups="odoo_marketplace.marketplace_officer_group"
+        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+        />
+        <record id="regulatory_type_form_view" model="ir.ui.view">
+            <field name="name">regulatory.type.form.view</field>
+            <field name="model">regulatory.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="regulatory_type_tree_view" model="ir.ui.view">
+            <field name="name">regulatory.type.tree.view</field>
+            <field name="model">regulatory.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                        <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="regulatory_type_action" model="ir.actions.act_window">
+            <field name="name">Regulatory Type</field>
+            <field name="res_model">regulatory.type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Regulatory Type
+                </p>
+            </field>
+        </record>
+        <menuitem
+        id="menuitem_regulatory_type_action"
+        name="Regulatory"
+        action="regulatory_type_action"
+        groups="odoo_marketplace.marketplace_officer_group"
+        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+        />
+         <record id="diet_info_form_view" model="ir.ui.view">
+            <field name="name">diet.info.form.view</field>
+            <field name="model">diet</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="diet_info_tree_view" model="ir.ui.view">
+            <field name="name">diet.info.tree.view</field>
+            <field name="model">diet</field>
+            <field name="arch" type="xml">
+                <tree>
+                        <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="diet_info_action" model="ir.actions.act_window">
+            <field name="name">Diet Information</field>
+            <field name="res_model">diet</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Diet Information
+                </p>
+            </field>
+        </record>
+        <menuitem
+        id="menuitem_diet_info_action"
+        name="Diet"
+        action="diet_info_action"
+        groups="odoo_marketplace.marketplace_officer_group"
+        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+        />
+        <record id="fish_zone_form_view" model="ir.ui.view">
+            <field name="name">fish.zone.form.view</field>
+            <field name="model">fish.zone</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="fish_zone_tree_view" model="ir.ui.view">
+            <field name="name">fish.zone.tree.view</field>
+            <field name="model">fish.zone</field>
+            <field name="arch" type="xml">
+                <tree>
+
+                        <field name="name"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="fish_zone_action" model="ir.actions.act_window">
+            <field name="name">Fish Zone</field>
+            <field name="res_model">fish.zone</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Fish Zone
+                </p>
+            </field>
+        </record>
+        <menuitem
+        id="menuitem_fish_zone_action"
+        name="Fish Zone"
+        action="fish_zone_action"
+        groups="odoo_marketplace.marketplace_officer_group"
+        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+        />
+        <record id="fishing_form_view" model="ir.ui.view">
+            <field name="name">fishing.form.view</field>
+            <field name="model">fishing</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="fishing_tree_view" model="ir.ui.view">
+            <field name="name">fishing.tree.view</field>
+            <field name="model">fishing</field>
+            <field name="arch" type="xml">
+                <tree>
+
+                        <field name="name"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="fishing_action" model="ir.actions.act_window">
+            <field name="name">Fishing</field>
+            <field name="res_model">fishing</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Fishing.
+                </p>
+            </field>
+        </record>
+        <menuitem
+        id="menuitem_fishing_action"
+        name="Fishing"
+        action="fishing_action"
+        groups="odoo_marketplace.marketplace_officer_group"
+        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+        />
+        <record id="volume_form_view" model="ir.ui.view">
+            <field name="name">volume.form.view</field>
+            <field name="model">volume</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="volume_tree_view" model="ir.ui.view">
+            <field name="name">volume.tree.view</field>
+            <field name="model">volume</field>
+            <field name="arch" type="xml">
+                <tree>
+
+                        <field name="name"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="volume_action" model="ir.actions.act_window">
+            <field name="name">Volume</field>
+            <field name="res_model">volume</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Volume.
+                </p>
+            </field>
+        </record>
+        <menuitem
+        id="menuitem_volume_action"
+        name="Volume"
+        action="volume_action"
+        groups="odoo_marketplace.marketplace_officer_group"
+        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+        />
+
+        <record id="pallet_kind_form_view" model="ir.ui.view">
+            <field name="name">pallet.kind.form.view</field>
+            <field name="model">pallet.kind</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="pallet_kind_tree_view" model="ir.ui.view">
+            <field name="name">pallet.kind.tree.view</field>
+            <field name="model">pallet.kind</field>
+            <field name="arch" type="xml">
+                <tree>
+
+                        <field name="name"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="pallet_kind_action" model="ir.actions.act_window">
+            <field name="name">Pallet Kind</field>
+            <field name="res_model">pallet.kind</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Pallet Kind.
+                </p>
+            </field>
+        </record>
+        <menuitem
+        id="menuitem_pallet_kind_action"
+        name="Pallet Kind"
+        action="pallet_kind_action"
+        groups="odoo_marketplace.marketplace_officer_group"
+        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+        />
+
+
+
+
+
+
     </data>
 </odoo>

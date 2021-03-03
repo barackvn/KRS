@@ -32,7 +32,7 @@
 
                 </xpath>
                 <xpath expr="//field[@name='shipping_policy']" position="after">
-                    <field name="certification_attachment" filename="certificate_name" widget="download_link"/>
+                    <field name="certification_attachment" widget="many2many_binary"/>
                     <field name="certificate_name" invisible="1"/>
                     <field name="certificate_start_date"/>
                     <field name="certificate_end_date"/>
