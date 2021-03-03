@@ -33,7 +33,7 @@ class ResPartner(models.Model):
 
     lead_id=fields.Many2one('crm.lead','Lead')
     assign_membership = fields.Many2one(related='lead_id.assign_membership', string='Assign Membership Plan')
-    certification_attachment = fields.Binary("Attached Certificate")
+    certification_attachment = fields.Many2many(comodel_name='ir.attachment', string='Attached Certificate')
     certificate_name = fields.Char(string="File Name", track_visibility="onchange")
     certificate_start_date = fields.Date("Certificate Start Date")
     certificate_end_date = fields.Date("Certificate End Date")

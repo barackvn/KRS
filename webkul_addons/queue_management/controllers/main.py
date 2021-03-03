@@ -35,8 +35,8 @@ class Binary(Binary):
                        filename=None, filename_field='datas_fname', unique=None, mimetype=None,
                        download=None, data=None, token=None, access_token=None, related_id=None, access_mode=None,
                        **kw):
-        if 'token_' in filename:
-            download = True
+        # if 'token_' in filename:
+            # download = True
         res = super(Binary, self).content_common(xmlid=xmlid, model=model, id=id, field=field,
                     filename=filename, filename_field=filename_field, unique=unique,
                     mimetype=mimetype, download=download, data=data, token=token, 

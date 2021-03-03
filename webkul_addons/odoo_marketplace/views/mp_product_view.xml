@@ -552,7 +552,7 @@
 							</page>
 							<page string="Inventory">
 								<group>
-									<group string="Operations">
+									<group string="Operations" name="operation">
 										<label for="sale_delay"/>
 										<div>
 											<field name="sale_ok" invisible="1"/>
