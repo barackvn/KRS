@@ -80,13 +80,13 @@ class ProductProductInherit(models.Model):
 class ProductTemplateInherit(models.Model):
     _inherit = 'product.template'
 
-    purchase_price_carton_excl_vat = fields.Float("Purchase price carton for buyer excl. VAT")
-    purchase_price_unit_excl_vat = fields.Float("Purchase price per unit excl. VAT")
-    adv_sale_price_excl_vat = fields.Float("Advisable sales price excl. VAT")
+    purchase_price_carton_excl_vat = fields.Monetary("Purchase price carton for buyer excl. VAT")
+    purchase_price_unit_excl_vat = fields.Monetary("Purchase price per unit excl. VAT")
+    adv_sale_price_excl_vat = fields.Monetary("Advisable sales price excl. VAT")
     krs_margin = fields.Float("Margin for your buyer")
-    purchase_price_carton_incl_vat = fields.Float("Purchase price carton for buyer incl. VAT")
-    purchase_price_unit_incl_vat = fields.Float("Purchase price per unit incl. VAT")
-    adv_sale_price_incl_vat = fields.Float("Advisable sales price incl. VAT")
+    purchase_price_carton_incl_vat = fields.Monetary("Purchase price carton for buyer incl. VAT")
+    purchase_price_unit_incl_vat = fields.Monetary("Purchase price per unit incl. VAT")
+    adv_sale_price_incl_vat = fields.Monetary("Advisable sales price incl. VAT")
     qty_single_unit_per_cartn = fields.Float("Quantity of single per carton")
     conservation = fields.Selection([('ambient', 'Ambient'), ('fresh', 'Fresh'), ('frozen', 'Frozen')],
                                              'Conservation method')
@@ -99,7 +99,7 @@ class ProductTemplateInherit(models.Model):
     product_long_discrp = fields.Text("Product Long description")
     ingredients = fields.Text("Ingredients")
     nutriscore = fields.Char("Nutriscore")
-    energy_kg = fields.Float("Energy (Kg)")
+    energy_kg = fields.Float("Energy (Kj)")
     energy_kcal = fields.Float("Energy (Kcal)")
     fat = fields.Float("Fats")
     saturated_fat = fields.Float("Totally saturated fats")
@@ -187,10 +187,10 @@ class ProductTemplateInherit(models.Model):
     local_accredit_package = fields.Selection(
         [('separate', 'Separate collection'), ('nix18', 'NIX18'), ('pregnacy', 'Pregnacy logo')],
         'Local accreditations mentioned on packaging')
-    accredit_package_id = fields.Many2one("accredited.package", "accreditations mentioned on packaging")
-    regulatory_id = fields.Many2one("regulatory.type", "Regulatory type")
-    nutrition_id = fields.Many2one("nutrition.claims", "Nutrition claims")
-    diet_id = fields.Many2one("diet", "Diet information")
+    accredit_package_ids = fields.Many2many("accredited.package",string= "Accreditations mentioned on packaging")
+    regulatory_ids = fields.Many2many("regulatory.type", string= "Regulatory type")
+    nutrition_ids = fields.Many2many("nutrition.claims", string= "Nutrition claims")
+    diet_ids = fields.Many2many("diet", string= "Diet information")
     place_birth = fields.Char("Place of birth")
     place_assembly = fields.Char("Place of assembly")
     place_entry = fields.Char("Place of entry")
@@ -218,7 +218,7 @@ class ProductTemplateInherit(models.Model):
     length_unit = fields.Float("Length single unit")
     width_unit = fields.Float("Width single unit")
     height_unit = fields.Float("Height single unit")
-    volume_unit = fields.Many2one("volume","Volume single unit")
+    volume_unit = fields.Float("Volume single unit")
     length_carton = fields.Float("Length carton")
     width_carton = fields.Float("Width carton")
     height_carton = fields.Float("Height carton")

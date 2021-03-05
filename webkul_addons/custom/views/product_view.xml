@@ -30,8 +30,8 @@
                     <field name="per_product_ff_charge"/>
                     <field name="hs_code" string="Product classification code / HS code"/>
                     <field name="unit_article_no"/>
-                    <field name="carton_article_no"/>
                     <field name="unit_barcode"/>
+                    <field name="carton_article_no"/>
                     <field name="carton_barcode"/>
                     <field name="exclusively_id"/>
                     <field name="qty_single_unit_per_cartn"/>
@@ -50,16 +50,57 @@
                             <field name="product_short_discrp"/>
                             <separator string="Nutritional information"/>
                             <field name="nutriscore"/>
-                            <field name="energy_kg"/>
-                            <field name="energy_kcal"/>
-                            <field name="fat"/>
-                            <field name="saturated_fat"/>
-                            <field name="mono_unsaturated_fats"/>
-                            <field name="poly_unsaturated_fats"/>
-                            <field name="carbohydrates"/>
-                            <field name="sugar"/>
-                            <field name="protein"/>
-                            <field name="salt"/>
+                            <label for="energy_kg"/>
+                            <div>
+                                <field name="energy_kg"  class="oe_inline" style="vertical-align:baseline"/>
+                                    kj
+                            </div>
+                            <label for="energy_kcal"/>
+                            <div>
+                                <field name="energy_kcal"  class="oe_inline" style="vertical-align:baseline"/>
+                                    kcal
+                            </div>
+                            <label for="fat"/>
+                            <div>
+                                <field name="fat"  class="oe_inline" style="vertical-align:baseline"/>
+                                    gram
+                            </div>
+                            <label for="saturated_fat"/>
+                            <div>
+                                <field name="saturated_fat"  class="oe_inline" style="vertical-align:baseline"/>
+                                    gram
+                            </div>
+                            <label for="mono_unsaturated_fats"/>
+                            <div>
+                                <field name="mono_unsaturated_fats"  class="oe_inline" style="vertical-align:baseline"/>
+                                    gram
+                            </div>
+                            <label for="poly_unsaturated_fats"/>
+                            <div>
+                                <field name="poly_unsaturated_fats"  class="oe_inline" style="vertical-align:baseline"/>
+                                    gram
+                            </div>
+                            <label for="carbohydrates"/>
+                            <div>
+                                <field name="carbohydrates"  class="oe_inline" style="vertical-align:baseline"/>
+                                    gram
+                            </div>
+                            <label for="sugar"/>
+                            <div>
+                                <field name="sugar"  class="oe_inline" style="vertical-align:baseline"/>
+                                    gram
+                            </div>
+                            <label for="protein"/>
+                            <div>
+                                <field name="protein"  class="oe_inline" style="vertical-align:baseline"/>
+                                    gram
+                            </div>
+                            <label for="salt"/>
+                            <div>
+                                <field name="salt"  class="oe_inline" style="vertical-align:baseline"/>
+                                    gram
+                            </div>
+
                             <field name="cal_nutri_percent"/>
 <!--                            <field name="product_place"/>-->
 <!--                            <field name="origin_type"/>-->
@@ -122,10 +163,10 @@
                             <field name="without_preservative"/>
                             <separator string="Accreditations &amp; certificates"/>
                             <field name="local_accredit_package"/>
-                            <field name="accredit_package_id"/>
-                            <field name="regulatory_id"/>
-                            <field name="nutrition_id"/>
-                            <field name="diet_id"/>
+                            <field name="accredit_package_ids" widget="many2many_tags"/>
+                            <field name="regulatory_ids" widget="many2many_tags"/>
+                            <field name="nutrition_ids" widget="many2many_tags"/>
+                            <field name="diet_ids" widget="many2many_tags"/>
                             <separator string="BIO origins"/>
                             <field name="location_origin"/>
                             <field name="country_origin_id"/>
@@ -196,23 +237,92 @@
                     </div>
                 </xpath>
                 <xpath expr="//field[@name='weight']" position="after">
-                    <field name="length_unit"/>
-                    <field name="width_unit"/>
-                    <field name="height_unit"/>
-                    <field name="volume_unit"/>
-                    <field name="length_carton"/>
-                    <field name="width_carton"/>
-                    <field name="height_carton"/>
-                    <field name="volume_carton"/>
-                    <field name="net_content_per_unit"/>
-                    <field name="drained_weight_per_unit"/>
-                    <field name="net_weight_per_unit"/>
-                    <field name="gross_weight_per_unit"/>
-                    <field name="net_content_per_carton"/>
-                    <field name="drained_weight_per_carton"/>
-                    <field name="net_weight_per_carton"/>
-                    <field name="gross_weight_per_carton"/>
-                    <field name="pallet_quantity"/>
+                    <label for="length_unit"/>
+                    <div>
+                        <field name="length_unit"  class="oe_inline" style="vertical-align:baseline"/>
+                            cm
+                    </div>
+                    <label for="width_unit"/>
+                    <div>
+                        <field name="width_unit"  class="oe_inline" style="vertical-align:baseline"/>
+                            cm
+                    </div>
+                    <label for="height_unit"/>
+                    <div>
+                    <field name="height_unit"  class="oe_inline" style="vertical-align:baseline"/>
+                        cm
+                    </div>
+                    <label for="volume_unit"/>
+                    <div>
+                    <field name="volume_unit"  class="oe_inline" style="vertical-align:baseline"/>
+
+                    </div>
+                    <label for="length_carton"/>
+                    <div>
+                    <field name="length_carton"  class="oe_inline" style="vertical-align:baseline"/>
+                        cm
+                    </div>
+                    <label for="width_carton"/>
+                    <div>
+                    <field name="width_carton"  class="oe_inline" style="vertical-align:baseline"/>
+                        cm
+                    </div>
+                    <label for="height_carton"/>
+                    <div>
+                    <field name="height_carton"  class="oe_inline" style="vertical-align:baseline"/>
+                        cm
+                    </div>
+                    <label for="volume_carton"/>
+                    <div>
+                    <field name="volume_carton"  class="oe_inline" style="vertical-align:baseline"/>
+
+                    </div>
+                    <label for="net_content_per_unit"/>
+                    <div>
+                    <field name="net_content_per_unit"  class="oe_inline" style="vertical-align:baseline"/>
+                        gram
+                    </div>
+                    <label for="drained_weight_per_unit"/>
+                    <div>
+                    <field name="drained_weight_per_unit"  class="oe_inline" style="vertical-align:baseline"/>
+                        gram
+                    </div>
+                    <label for="net_weight_per_unit"/>
+                    <div>
+                    <field name="net_weight_per_unit"  class="oe_inline" style="vertical-align:baseline"/>
+                        gram
+                    </div>
+                    <label for="gross_weight_per_unit"/>
+                    <div>
+                    <field name="gross_weight_per_unit"  class="oe_inline" style="vertical-align:baseline"/>
+                        gram
+                    </div>
+                    <label for="net_content_per_carton"/>
+                    <div>
+                    <field name="net_content_per_carton"  class="oe_inline" style="vertical-align:baseline"/>
+                        gram
+                    </div>
+                    <label for="drained_weight_per_carton"/>
+                    <div>
+                    <field name="drained_weight_per_carton"  class="oe_inline" style="vertical-align:baseline"/>
+                        gram
+                    </div>
+                    <label for="net_weight_per_carton"/>
+                    <div>
+                    <field name="net_weight_per_carton"  class="oe_inline" style="vertical-align:baseline"/>
+                        gram
+                    </div>
+
+                    <label for="gross_weight_per_carton"/>
+                    <div>
+                    <field name="gross_weight_per_carton"  class="oe_inline" style="vertical-align:baseline"/>
+                        gram
+                    </div>
+                    <label for="pallet_quantity"/>
+                    <div>
+                    <field name="pallet_quantity"  class="oe_inline" style="vertical-align:baseline"/>
+                        cartons
+                    </div>
                     <field name="kind_pallet"/>
                     <field name="total_pallet_height"/>
                 </xpath>
