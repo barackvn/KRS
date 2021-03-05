@@ -8,9 +8,24 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='origin']" position="after">
                     <field name="pre_advice" invisible="1"/>
-                    <field name="amount_of_pallets" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
+                    <label for="amount_of_pallets"/>
+                    <div attrs="{'invisible': [('pre_advice', '!=', True)]}">
+                        <field name="amount_of_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />
+                        <field name="charge_per_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />+
+                        <field name="add_charge_per_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />=
+                        <field name="total_pallet_charge"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />
+
+                    </div>
+                    <label for="amount_of_case"/>
+                    <div attrs="{'invisible': [('pre_advice', '!=', True)]}">
+                        <field name="amount_of_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />
+                        <field name="charge_per_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />+
+                        <field name="add_charge_per_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />=
+                        <field name="total_case_charge"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />
+
+                    </div>
 <!--                    <field name="measure_pallets" placeholder="Brut weight and LxWxH" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>-->
-                    <field name="amount_of_case_pallets" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
+<!--                    <field name="amount_of_case_pallets" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>-->
                     <field name="pre_advice_type" attrs="{'invisible': [('pre_advice', '!=', True)], 'required':[('pre_advice', '=', True)]}"/>
                 </xpath>
                 <xpath expr="//field[@name='scheduled_date']" position="after">
@@ -41,6 +56,15 @@
                 <xpath expr="//field[@name='location_dest_id']" position="replace">
                     <field name="location_dest_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': ['|',('picking_type_code', '=', 'outgoing'),('pre_advice', '=', True)]}"/>
                    <field name="location_dest_id" options="{'no_create': True}" attrs="{'invisible': ['|',('picking_type_code', '=', 'outgoing'),('pre_advice', '!=', True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='move_ids_without_package']//field[@name='product_uom_qty']" position="after">
+                    <field name="price_unit" />
+                </xpath>
+                <xpath expr="//field[@name='move_ids_without_package']//field[@name='quantity_done']" position="after">
+                    <field name="total_value"/>
+                </xpath>
+                <xpath expr="//button[@name='action_confirm']" position="after">
+                    <button name="calculate_ff_product_charge" type="object" string="Calculate Product FF" class="oe_highlight"/>
                 </xpath>
             </field>
         </record>
@@ -95,5 +119,28 @@
 			parent="odoo_marketplace.wk_seller_dashboard_menu4"
 			sequence="6"
 		/>
+
+        <record id="view_location_form_ff_inherit" model="ir.ui.view">
+            <field name="name">stock.location.ff</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='removal_strategy_id']" position="after">
+                    <field name="ff_location"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_stock_quant_form_ff_inherit" model="ir.ui.view">
+            <field name="name">stock.quant.ff</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lot_id']" position="after">
+                    <field name="product_minimum_qty"/>
+                    <field name="seller_id"/>
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>

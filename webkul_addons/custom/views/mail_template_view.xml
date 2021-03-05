@@ -152,5 +152,81 @@
                 ]]>
             </field>
         </record>
+        <record id="template_seller_minimum_qty_notify" model="mail.template">
+            <field name="name">Notification Mail to Seller for Minimum Qty</field>
+            <field name="email_from">admin@sophiesgarden.be</field>
+            <field name="subject">Notify Product Minimum qty stock</field>
+            <field name="email_to">${ctx.get('email')}</field>
+            <field name="model_id" ref="custom.model_res_partner"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                        <p>Dear ${ctx.get('seller_name')},</p><br/><br/>
+                        <p>Please Update the below Product in the Fulfilment company to reached the Minimum Qty.</p>
+                        <table>
+                            % for line in ctx.get('vals'):
+                              <tr>
+                                <td>
+                                    Product Name = ${line.product_name or ''}
+                                    <br/>On Hand Qty = ${line.on_hand or ''}
+                                    <br/>Minimum Qty = ${line.min or ''}
+                                    <hr>
+                                </td>
+                              </tr>
+                              <tr></tr>
+                            % endfor
+                        </table>
+
+
+                        <br/>
+                        <br/>
+                        <p>Best regards,</p>
+                        <p>KRS</p>
+
+                ]]>
+            </field>
+        </record>
+
+        <record id="template_seller_minimum_qty_warning" model="mail.template">
+            <field name="name">Notification Mail to Seller for Minimum Qty Warning</field>
+            <field name="email_from">admin@sophiesgarden.be</field>
+            <field name="subject">Warning Product Minimum qty stock</field>
+            <field name="email_to">${ctx.get('email')}</field>
+            <field name="model_id" ref="custom.model_res_partner"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                        <p>Dear ${ctx.get('seller_name')},</p><br/><br/>
+                        <p>Please Update the below Product in the Fulfilment company to will reached the Minimum Qty.</p>
+                        <table>
+                            % for line in ctx.get('vals'):
+                              <tr>
+                                <td>
+                                    Product Name = ${line.product_name or ''}
+                                    <br/>On Hand Qty = ${line.on_hand or ''}
+                                    <br/>Minimum Qty = ${line.min or ''}
+                                    <hr>
+                                </td>
+                              </tr>
+                              <tr></tr>
+                            % endfor
+                        </table>
+
+
+                        <br/>
+                        <br/>
+                        <p>Best regards,</p>
+                        <p>KRS</p>
+
+                ]]>
+            </field>
+        </record>
+
     </data>
 </odoo>

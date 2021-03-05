@@ -13,5 +13,18 @@
 			<field name="state">code</field>
 			<field name="code">model.scheduler_seller_certificate_expiry_notify()</field>
 		</record>
+
+		<record id="seller_minimum_product_notiffy" model="ir.cron">
+			<field name="name">Send Seller Minimum Product Reminder Email</field>
+			<field name="user_id" ref="base.user_root"/>
+			<field name="active">True</field>
+			<field name="priority">15</field>
+			<field name="interval_number">1</field>
+			<field name="interval_type">days</field>
+			<field name="numbercall">-1</field>
+			<field name="model_id" ref="model_stock_quant"/>
+			<field name="state">code</field>
+			<field name="code">model.scheduler_minimum_product_qty_notify()</field>
+		</record>
 	</data>
 </odoo>

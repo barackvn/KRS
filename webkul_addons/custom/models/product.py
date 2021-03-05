@@ -71,6 +71,11 @@ class IrAttachment(models.Model):
 
     # product_id = fields.Many2one("product.template","product")
 
+class ProductProductInherit(models.Model):
+    _inherit = 'product.product'
+
+    # product_minimum_qty = fields.Float(relative='product_tmpl_id.product_minimum_qty', string="Minimum On Hand Qty")
+
 
 class ProductTemplateInherit(models.Model):
     _inherit = 'product.template'
@@ -229,6 +234,8 @@ class ProductTemplateInherit(models.Model):
     pallet_quantity = fields.Float("Amount of cartons on full pallet")
     kind_pallet = fields.Many2one("pallet.kind","Kind of pallet")
     total_pallet_height = fields.Char("Total full pallet height")
+    per_product_ff_charge = fields.Float("Per Product FF Charge")
+    product_minimum_qty = fields.Float("Minimum On Hand Qty")
 
 
 

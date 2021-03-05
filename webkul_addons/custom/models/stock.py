@@ -28,16 +28,66 @@ _logger = logging.getLogger(__name__)
 class StockPickingInherit(models.Model):
     _inherit = 'stock.picking'
 
+    @api.depends('move_ids_without_package.total_value')
+    def _compute_pre_advice_total(self):
+        for record in self:
+            amount=0.0
+            if record.move_ids_without_package:
+                for line in record.move_ids_without_package:
+                    amount+=line.total_value
+            record.total_pre_advice_price = amount
+
+    @api.depends('total_pallet_charge', 'total_case_charge')
+    def _compute_total_ff_charge(self):
+        for record in self:
+            record.total_ff_charge = record.total_pallet_charge + record.total_case_charge
+
+    pre_currency_id = fields.Many2one('res.currency', 'Currency', required=True,
+                                      default=lambda self: self.env.company.currency_id.id)
     pre_advice = fields.Boolean("Pre Advice")
     amount_of_pallets = fields.Float("Amount of pallets")
+    charge_per_pallets = fields.Monetary("Charge Per Pallets",currency_field='pre_currency_id')
+    add_charge_per_pallets = fields.Monetary("Add Charge Per Pallets",currency_field='pre_currency_id')
+    total_pallet_charge = fields.Monetary("Total Pallet Charge",currency_field='pre_currency_id')
     # measure_pallets = fields.Char(string="Measurements pallet", placeholder="Brut weight and LxWxH")
-    amount_of_case_pallets = fields.Float("Amount of cases per pallet")
+    amount_of_case = fields.Float("Amount of cases per pallet")
+    charge_per_case = fields.Monetary("Charge Per Case", currency_field='pre_currency_id')
+    add_charge_per_case = fields.Monetary("Add Charge Per case", currency_field='pre_currency_id')
+    total_case_charge = fields.Monetary("Total Case Charge", currency_field='pre_currency_id')
+    total_ff_charge = fields.Monetary("Total FF Charge", compute='_compute_total_ff_charge',currency_field='pre_currency_id')
     measure_height = fields.Char("Height")
     measure_length = fields.Char("Length")
     pre_advice_type = fields.Selection([('transfer', 'Transfer'), ('return', 'Return')], String="Pre Advice Type",
                                        default="transfer")
     depart_date = fields.Date("Depart Date")
     arrival_date = fields.Date("Arrival Date")
+    total_pre_advice_price = fields.Float(compute='_compute_pre_advice_total', string='Total Pre Advice amount')
+
+    def calculate_ff_product_charge(self):
+        for record in self:
+            ff_charge= record.total_ff_charge
+            total_pre_advice = record.total_pre_advice_price
+            for line in record.move_ids_without_package:
+                if line.product_id and line.total_value:
+                    ratio = line.total_value/total_pre_advice
+                    amount = ratio * ff_charge
+                    per_product = amount/line.product_uom_qty
+                    line.product_id.write({'per_product_ff_charge': per_product})
+
+    @api.onchange('amount_of_pallets', 'charge_per_pallets', 'add_charge_per_pallets')
+    def _onchange_get_total_pallet_charge(self):
+        for record in self:
+            if record.amount_of_pallets and record.charge_per_pallets:
+                count = record.amount_of_pallets-1
+                record.total_pallet_charge = record.charge_per_pallets +(count * record.add_charge_per_pallets)
+
+    @api.onchange('amount_of_case', 'charge_per_case', 'add_charge_per_case')
+    def _onchange_get_total_case_charge(self):
+        for record in self:
+            if record.amount_of_case and record.charge_per_case:
+                count = record.amount_of_case - 1
+                record.total_case_charge = record.charge_per_case + (count * record.add_charge_per_case)
+
 
     @api.onchange('partner_id','picking_type_id','location_id')
     def _onchange_get_seller_location(self):
@@ -60,6 +110,76 @@ class StockLocationInherit(models.Model):
     _inherit = 'stock.location'
 
     seller_id = fields.Many2one("res.partner", string="Seller")
+    ff_location = fields.Boolean("Fulfilment Location")
+
+class StockQuantInherit(models.Model):
+    _inherit = 'stock.quant'
+
+    product_minimum_qty = fields.Float(related='product_id.product_minimum_qty', string="Minimum On Hand Qty")
+    seller_id = fields.Many2one(related='product_id.marketplace_seller_id', string="Seller")
+
+    def scheduler_minimum_product_qty_notify(self):
+        location_id = self.env['stock.location'].search([('ff_location', '=', True)], limit=1)
+        quant = self.env['stock.quant'].search([('location_id', '=', location_id.id)])
+        sorted_quant = quant.sorted(key=lambda a:(a.seller_id.id))
+        seller=False
+        seller2=False
+        email=''
+        email2=''
+        seller_name=''
+        seller_name2=''
+        vals=[]
+        vals2=[]
+        for line in sorted_quant:
+            if line.seller_id == seller:
+                if line.quantity > line.product_minimum_qty and line.quantity <= line.product_minimum_qty + 50:
+                    vals2.append({'seller_id': line.seller_id,'email':line.seller_id.email, 'min':line.product_minimum_qty, 'on_hand':line.quantity, 'product_name': line.product_id.name})
+                if line.quantity <= line.product_minimum_qty:
+                    vals.append({'seller_id': line.seller_id,'email':line.seller_id.email, 'min':line.product_minimum_qty, 'on_hand':line.quantity, 'product_name': line.product_id.name})
+            else:
+                if vals2:
+                    print(vals2)
+                    mail_templ_id = self.env['ir.model.data'].get_object_reference(
+                        'custom', 'template_seller_minimum_qty_warning')[1]
+                    template_obj = self.env['mail.template'].browse(mail_templ_id)
+                    send = template_obj.with_context(vals=vals2, company=self.env.company,email=email2,seller_name=seller_name2).send_mail(seller2.id, True)
+                    vals2 = []
+                    email2 = ''
+                    seller_name2 = ''
+                if line.quantity > line.product_minimum_qty and line.quantity <= line.product_minimum_qty + 50:
+                    seller2 = line.seller_id
+                    email2 = line.seller_id.email
+                    seller_name2 = line.seller_id.name
+                    vals.append({'seller_id': line.seller_id, 'email': line.seller_id.email,
+                                 'min': line.product_minimum_qty, 'on_hand': line.quantity,'product_name': line.product_id.name})
+
+                if vals:
+                    print(vals)
+                    mail_templ_id = self.env['ir.model.data'].get_object_reference(
+                        'custom', 'template_seller_minimum_qty_notify')[1]
+                    template_obj = self.env['mail.template'].browse(mail_templ_id)
+                    send = template_obj.with_context(vals=vals, company=self.env.company,email=email,seller_name=seller_name).send_mail(seller.id, True)
+                    vals=[]
+                    email = ''
+                    seller_name = ''
+                if line.quantity <= line.product_minimum_qty:
+                    seller = line.seller_id
+                    email = line.seller_id.email
+                    seller_name = line.seller_id.name
+                    vals.append({'seller_id': line.seller_id, 'email': line.seller_id.email,
+                                 'min': line.product_minimum_qty, 'on_hand': line.quantity,'product_name': line.product_id.name})
+
+
+class StockMoveInherit(models.Model):
+    _inherit = 'stock.move'
+
+    @api.depends('price_unit', 'product_uom_qty')
+    def _compute_stock_total(self):
+        for record in self:
+            record.total_value = record.product_uom_qty * record.price_unit
+
+    total_value = fields.Float(compute='_compute_stock_total', string='Subtotal ')
+
 
 # class AccountMoveInherit(models.Model):
 #     _inherit = 'account.move'

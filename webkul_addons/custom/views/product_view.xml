@@ -23,8 +23,11 @@
                     <field name="purchase_price_carton_incl_vat" />
                     <field name="purchase_price_unit_incl_vat" />
                     <field name="adv_sale_price_incl_vat" />
+                    <field name="product_minimum_qty" />
+
                 </xpath>
                 <xpath expr="//field[@name='marketplace_seller_id']" position="after">
+                    <field name="per_product_ff_charge"/>
                     <field name="hs_code" string="Product classification code / HS code"/>
                     <field name="unit_article_no"/>
                     <field name="carton_article_no"/>
