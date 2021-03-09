@@ -74,7 +74,7 @@ class IrAttachment(models.Model):
 class ProductProductInherit(models.Model):
     _inherit = 'product.product'
 
-    # product_minimum_qty = fields.Float(relative='product_tmpl_id.product_minimum_qty', string="Minimum On Hand Qty")
+    product_minimum_qty = fields.Float(relative='product_tmpl_id.product_minimum_qty', string="Minimum On Hand Qty")
 
 
 class ProductTemplateInherit(models.Model):
@@ -87,6 +87,9 @@ class ProductTemplateInherit(models.Model):
     purchase_price_carton_incl_vat = fields.Monetary("Purchase price carton for buyer incl. VAT")
     purchase_price_unit_incl_vat = fields.Monetary("Purchase price per unit incl. VAT")
     adv_sale_price_incl_vat = fields.Monetary("Advisable sales price incl. VAT")
+    vat_seller_kairos = fields.Monetary("VAT from seller to Kairos")
+    vat_buyer_kairos = fields.Monetary("VAT from Kairos to buyer")
+
     qty_single_unit_per_cartn = fields.Float("Quantity of single per carton")
     conservation = fields.Selection([('ambient', 'Ambient'), ('fresh', 'Fresh'), ('frozen', 'Frozen')],
                                              'Conservation method')
@@ -98,17 +101,27 @@ class ProductTemplateInherit(models.Model):
     product_short_discrp = fields.Text("Product short description")
     product_long_discrp = fields.Text("Product Long description")
     ingredients = fields.Text("Ingredients")
-    nutriscore = fields.Char("Nutriscore")
-    energy_kg = fields.Float("Energy (Kj)")
-    energy_kcal = fields.Float("Energy (Kcal)")
+    nutriscore = fields.Float("Nutriscore")
+    energy_kg = fields.Float("Energy (kj)")
+    cal_energy_kg = fields.Float("Calculate Energy (kj)")
+    energy_kcal = fields.Float("Energy (kcal)")
+    cal_energy_kcal = fields.Float("Calculate Energy (kcal)")
     fat = fields.Float("Fats")
+    cal_fat = fields.Float("Fats")
     saturated_fat = fields.Float("Totally saturated fats")
+    cal_saturated_fat = fields.Float("Calculate Totally saturated fats")
     mono_unsaturated_fats = fields.Float("Monounsaturated Fats")
+    cal_mono_unsaturated_fats = fields.Float("Calculate Monounsaturated Fats")
     poly_unsaturated_fats = fields.Float("Polyunsaturated fats")
+    cal_poly_unsaturated_fats = fields.Float("Calculate Polyunsaturated fats")
     carbohydrates = fields.Float("Carbohydrates")
+    cal_carbohydrates = fields.Float("Calculate Carbohydrates")
     sugar = fields.Float("Sugars")
+    cal_sugar = fields.Float("Calculate Sugars")
     protein = fields.Float("Proteins")
+    cal_protein = fields.Float("Calculate Proteins")
     salt = fields.Float("Salt")
+    cal_salt = fields.Float("Calculate Salt")
     cal_nutri_percent = fields.Float("Calculation percentage")
     gluten_contain_grains = fields.Selection([('free', 'Free'), ('may_c', 'May Contain'), ('contain', 'Contains')],
                                              'Gluten-Containing Grains')
@@ -140,6 +153,8 @@ class ProductTemplateInherit(models.Model):
                                               'Sulfur dioxide and sulphites (E220-E228)')
     allergen_free = fields.Selection([('none', 'None'), ('friendly', 'Friendly'), ('certified', 'Certified')],
                                      'Allergen free')
+    antibiotic_free = fields.Selection([('none', 'None'), ('friendly', 'Friendly'), ('certified', 'Certified')],
+                                     'Antibiotic free')
     baby = fields.Selection([('none', 'None'), ('friendly', 'Friendly'), ('certified', 'Certified')],
                             'Baby')
     dietary = fields.Selection([('none', 'None'), ('friendly', 'Friendly'), ('certified', 'Certified')],
@@ -213,7 +228,7 @@ class ProductTemplateInherit(models.Model):
     fulfilment_days = fields.Float("Fulfilment time", default=1.0)
     product_alert_day = fields.Float("Product alert time")
     product_removal_days = fields.Float("Product removal time")
-    min_shelf_delivery = fields.Float("Minimum shelf life on delivery")
+    min_shelf_delivery = fields.Float("Minimum shelf life on consumer")
     product_use_days = fields.Float("Total product use time")
     length_unit = fields.Float("Length single unit")
     width_unit = fields.Float("Width single unit")
@@ -236,6 +251,79 @@ class ProductTemplateInherit(models.Model):
     total_pallet_height = fields.Char("Total full pallet height")
     per_product_ff_charge = fields.Float("Per Product FF Charge")
     product_minimum_qty = fields.Float("Minimum On Hand Qty")
+    inbound_full_pallet = fields.Float("Inbound full pallet")
+    stock_full_pallet_per_month = fields.Float("Stock full pallet per month")
+    inbound_first_box = fields.Float("Inbound first box")
+    stock_half_pallet_per_month = fields.Float("Stock half pallet per month")
+    inbound_additional_box = fields.Float("Inbound additional box")
+    stock_shelf_location_per_month = fields.Float("Stock shelf location per month (100x50x50)")
+    max_cases_volume_full_box = fields.Float("Max cases on volume of the full box")
+    cost_sending_per_single_unit = fields.Float("Cost sending per single unit")
+    max_cases_weight_transport = fields.Float("Max cases on weight of transport")
+    cost_sending_per_case = fields.Float("Cost sending per case")
+    max_cases_by_weight_volume = fields.Float("Max cases by weight and volume")
+    cost_sending_per_full_box = fields.Float("Cost sending per full box")
+    used_box_volume = fields.Float("Used box volume")
+    cost_full_box = fields.Float("Cost full box")
+    percentage_cost_case = fields.Float("Percentage cost on case")
+    reserve_full_box = fields.Float("Reserve full box")
+    cost_effective_x_purchase = fields.Float("Cost effective from x purchase")
+    margin_per_box = fields.Float("Margin per box")
+    box_length = fields.Float("Box length")
+    box_width = fields.Float("Box width")
+    box_height = fields.Float("Box height")
+    box_maximum_weight = fields.Float("Box maximum weight")
+
+    @api.onchange('energy_kg')
+    def _onchange_get_cal_energy_kg(self):
+        for record in self:
+            if record.energy_kg:
+                record.cal_energy_kg = record.energy_kg/8400*100
+
+    @api.onchange('energy_kcal')
+    def _onchange_get_cal_energy_kcal(self):
+        for record in self:
+            if record.energy_kcal:
+                record.cal_energy_kcal = record.energy_kcal / 2000 * 100
+
+
+    @api.onchange('fat')
+    def _onchange_get_cal_fat(self):
+        for record in self:
+            if record.fat:
+                record.cal_fat = record.fat / 70 * 100
+
+
+    @api.onchange('saturated_fat')
+    def _onchange_get_cal_saturated_fat(self):
+        for record in self:
+            if record.saturated_fat:
+                record.cal_saturated_fat = record.saturated_fat / 20 * 100
+
+    @api.onchange('carbohydrates')
+    def _onchange_get_cal_carbohydrates(self):
+        for record in self:
+            if record.carbohydrates:
+                record.cal_carbohydrates = record.carbohydrates / 260 * 100
+
+    @api.onchange('sugar')
+    def _onchange_get_cal_sugar(self):
+        for record in self:
+            if record.sugar:
+                record.cal_sugar = record.sugar / 90 * 100
+
+    @api.onchange('protein')
+    def _onchange_get_cal_protein(self):
+        for record in self:
+            if record.protein:
+                record.cal_protein = record.protein / 50 * 100
+
+    @api.onchange('salt')
+    def _onchange_get_cal_salt(self):
+        for record in self:
+            if record.salt:
+                record.cal_protein = record.salt / 6 * 100
+
 
 
 

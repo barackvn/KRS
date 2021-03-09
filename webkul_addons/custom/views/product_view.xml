@@ -6,335 +6,1109 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='hs_code']" position="replace">
-                </xpath>
-                <xpath expr="//field[@name='exclusively_id']" position="replace">
-                </xpath>
-                <xpath expr="//field[@name='default_code']" position="attributes">
-                    <attribute name="readonly">1</attribute>
-                </xpath>
-                <xpath expr="//field[@name='lst_price']" position="replace">
-                    <separator string="Prices for your buyer"/>
-                    <field name="lst_price" string="Sellers price"/>
-                    <field name="purchase_price_carton_excl_vat" />
-                    <field name="purchase_price_unit_excl_vat" />
-                    <field name="adv_sale_price_excl_vat" />
-                    <field name="krs_margin" />
-                    <field name="purchase_price_carton_incl_vat" />
-                    <field name="purchase_price_unit_incl_vat" />
-                    <field name="adv_sale_price_incl_vat" />
-                    <field name="product_minimum_qty" />
-
-                </xpath>
-                <xpath expr="//field[@name='marketplace_seller_id']" position="after">
-                    <field name="per_product_ff_charge"/>
-                    <field name="hs_code" string="Product classification code / HS code"/>
-                    <field name="unit_article_no"/>
-                    <field name="unit_barcode"/>
-                    <field name="carton_article_no"/>
-                    <field name="carton_barcode"/>
-                    <field name="exclusively_id"/>
-                    <field name="qty_single_unit_per_cartn"/>
-                    <field name="conservation"/>
-                </xpath>
-                <xpath expr="//field[@name='barcode']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-
-                <xpath expr="//group[@name='pricelists']" position="before">
-                    <group>
+                <xpath expr="//notebook/page" position="replace">
+                    <page string="Information">
+                        <separator string="Prices for your buyer"/>
                         <group>
-                            <separator string="Description for your buyers"/>
-                            <field name="ingredients"/>
-                            <field name="product_short_discrp"/>
-                            <field name="product_short_discrp"/>
-                            <separator string="Nutritional information"/>
-                            <field name="nutriscore"/>
-                            <label for="energy_kg"/>
-                            <div>
-                                <field name="energy_kg"  class="oe_inline" style="vertical-align:baseline"/>
-                                    kj
-                            </div>
-                            <label for="energy_kcal"/>
-                            <div>
-                                <field name="energy_kcal"  class="oe_inline" style="vertical-align:baseline"/>
-                                    kcal
-                            </div>
-                            <label for="fat"/>
-                            <div>
-                                <field name="fat"  class="oe_inline" style="vertical-align:baseline"/>
-                                    gram
-                            </div>
-                            <label for="saturated_fat"/>
-                            <div>
-                                <field name="saturated_fat"  class="oe_inline" style="vertical-align:baseline"/>
-                                    gram
-                            </div>
-                            <label for="mono_unsaturated_fats"/>
-                            <div>
-                                <field name="mono_unsaturated_fats"  class="oe_inline" style="vertical-align:baseline"/>
-                                    gram
-                            </div>
-                            <label for="poly_unsaturated_fats"/>
-                            <div>
-                                <field name="poly_unsaturated_fats"  class="oe_inline" style="vertical-align:baseline"/>
-                                    gram
-                            </div>
-                            <label for="carbohydrates"/>
-                            <div>
-                                <field name="carbohydrates"  class="oe_inline" style="vertical-align:baseline"/>
-                                    gram
-                            </div>
-                            <label for="sugar"/>
-                            <div>
-                                <field name="sugar"  class="oe_inline" style="vertical-align:baseline"/>
-                                    gram
-                            </div>
-                            <label for="protein"/>
-                            <div>
-                                <field name="protein"  class="oe_inline" style="vertical-align:baseline"/>
-                                    gram
-                            </div>
-                            <label for="salt"/>
-                            <div>
-                                <field name="salt"  class="oe_inline" style="vertical-align:baseline"/>
-                                    gram
-                            </div>
-
-                            <field name="cal_nutri_percent"/>
-<!--                            <field name="product_place"/>-->
-<!--                            <field name="origin_type"/>-->
-<!--                            <field name="method_capture"/>-->
-                            <separator string="Instructions"/>
-                            <field name="instruction"/>
-                            <field name="storage_instructions"/>
-                            <field name="serving_sug"/>
-                            <field name="prepare_instr"/>
-                            <separator string="Origins"/>
-                            <field name="place_birth"/>
-                            <field name="place_assembly"/>
-                            <field name="place_entry"/>
-                            <field name="place_milking"/>
-                            <field name="place_fattening"/>
-                            <field name="place_bottling"/>
-                            <field name="place_operation"/>
-                            <field name="place_slaughter"/>
-                            <field name="place_product_grown"/>
-                            <separator string="Fishing origins"/>
-                            <field name="fish_zone_id"/>
-                            <field name="fishing_id"/>
+                                <div class="address_format" cols="6" colspan="2">
+                                    <label for="lst_price" string="Sellers price" style="width:260px;font-weight: bold;"/>
+                                    <field name="lst_price" style="position: relative;width: 20% !important;min-width: 10px;"/>€
+                                    <label for="krs_margin" style="width:300px;font-weight: bold;padding-left: 45px;"/>
+                                    <field name="krs_margin" style="position: relative;width: 25% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="address_format" cols="6" colspan="2">
+                                    <label for="purchase_price_carton_excl_vat"  style="width:260px;font-weight: bold;"/>
+                                    <field name="purchase_price_carton_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;"/>€
+                                    <label for="purchase_price_carton_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
+                                    <field name="purchase_price_carton_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                                </div>
+                                <div class="address_format" cols="6" colspan="2">
+                                    <label for="purchase_price_unit_excl_vat"  style="width:260px;font-weight: bold;"/>
+                                    <field name="purchase_price_unit_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;"/>€
+                                    <label for="purchase_price_unit_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
+                                    <field name="purchase_price_unit_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                                </div>
+                                <div class="address_format" cols="6" colspan="2">
+                                    <label for="adv_sale_price_excl_vat"  style="width:260px;font-weight: bold;"/>
+                                    <field name="adv_sale_price_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;"/>€
+                                    <label for="adv_sale_price_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
+                                    <field name="adv_sale_price_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                                </div>
+                                <div class="address_format" cols="6" colspan="2">
+                                    <label for="vat_seller_kairos"  style="width:260px;font-weight: bold;"/>
+                                    <field name="vat_seller_kairos" style="position: relative;width: 20% !important;min-width: 10px;"/>€
+                                    <label for="vat_buyer_kairos" style="width:300px;font-weight: bold;padding-left: 45px;"/>
+                                    <field name="vat_buyer_kairos" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                                </div>
 
                         </group>
-                        <group>
-                            <separator string="Allergens"/>
-                            <field name="gluten_contain_grains"/>
-                            <field name="milk_base_product"/>
-                            <field name="eggs_base_product"/>
-                            <field name="peanuts_base_product"/>
-                            <field name="nuts_base_product"/>
-                            <field name="soy_base_product"/>
-                            <field name="mustard_base_product"/>
-                            <field name="lupine_base_product"/>
-                            <field name="sesame_base_product"/>
-                            <field name="fish_base_product"/>
-                            <field name="molluscs_base_product"/>
-                            <field name="shellfish_base_product"/>
-                            <field name="sulphites_base_product"/>
-                            <separator string="Food claims"/>
-                            <field name="allergen_free"/>
-                            <field name="baby"/>
-                            <field name="dietary"/>
-                            <field name="fair_trade"/>
-                            <field name="gmo_free"/>
-                            <field name="halal"/>
-                            <field name="kosher"/>
-                            <field name="lactose_free"/>
-                            <field name="low_cholesterol"/>
-                            <field name="low_sodium"/>
-                            <field name="organic"/>
-                            <field name="palm_oil_free"/>
-                            <field name="paraben_free"/>
-                            <field name="rich_omega"/>
-                            <field name="stevia"/>
-                            <field name="sugar_free"/>
-                            <field name="vegan"/>
-                            <field name="vegon_ok"/>
-                            <field name="vegetarian"/>
-                            <field name="without_preservative"/>
-                            <separator string="Accreditations &amp; certificates"/>
-                            <field name="local_accredit_package"/>
-                            <field name="accredit_package_ids" widget="many2many_tags"/>
-                            <field name="regulatory_ids" widget="many2many_tags"/>
-                            <field name="nutrition_ids" widget="many2many_tags"/>
-                            <field name="diet_ids" widget="many2many_tags"/>
-                            <separator string="BIO origins"/>
-                            <field name="location_origin"/>
-                            <field name="country_origin_id"/>
-                            <field name="region_country"/>
-
-
-
-
-<!--                            <field name="area_capture"/>-->
-
-<!--                            <field name="allergens"/>-->
+                        <group groups="product.group_product_pricelist" name="pricelists">
+                            <div name="pricelist_item" groups="product.group_product_pricelist">
+                                <separator string="Pricing"/>
+                                <field name="item_ids" nolabel="1" context="{'default_base':'list_price', 'default_applied_on' :'1_product'}">
+                                    <tree string="Pricelist Items" editable="bottom">
+                                        <field name="pricelist_id" string="Pricelist" required='1' options="{'no_create': True}"/>
+                                        <field name="fixed_price" string="Price" required='1'/>
+                                        <field name="min_quantity"/>
+                                        <field name="date_start"/>
+                                        <field name="date_end"/>
+                                        <field name="applied_on" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </div>
                         </group>
-                    </group>
+                        <separator string="Product information"/>
+                        <group>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <label for="type"  style="width:260px;font-weight: bold;"/>
+                                    <field name="type" style="position: relative;min-width: 10px;" attrs="{'readonly' : [('status', 'in', ['approved', 'rejected'])]}"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="hs_code" string="Product classification code / HS code" style="font-weight: bold;"/>
+                                    <field name="hs_code" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="unit_article_no"  style="width:260px;font-weight: bold;"/>
+                                    <field name="unit_article_no" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="carton_article_no"  style="font-weight: bold;padding-right: 97px;"/>
+                                    <field name="carton_article_no" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="unit_barcode"  style="width:260px;font-weight: bold;"/>
+                                    <field name="unit_barcode" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="carton_barcode"  style="font-weight: bold;padding-right: 83px;"/>
+                                    <field name="carton_barcode" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="exclusively_id"  style="width:260px;font-weight: bold;"/>
+                                    <field name="exclusively_id" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="qty_single_unit_per_cartn"  style="font-weight: bold;padding-right: 55px;"/>
+                                    <field name="qty_single_unit_per_cartn" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="conservation"  style="width:260px;font-weight: bold;"/>
+                                    <field name="conservation" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="default_code"  style="width:233px;font-weight: bold;"/>
+                                    <field name="default_code" readonly="1" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                            </div>
+                        </group>
+                        <separator string="Product Required"/>
+                        <group>
+                                <div class="row" >
+                                    <div class="col-6">
+                                        <label for="categ_id"  style="width:260px;font-weight: bold;" groups="odoo_marketplace.marketplace_officer_group"/>
+                                        <field name="categ_id"  style="position: relative;min-width: 10px;" required="1" options="{'no_create': True}" class="oe_inline" groups="odoo_marketplace.marketplace_officer_group"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="marketplace_seller_id"  style="font-weight: bold;padding-right: 105px;"/>
+                                        <field name="marketplace_seller_id" style="position: relative;width: 50% !important;min-width: 10px;" required="1" attrs="{'readonly': [('status', 'in', ('approved','rejected'))]}" domain="[('seller', '=', True), ('state', '=', 'approved')]" options="{'no_create': True}" context="{'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}" groups="odoo_marketplace.marketplace_officer_group"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="product_minimum_qty"  style="width:260px;font-weight: bold;"/>
+                                        <field name="product_minimum_qty"  style="position: relative;min-width: 10px;width: 236px;"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="per_product_ff_charge" style="font-weight: bold;"/>
+                                        <field name="per_product_ff_charge" style="position: relative;width: 50% !important;min-width: 10px;" />
+                                    </div>
+                                </div>
+                        </group>
+                        <group>
+                            <separator string="Certificates"/>
+                            <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>
+                        </group>
+                        <separator string="Internal Notes" colspan="4" groups="odoo_marketplace.marketplace_officer_group"/>
+								<field name="description" placeholder="This note is only for internal purposes." groups="odoo_marketplace.marketplace_officer_group"/>
+
+
+                    </page>
                 </xpath>
-                <xpath expr="//group[@name='operation']" position="replace">
-                    <group string="Operations" name="operation">
-                        <label for="sale_delay"/>
-                        <div>
+
+
+<!--                <xpath expr="//field[@name='hs_code']" position="replace">-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='exclusively_id']" position="replace">-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='default_code']" position="attributes">-->
+<!--                    <attribute name="readonly">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='lst_price']" position="replace">-->
+<!--                    <separator string="Prices for your buyer"/>-->
+<!--                    <field name="lst_price" string="Sellers price"/>-->
+<!--                    <field name="purchase_price_carton_excl_vat" />-->
+<!--                    <field name="purchase_price_unit_excl_vat" />-->
+<!--                    <field name="adv_sale_price_excl_vat" />-->
+<!--                    <field name="krs_margin" />-->
+<!--                    <field name="purchase_price_carton_incl_vat" />-->
+<!--                    <field name="purchase_price_unit_incl_vat" />-->
+<!--                    <field name="adv_sale_price_incl_vat" />-->
+<!--                    <field name="product_minimum_qty" />-->
+
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='marketplace_seller_id']" position="after">-->
+<!--                    <div class="address_format" cols="6" colspan="2">-->
+<!--                        <label for="per_product_ff_charge" style="width:250px;font-weight: bold;"/>-->
+<!--                        <field name="per_product_ff_charge" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+<!--                    </div>-->
+<!--                    <div class="address_format" cols="6" colspan="2">-->
+<!--                        <label for="hs_code" string="Product classification code / HS code" style="width:250px;font-weight: bold;"/>-->
+<!--                        <field name="hs_code" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+<!--                    </div>-->
+<!--                    <div class="address_format" cols="6" colspan="2">-->
+<!--                        <label for="unit_article_no" style="width:250px;font-weight: bold;"/>-->
+<!--                        <field name="unit_article_no" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+<!--                    </div>-->
+<!--                    <div class="address_format" cols="6" colspan="2">-->
+<!--                        <label for="unit_barcode" style="width:250px;font-weight: bold;"/>-->
+<!--                        <field name="unit_barcode" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+<!--                    </div>-->
+<!--                    <div class="address_format" cols="6" colspan="2">-->
+<!--                        <label for="carton_article_no" style="width:250px;font-weight: bold;"/>-->
+<!--                        <field name="carton_article_no" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+<!--                    </div>-->
+<!--                    <div class="address_format" cols="6" colspan="2">-->
+<!--                        <label for="carton_barcode" style="width:250px;font-weight: bold;"/>-->
+<!--                        <field name="carton_barcode" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+<!--                    </div>-->
+<!--                    <div class="address_format" cols="6" colspan="2">-->
+<!--                        <label for="exclusively_id" style="width:250px;font-weight: bold;"/>-->
+<!--                        <field name="exclusively_id" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+<!--                    </div>-->
+<!--                    <div class="address_format" cols="6" colspan="2">-->
+<!--                        <label for="qty_single_unit_per_cartn" style="width:250px;font-weight: bold;"/>-->
+<!--                        <field name="qty_single_unit_per_cartn" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+<!--                    </div>-->
+<!--                    <div class="address_format" cols="6" colspan="2">-->
+<!--                        <label for="conservation" style="width:250px;font-weight: bold;"/>-->
+<!--                        <field name="conservation" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+<!--                    </div>-->
+
+
+
+
+
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='barcode']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//notebook/page[3]" position="replace">
+                    <page string="Sales">
+
+                        <separator string="Ingredients" colspan="4" />
+                        <field name="ingredients"/>
+                        <separator string="Product short description" colspan="4" />
+                        <field name="product_short_discrp"/>
+                        <separator string="Product long description" colspan="4" />
+                        <field name="product_long_discrp"/>
+                        <separator string="Nutritional values for 100g / 100ml" colspan="4" />
+
+                        <group>
+                            <div class="address_format" cols="6" colspan="2">
+                                    <label for="nutriscore" style="width:150px;font-weight: bold;"/>
+                                    <field name="nutriscore" style="position: relative;width: 10% !important;min-width: 10px;"/>
+    <!--                                <label for="energy_kg" string="kj" style="width:40px;font-weight: bold;padding:10px"/>-->
+    <!--                                <field name="energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>%-->
+    <!--                                <label for="poly_unsaturated_fats" style="width:25%;font-weight: bold;padding-left: 8%;"/>-->
+    <!--                                <field name="poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
+    <!--                                <label for="poly_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>-->
+    <!--                                <field name="poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>%-->
+                            </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                    <label for="energy_kg" style="width:150px;font-weight: bold;"/>
+                                    <field name="energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="energy_kg" string="kj" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                    <label for="poly_unsaturated_fats" style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                    <field name="poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="poly_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                </div>
+                                <div class="address_format" cols="6" colspan="2">
+                                    <label for="energy_kcal" style="width:150px;font-weight: bold;"/>
+                                    <field name="energy_kcal" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="energy_kcal" string="kcal" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_energy_kcal" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                    <label for="carbohydrates" style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                    <field name="carbohydrates" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="carbohydrates" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_carbohydrates" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                </div>
+                                <div class="address_format" cols="6" colspan="2">
+                                    <label for="fat" style="width:150px;font-weight: bold;"/>
+                                    <field name="fat" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="fat" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_fat" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                    <label for="sugar" style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                    <field name="sugar" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="sugar" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_sugar" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                </div>
+                                <div class="address_format" cols="6" colspan="2">
+                                    <label for="saturated_fat" style="width:150px;font-weight: bold;"/>
+                                    <field name="saturated_fat" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="saturated_fat" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_saturated_fat" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                    <label for="protein"  style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                    <field name="protein" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="protein" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_protein" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                </div>
+                                <div class="address_format" cols="6" colspan="2">
+                                    <label for="mono_unsaturated_fats" style="width:150px;font-weight: bold;"/>
+                                    <field name="mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="mono_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                    <label for="salt"  style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                    <field name="salt" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="salt" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_salt" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                </div>
+                        </group>
+                        <separator string="Allergens" colspan="4" />
+                        <group>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <label for="gluten_contain_grains"  style="width:260px;font-weight: bold;"/>
+                                    <field name="gluten_contain_grains" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="lupine_base_product" style="font-weight: bold;width: 41%;"/>
+                                    <field name="lupine_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="milk_base_product"  style="width:260px;font-weight: bold;"/>
+                                    <field name="milk_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="celery_base_product" style="font-weight: bold;width: 41%;"/>
+                                    <field name="celery_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="eggs_base_product"  style="width:260px;font-weight: bold;"/>
+                                    <field name="eggs_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="sesame_base_product" style="font-weight: bold;width: 41%;"/>
+                                    <field name="sesame_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="peanuts_base_product"  style="width:260px;font-weight: bold;"/>
+                                    <field name="peanuts_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="fish_base_product" style="font-weight: bold;width: 41%;"/>
+                                    <field name="fish_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="nuts_base_product"  style="width:260px;font-weight: bold;"/>
+                                    <field name="nuts_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="molluscs_base_product" style="font-weight: bold;width: 41%;"/>
+                                    <field name="molluscs_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="soy_base_product"  style="width:260px;font-weight: bold;"/>
+                                    <field name="soy_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="shellfish_base_product" style="font-weight: bold;width: 41%;"/>
+                                    <field name="shellfish_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="mustard_base_product"  style="width:260px;font-weight: bold;"/>
+                                    <field name="mustard_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="sulphites_base_product" style="font-weight: bold;width: 41%;"/>
+                                    <field name="sulphites_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+
+                            </div>
+                        </group>
+                        <separator string="Food claims" colspan="4" />
+                        <group>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <label for="allergen_free"  style="width:260px;font-weight: bold;"/>
+                                    <field name="allergen_free" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="low_sodium" style="font-weight: bold;width: 41%;"/>
+                                    <field name="low_sodium" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="antibiotic_free"  style="width:260px;font-weight: bold;"/>
+                                    <field name="antibiotic_free" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="organic" style="font-weight: bold;width: 41%;"/>
+                                    <field name="organic" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="baby"  style="width:260px;font-weight: bold;"/>
+                                    <field name="baby" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="palm_oil_free" style="font-weight: bold;width: 41%;"/>
+                                    <field name="palm_oil_free" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="dietary"  style="width:260px;font-weight: bold;"/>
+                                    <field name="dietary" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="paraben_free" style="font-weight: bold;width: 41%;"/>
+                                    <field name="paraben_free" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                 <div class="col-6">
+                                    <label for="fair_trade"  style="width:260px;font-weight: bold;"/>
+                                    <field name="fair_trade" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="rich_omega" style="font-weight: bold;width: 41%;"/>
+                                    <field name="rich_omega" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="gluten_free"  style="width:260px;font-weight: bold;"/>
+                                    <field name="gluten_free" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="stevia" style="font-weight: bold;width: 41%;"/>
+                                    <field name="stevia" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="gmo_free"  style="width:260px;font-weight: bold;"/>
+                                    <field name="gmo_free" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="sugar_free" style="font-weight: bold;width: 41%;"/>
+                                    <field name="sugar_free" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="halal"  style="width:260px;font-weight: bold;"/>
+                                    <field name="halal" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="vegan" style="font-weight: bold;width: 41%;"/>
+                                    <field name="vegan" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="kosher"  style="width:260px;font-weight: bold;"/>
+                                    <field name="kosher" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="vegon_ok" style="font-weight: bold;width: 41%;"/>
+                                    <field name="vegon_ok" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="lactose_free"  style="width:260px;font-weight: bold;"/>
+                                    <field name="lactose_free" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="vegetarian" style="font-weight: bold;width: 41%;"/>
+                                    <field name="vegetarian" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="low_cholesterol"  style="width:260px;font-weight: bold;"/>
+                                    <field name="low_cholesterol" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="without_preservative" style="font-weight: bold;width: 41%;"/>
+                                    <field name="without_preservative" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                            </div>
+                        </group>
+
+                        <separator string="Instructions for use" colspan="4" />
+                        <field name="instruction"/>
+                        <separator string="Storage instructions" colspan="4" />
+                        <field name="storage_instructions"/>
+                        <separator string="Serving instructions" colspan="4" />
+                        <field name="serving_sug"/>
+                        <separator string="Preparation instructions" colspan="4" />
+                        <field name="prepare_instr"/>
+
+                        <separator string="Accreditations &amp; certificates" colspan="4" />
+                        <group>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <label for="local_accredit_package"  style="width:260px;font-weight: bold;"/>
+                                    <field name="local_accredit_package" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="accredit_package_ids" style="font-weight: bold;width: 41%;"/>
+                                    <field name="accredit_package_ids" widget="many2many_tags" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="regulatory_ids"  style="width:260px;font-weight: bold;"/>
+                                    <field name="regulatory_ids" widget="many2many_tags" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="nutrition_ids" style="font-weight: bold;width: 41%;"/>
+                                    <field name="nutrition_ids" widget="many2many_tags" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="diet_ids"  style="width:260px;font-weight: bold;"/>
+                                    <field name="diet_ids" widget="many2many_tags" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                            </div>
+                        </group>
+                        <separator string="Origins" colspan="4" />
+                        <group>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <label for="place_birth"  style="width:260px;font-weight: bold;"/>
+                                    <field name="place_birth" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="place_fattening" style="font-weight: bold;width: 41%;"/>
+                                    <field name="place_fattening" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="place_assembly"  style="width:260px;font-weight: bold;"/>
+                                    <field name="place_assembly" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="place_bottling" style="font-weight: bold;width: 41%;"/>
+                                    <field name="place_bottling" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="place_entry"  style="width:260px;font-weight: bold;"/>
+                                    <field name="place_entry" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="place_operation" style="font-weight: bold;width: 41%;"/>
+                                    <field name="place_operation" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="place_milking"  style="width:260px;font-weight: bold;"/>
+                                    <field name="place_milking" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="place_slaughter" style="font-weight: bold;width: 41%;"/>
+                                    <field name="place_slaughter" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="place_product_grown"  style="width:260px;font-weight: bold;"/>
+                                    <field name="place_product_grown" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                            </div>
+                        </group>
+                        <separator string="BIO Origins" colspan="4" />
+                        <group>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <label for="location_origin"  style="width:260px;font-weight: bold;"/>
+                                    <field name="location_origin" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="country_origin_id" style="font-weight: bold;width: 41%;"/>
+                                    <field name="country_origin_id" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                            </div>
+                        </group>
+                        <separator string="Fishing origins" colspan="4" />
+                        <group>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <label for="fish_zone_id"  style="width:260px;font-weight: bold;"/>
+                                    <field name="fish_zone_id" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="fishing_id" style="font-weight: bold;width: 41%;"/>
+                                    <field name="fishing_id" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                            </div>
+                        </group>
+                        <group name="description">
+                                        <separator string="Description for Customers" colspan="4"/>
+                                        <field name="description_sale" colspan="4" nolabel="1" placeholder="This note will be displayed on the quotations."/>
+                                    </group>
+                    </page>
+
+
+                </xpath>
+                <xpath expr="//page[@name='shop']" position="replace">
+                    <page name="shop" string="eCommerce">
+                        <group name="shop" string="Shop">
+                            <group>
+                                <field name="website_url" invisible="1"/>
+                                <field name="public_categ_ids" widget="many2many_tags" string="Categories"/>
+                                <field name="alternative_product_ids" widget="many2many_tags"
+                                       domain="[('marketplace_seller_id', '=', marketplace_seller_id),('status','=','approved')]"
+                                       attrs="{'readonly':[('status', 'in', ('rejected'))]}"
+                                       options="{'no_create': True}"/>
+                                <field name="website_style_ids" widget="many2many_tags" groups="base.group_no_one"/>
+                            </group>
+                            <group>
+                                <field name="website_id" options="{'no_create': True}"
+                                       groups="website.group_multi_website"/>
+                                <field name="product_tag_ids" options="{'no_create': True}" widget="many2many_tags" string="Tags"/>
+                                <field name="accessory_product_ids" widget="many2many_tags"
+                                       domain="[('marketplace_seller_id', '=', marketplace_seller_id),('status','=','approved')]"
+                                       options="{'no_create': True}"/>
+                            </group>
+                        </group>
+                        <group name="product_template_images" string="Extra Product Media">
+                            <field name="product_template_image_ids" class="o_website_sale_image_list"
+                                   context="{'default_name': name}" mode="kanban"
+                                   options="{'create_text':'Add a Media'}" nolabel="1"/>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//notebook/page[6]" position="replace">
+                    <page string="Inventory">
+                            <separator string="Operation" colspan="4" />
                             <field name="sale_ok" invisible="1"/>
-                            <field name="sale_delay" attrs="{'readonly':[('sale_ok','=',False)]}" class="oe_inline"
-                                   style="vertical-align:baseline"/>
-                            days
-                        </div>
-                        <label for="manufacture_days"/>
-                        <div>
-                            <field name="manufacture_days"  class="oe_inline"
-                                   style="vertical-align:baseline"/>
-                            days
-                        </div>
-                        <label for="transport_days"/>
-                        <div>
-                            <field name="transport_days"  class="oe_inline"
-                                   style="vertical-align:baseline"/>
-                            days
-                        </div>
-                        <label for="fulfilment_days"/>
-                        <div>
-                            <field name="fulfilment_days"  class="oe_inline"
-                                                               style="vertical-align:baseline"/>
-                            days
-                        </div>
-                    </group>
-                </xpath>
-                <xpath expr="//field[@name='qty']" position="after">
-                    <label for="product_alert_day"/>
-                    <div>
-                        <field name="product_alert_day"  class="oe_inline"
-                                                           style="vertical-align:baseline"/>
-                        days
-                    </div>
-                    <label for="product_removal_days"/>
-                    <div>
-                        <field name="product_removal_days"  class="oe_inline"
-                                                           style="vertical-align:baseline"/>
-                        days
-                    </div>
-                    <label for="min_shelf_delivery"/>
-                    <div>
-                        <field name="min_shelf_delivery"  class="oe_inline"
-                                                           style="vertical-align:baseline"/>
-                        days
-                    </div>
-                    <label for="product_use_days"/>
-                    <div>
-                        <field name="product_use_days"  class="oe_inline"
-                                                           style="vertical-align:baseline"/>
-                        days
-                    </div>
-                </xpath>
-                <xpath expr="//field[@name='weight']" position="after">
-                    <label for="length_unit"/>
-                    <div>
-                        <field name="length_unit"  class="oe_inline" style="vertical-align:baseline"/>
-                            cm
-                    </div>
-                    <label for="width_unit"/>
-                    <div>
-                        <field name="width_unit"  class="oe_inline" style="vertical-align:baseline"/>
-                            cm
-                    </div>
-                    <label for="height_unit"/>
-                    <div>
-                    <field name="height_unit"  class="oe_inline" style="vertical-align:baseline"/>
-                        cm
-                    </div>
-                    <label for="volume_unit"/>
-                    <div>
-                    <field name="volume_unit"  class="oe_inline" style="vertical-align:baseline"/>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <label for="manufacture_days"  style="width:260px;font-weight: bold;"/>
+                                    <field name="manufacture_days" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    days
+                                </div>
+                                <div class="col-6">
+                                    <label for="transport_days" style="font-weight: bold;width: 41%;"/>
+                                    <field name="transport_days" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    days
+                                </div>
+                                <div class="col-6">
+                                    <label for="fulfilment_days"  style="width:260px;font-weight: bold;"/>
+                                    <field name="fulfilment_days" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    days
+                                </div>
+                                <div class="col-6">
+                                    <label for="sale_delay" style="font-weight: bold;width: 41%;"/>
+                                    <field name="sale_delay" attrs="{'readonly':[('sale_ok','=',False)]}" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    days
+                                </div>
+                            </div>
+                            <separator string="Stock" colspan="4" />
+<!--                            <group>-->
+                                <field name="pending_qty_request" invisible="1"/>
+                                <label for="qty_available" attrs="{'invisible':['|',('id', '=', False),('status', 'in', ('pending','draft'))]}"/>
+                                <div attrs="{'invisible':['|',('id', '=', False),('status', 'in', ('pending','draft'))]}">
+                                    <field name="qty_available" class="oe_inline"/>
+                                    <button
+                                        name="%(odoo_marketplace.marketplace_product_stock_action2)d"
+                                        string="⇒ Update"
+                                        type="action"
+                                        class="oe_link"
+                                        attrs="{'invisible':['|', '|', ('status', 'in', ('pending','draft','rejected')),('pending_qty_request', '=', True), ('type', '!=', 'product')]}" context="{'mp_stock': True}"/>
+                                    <button name="pending_qty_stock_request" string="⇒ Request Pending" type="object" class="oe_link" attrs="{'invisible':['|', '|', ('status', 'in', ('pending','draft','rejected')),('pending_qty_request', '=', False), ('type', '!=', 'product')]}"/>
+                                </div>
+                                <div class="row" >
+                                    <div class="col-6">
+                                        <label for="qty"  style="width:260px;font-weight: bold;"/>
+                                        <field name="qty" placeholder="Initail Quantity" attrs="{'readonly':[('status', 'in', ('approved','rejected'))]}" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="virtual_available" style="font-weight: bold;width: 41%;" attrs="{'invisible':[('status', 'in', ('pending','draft'))]}"/>
+                                        <field name="virtual_available" attrs="{'invisible':[('status', 'in', ('pending','draft'))]}" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="product_alert_day"  style="width:260px;font-weight: bold;"/>
+                                        <field name="product_alert_day" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                        days
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="product_removal_days" style="font-weight: bold;width: 41%;"/>
+                                        <field name="product_removal_days"  class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                        days
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="min_shelf_delivery"  style="width:260px;font-weight: bold;"/>
+                                        <field name="min_shelf_delivery" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                        days
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="product_use_days" style="font-weight: bold;width: 41%;"/>
+                                        <field name="product_use_days" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                        days
+                                    </div>
+                                </div>
 
-                    </div>
-                    <label for="length_carton"/>
-                    <div>
-                    <field name="length_carton"  class="oe_inline" style="vertical-align:baseline"/>
-                        cm
-                    </div>
-                    <label for="width_carton"/>
-                    <div>
-                    <field name="width_carton"  class="oe_inline" style="vertical-align:baseline"/>
-                        cm
-                    </div>
-                    <label for="height_carton"/>
-                    <div>
-                    <field name="height_carton"  class="oe_inline" style="vertical-align:baseline"/>
-                        cm
-                    </div>
-                    <label for="volume_carton"/>
-                    <div>
-                    <field name="volume_carton"  class="oe_inline" style="vertical-align:baseline"/>
+<!--                            </group>-->
+                        <separator string="Weights &amp; volumes" colspan="4" />
+                        <div class="row" >
+                            <div class="col-6">
+                                <label for="length_unit"  style="width:260px;font-weight: bold;"/>
+                                <field name="length_unit" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="net_content_per_unit" style="font-weight: bold;width: 41%;"/>
+                                <field name="net_content_per_unit" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                gram
+                            </div>
+                            <div class="col-6">
+                                <label for="width_unit"  style="width:260px;font-weight: bold;"/>
+                                <field name="width_unit" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="drained_weight_per_unit" style="font-weight: bold;width: 41%;"/>
+                                <field name="drained_weight_per_unit" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                gram
+                            </div>
+                            <div class="col-6">
+                                <label for="height_unit"  style="width:260px;font-weight: bold;"/>
+                                <field name="height_unit" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="net_weight_per_unit" style="font-weight: bold;width: 41%;"/>
+                                <field name="net_weight_per_unit" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                gram
+                            </div>
+                            <div class="col-6">
+                                <label for="volume_unit"  style="width:260px;font-weight: bold;"/>
+                                <field name="volume_unit" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="gross_weight_per_unit" style="font-weight: bold;width: 41%;"/>
+                                <field name="gross_weight_per_unit" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                gram
+                            </div>
+                            <div class="col-6">
+                                <label for="length_carton"  style="width:260px;font-weight: bold;"/>
+                                <field name="length_carton" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="net_content_per_carton" style="font-weight: bold;width: 41%;"/>
+                                <field name="net_content_per_carton" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                gram
+                            </div>
+                            <div class="col-6">
+                                <label for="width_carton"  style="width:260px;font-weight: bold;"/>
+                                <field name="width_carton" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="drained_weight_per_carton" style="font-weight: bold;width: 41%;"/>
+                                <field name="drained_weight_per_carton" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                gram
+                            </div>
+                            <div class="col-6">
+                                <label for="height_carton"  style="width:260px;font-weight: bold;"/>
+                                <field name="height_carton" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="net_weight_per_carton" style="font-weight: bold;width: 41%;"/>
+                                <field name="net_weight_per_carton" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                gram
+                            </div>
+                            <div class="col-6">
+                                <label for="volume_carton"  style="width:260px;font-weight: bold;"/>
+                                <field name="volume_carton" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="gross_weight_per_carton" style="font-weight: bold;width: 41%;"/>
+                                <field name="gross_weight_per_carton" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                gram
+                            </div>
+                            <div class="col-6">
+                                <label for="kind_pallet"  style="width:260px;font-weight: bold;"/>
+                                <field name="kind_pallet" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="pallet_quantity" style="font-weight: bold;width: 41%;"/>
+                                <field name="pallet_quantity" style="position: relative;width: 49% !important;min-width: 10px;"/>
+                                cartons
+                            </div>
+                            <div class="col-6">
+                                <label for="total_pallet_height"  style="width:260px;font-weight: bold;"/>
+                                <field name="total_pallet_height" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                        </div>
 
-                    </div>
-                    <label for="net_content_per_unit"/>
-                    <div>
-                    <field name="net_content_per_unit"  class="oe_inline" style="vertical-align:baseline"/>
-                        gram
-                    </div>
-                    <label for="drained_weight_per_unit"/>
-                    <div>
-                    <field name="drained_weight_per_unit"  class="oe_inline" style="vertical-align:baseline"/>
-                        gram
-                    </div>
-                    <label for="net_weight_per_unit"/>
-                    <div>
-                    <field name="net_weight_per_unit"  class="oe_inline" style="vertical-align:baseline"/>
-                        gram
-                    </div>
-                    <label for="gross_weight_per_unit"/>
-                    <div>
-                    <field name="gross_weight_per_unit"  class="oe_inline" style="vertical-align:baseline"/>
-                        gram
-                    </div>
-                    <label for="net_content_per_carton"/>
-                    <div>
-                    <field name="net_content_per_carton"  class="oe_inline" style="vertical-align:baseline"/>
-                        gram
-                    </div>
-                    <label for="drained_weight_per_carton"/>
-                    <div>
-                    <field name="drained_weight_per_carton"  class="oe_inline" style="vertical-align:baseline"/>
-                        gram
-                    </div>
-                    <label for="net_weight_per_carton"/>
-                    <div>
-                    <field name="net_weight_per_carton"  class="oe_inline" style="vertical-align:baseline"/>
-                        gram
-                    </div>
+                        <separator string="Fulfilment costs" colspan="4" />
+                        <div class="row" >
+                            <div class="col-6">
+                                <label for="inbound_full_pallet"  style="width:260px;font-weight: bold;"/>
+                                <field name="inbound_full_pallet" style="position: relative;min-width: 10px;width: 45%;"/>
+                           </div>
+                            <div class="col-6">
+                                <label for="stock_full_pallet_per_month" style="font-weight: bold;width: 41%;"/>
+                                <field name="stock_full_pallet_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="inbound_first_box"  style="width:260px;font-weight: bold;"/>
+                                <field name="inbound_first_box" style="position: relative;min-width: 10px;width: 45%;"/>
+                           </div>
+                            <div class="col-6">
+                                <label for="stock_half_pallet_per_month" style="font-weight: bold;width: 41%;"/>
+                                <field name="stock_half_pallet_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="inbound_additional_box"  style="width:260px;font-weight: bold;"/>
+                                <field name="inbound_additional_box" style="position: relative;min-width: 10px;width: 45%;"/>
+                           </div>
+                            <div class="col-6">
+                                <label for="stock_shelf_location_per_month" style="font-weight: bold;width: 41%;"/>
+                                <field name="stock_shelf_location_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="max_cases_volume_full_box"  style="width:260px;font-weight: bold;"/>
+                                <field name="max_cases_volume_full_box" style="position: relative;min-width: 10px;width: 45%;"/>
+                           </div>
+                            <div class="col-6">
+                                <label for="cost_sending_per_single_unit" style="font-weight: bold;width: 41%;"/>
+                                <field name="cost_sending_per_single_unit" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="max_cases_weight_transport"  style="width:260px;font-weight: bold;"/>
+                                <field name="max_cases_weight_transport" style="position: relative;min-width: 10px;width: 45%;"/>
+                           </div>
+                            <div class="col-6">
+                                <label for="cost_sending_per_case" style="font-weight: bold;width: 41%;"/>
+                                <field name="cost_sending_per_case" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="max_cases_by_weight_volume"  style="width:260px;font-weight: bold;"/>
+                                <field name="max_cases_by_weight_volume" style="position: relative;min-width: 10px;width: 45%;"/>
+                           </div>
+                            <div class="col-6">
+                                <label for="cost_sending_per_full_box" style="font-weight: bold;width: 41%;"/>
+                                <field name="cost_sending_per_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="used_box_volume"  style="width:260px;font-weight: bold;"/>
+                                <field name="used_box_volume" style="position: relative;min-width: 10px;width: 45%;"/>
+                           </div>
+                            <div class="col-6">
+                                <label for="cost_full_box" style="font-weight: bold;width: 41%;"/>
+                                <field name="cost_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="percentage_cost_case"  style="width:260px;font-weight: bold;"/>
+                                <field name="percentage_cost_case" style="position: relative;min-width: 10px;width: 45%;"/>
+                           </div>
+                            <div class="col-6">
+                                <label for="reserve_full_box" style="font-weight: bold;width: 41%;"/>
+                                <field name="reserve_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="cost_effective_x_purchase"  style="width:260px;font-weight: bold;"/>
+                                <field name="cost_effective_x_purchase" style="position: relative;min-width: 10px;width: 45%;"/>
+                           </div>
+                            <div class="col-6">
+                                <label for="margin_per_box" style="font-weight: bold;width: 41%;"/>
+                                <field name="margin_per_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                        </div>
+                        <separator string="Fulfilment information" colspan="4" />
+                        <div class="row" >
+                            <div class="col-6">
+                                <label for="box_length"  style="width:260px;font-weight: bold;"/>
+                                <field name="box_length" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="box_width" style="font-weight: bold;width: 41%;"/>
+                                <field name="box_width" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="box_height"  style="width:260px;font-weight: bold;"/>
+                                <field name="box_height" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="box_maximum_weight" style="font-weight: bold;width: 41%;"/>
+                                <field name="box_maximum_weight" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                cm
+                            </div>
+                        </div>
 
-                    <label for="gross_weight_per_carton"/>
-                    <div>
-                    <field name="gross_weight_per_carton"  class="oe_inline" style="vertical-align:baseline"/>
-                        gram
-                    </div>
-                    <label for="pallet_quantity"/>
-                    <div>
-                    <field name="pallet_quantity"  class="oe_inline" style="vertical-align:baseline"/>
-                        cartons
-                    </div>
-                    <field name="kind_pallet"/>
-                    <field name="total_pallet_height"/>
+                    </page>
                 </xpath>
-                <xpath expr="//field[@name='volume']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//field[@name='weight']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//notebook/page/separator" position="before">
-                    <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>
-                </xpath>
+<!--                <xpath expr="//group[@name='pricelists']" position="before">-->
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <separator string="Description for your buyers"/>-->
+<!--                            <field name="ingredients"/>-->
+<!--                            <field name="product_short_discrp"/>-->
+<!--                            <field name="product_short_discrp"/>-->
+<!--                            <separator string="Nutritional information"/>-->
+<!--                            <field name="nutriscore"/>-->
+
+<!--                            <div class="address_format" cols="6" colspan="2">-->
+<!--                                <label for="energy_kg" style="width:150px;font-weight: bold;"/>-->
+<!--                                <field name="energy_kg" style="position: relative;width: 50px !important;min-width: 10px;"/>-->
+<!--                                <label for="energy_kg" string="kj" style="width:40px;font-weight: bold;padding:10px"/>-->
+<!--                                <field name="energy_kg" style="position: relative;width: 50px !important;min-width: 10px;"/>%-->
+<!--                            </div>-->
+<!--                            <div class="address_format" cols="6" colspan="2">-->
+<!--                                <label for="energy_kcal" style="width:150px;font-weight: bold;"/>-->
+<!--                                <field name="energy_kcal" style="position: relative;width: 50px !important;min-width: 10px;"/>-->
+<!--                                <label for="energy_kcal" string="kcal" style="width:40px;font-weight: bold;padding:10px"/>-->
+<!--                                <field name="energy_kcal" style="position: relative;width: 50px !important;min-width: 10px;"/>%-->
+<!--                            </div>-->
+<!--                            <div class="address_format" cols="6" colspan="2">-->
+<!--                                <label for="fat" style="width:150px;font-weight: bold;"/>-->
+<!--                                <field name="fat" style="position: relative;width: 50px !important;min-width: 10px;"/>-->
+<!--                                <label for="fat" string="gram" style="width:40px;font-weight: bold;padding:10px"/>-->
+<!--                                <field name="fat" style="position: relative;width: 50px !important;min-width: 10px;"/>%-->
+<!--                            </div>-->
+<!--                            <div class="address_format" cols="6" colspan="2">-->
+<!--                                <label for="saturated_fat" style="width:150px;font-weight: bold;"/>-->
+<!--                                <field name="saturated_fat" style="position: relative;width: 50px !important;min-width: 10px;"/>-->
+<!--                                <label for="saturated_fat" string="gram" style="width:40px;font-weight: bold;padding:10px"/>-->
+<!--                                <field name="saturated_fat" style="position: relative;width: 50px !important;min-width: 10px;"/>%-->
+<!--                            </div>-->
+<!--                            <div class="address_format" cols="6" colspan="2">-->
+<!--                                <label for="mono_unsaturated_fats" style="width:150px;font-weight: bold;"/>-->
+<!--                                <field name="mono_unsaturated_fats" style="position: relative;width: 50px !important;min-width: 10px;"/>-->
+<!--                                <label for="mono_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>-->
+<!--                                <field name="mono_unsaturated_fats" style="position: relative;width: 50px !important;min-width: 10px;"/>%-->
+<!--                            </div>-->
+<!--                            <div class="address_format" cols="6" colspan="2">-->
+<!--                                <label for="poly_unsaturated_fats" style="width:150px;font-weight: bold;"/>-->
+<!--                                <field name="poly_unsaturated_fats" style="position: relative;width: 50px !important;min-width: 10px;"/>-->
+<!--                                <label for="poly_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>-->
+<!--                                <field name="poly_unsaturated_fats" style="position: relative;width: 50px !important;min-width: 10px;"/>%-->
+<!--                            </div>-->
+<!--                            <div class="address_format" cols="6" colspan="2">-->
+<!--                                <label for="carbohydrates" style="width:150px;font-weight: bold;"/>-->
+<!--                                <field name="carbohydrates" style="position: relative;width: 50px !important;min-width: 10px;"/>-->
+<!--                                <label for="carbohydrates" string="gram" style="width:40px;font-weight: bold;padding:10px"/>-->
+<!--                                <field name="carbohydrates" style="position: relative;width: 50px !important;min-width: 10px;"/>%-->
+<!--                            </div>-->
+<!--                            <div class="address_format" cols="6" colspan="2">-->
+<!--                                <label for="sugar" style="width:150px;font-weight: bold;"/>-->
+<!--                                <field name="sugar" style="position: relative;width: 50px !important;min-width: 10px;"/>-->
+<!--                                <label for="sugar" string="gram" style="width:40px;font-weight: bold;padding:10px"/>-->
+<!--                                <field name="sugar" style="position: relative;width: 50px !important;min-width: 10px;"/>%-->
+<!--                            </div>-->
+<!--                            <div class="address_format" cols="6" colspan="2">-->
+<!--                                <label for="protein" style="width:150px;font-weight: bold;"/>-->
+<!--                                <field name="protein" style="position: relative;width: 50px !important;min-width: 10px;"/>-->
+<!--                                <label for="protein" string="gram" style="width:40px;font-weight: bold;padding:10px"/>-->
+<!--                                <field name="protein" style="position: relative;width: 50px !important;min-width: 10px;"/>%-->
+<!--                            </div>-->
+<!--                            <div class="address_format" cols="6" colspan="2">-->
+<!--                                <label for="salt" style="width:150px;font-weight: bold;"/>-->
+<!--                                <field name="salt" style="position: relative;width: 50px !important;min-width: 10px;"/>-->
+<!--                                <label for="salt" string="gram" style="width:40px;font-weight: bold;padding:10px"/>-->
+<!--                                <field name="salt" style="position: relative;width: 50px !important;min-width: 10px;"/>%-->
+<!--                            </div>-->
+<!--&lt;!&ndash;                            <field name="product_place"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="origin_type"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="method_capture"/>&ndash;&gt;-->
+<!--                            <separator string="Instructions"/>-->
+<!--                            <field name="instruction"/>-->
+<!--                            <field name="storage_instructions"/>-->
+<!--                            <field name="serving_sug"/>-->
+<!--                            <field name="prepare_instr"/>-->
+<!--                            <separator string="Origins"/>-->
+<!--                            <field name="place_birth"/>-->
+<!--                            <field name="place_assembly"/>-->
+<!--                            <field name="place_entry"/>-->
+<!--                            <field name="place_milking"/>-->
+<!--                            <field name="place_fattening"/>-->
+<!--                            <field name="place_bottling"/>-->
+<!--                            <field name="place_operation"/>-->
+<!--                            <field name="place_slaughter"/>-->
+<!--                            <field name="place_product_grown"/>-->
+<!--                            <separator string="Fishing origins"/>-->
+<!--                            <field name="fish_zone_id"/>-->
+<!--                            <field name="fishing_id"/>-->
+
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <separator string="Allergens"/>-->
+<!--                            <field name="gluten_contain_grains"/>-->
+<!--                            <field name="milk_base_product"/>-->
+<!--                            <field name="eggs_base_product"/>-->
+<!--                            <field name="peanuts_base_product"/>-->
+<!--                            <field name="nuts_base_product"/>-->
+<!--                            <field name="soy_base_product"/>-->
+<!--                            <field name="mustard_base_product"/>-->
+<!--                            <field name="lupine_base_product"/>-->
+<!--                            <field name="sesame_base_product"/>-->
+<!--                            <field name="fish_base_product"/>-->
+<!--                            <field name="molluscs_base_product"/>-->
+<!--                            <field name="shellfish_base_product"/>-->
+<!--                            <field name="sulphites_base_product"/>-->
+<!--                            <separator string="Food claims"/>-->
+<!--                            <field name="allergen_free"/>-->
+<!--                            <field name="baby"/>-->
+<!--                            <field name="dietary"/>-->
+<!--                            <field name="fair_trade"/>-->
+<!--                            <field name="gmo_free"/>-->
+<!--                            <field name="halal"/>-->
+<!--                            <field name="kosher"/>-->
+<!--                            <field name="lactose_free"/>-->
+<!--                            <field name="low_cholesterol"/>-->
+<!--                            <field name="low_sodium"/>-->
+<!--                            <field name="organic"/>-->
+<!--                            <field name="palm_oil_free"/>-->
+<!--                            <field name="paraben_free"/>-->
+<!--                            <field name="rich_omega"/>-->
+<!--                            <field name="stevia"/>-->
+<!--                            <field name="sugar_free"/>-->
+<!--                            <field name="vegan"/>-->
+<!--                            <field name="vegon_ok"/>-->
+<!--                            <field name="vegetarian"/>-->
+<!--                            <field name="without_preservative"/>-->
+<!--                            <separator string="Accreditations &amp; certificates"/>-->
+<!--                            <field name="local_accredit_package"/>-->
+<!--                            <field name="accredit_package_ids" widget="many2many_tags"/>-->
+<!--                            <field name="regulatory_ids" widget="many2many_tags"/>-->
+<!--                            <field name="nutrition_ids" widget="many2many_tags"/>-->
+<!--                            <field name="diet_ids" widget="many2many_tags"/>-->
+<!--                            <separator string="BIO origins"/>-->
+<!--                            <field name="location_origin"/>-->
+<!--                            <field name="country_origin_id"/>-->
+<!--                            <field name="region_country"/>-->
+
+
+
+
+<!--&lt;!&ndash;                            <field name="area_capture"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            <field name="allergens"/>&ndash;&gt;-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='qty']" position="after">-->
+<!--                    <label for="product_alert_day"/>-->
+<!--                    <div>-->
+<!--                        <field name="product_alert_day"  class="oe_inline"-->
+<!--                                                           style="vertical-align:baseline"/>-->
+<!--                        days-->
+<!--                    </div>-->
+<!--                    <label for="product_removal_days"/>-->
+<!--                    <div>-->
+<!--                        <field name="product_removal_days"  class="oe_inline"-->
+<!--                                                           style="vertical-align:baseline"/>-->
+<!--                        days-->
+<!--                    </div>-->
+<!--                    <label for="min_shelf_delivery"/>-->
+<!--                    <div>-->
+<!--                        <field name="min_shelf_delivery"  class="oe_inline"-->
+<!--                                                           style="vertical-align:baseline"/>-->
+<!--                        days-->
+<!--                    </div>-->
+<!--                    <label for="product_use_days"/>-->
+<!--                    <div>-->
+<!--                        <field name="product_use_days"  class="oe_inline"-->
+<!--                                                           style="vertical-align:baseline"/>-->
+<!--                        days-->
+<!--                    </div>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='weight']" position="after">-->
+<!--                    <label for="length_unit"/>-->
+<!--                    <div>-->
+<!--                        <field name="length_unit"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                            cm-->
+<!--                    </div>-->
+<!--                    <label for="width_unit"/>-->
+<!--                    <div>-->
+<!--                        <field name="width_unit"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                            cm-->
+<!--                    </div>-->
+<!--                    <label for="height_unit"/>-->
+<!--                    <div>-->
+<!--                    <field name="height_unit"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        cm-->
+<!--                    </div>-->
+<!--                    <label for="volume_unit"/>-->
+<!--                    <div>-->
+<!--                    <field name="volume_unit"  class="oe_inline" style="vertical-align:baseline"/>-->
+
+<!--                    </div>-->
+<!--                    <label for="length_carton"/>-->
+<!--                    <div>-->
+<!--                    <field name="length_carton"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        cm-->
+<!--                    </div>-->
+<!--                    <label for="width_carton"/>-->
+<!--                    <div>-->
+<!--                    <field name="width_carton"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        cm-->
+<!--                    </div>-->
+<!--                    <label for="height_carton"/>-->
+<!--                    <div>-->
+<!--                    <field name="height_carton"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        cm-->
+<!--                    </div>-->
+<!--                    <label for="volume_carton"/>-->
+<!--                    <div>-->
+<!--                    <field name="volume_carton"  class="oe_inline" style="vertical-align:baseline"/>-->
+
+<!--                    </div>-->
+<!--                    <label for="net_content_per_unit"/>-->
+<!--                    <div>-->
+<!--                    <field name="net_content_per_unit"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        gram-->
+<!--                    </div>-->
+<!--                    <label for="drained_weight_per_unit"/>-->
+<!--                    <div>-->
+<!--                    <field name="drained_weight_per_unit"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        gram-->
+<!--                    </div>-->
+<!--                    <label for="net_weight_per_unit"/>-->
+<!--                    <div>-->
+<!--                    <field name="net_weight_per_unit"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        gram-->
+<!--                    </div>-->
+<!--                    <label for="gross_weight_per_unit"/>-->
+<!--                    <div>-->
+<!--                    <field name="gross_weight_per_unit"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        gram-->
+<!--                    </div>-->
+<!--                    <label for="net_content_per_carton"/>-->
+<!--                    <div>-->
+<!--                    <field name="net_content_per_carton"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        gram-->
+<!--                    </div>-->
+<!--                    <label for="drained_weight_per_carton"/>-->
+<!--                    <div>-->
+<!--                    <field name="drained_weight_per_carton"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        gram-->
+<!--                    </div>-->
+<!--                    <label for="net_weight_per_carton"/>-->
+<!--                    <div>-->
+<!--                    <field name="net_weight_per_carton"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        gram-->
+<!--                    </div>-->
+
+<!--                    <label for="gross_weight_per_carton"/>-->
+<!--                    <div>-->
+<!--                    <field name="gross_weight_per_carton"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        gram-->
+<!--                    </div>-->
+<!--                    <label for="pallet_quantity"/>-->
+<!--                    <div>-->
+<!--                    <field name="pallet_quantity"  class="oe_inline" style="vertical-align:baseline"/>-->
+<!--                        cartons-->
+<!--                    </div>-->
+<!--                    <field name="kind_pallet"/>-->
+<!--                    <field name="total_pallet_height"/>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='volume']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='weight']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//notebook/page/separator" position="before">-->
+<!--                    <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>-->
+<!--                </xpath>-->
 
             </field>
         </record>
