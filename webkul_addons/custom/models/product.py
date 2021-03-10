@@ -322,7 +322,7 @@ class ProductTemplateInherit(models.Model):
     def _onchange_get_cal_salt(self):
         for record in self:
             if record.salt:
-                record.cal_protein = record.salt / 6 * 100
+                record.cal_salt = record.salt / 6 * 100
 
     @api.onchange('length_unit', 'width_unit', 'height_unit')
     def _onchange_get_volume_unit(self):

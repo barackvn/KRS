@@ -210,7 +210,7 @@
                         <field name="product_short_discrp"/>
                         <separator string="Product long description" colspan="4" />
                         <field name="product_long_discrp"/>
-                        <separator string="Nutritional values for 100g / 100ml" colspan="4" />
+                        <separator string="Nutritional values for 100g / 100ml based on daily nutritional values" colspan="4" />
 
                         <group>
                             <div class="address_format" cols="6" colspan="2">
@@ -226,12 +226,12 @@
                             <div class="address_format" cols="6" colspan="2">
                                     <label for="energy_kg" style="width:150px;font-weight: bold;"/>
                                     <field name="energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="energy_kg" string="kj" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <label for="energy_kg" string="KJ" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>%
                                     <label for="poly_unsaturated_fats" style="width:25%;font-weight: bold;padding-left: 8%;"/>
                                     <field name="poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="poly_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                    <field name="cal_poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="address_format" cols="6" colspan="2">
                                     <label for="energy_kcal" style="width:150px;font-weight: bold;"/>
@@ -267,7 +267,7 @@
                                     <label for="mono_unsaturated_fats" style="width:150px;font-weight: bold;"/>
                                     <field name="mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="mono_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                    <field name="cal_mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="salt"  style="width:25%;font-weight: bold;padding-left: 8%;"/>
                                     <field name="salt" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="salt" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
