@@ -324,6 +324,17 @@ class ProductTemplateInherit(models.Model):
             if record.salt:
                 record.cal_protein = record.salt / 6 * 100
 
+    @api.onchange('length_unit', 'width_unit', 'height_unit')
+    def _onchange_get_volume_unit(self):
+        for record in self:
+            record.volume_unit = record.length_unit * record.width_unit * record.height_unit
+
+    @api.onchange('length_carton', 'width_carton', 'height_carton')
+    def _onchange_get_volume_carton(self):
+        for record in self:
+            record.volume_carton = record.length_carton * record.width_carton * record.height_carton
+
+
 
 
 
