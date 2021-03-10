@@ -268,7 +268,7 @@
                                     <field name="mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="mono_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="salt"  style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                    <label for="salt"  style="width: 26.5%;font-weight: bold;padding-left: 10%;"/>
                                     <field name="salt" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="salt" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_salt" style="position: relative;width: 10% !important;min-width: 10px;"/>%
