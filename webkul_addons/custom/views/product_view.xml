@@ -531,10 +531,10 @@
                                 </div>
                             </div>
                         </group>
-                        <group name="description">
-                                        <separator string="Description for Customers" colspan="4"/>
-                                        <field name="description_sale" colspan="4" nolabel="1" placeholder="This note will be displayed on the quotations."/>
-                                    </group>
+<!--                        <group name="description">-->
+<!--                                        <separator string="Description for Customers" colspan="4"/>-->
+<!--                                        <field name="description_sale" colspan="4" nolabel="1" placeholder="This note will be displayed on the quotations."/>-->
+<!--                                    </group>-->
                     </page>
 
 
@@ -673,7 +673,8 @@
                             </div>
                             <div class="col-6">
                                 <label for="volume_unit"  style="width:260px;font-weight: bold;"/>
-                                <field name="volume_unit" style="position: relative;min-width: 10px;width: 45%;"/>
+                                <field name="volume_unit" style="position: relative;min-width: 10px;width: 44%;"/>
+                                cm<sup>3</sup>
                             </div>
                             <div class="col-6">
                                 <label for="gross_weight_per_unit" style="font-weight: bold;width: 41%;"/>
@@ -712,7 +713,8 @@
                             </div>
                             <div class="col-6">
                                 <label for="volume_carton"  style="width:260px;font-weight: bold;"/>
-                                <field name="volume_carton" style="position: relative;min-width: 10px;width: 45%;"/>
+                                <field name="volume_carton" style="position: relative;min-width: 10px;width: 44%;"/>
+                                cm<sup>3</sup>
                             </div>
                             <div class="col-6">
                                 <label for="gross_weight_per_carton" style="font-weight: bold;width: 41%;"/>
