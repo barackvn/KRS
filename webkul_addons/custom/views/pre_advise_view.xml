@@ -6,6 +6,10 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//h1/field[@name='name']" position="replace">
+                    <field name="name" attrs="{'invisible': ['|',('name','=','/'),('pre_advice', '=', True)]}"/>
+                    <field name="pre_advice_name" readonly="1" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
+                </xpath>
                 <xpath expr="//field[@name='origin']" position="after">
                     <field name="pre_advice" invisible="1"/>
                     <label for="amount_of_pallets"/>
