@@ -62,6 +62,15 @@ class StockPickingInherit(models.Model):
     depart_date = fields.Date("Depart Date")
     arrival_date = fields.Date("Arrival Date")
     total_pre_advice_price = fields.Float(compute='_compute_pre_advice_total', string='Total Pre Advice amount')
+    pre_advice_name = fields.Char("Name")
+
+    @api.model
+    def create(self, vals):
+        res = super(StockPickingInherit, self).create(vals)
+        if res:
+            res.write({'pre_advice_name': self.env['ir.sequence'].next_by_code('pre.advice') or ''})
+        return res
+
 
     def calculate_ff_product_charge(self):
         for record in self:
@@ -357,9 +366,8 @@ class StockMoveInherit(models.Model):
 #             record.line_total_amount = amount
 #
 #
-#     pre_advice_charge = fields.Monetary(string='Pre Advice', store=True, tracking=True,currency_field='company_currency_id')
-#     line_total_amount = fields.Monetary(string='Total', store=True, readonly=True, tracking=True,
-#         compute='_compute_line_total_amount')
+    # pre_advice_charge = fields.Monetary(string='Pre Advice', store=True, tracking=True,currency_field='company_currency_id')
+    # line_total_amount = fields.Monetary(string='Total', store=True, readonly=True, tracking=True,)
 #     amount_by_group = fields.Binary(string="Tax amount by group",
 #                                     compute='_compute_invoice_taxes_by_group')
 #
