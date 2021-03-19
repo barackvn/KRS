@@ -84,8 +84,8 @@ class CrmLeadInherit(models.Model):
         stage_id = self.env['crm.stage'].search([('name', 'ilike', 'Qualified')], limit=1)
         won_id = self.env['crm.stage'].search([('is_won', '=', True)], limit=1)
         loss_id = self.env['crm.stage'].search([('name', 'ilike', 'Loss')], limit=1)
-        lead_ids = self.search([('stage_id', '=', stage_id.id), ('qualify_date', '!=', False)])
-        for lead in lead_ids:
+        buyer_lead_ids = self.search([('stage_id', '=', stage_id.id), ('qualify_date', '!=', False), ('is_buyer', '=', True)])
+        for lead in buyer_lead_ids:
             if lead.partner_id:
                 order_id = self.env['sale.order'].search([('partner_id', '=', lead.partner_id.id)])
                 if order_id:
@@ -94,4 +94,14 @@ class CrmLeadInherit(models.Model):
                     notify_date = lead.qualify_date + relativedelta(days=13)
                     if notify_date < datetime.date.today():
                         lead.write({'stage_id': loss_id.id})
-
+        seller_lead_ids = self.search(
+            [('stage_id', '=', stage_id.id), ('qualify_date', '!=', False), ('is_seller', '=', True)])
+        for member in seller_lead_ids:
+            if member:
+                mermbership = self.env['seller.membership'].search([('partner_id', '=', member.partner_id.id), ('state','=', 'paid')])
+                if mermbership:
+                    member.write({'stage_id': won_id.id})
+                else:
+                    notify_date = member.qualify_date + relativedelta(days=13)
+                    if notify_date < datetime.date.today():
+                        member.write({'stage_id': loss_id.id})
