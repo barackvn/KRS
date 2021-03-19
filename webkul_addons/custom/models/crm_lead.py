@@ -7,6 +7,8 @@ from odoo.addons.iap import jsonrpc
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 import logging
+import datetime
+from dateutil.relativedelta import relativedelta
 
 _logger = logging.getLogger(__name__)
 
@@ -23,6 +25,9 @@ class CrmLeadInherit(models.Model):
     reason = fields.Text("Reason")
     email_notify = fields.Boolean("Email Notify")
     assign_membership = fields.Many2one('product.template','Assign Membership Plan')
+    qualify_date = fields.Date("Qualify Date")
+    is_seller = fields.Boolean('Seller')
+    is_buyer = fields.Boolean('Buyer')
 
 
     def action_reject_profile(self):
@@ -42,6 +47,7 @@ class CrmLeadInherit(models.Model):
                 raise UserError(_("There is no stage called Rejected in Crm Lead,Can you please create the stage."))
             record.stage_id = stage.id
             record.email_notify = True
+            record.qualify_date = datetime.date.today()
 
     def action_accept_lead(self):
         for record in self:
@@ -60,6 +66,7 @@ class CrmLeadInherit(models.Model):
                     raise UserError(_("There is no stage called Qualified in Crm Lead,Can you please create the stage."))
                 record.stage_id=stage.id
                 record.email_notify = True
+                record.qualify_date = datetime.date.today()
             else:
                 mail_templ_id = self.env['ir.model.data'].get_object_reference(
                     'custom', 'template_accept_register_buyer')[1]
@@ -71,6 +78,20 @@ class CrmLeadInherit(models.Model):
                         _("There is no stage called Qualified in Crm Lead,Can you please create the stage."))
                 record.stage_id = stage.id
                 record.email_notify = True
+                record.qualify_date = datetime.date.today()
 
-            
+    def scheduler_seller_buyer_crm_loss_won(self):
+        stage_id = self.env['crm.stage'].search([('name', 'ilike', 'Qualified')], limit=1)
+        won_id = self.env['crm.stage'].search([('is_won', '=', True)], limit=1)
+        loss_id = self.env['crm.stage'].search([('name', 'ilike', 'Loss')], limit=1)
+        lead_ids = self.search([('stage_id', '=', stage_id.id), ('qualify_date', '!=', False)])
+        for lead in lead_ids:
+            if lead.partner_id:
+                order_id = self.env['sale.order'].search([('partner_id', '=', lead.partner_id.id)])
+                if order_id:
+                    lead.write({'stage_id': won_id.id})
+                else:
+                    notify_date = lead.qualify_date + relativedelta(days=13)
+                    if notify_date < datetime.date.today():
+                        lead.write({'stage_id': loss_id.id})
 

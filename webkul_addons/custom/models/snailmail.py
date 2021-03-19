@@ -27,6 +27,11 @@ class ProductTemplate(models.Model):
     # 'A consumable product is a product for which stock is not managed.\n'
     # 'A service is a non-material product you provide.')
 
+class PartnerSpeciality(models.Model):
+    _inherit = 'partner.speciality'
+
+    type = fields.Selection([('buyer', 'Buyer'), ('seller', 'Seller')])
+
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -60,7 +65,7 @@ class ResPartner(models.Model):
                 send = template_obj.with_context(company=res.env.company).send_mail(res.id, True)
                 _logger.info(">>>>>>>>>>>>>> buyer Mail send for thank you>>>%s>>>", send)
                 if not res.lead_id:
-                    res.create_crm_lead()
+                    res.with_context(default_is_buyer=True).create_crm_lead()
             if self._context.get('is_seller'):
                 if res.seller and res.state=='new' and not res.lead_id:
                     res.sudo().set_to_pending()
@@ -114,7 +119,7 @@ class ResPartner(models.Model):
 
     def set_to_pending(self):
         res_partner = super(ResPartner, self).set_to_pending()
-        self.create_crm_lead()
+        self.with_context(default_is_seller=True).create_crm_lead()
 
 
 

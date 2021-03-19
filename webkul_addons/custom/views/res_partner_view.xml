@@ -144,5 +144,16 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="partner_speciality_view_tree_inherit" model="ir.ui.view">
+            <field name="name">partner.speciality.view.tree.inherit</field>
+            <field name="model">partner.speciality</field>
+            <field name="inherit_id" ref="mp_advance_signup_customized.partner_speciality_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="type"/>
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>

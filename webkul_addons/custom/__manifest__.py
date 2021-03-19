@@ -7,7 +7,7 @@
   "version"              :  "0.2.4",
   "sequence"             :  1,
   "author"               :  "Planet Odoo.",
-  "depends"              :  ['snailmail','product','stock','base','odoo_marketplace','crm','stock','mp_advance_signup_customized'],
+  "depends"              :  ['snailmail','product','stock','base','odoo_marketplace','crm','stock', 'mp_advance_signup_customized', 'marketplace_rma'],
   "data"                 :  [
                              'data/ir_sequence_data.xml',
                              'data/cron.xml',
