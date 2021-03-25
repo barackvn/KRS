@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="view_picking_form_inherit_pre_advice_ewms" model="ir.ui.view">
+            <field name="name">stock.picking.pre.advice.ewms</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="custom.view_picking_form_inherit_pre_advice"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='calculate_ff_product_charge']" position="after">
+                    <button name="export_pre_advice" type="object" string="Export to Ewms" class="oe_highlight"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
