@@ -114,6 +114,33 @@
                                                 <field name="end_date"/>
                                             </tree>
                                         </field>
+                        <separator string="Images"/>
+                        <group>
+                            <separator string="Company logo*"/>
+                            <field name="company_logo" widget="many2many_binary"/>
+                        </group>
+
+                        <group>
+                            <separator string="Banner Image*"/>
+<!--                            <field name="banner_image" widget="many2many_binary"/>-->
+                            <field name="banner_image"/>
+                        </group>
+
+                        <separator string="Slider image"/>
+                                        <field name="slider_image" >
+                                            <tree string="Slider Image" editable="bottom">
+                                                <field name="preferred_link"/>
+                                                <field name="slider_image_file"/>
+                                            </tree>
+                                        </field>
+
+                        <separator string="Product images"/>
+                                        <field name="product_image" >
+                                            <tree string="Product Image" editable="bottom">
+                                                <field name="product_name"/>
+                                                <field name="picture_html"/>
+                                            </tree>
+                                        </field>
 
                     </sheet>
                 </form>

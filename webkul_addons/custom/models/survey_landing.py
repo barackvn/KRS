@@ -33,6 +33,19 @@ class CompanyCertificateTree(models.Model):
     end_date = fields.Date('End Date')
     certificate_id = fields.Many2one('survey.landing', 'Certificate')
 
+class SliderImageTree(models.Model):
+    _name = 'slider.image.tree'
+
+    preferred_link = fields.Char('Preferred Website Link')
+    slider_image_file = fields.Binary('Slider Image')
+    slider_id = fields.Many2one('survey.landing', 'Slider Image')
+
+class ProductImageTree(models.Model):
+    _name = 'product.image.tree'
+
+    product_name = fields.Char('Product Name')
+    picture_html = fields.Binary('Picture')
+    product_image_id = fields.Many2one('survey.landing', 'Product Image')
 
 class SurveyLanding(models.Model):
     _name = 'survey.landing'
@@ -81,4 +94,9 @@ class SurveyLanding(models.Model):
     description_company = fields.Char("Description Company")
     certificate = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Status', default='yes')
     certificate_ids = fields.One2many('company.certificate.tree', 'certificate_id', 'Certificate1')
+    company_logo = fields.Many2many(comodel_name='ir.attachment', string='')
+    # banner_image = fields.Many2many(comodel_name='ir.attachment', string='')
+    banner_image = fields.Binary(string='')
+    slider_image = fields.One2many('slider.image.tree','slider_id', 'Slider Image')
+    product_image = fields.One2many('product.image.tree','product_image_id', 'Product Image')
 
