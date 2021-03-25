@@ -68,7 +68,7 @@
                     <field name="total_value"/>
                 </xpath>
                 <xpath expr="//button[@name='action_confirm']" position="after">
-                    <button name="calculate_ff_product_charge" type="object" string="Calculate Product FF" class="oe_highlight"/>
+                    <button name="calculate_ff_product_charge" type="object" string="Calculate Product FF" class="oe_highlight" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
                 </xpath>
             </field>
         </record>

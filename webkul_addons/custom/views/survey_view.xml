@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="survey_landing_form_view" model="ir.ui.view">
+            <field name="name">survey.landing.form</field>
+            <field name="model">survey.landing</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <separator string="Company"/>
+                                <field name="company_id"/>
+                                <label for="" name="address_name">
+                                    <b>Address</b>
+                                </label>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State"
+                                           options="{&quot;no_open&quot;: True}"
+                                           context="{'country_id': country_id, 'zip': zip}"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country"
+                                           options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                </div>
+                                <field name="vat" placeholder="e.g. BE0477472701"/>
+                                <field name="language_id" domain="[('active','=',True)]"
+                                       options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                <field name="speciality_id" widget="many2many_tags" domain="[('type','=','seller')]"
+                                       options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                            </group>
+                            </group>
+                                <separator string="Contact persons"/>
+                                <field name="contact_ids">
+                                    <tree string="Contacts" editable="bottom">
+                                        <field name="first_name"/>
+                                        <field name="last_name"/>
+                                        <field name="job_position"/>
+                                        <field name="email"/>
+                                        <field name="phone"/>
+                                        <field name="mobile"/>
+                                    </tree>
+                                </field>
+                        <group>
+                            <group>
+                                <separator string="Invoice address"/>
+                                <field name="is_invoice" widget="boolean_toggle"/>
+                                <label for="" name="invoice_address_name" attrs="{'invisible' : [('is_invoice', '=', False)]}">
+                                    <b>Address</b>
+                                </label>
+                                <div class="o_address_format" attrs="{'invisible' : [('is_invoice', '=', False)]}">
+                                    <field name="inv_street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="inv_street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="inv_city" placeholder="City" class="o_address_city"/>
+                                    <field name="inv_state_id" class="o_address_state" placeholder="State"
+                                           options="{&quot;no_open&quot;: True}"/>
+                                    <field name="inv_zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="inv_country_id" placeholder="Country" class="o_address_country"
+                                           options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                </div>
+                                <field name="inv_job_position" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
+                                <field name="inv_email" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
+                                <field name="inv_phone" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
+                                <field name="inv_mobile" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <separator string="Shipping address"/>
+                                <field name="is_shipping" widget="boolean_toggle"/>
+                                <label for="" name="shipping_address_name" attrs="{'invisible' : [('is_shipping', '=', False)]}">
+                                    <b>Address</b>
+                                </label>
+                                <div class="o_address_format" attrs="{'invisible' : [('is_shipping', '=', False)]}">
+                                    <field name="ship_street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="ship_street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="ship_city" placeholder="City" class="o_address_city"/>
+                                    <field name="ship_state_id" class="o_address_state" placeholder="State"
+                                           options="{&quot;no_open&quot;: True}"/>
+                                    <field name="ship_zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="ship_country_id" placeholder="Country" class="o_address_country"
+                                           options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                </div>
+                                <field name="ship_job_position" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
+                                <field name="ship_email" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
+                                <field name="ship_phone" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
+                                <field name="ship_mobile" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="survey_landing_tree_view" model="ir.ui.view">
+            <field name="name">survey.landing.tree</field>
+            <field name="model">survey.landing</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="company_id"/>
+                    <field name="language_id"/>
+                    <field name="speciality_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_survey_landing" model="ir.actions.act_window">
+            <field name="name">Landing Page</field>
+            <field name="res_model">survey.landing</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Survey Landing Page
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Survey Landing"
+                  id="menu_action_survey_landing"
+                  action="action_survey_landing"
+                  parent="odoo_marketplace.wk_seller_dashboard_menu1"
+                  sequence="10"
+        />
+    </data>
+</odoo>

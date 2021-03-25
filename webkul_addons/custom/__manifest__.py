@@ -17,6 +17,7 @@
                              'views/product_view.xml',
                              'views/crm_lead_view.xml',
                              'views/pre_advise_view.xml',
+                             'views/survey_view.xml',
                              # 'views/website_template_view.xml',
                             ],
   "demo"                 :  [],

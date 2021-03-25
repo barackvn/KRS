@@ -43,6 +43,7 @@ class ResPartner(models.Model):
     certificate_start_date = fields.Date("Certificate Start Date")
     certificate_end_date = fields.Date("Certificate End Date")
     seller_location_id = fields.Many2one("stock.location","Seller Location")
+    lead_verify = fields.Boolean("Lead Verified")
 
     def action_create_seller_location(self):
         if not self.seller_location_id:
@@ -50,6 +51,55 @@ class ResPartner(models.Model):
             if parent_location:
                 location=self.env['stock.location'].sudo().create({'name': self.name, 'location_id': parent_location.id, 'usage': 'internal', 'seller_id': self.id})
                 self.seller_location_id = location.id
+
+    def verify_seller_lead(self):
+        leads = self.mapped('lead_id')
+        action = self.env.ref('crm.crm_lead_action_pipeline').read()[0]
+        form_view = [(self.env.ref('crm.crm_lead_view_form').id, 'form')]
+        if 'views' in action:
+            action['views'] = form_view + [(state, view) for state, view in action['views'] if view != 'form']
+        else:
+            action['views'] = form_view
+        action['res_id'] = leads.id
+        return action
+    #     if self.lead_id:
+    #         return {
+    #             'name': _('Package Details'),
+    #             'type': 'ir.actions.act_window',
+    #             'view_mode': 'form',
+    #             'res_model': 'choose.delivery.package',
+    #             'view_id': self.lead_id,
+    #             'views': [(view_id, 'form')],
+    #         }
+    #
+    # def action_view_invoice(self):
+    #     invoices = self.mapped('invoice_ids')
+    #     action = self.env.ref('crm.crm_lead_action_pipeline').read()[0]
+    #     if len(invoices) > 1:
+    #         action['domain'] = [('id', 'in', invoices.ids)]
+    #     elif len(invoices) == 1:
+    #         form_view = [(self.env.ref('account.view_move_form').id, 'form')]
+    #         if 'views' in action:
+    #             action['views'] = form_view + [(state,view) for state,view in action['views'] if view != 'form']
+    #         else:
+    #             action['views'] = form_view
+    #         action['res_id'] = invoices.id
+    #     else:
+    #         action = {'type': 'ir.actions.act_window_close'}
+    #
+    #     context = {
+    #         'default_type': 'out_invoice',
+    #     }
+    #     if len(self) == 1:
+    #         context.update({
+    #             'default_partner_id': self.partner_id.id,
+    #             'default_partner_shipping_id': self.partner_shipping_id.id,
+    #             'default_invoice_payment_term_id': self.payment_term_id.id or self.partner_id.property_payment_term_id.id or self.env['account.move'].default_get(['invoice_payment_term_id']).get('invoice_payment_term_id'),
+    #             'default_invoice_origin': self.mapped('name'),
+    #             'default_user_id': self.user_id.id,
+    #         })
+    #     action['context'] = context
+    #     return action
 
 
     @api.model

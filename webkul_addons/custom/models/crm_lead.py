@@ -67,6 +67,7 @@ class CrmLeadInherit(models.Model):
                 record.stage_id=stage.id
                 record.email_notify = True
                 record.qualify_date = datetime.date.today()
+                record.partner_id.lead_verify = True
             else:
                 mail_templ_id = self.env['ir.model.data'].get_object_reference(
                     'custom', 'template_accept_register_buyer')[1]
