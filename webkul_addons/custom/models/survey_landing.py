@@ -28,6 +28,7 @@ class CompanyCertificateTree(models.Model):
     _name = 'company.certificate.tree'
 
     info_seller = fields.Binary('Information from Seller')
+    filename = fields.Char(string="File Name", track_visibility="onchange")
     start_date = fields.Date('Start Date')
     end_date = fields.Date('End Date')
     certificate_id = fields.Many2one('survey.landing', 'Certificate')
