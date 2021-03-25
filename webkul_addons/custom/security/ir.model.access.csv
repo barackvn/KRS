@@ -12,3 +12,4 @@ access_volume_seller,volume.seller,model_volume,odoo_marketplace.marketplace_sel
 access_pallet_kind_seller,pallet.kind.seller,model_pallet_kind,odoo_marketplace.marketplace_seller_group,1,1,1,1
 access_survey_landing_seller,survey.landing.seller,model_survey_landing,,1,1,1,1
 access_res_partner_child_seller,res.partner.child.seller,model_res_partner_child,,1,1,1,1
+access_company_certificate_tree,company.certificate.tree,model_company_certificate_tree,,1,1,1,1
