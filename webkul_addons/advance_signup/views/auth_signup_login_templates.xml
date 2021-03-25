@@ -129,7 +129,12 @@
         </template>
         <template id="adv_signup_inherit_fields" inherit_id="auth_signup.fields">
             <xpath expr="//div[1]" position="before">
-                <t t-set="signup_vals" t-value="website.get_signup_fields()"/>
+                <t t-if="seller_signup">
+                    <t t-set="signup_vals" t-value="website.with_context(seller_profile=True).get_signup_fields()"/>
+                </t>
+                <t t-else="">
+                    <t t-set="signup_vals" t-value="website.with_context(buyer_profile=True).get_signup_fields()"/>
+                </t>
             </xpath>
             <xpath expr="//input[@name='name']/.." position="after">
                 <div class="row adv_input_row">

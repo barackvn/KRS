@@ -92,6 +92,7 @@ class AuthSignupHome(Website):
     @http.route('/seller/signup', type='http', auth="public", website=True)
     def seller_signup_form(self, *args, **kw):
         qcontext = self.get_auth_signup_qcontext()
+        qcontext['seller_signup'] = True
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
         if kw.get("name", False):

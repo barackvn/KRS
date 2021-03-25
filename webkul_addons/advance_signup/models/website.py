@@ -41,6 +41,12 @@ class Website(models.Model):
         if domain:
             domain = safe_eval(domain)
         objs = self.env[obj_rel].sudo().search(domain)
+        if obj_rel == 'partner.speciality':
+            if self.env.context.get('seller_profile') == True:
+                objs = self.env[obj_rel].sudo().search([('type', '=', 'seller')])
+            if self.env.context.get('buyer_profile') == True:
+                objs = self.env[obj_rel].sudo().search([('type', '=', 'buyer')])
+
         if objs:
             for rec in objs:
                 field_type = field.sudo().field
