@@ -87,6 +87,33 @@
                                 <field name="ship_mobile" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
                             </group>
                         </group>
+                        <separator string="Company Information"/>
+                        <group>
+                                <group>
+                                    <separator string="Invoicing"/>
+                                    <field name="bank"/>
+                                    <field name="account_number"/>
+                                </group>
+                                <group>
+                                    <separator string="Shop information"/>
+                                    <field name="year_starting_business"/>
+                                    <field name="tag_line_company"/>
+                                    <field name="description_company"/>
+                                </group>
+                        </group>
+                        <group>
+                            <field name="certificate"/>
+                        </group>
+
+                            <separator string="Certificate on company level 1"/>
+                                        <field name="certificate_ids" >
+                                            <tree string="Certificates" editable="bottom">
+                                                <field name="info_seller"/>
+                                                <field name="start_date"/>
+                                                <field name="end_date"/>
+                                            </tree>
+                                        </field>
+
                     </sheet>
                 </form>
             </field>

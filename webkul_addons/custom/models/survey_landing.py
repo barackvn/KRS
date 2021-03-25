@@ -2,6 +2,7 @@ import re
 import base64
 import datetime
 
+
 from odoo import fields, models, api, _, tools
 from odoo.addons.iap import jsonrpc
 from odoo.exceptions import UserError
@@ -22,6 +23,14 @@ class ResPatnerChild(models.Model):
     phone = fields.Integer("Phone")
     mobile = fields.Integer("Mobile")
     survey_id = fields.Many2one('survey.landing', 'Survey')
+
+class CompanyCertificateTree(models.Model):
+    _name = 'company.certificate.tree'
+
+    info_seller = fields.Binary('Information from Seller')
+    start_date = fields.Date('Start Date')
+    end_date = fields.Date('End Date')
+    certificate_id = fields.Many2one('survey.landing', 'Certificate')
 
 
 class SurveyLanding(models.Model):
@@ -64,4 +73,11 @@ class SurveyLanding(models.Model):
     ship_email = fields.Char("Email")
     ship_phone = fields.Char("Phone")
     ship_mobile = fields.Char("Mobile")
+    bank = fields.Char("Bank")
+    account_number = fields.Char("Account Number")
+    year_starting_business = fields.Char('Year')
+    tag_line_company = fields.Char("Tag Line Company")
+    description_company = fields.Char("Description Company")
+    certificate = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Status', default='yes')
+    certificate_ids = fields.One2many('company.certificate.tree', 'certificate_id', 'Certificate1')
 
