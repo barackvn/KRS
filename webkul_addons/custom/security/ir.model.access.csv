@@ -10,9 +10,10 @@ access_fish_zone_seller,fish.zone.seller,model_fish_zone,odoo_marketplace.market
 access_fishing_seller,fishing.seller,model_fishing,odoo_marketplace.marketplace_seller_group,1,1,1,1
 access_volume_seller,volume.seller,model_volume,odoo_marketplace.marketplace_seller_group,1,1,1,1
 access_pallet_kind_seller,pallet.kind.seller,model_pallet_kind,odoo_marketplace.marketplace_seller_group,1,1,1,1
-access_survey_landing_seller,survey.landing.seller,model_survey_landing,,1,1,1,1
-access_res_partner_child_seller,res.partner.child.seller,model_res_partner_child,,1,1,1,1
-access_company_certificate_tree,company.certificate.tree,model_company_certificate_tree,,1,1,1,1
-access_slider_image_tree,slider.image.tree,model_slider_image_tree,,1,1,1,1
-access_product_image_tree,product.image.tree,model_product_image_tree,,1,1,1,1
-access_extra_class_m2m,extra.class.m2m,model_extra_class_m2m,,1,1,1,1
+access_survey_landing_seller,survey.landing.seller,model_survey_landing,custom.group_survey_access,1,1,1,1
+access_res_partner_child_seller,res.partner.child.seller,model_res_partner_child,custom.group_survey_access,1,1,1,1
+access_company_certificate_tree,company.certificate.tree,model_company_certificate_tree,custom.group_survey_access,1,1,1,1
+access_slider_image_tree,slider.image.tree,model_slider_image_tree,custom.group_survey_access,1,1,1,1
+access_product_image_tree,product.image.tree,model_product_image_tree,custom.group_survey_access,1,1,1,1
+access_extra_class_m2m,extra.class.m2m,model_extra_class_m2m,custom.group_survey_access,1,1,1,1
+access_certificate_type,certificate.type,model_certificate_type,custom.group_survey_access,1,1,1,1

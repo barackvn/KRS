@@ -24,6 +24,11 @@ class ResPatnerChild(models.Model):
     mobile = fields.Integer("Mobile")
     survey_id = fields.Many2one('survey.landing', 'Survey')
 
+class CertificateType(models.Model):
+    _name = 'certificate.type'
+
+    name = fields.Char("Name")
+
 class CompanyCertificateTree(models.Model):
     _name = 'company.certificate.tree'
 
@@ -32,12 +37,14 @@ class CompanyCertificateTree(models.Model):
     start_date = fields.Date('Start Date')
     end_date = fields.Date('End Date')
     certificate_id = fields.Many2one('survey.landing', 'Certificate')
+    certification_type_id = fields.Many2one("certificate.type", "Company Certification")
 
 class SliderImageTree(models.Model):
     _name = 'slider.image.tree'
 
     preferred_link = fields.Char('Preferred Website Link')
     slider_image_file = fields.Binary('Slider Image')
+    filename = fields.Char(string="File Name", track_visibility="onchange")
     slider_id = fields.Many2one('survey.landing', 'Slider Image')
 
 class ExtraClassM2M(models.Model):
@@ -50,11 +57,18 @@ class ProductImageTree(models.Model):
 
     product_name = fields.Char('Product Name')
     picture_html = fields.Binary('Picture')
+    filename = fields.Char(string="File Name", track_visibility="onchange")
     product_image_id = fields.Many2one('survey.landing', 'Product Image')
 
 class SurveyLanding(models.Model):
     _name = 'survey.landing'
 
+    user_id = fields.Many2one(
+        'res.users', string='User',
+        required=True,
+        index=True,
+        readonly=True,
+        default=lambda self: self.env.uid)
     company_id = fields.Char('Company Name')
     street = fields.Char('Street')
     street2 = fields.Char('Street2')
@@ -65,6 +79,7 @@ class SurveyLanding(models.Model):
     vat = fields.Char(string='VAT')
     language_id = fields.Many2one('res.lang', 'Language')
     speciality_id = fields.Many2many('partner.speciality', string='Specialisation')
+    seller_website = fields.Char("Company Website")
     contact_ids = fields.One2many('res.partner.child','survey_id','Contacts')
     is_invoice = fields.Boolean("Invoice Address")
     invoice_contact_name = fields.Char("Contact Name")
@@ -94,9 +109,9 @@ class SurveyLanding(models.Model):
     ship_mobile = fields.Char("Mobile")
     bank = fields.Char("Bank")
     account_number = fields.Char("Account Number")
-    year_starting_business = fields.Char('Year')
+    year_starting_business = fields.Char('Year Of Starting Business')
     tag_line_company = fields.Char("Tag Line Company")
-    description_company = fields.Char("Description Company")
+    description_company = fields.Text("Description Company")
     certificate = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Status', default='yes')
     certificate_ids = fields.One2many('company.certificate.tree', 'certificate_id', 'Certificate1')
     company_logo = fields.Many2many(comodel_name='ir.attachment', string='')
@@ -104,12 +119,16 @@ class SurveyLanding(models.Model):
                                       'attachment_id', 'Attachments')
     slider_image = fields.One2many('slider.image.tree','slider_id', 'Slider Image')
     product_image = fields.One2many('product.image.tree','product_image_id', 'Product Image')
-    state = fields.Selection([('draft', 'Draft'), ('pending', 'Pending For Approval'), ('confirm', 'Confirm'), ('done', 'Done'), ('cancelled', 'Cancelled')], string='Status', default='draft')
+    state = fields.Selection([('draft', 'Draft'), ('pending', 'Pending For Approval'), ('confirm', 'Confirm'), ('done', 'Done'), ('reject', 'Rejected')], string='Status', default='draft')
+
+    def send_to_krs(self):
+        for record in self:
+            record.write({'state': 'pending'})
 
     def action_confirm(self):
         for record in self:
-            record.write({'state': 'confirm'})
-
-    def action_done(self):
-        for record in self:
             record.write({'state': 'done'})
+
+    def action_reject(self):
+        for record in self:
+            record.write({'state': 'cancel'})
