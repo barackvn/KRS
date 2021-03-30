@@ -7,9 +7,11 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="action_confirm" type="object" string="Send to KRS" class="oe_highlight"/>
-                        <button name="action_done" type="object" string="Done" class="oe_highlight"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,pending,confirm,done,cancelled"/>
+                        <button name="send_to_krs" type="object" string="Send to KRS" class="oe_highlight" attrs="{'invisible' : [('state', 'in', ['pending','confirm'])]}"/>
+                        <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" attrs="{'invisible' : [('state', 'in', ['draft','reject'])]}" groups="odoo_marketplace.marketplace_officer_group"/>
+                        <button name="action_reject" type="object" string="Rejected" class="oe_highlight" groups="odoo_marketplace.marketplace_officer_group"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,pending,confirm,reject"/>
                     </header>
                     <sheet>
                         <group>
@@ -35,7 +37,11 @@
                                        options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
                                 <field name="speciality_id" widget="many2many_tags" domain="[('type','=','seller')]"
                                        options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                <field name="user_id" invisible="1"/>
                             </group>
+                        </group>
+                        <group>
+                            <field name="seller_website"/>
                         </group>
                         <separator string="Contact persons"/>
                         <field name="contact_ids">
@@ -66,6 +72,8 @@
                                     <field name="inv_country_id" placeholder="Country" class="o_address_country"
                                            options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
                                 </div>
+                                <field name="invoice_contact_name"
+                                       attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
                                 <field name="inv_job_position" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
                                 <field name="inv_email" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
                                 <field name="inv_phone" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
@@ -88,6 +96,7 @@
                                     <field name="ship_country_id" placeholder="Country" class="o_address_country"
                                            options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
                                 </div>
+                                <field name="ship_contact_name" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
                                 <field name="ship_job_position" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
                                 <field name="ship_email" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
                                 <field name="ship_phone" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
@@ -105,16 +114,16 @@
                                 <separator string="Shop information"/>
                                 <field name="year_starting_business"/>
                                 <field name="tag_line_company"/>
-                                <field name="description_company"/>
                             </group>
                         </group>
                         <group>
-                            <field name="certificate"/>
+                            <field name="description_company"/>
                         </group>
 
                         <separator string="Certificate on company level 1"/>
                         <field name="certificate_ids">
                             <tree string="Certificates" editable="bottom">
+                                <field name="certification_type_id"/>
                                 <field name="info_seller" widget="binary" filename="filename"/>
                                 <field name="filename" invisible="1"/>
                                 <field name="start_date"/>
@@ -123,28 +132,30 @@
                         </field>
                         <separator string="Images"/>
                         <group>
-                            <separator string="Company logo*"/>
+                            <separator string="Company logo Minimum size 300 * 300px."/>
                             <field name="company_logo" widget="many2many_binary"/>
                         </group>
 
                         <group>
-                            <separator string="Banner Image*"/>
+                            <separator string="Banner Image (1298 x 400 px for perfect view)"/>
                             <field name="attachment_ids" widget="many2many_binary"/>
                         </group>
 
-                        <separator string="Slider image"/>
+                        <separator string="Slider image (1298 x 400 px for perfect view)"/>
                         <field name="slider_image">
                             <tree string="Slider Image" editable="bottom">
                                 <field name="preferred_link"/>
-                                <field name="slider_image_file"/>
+                                 <field name="slider_image_file" widget="binary" filename="filename"/>
+                                <field name="filename" invisible="1"/>
                             </tree>
                         </field>
 
-                        <separator string="Product images"/>
+                        <separator string="Product images 360° view."/>
                         <field name="product_image">
                             <tree string="Product Image" editable="bottom">
                                 <field name="product_name"/>
-                                <field name="picture_html"/>
+                                <field name="picture_html" widget="binary" filename="filename"/>
+                                <field name="filename" invisible="1"/>
                             </tree>
                         </field>
 
@@ -160,7 +171,6 @@
                 <tree>
                     <field name="company_id"/>
                     <field name="language_id"/>
-                    <field name="speciality_id"/>
                 </tree>
             </field>
         </record>
@@ -170,7 +180,7 @@
             <field name="res_model">survey.landing</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[]</field>
+            <field name="domain">[('state','!=','draft')]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a new Survey Landing Page
@@ -182,8 +192,51 @@
                   id="menu_action_survey_landing"
                   action="action_survey_landing"
                   parent="odoo_marketplace.wk_seller_dashboard_menu1"
+                  groups="custom.group_survey_access"
                   sequence="10"
         />
+
+        <record id="certificate_type_form_view" model="ir.ui.view">
+            <field name="name">certificate.type.form</field>
+            <field name="model">certificate.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="certificate_type_tree_view" model="ir.ui.view">
+            <field name="name">certificate.type.tree</field>
+            <field name="model">certificate.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_certificate_type" model="ir.actions.act_window">
+            <field name="name">Certificate Type</field>
+            <field name="res_model">certificate.type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Certificate Type
+                </p>
+            </field>
+        </record>
+        <menuitem id="menuitem_action_certificate_type" action="action_certificate_type" name="Certificate Type"
+                  parent="odoo_marketplace.wk_seller_dashboard_menu8"
+                  groups="odoo_marketplace.marketplace_officer_group"/>
 
         <!--        View for Survey Landing Notebook in res.partner         -->
         <record id="survey_landing_notebook_page" model="ir.ui.view">
