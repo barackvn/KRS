@@ -6,6 +6,11 @@
             <field name="model">survey.landing</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="action_confirm" type="object" string="Send to KRS" class="oe_highlight"/>
+                        <button name="action_done" type="object" string="Done" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,pending,confirm,done,cancelled"/>
+                    </header>
                     <sheet>
                         <group>
                             <group>
@@ -31,23 +36,24 @@
                                 <field name="speciality_id" widget="many2many_tags" domain="[('type','=','seller')]"
                                        options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
                             </group>
-                            </group>
-                                <separator string="Contact persons"/>
-                                <field name="contact_ids">
-                                    <tree string="Contacts" editable="bottom">
-                                        <field name="first_name"/>
-                                        <field name="last_name"/>
-                                        <field name="job_position"/>
-                                        <field name="email"/>
-                                        <field name="phone"/>
-                                        <field name="mobile"/>
-                                    </tree>
-                                </field>
+                        </group>
+                        <separator string="Contact persons"/>
+                        <field name="contact_ids">
+                            <tree string="Contacts" editable="bottom">
+                                <field name="first_name"/>
+                                <field name="last_name"/>
+                                <field name="job_position"/>
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                            </tree>
+                        </field>
                         <group>
                             <group>
                                 <separator string="Invoice address"/>
                                 <field name="is_invoice" widget="boolean_toggle"/>
-                                <label for="" name="invoice_address_name" attrs="{'invisible' : [('is_invoice', '=', False)]}">
+                                <label for="" name="invoice_address_name"
+                                       attrs="{'invisible' : [('is_invoice', '=', False)]}">
                                     <b>Address</b>
                                 </label>
                                 <div class="o_address_format" attrs="{'invisible' : [('is_invoice', '=', False)]}">
@@ -68,7 +74,8 @@
                             <group>
                                 <separator string="Shipping address"/>
                                 <field name="is_shipping" widget="boolean_toggle"/>
-                                <label for="" name="shipping_address_name" attrs="{'invisible' : [('is_shipping', '=', False)]}">
+                                <label for="" name="shipping_address_name"
+                                       attrs="{'invisible' : [('is_shipping', '=', False)]}">
                                     <b>Address</b>
                                 </label>
                                 <div class="o_address_format" attrs="{'invisible' : [('is_shipping', '=', False)]}">
@@ -89,31 +96,31 @@
                         </group>
                         <separator string="Company Information"/>
                         <group>
-                                <group>
-                                    <separator string="Invoicing"/>
-                                    <field name="bank"/>
-                                    <field name="account_number"/>
-                                </group>
-                                <group>
-                                    <separator string="Shop information"/>
-                                    <field name="year_starting_business"/>
-                                    <field name="tag_line_company"/>
-                                    <field name="description_company"/>
-                                </group>
+                            <group>
+                                <separator string="Invoicing"/>
+                                <field name="bank"/>
+                                <field name="account_number"/>
+                            </group>
+                            <group>
+                                <separator string="Shop information"/>
+                                <field name="year_starting_business"/>
+                                <field name="tag_line_company"/>
+                                <field name="description_company"/>
+                            </group>
                         </group>
                         <group>
                             <field name="certificate"/>
                         </group>
 
-                            <separator string="Certificate on company level 1"/>
-                                        <field name="certificate_ids" >
-                                            <tree string="Certificates" editable="bottom">
-                                                <field name="info_seller" widget="binary" filename="filename"/>
-                                                <field name="filename" invisible="1"/>
-                                                <field name="start_date"/>
-                                                <field name="end_date"/>
-                                            </tree>
-                                        </field>
+                        <separator string="Certificate on company level 1"/>
+                        <field name="certificate_ids">
+                            <tree string="Certificates" editable="bottom">
+                                <field name="info_seller" widget="binary" filename="filename"/>
+                                <field name="filename" invisible="1"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                            </tree>
+                        </field>
                         <separator string="Images"/>
                         <group>
                             <separator string="Company logo*"/>
@@ -122,25 +129,24 @@
 
                         <group>
                             <separator string="Banner Image*"/>
-<!--                            <field name="banner_image" widget="many2many_binary"/>-->
-                            <field name="banner_image"/>
+                            <field name="attachment_ids" widget="many2many_binary"/>
                         </group>
 
                         <separator string="Slider image"/>
-                                        <field name="slider_image" >
-                                            <tree string="Slider Image" editable="bottom">
-                                                <field name="preferred_link"/>
-                                                <field name="slider_image_file"/>
-                                            </tree>
-                                        </field>
+                        <field name="slider_image">
+                            <tree string="Slider Image" editable="bottom">
+                                <field name="preferred_link"/>
+                                <field name="slider_image_file"/>
+                            </tree>
+                        </field>
 
                         <separator string="Product images"/>
-                                        <field name="product_image" >
-                                            <tree string="Product Image" editable="bottom">
-                                                <field name="product_name"/>
-                                                <field name="picture_html"/>
-                                            </tree>
-                                        </field>
+                        <field name="product_image">
+                            <tree string="Product Image" editable="bottom">
+                                <field name="product_name"/>
+                                <field name="picture_html"/>
+                            </tree>
+                        </field>
 
                     </sheet>
                 </form>

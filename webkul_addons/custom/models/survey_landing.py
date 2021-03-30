@@ -40,6 +40,11 @@ class SliderImageTree(models.Model):
     slider_image_file = fields.Binary('Slider Image')
     slider_id = fields.Many2one('survey.landing', 'Slider Image')
 
+class ExtraClassM2M(models.Model):
+    _name = 'extra.class.m2m'
+
+
+
 class ProductImageTree(models.Model):
     _name = 'product.image.tree'
 
@@ -95,8 +100,16 @@ class SurveyLanding(models.Model):
     certificate = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Status', default='yes')
     certificate_ids = fields.One2many('company.certificate.tree', 'certificate_id', 'Certificate1')
     company_logo = fields.Many2many(comodel_name='ir.attachment', string='')
-    # banner_image = fields.Many2many(comodel_name='ir.attachment', string='')
-    banner_image = fields.Binary(string='')
+    attachment_ids = fields.Many2many('ir.attachment', 'email_template_attachment_rels', 'email_template_ids',
+                                      'attachment_id', 'Attachments')
     slider_image = fields.One2many('slider.image.tree','slider_id', 'Slider Image')
     product_image = fields.One2many('product.image.tree','product_image_id', 'Product Image')
+    state = fields.Selection([('draft', 'Draft'), ('pending', 'Pending For Approval'), ('confirm', 'Confirm'), ('done', 'Done'), ('cancelled', 'Cancelled')], string='Status', default='draft')
 
+    def action_confirm(self):
+        for record in self:
+            record.write({'state': 'confirm'})
+
+    def action_done(self):
+        for record in self:
+            record.write({'state': 'done'})

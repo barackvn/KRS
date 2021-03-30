@@ -15,3 +15,4 @@ access_res_partner_child_seller,res.partner.child.seller,model_res_partner_child
 access_company_certificate_tree,company.certificate.tree,model_company_certificate_tree,,1,1,1,1
 access_slider_image_tree,slider.image.tree,model_slider_image_tree,,1,1,1,1
 access_product_image_tree,product.image.tree,model_product_image_tree,,1,1,1,1
+access_extra_class_m2m,extra.class.m2m,model_extra_class_m2m,,1,1,1,1
