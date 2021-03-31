@@ -80,6 +80,16 @@ class ProductProductInherit(models.Model):
 class ProductTemplateInherit(models.Model):
     _inherit = 'product.template'
 
+    @api.depends('name', 'net_weight_per_unit','net_weight_uom')
+    def _compute_complete_product_name(self):
+        for record in self:
+            name = ''
+            if record.name:
+                name += str(record.name) + ' '
+            if record.net_weight_per_unit:
+                name += str(int(record.net_weight_per_unit)) + ' ' + str(record.net_weight_uom)
+            record.complete_name = name
+
     purchase_price_carton_excl_vat = fields.Monetary("Purchase price carton for buyer excl. VAT")
     purchase_price_unit_excl_vat = fields.Monetary("Purchase price per unit excl. VAT")
     adv_sale_price_excl_vat = fields.Monetary("Advisable sales price excl. VAT")
@@ -239,13 +249,21 @@ class ProductTemplateInherit(models.Model):
     height_carton = fields.Float("Height carton")
     volume_carton = fields.Float("Volume carton")
     net_content_per_unit = fields.Float("Net content per single unit")
+    net_content_uom = fields.Selection([('gram', 'gram'),('ml', 'ml')],string="UOM", default='gram')
     drained_weight_per_unit = fields.Float("Drained weight per single unit")
+    drained_weight_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
     net_weight_per_unit = fields.Float("Net weight per single unit")
+    net_weight_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
     gross_weight_per_unit = fields.Float("Gross weight per single unit")
+    gross_weight_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
     net_content_per_carton = fields.Float("Net content carton")
+    net_carton_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
     drained_weight_per_carton = fields.Float("Drained weight carton")
+    drained_carton_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
     net_weight_per_carton = fields.Float("Net weight carton")
+    net_weight_carton_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
     gross_weight_per_carton = fields.Float("Gross weight carton")
+    gross_weight_carton_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
     pallet_quantity = fields.Float("Amount of cartons on full pallet")
     kind_pallet = fields.Many2one("pallet.kind","Kind of pallet")
     total_pallet_height = fields.Char("Total full pallet height")
@@ -273,6 +291,19 @@ class ProductTemplateInherit(models.Model):
     box_width = fields.Float("Box width")
     box_height = fields.Float("Box height")
     box_maximum_weight = fields.Float("Box maximum weight")
+    complete_name = fields.Char(string="Complete Name", compute="_compute_complete_product_name", store=True)
+
+
+    def name_get(self):
+        result = []
+        name = ''
+        for res in self:
+            if res.name:
+                name += str(res.name) + ' '
+            if res.net_weight_per_unit:
+                name += str(int(res.net_weight_per_unit)) + ' ' + str(res.net_weight_uom)
+            result.append((res.id, name))
+        return result
 
     @api.onchange('energy_kg')
     def _onchange_get_cal_energy_kg(self):

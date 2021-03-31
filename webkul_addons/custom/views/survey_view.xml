@@ -8,10 +8,10 @@
                 <form>
                     <header>
                         <button name="send_to_krs" type="object" string="Send to KRS" class="oe_highlight" attrs="{'invisible' : [('state', 'in', ['pending','confirm'])]}"/>
-                        <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" attrs="{'invisible' : [('state', 'in', ['draft','reject'])]}" groups="odoo_marketplace.marketplace_officer_group"/>
-                        <button name="action_reject" type="object" string="Rejected" class="oe_highlight" groups="odoo_marketplace.marketplace_officer_group"/>
+                        <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" attrs="{'invisible' : [('state', 'in', ['rip','draft','reject','confirm'])]}" groups="odoo_marketplace.marketplace_officer_group"/>
+                        <button name="action_reject" type="object" string="Rejected" class="oe_highlight" attrs="{'invisible' : [('state', 'in', ['draft','confirm'])]}" groups="odoo_marketplace.marketplace_officer_group"/>
                         <field name="state" widget="statusbar"
-                               statusbar_visible="draft,pending,confirm,reject"/>
+                               statusbar_visible="draft,rip,pending,confirm,reject"/>
                     </header>
                     <sheet>
                         <group>
@@ -34,7 +34,7 @@
                                 </div>
                                 <field name="vat" placeholder="e.g. BE0477472701"/>
                                 <field name="language_id" domain="[('active','=',True)]"
-                                       options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                       options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" required="1"/>
                                 <field name="speciality_id" widget="many2many_tags" domain="[('type','=','seller')]"
                                        options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
                                 <field name="user_id" invisible="1"/>
@@ -46,12 +46,12 @@
                         <separator string="Contact persons"/>
                         <field name="contact_ids">
                             <tree string="Contacts" editable="bottom">
-                                <field name="first_name"/>
-                                <field name="last_name"/>
-                                <field name="job_position"/>
-                                <field name="email"/>
+                                <field name="first_name" required="1"/>
+                                <field name="last_name" required="1"/>
+                                <field name="job_position" required="1"/>
+                                <field name="email" required="1"/>
                                 <field name="phone"/>
-                                <field name="mobile"/>
+                                <field name="mobile" required="1"/>
                             </tree>
                         </field>
                         <group>
@@ -107,13 +107,13 @@
                         <group>
                             <group>
                                 <separator string="Invoicing"/>
-                                <field name="bank"/>
-                                <field name="account_number"/>
+                                <field name="bank" required="1"/>
+                                <field name="account_number" required="1"/>
                             </group>
                             <group>
                                 <separator string="Shop information"/>
-                                <field name="year_starting_business"/>
-                                <field name="tag_line_company"/>
+                                <field name="year_starting_business" required="1"/>
+                                <field name="tag_line_company" required="1"/>
                             </group>
                         </group>
                         <group>
@@ -133,12 +133,12 @@
                         <separator string="Images"/>
                         <group>
                             <separator string="Company logo Minimum size 300 * 300px."/>
-                            <field name="company_logo" widget="many2many_binary"/>
+                            <field name="company_logo" widget="many2many_binary" required="1"/>
                         </group>
 
                         <group>
                             <separator string="Banner Image (1298 x 400 px for perfect view)"/>
-                            <field name="attachment_ids" widget="many2many_binary"/>
+                            <field name="attachment_ids" widget="many2many_binary" required="1"/>
                         </group>
 
                         <separator string="Slider image (1298 x 400 px for perfect view)"/>
@@ -151,6 +151,9 @@
                         </field>
 
                         <separator string="Product images 360° view."/>
+                        <div attrs="{'invisible' : [('state', '!=', 'draft')]}" >
+                            <a>If you do not have 360° view product image click on</a><button style="border: none; color: green;padding: 4px;" name="action_send_product_360_image" type="object" string="Click Here"/><a>  to get instruction on email</a>
+                        </div>
                         <field name="product_image">
                             <tree string="Product Image" editable="bottom">
                                 <field name="product_name"/>
@@ -180,7 +183,7 @@
             <field name="res_model">survey.landing</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('state','!=','draft')]</field>
+            <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a new Survey Landing Page

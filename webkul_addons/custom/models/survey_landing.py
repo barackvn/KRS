@@ -62,6 +62,7 @@ class ProductImageTree(models.Model):
 
 class SurveyLanding(models.Model):
     _name = 'survey.landing'
+    _rec_name = 'user_id'
 
     user_id = fields.Many2one(
         'res.users', string='User',
@@ -119,7 +120,19 @@ class SurveyLanding(models.Model):
                                       'attachment_id', 'Attachments')
     slider_image = fields.One2many('slider.image.tree','slider_id', 'Slider Image')
     product_image = fields.One2many('product.image.tree','product_image_id', 'Product Image')
-    state = fields.Selection([('draft', 'Draft'), ('pending', 'Pending For Approval'), ('confirm', 'Confirm'), ('done', 'Done'), ('reject', 'Rejected')], string='Status', default='draft')
+    state = fields.Selection([('draft', 'Draft'), ('rip', 'RIP'),('pending', 'Pending For Approval'), ('confirm', 'Confirm'), ('done', 'Done'), ('reject', 'Rejected')], string='Status', default='draft')
+
+    def action_send_product_360_image(self):
+        for record in self:
+            if record.user_id.partner_id.email:
+                admin = self.env['res.users'].search([('id', '=', 2)])
+                email = str(record.user_id.partner_id.email) + ',' + str(admin.partner_id.email)
+                mail_templ_id = self.env['ir.model.data'].get_object_reference(
+                    'custom', 'template_seller_for_product_360_image')[1]
+                template_obj = self.env['mail.template'].browse(mail_templ_id)
+                send = template_obj.with_context(company=self.env.company, email=email,
+                                                 seller_name=record.user_id.partner_id.name).send_mail(record.id, True)
+                record.write({'state':'rip'})
 
     def send_to_krs(self):
         for record in self:
@@ -128,6 +141,11 @@ class SurveyLanding(models.Model):
     def action_confirm(self):
         for record in self:
             record.write({'state': 'done'})
+            # seller_user = self.env["res.users"].sudo().search([('partner_id', '=', record.partner_id.id)])
+            if record.user_id:
+                survey_group_obj = self.env.ref('custom.group_survey_access')
+                survey_group_obj.sudo().write({"users": [(3, record.user_id.id, 0)]})
+
 
     def action_reject(self):
         for record in self:
