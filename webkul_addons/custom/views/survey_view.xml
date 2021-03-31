@@ -242,7 +242,7 @@
         <record id="survey_landing_notebook_page" model="ir.ui.view">
             <field name="name">survey.landing.notebook.page</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
                     <page name="survey_landing_view" string="Survey Landing Information">
