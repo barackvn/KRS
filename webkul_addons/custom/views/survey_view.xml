@@ -13,6 +13,10 @@
                         <field name="state" widget="statusbar"
                                statusbar_visible="draft,rip,pending,confirm,reject"/>
                     </header>
+                    <div style="text-align: center; color: green;" attrs="{'invisible' : ['|',('state', 'in', ['draft','rip','confirm','reject']),('user_id','=',2)]}">
+                        <h6>Thank You</h6>
+                        <h6>Document will be reviewed as soon as possible</h6>
+                    </div>
                     <sheet>
                         <group>
                             <group>
@@ -245,7 +249,7 @@
         <record id="survey_landing_notebook_page" model="ir.ui.view">
             <field name="name">survey.landing.notebook.page</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
                     <page name="survey_landing_view" string="Survey Landing Information">

@@ -120,7 +120,7 @@ class SurveyLanding(models.Model):
                                       'attachment_id', 'Attachments')
     slider_image = fields.One2many('slider.image.tree','slider_id', 'Slider Image')
     product_image = fields.One2many('product.image.tree','product_image_id', 'Product Image')
-    state = fields.Selection([('draft', 'Draft'), ('rip', 'RIP'),('pending', 'Pending For Approval'), ('confirm', 'Confirm'), ('done', 'Done'), ('reject', 'Rejected')], string='Status', default='draft')
+    state = fields.Selection([('draft', 'Draft'), ('rip', 'RIP'),('pending', 'Pending For Approval'), ('confirm', 'Done'), ('reject', 'Rejected')], string='Status', default='draft')
 
     def action_send_product_360_image(self):
         for record in self:
@@ -139,13 +139,72 @@ class SurveyLanding(models.Model):
             record.write({'state': 'pending'})
 
     def action_confirm(self):
-        for record in self:
-            record.write({'state': 'done'})
-            # seller_user = self.env["res.users"].sudo().search([('partner_id', '=', record.partner_id.id)])
-            if record.user_id:
-                survey_group_obj = self.env.ref('custom.group_survey_access')
-                survey_group_obj.sudo().write({"users": [(3, record.user_id.id, 0)]})
-
+        self.write({'state': 'confirm'})
+        # seller_user = self.env["res.users"].sudo().search([('partner_id', '=', record.partner_id.id)])
+        if self.user_id:
+            survey_group_obj = self.env.ref('custom.group_survey_access')
+            survey_group_obj.sudo().write({"users": [(3, self.user_id.id, 0)]})
+        partner_id = self.user_id.partner_id
+        print(partner_id)
+        partner_id.write({
+                'is_invoice': self.is_invoice,
+                'invoice_contact_name': self.invoice_contact_name,
+                'inv_company_name': self.inv_company_name,
+                'inv_street': self.inv_street,
+                'inv_street2': self.inv_street2,
+                'inv_zip': self.inv_zip,
+                'inv_city': self.inv_city,
+                'inv_state_id': self.inv_state_id.id,
+                'inv_country_id': self.inv_country_id.id,
+                'inv_job_position': self.inv_job_position,
+                'inv_email': self.inv_email,
+                'inv_phone': self.inv_phone,
+                'inv_mobile': self.inv_mobile,
+                'is_shipping': self.is_shipping,
+                'ship_contact_name': self.ship_contact_name,
+                'ship_company_name': self.ship_company_name,
+                'ship_street': self.ship_street,
+                'ship_street2': self.ship_street2,
+                'ship_zip': self.ship_zip,
+                'ship_city': self.ship_city,
+                'ship_state_id': self.ship_state_id.id,
+                'ship_country_id': self.ship_country_id.id,
+                'ship_job_position': self.ship_job_position,
+                'ship_email': self.ship_email,
+                'ship_phone': self.ship_phone,
+                'ship_mobile': self.ship_mobile,
+                'bank': self.bank,
+                'account_number': self.account_number,
+                'year_starting_business': self.year_starting_business,
+                'tag_line_company': self.tag_line_company,
+                'description_company': self.description_company,
+                'certificate': self.certificate,
+                # 'certificate_ids': self.certificate_ids,
+                # 'res_company_logo': self.company_logo,
+                # 'attachment_ids': self.attachment_ids,
+                # 'slider_image': self.slider_image,
+                # 'product_image': self.product_image,
+                # 'company_id': self.company_id,
+                # 'street': self.street,
+                # 'street2': self.street2,
+                # 'city': self.city,
+                # 'state_id': self.state_id,
+                # 'zip': self.zip,
+                # 'country_id': self.country_id,
+                # 'vat': self.vat,
+                # 'lang': self.language_id,
+                # # 'speciality_id': record.speciality_id,
+                # 'url': self.seller_website
+            })
+        for contact in self.contact_ids:
+            res_partner = self.env['res.partner'].create({
+                    'parent_id': partner_id.id,
+                    'name': contact.first_name + '' + contact.last_name,
+                    'function': contact.job_position,
+                    'email': contact.email,
+                    'phone': str(contact.phone),
+                    'mobile': str(contact.mobile)
+                })
 
     def action_reject(self):
         for record in self:
