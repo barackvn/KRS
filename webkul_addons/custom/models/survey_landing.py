@@ -125,13 +125,13 @@ class SurveyLanding(models.Model):
     def action_send_product_360_image(self):
         for record in self:
             if record.user_id.partner_id.email:
-                admin = self.env['res.users'].search([('id', '=', 2)])
+                admin = self.env['res.users'].sudo().search([('id', '=', 2)])
                 email = str(record.user_id.partner_id.email) + ',' + str(admin.partner_id.email)
-                mail_templ_id = self.env['ir.model.data'].get_object_reference(
+                mail_templ_id = self.env['ir.model.data'].sudo().get_object_reference(
                     'custom', 'template_seller_for_product_360_image')[1]
                 template_obj = self.env['mail.template'].browse(mail_templ_id)
                 send = template_obj.with_context(company=self.env.company, email=email,
-                                                 seller_name=record.user_id.partner_id.name).send_mail(record.id, True)
+                                                 seller_name=record.user_id.partner_id.name).sudo().send_mail(record.id, True)
                 record.write({'state':'rip'})
 
     def send_to_krs(self):
