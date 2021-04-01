@@ -88,15 +88,15 @@ class ResPartner(models.Model):
     tag_line_company = fields.Char("Tag Line Company")
     description_company = fields.Char("Description Company")
     certificate = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Status', default='yes')
-    certificate_ids = fields.One2many('company.certificate.tree', 'certificate_id', 'Certificate1')
+    certificate_ids = fields.One2many('company.certificate.tree', 'certificate_id_res', 'Certificate1')
     # res_company_logo = fields.Many2many(comodel_name='ir.attachment', string='Company Logo')
     res_company_logo = fields.Many2many('ir.attachment', 'company_logo_attachment_rel', 'res_id',
                                       'attachment_id', 'Company Logo',)
     attachment_ids = fields.Many2many(
         'ir.attachment', 'res_survey_attachment_rel','res_id',
         'attachment_id', 'Banner Image')
-    slider_image = fields.One2many('slider.image.tree', 'slider_id', 'Slider Image')
-    product_image = fields.One2many('product.image.tree', 'product_image_id', 'Product Image')
+    slider_image = fields.One2many('slider.image.tree', 'slider_id_res', 'Slider Image')
+    product_image = fields.One2many('product.image.tree', 'product_image_id_res', 'Product Image')
 
     # state = fields.Selection(
     #     [('draft', 'Draft'), ('pending', 'Pending For Approval'), ('confirm', 'Confirm'), ('done', 'Done'),

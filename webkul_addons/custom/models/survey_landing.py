@@ -5,11 +5,13 @@ import datetime
 
 from odoo import fields, models, api, _, tools
 from odoo.addons.iap import jsonrpc
-from odoo.exceptions import UserError
+# from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 import logging
 from odoo import SUPERUSER_ID
 from dateutil.relativedelta import relativedelta
+
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -36,6 +38,7 @@ class CompanyCertificateTree(models.Model):
     filename = fields.Char(string="File Name", track_visibility="onchange")
     start_date = fields.Date('Start Date')
     end_date = fields.Date('End Date')
+    certificate_id_res = fields.Many2one('res.partner', 'Res Certificate')
     certificate_id = fields.Many2one('survey.landing', 'Certificate')
     certification_type_id = fields.Many2one("certificate.type", "Company Certification")
 
@@ -46,6 +49,7 @@ class SliderImageTree(models.Model):
     slider_image_file = fields.Binary('Slider Image')
     filename = fields.Char(string="File Name", track_visibility="onchange")
     slider_id = fields.Many2one('survey.landing', 'Slider Image')
+    slider_id_res = fields.Many2one('re.partner', 'Res Slider Image')
 
 class ExtraClassM2M(models.Model):
     _name = 'extra.class.m2m'
@@ -62,6 +66,13 @@ class ProductImageTree(models.Model):
     picture_html = fields.Binary('Picture')
     filename = fields.Char(string="File Name", track_visibility="onchange")
     product_image_id = fields.Many2one('survey.landing', 'Product Image')
+    product_image_id_res = fields.Many2one('res.partner', 'Res Product Image')
+
+    @api.onchange('picture_html')
+    def _onchange_picture_html(self):
+        if self.picture_html:
+            if str(self.filename).split('.')[-1] != 'html':
+                raise ValidationError(_("Only HTML files can be selected."))
 
 class SurveyLanding(models.Model):
     _name = 'survey.landing'
@@ -148,7 +159,46 @@ class SurveyLanding(models.Model):
             survey_group_obj = self.env.ref('custom.group_survey_access')
             survey_group_obj.sudo().write({"users": [(3, self.user_id.id, 0)]})
         partner_id = self.user_id.partner_id
-        print(partner_id)
+
+        product_image_object = self.env['product.image.tree'].search([('product_image_id', '=', self.id)])
+        slider_image_object = self.env['slider.image.tree'].search([('slider_id', '=', self.id)])
+        company_certification_object = self.env['company.certificate.tree'].search([('certificate_id', '=', self.id)])
+
+        for record in company_certification_object:
+            partner_id.write({
+                'certificate_ids': [
+                    (0, 0, {
+                        # 'certification_type_id': company_certification_object.certification_type_id,
+                        'info_seller': record.info_seller,
+                        'start_date': record.start_date,
+                        'end_date': record.end_date,
+                        'filename': record.filename,
+                    }),
+                ]
+            })
+
+        for record in slider_image_object:
+            partner_id.write({
+                'slider_image': [
+                    (0, 0, {
+                        'preferred_link': record.preferred_link,
+                        'slider_image_file': record.slider_image_file,
+                        'filename': record.filename,
+                    }),
+                ]
+            })
+
+        for record in product_image_object:
+            partner_id.write({
+                'product_image': [
+                    (0, 0, {
+                        'product_name': record.product_name,
+                        'picture_html': record.picture_html,
+                        'filename': record.filename,
+                    }),
+                ]
+            })
+
         partner_id.write({
                 'is_invoice': self.is_invoice,
                 'invoice_contact_name': self.invoice_contact_name,
@@ -182,11 +232,54 @@ class SurveyLanding(models.Model):
                 'tag_line_company': self.tag_line_company,
                 'description_company': self.description_company,
                 'certificate': self.certificate,
+                # 'certificate_ids': [
+                #     (0, 0, {
+                #         # 'certification_type_id': company_certification_object.certification_type_id,
+                #         'info_seller': self.info_seller,
+                #         'start_date': self.start_date,
+                #         'end_date': self.end_date
+                #     }),
+                # ],
+                # 'slider_image': [
+                #     (0, 0, {
+                #         'preferred_link': self.preferred_link,
+                #         'slider_image_file': self.slider_image_file,
+                #     }),
+                # ],
+                # 'product_image': [
+                #     (0, 0, {
+                #         'product_name': self.product_name,
+                #         'picture_html': self.picture_html,
+                #     }),
+                # ],
                 # 'certificate_ids': self.certificate_ids,
-                # 'res_company_logo': self.company_logo,
-                # 'attachment_ids': self.attachment_ids,
+                # 'certificate_ids': [
+                #     (0, 0, {
+                #         # 'certification_type_id': company_certification_object.certification_type_id,
+                #         'info_seller': company_certification_object.info_seller,
+                #         'start_date': company_certification_object.start_date,
+                #         'end_date': company_certification_object.end_date
+                #     }),
+                # ],
+                # 'res_company_logo': [
+                #     (6, 0, [],)
+                # ],
+                'res_company_logo': [(6, 0, self.company_logo.ids)],
+                'attachment_ids': [(6, 0, self.attachment_ids.ids)]
                 # 'slider_image': self.slider_image,
+                # 'slider_image': [
+                #     (6, 0, {
+                #         'preferred_link': slider_image_object.preferred_link,
+                #         'slider_image_file': slider_image_object.slider_image_file,
+                #     }),
+                # ],
                 # 'product_image': self.product_image,
+                # 'product_image': [
+                #     (6, 0, {
+                #         'product_name': product_image_object.product_name,
+                #         'picture_html': product_image_object.picture_html,
+                #     }),
+                # ],
                 # 'company_id': self.company_id,
                 # 'street': self.street,
                 # 'street2': self.street2,
