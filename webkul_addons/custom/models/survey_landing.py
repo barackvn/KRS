@@ -55,7 +55,10 @@ class ExtraClassM2M(models.Model):
 class ProductImageTree(models.Model):
     _name = 'product.image.tree'
 
+    brand_name = fields.Char('Brand Name')
     product_name = fields.Char('Product Name')
+    net_weight = fields.Integer("Net weight")
+    uom = fields.Selection([('gram','gran'),('ml','ml')], String='g/ml')
     picture_html = fields.Binary('Picture')
     filename = fields.Char(string="File Name", track_visibility="onchange")
     product_image_id = fields.Many2one('survey.landing', 'Product Image')
@@ -95,7 +98,7 @@ class SurveyLanding(models.Model):
     inv_email = fields.Char("Email")
     inv_phone = fields.Char("Phone")
     inv_mobile = fields.Char("Mobile")
-    is_shipping = fields.Boolean("shipping Address")
+    is_shipping = fields.Boolean("Shipping Address")
     ship_contact_name = fields.Char("Contact Name")
     ship_company_name = fields.Char('Company Name')
     ship_street = fields.Char('Street')
@@ -209,3 +212,4 @@ class SurveyLanding(models.Model):
     def action_reject(self):
         for record in self:
             record.write({'state': 'cancel'})
+
