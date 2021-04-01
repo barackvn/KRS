@@ -160,7 +160,8 @@ class SurveyLanding(models.Model):
                         # 'certification_type_id': company_certification_object.certification_type_id,
                         'info_seller': record.info_seller,
                         'start_date': record.start_date,
-                        'end_date': record.end_date
+                        'end_date': record.end_date,
+                        'filename': record.filename,
                     }),
                 ]
             })
@@ -171,6 +172,7 @@ class SurveyLanding(models.Model):
                     (0, 0, {
                         'preferred_link': record.preferred_link,
                         'slider_image_file': record.slider_image_file,
+                        'filename': record.filename,
                     }),
                 ]
             })
@@ -181,6 +183,7 @@ class SurveyLanding(models.Model):
                     (0, 0, {
                         'product_name': record.product_name,
                         'picture_html': record.picture_html,
+                        'filename': record.filename,
                     }),
                 ]
             })
@@ -218,6 +221,26 @@ class SurveyLanding(models.Model):
                 'tag_line_company': self.tag_line_company,
                 'description_company': self.description_company,
                 'certificate': self.certificate,
+                # 'certificate_ids': [
+                #     (0, 0, {
+                #         # 'certification_type_id': company_certification_object.certification_type_id,
+                #         'info_seller': self.info_seller,
+                #         'start_date': self.start_date,
+                #         'end_date': self.end_date
+                #     }),
+                # ],
+                # 'slider_image': [
+                #     (0, 0, {
+                #         'preferred_link': self.preferred_link,
+                #         'slider_image_file': self.slider_image_file,
+                #     }),
+                # ],
+                # 'product_image': [
+                #     (0, 0, {
+                #         'product_name': self.product_name,
+                #         'picture_html': self.picture_html,
+                #     }),
+                # ],
                 # 'certificate_ids': self.certificate_ids,
                 # 'certificate_ids': [
                 #     (0, 0, {
@@ -230,7 +253,8 @@ class SurveyLanding(models.Model):
                 # 'res_company_logo': [
                 #     (6, 0, [],)
                 # ],
-                # 'attachment_ids': self.attachment_ids,
+                'res_company_logo': [(6, 0, self.company_logo.ids)],
+                'attachment_ids': [(6, 0, self.attachment_ids.ids)]
                 # 'slider_image': self.slider_image,
                 # 'slider_image': [
                 #     (6, 0, {
