@@ -5,11 +5,13 @@ import datetime
 
 from odoo import fields, models, api, _, tools
 from odoo.addons.iap import jsonrpc
-from odoo.exceptions import UserError
+# from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 import logging
 from odoo import SUPERUSER_ID
 from dateutil.relativedelta import relativedelta
+
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -62,6 +64,12 @@ class ProductImageTree(models.Model):
     filename = fields.Char(string="File Name", track_visibility="onchange")
     product_image_id = fields.Many2one('survey.landing', 'Product Image')
     product_image_id_res = fields.Many2one('res.partner', 'Res Product Image')
+
+    @api.onchange('picture_html')
+    def _onchange_picture_html(self):
+        if self.picture_html:
+            if str(self.filename).split('.')[-1] != 'html':
+                raise ValidationError(_("Only HTML files can be selected."))
 
 class SurveyLanding(models.Model):
     _name = 'survey.landing'

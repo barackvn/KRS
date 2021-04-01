@@ -195,7 +195,7 @@
             </field>
         </record>
 
-        <menuitem name="Survey Landing"
+        <menuitem name="Shop Details"
                   id="menu_action_survey_landing"
                   action="action_survey_landing"
                   parent="odoo_marketplace.wk_seller_dashboard_menu1"
@@ -322,6 +322,7 @@
                                 <separator string="Certificate on company level 1"/>
                                 <field name="certificate_ids">
                                     <tree string="Certificates" editable="bottom">
+                                        <field name="certification_type_id"/>
                                         <field name="info_seller" widget="binary" filename="filename"/>
                                         <field name="filename" invisible="1"/>
                                         <field name="start_date"/>
