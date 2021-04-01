@@ -265,7 +265,7 @@ class SurveyLanding(models.Model):
                 #     (6, 0, [],)
                 # ],
                 'res_company_logo': [(6, 0, self.company_logo.ids)],
-                'attachment_ids': [(6, 0, self.attachment_ids.ids)]
+                'attachment_ids': [(6, 0, self.attachment_ids.ids)],
                 # 'slider_image': self.slider_image,
                 # 'slider_image': [
                 #     (6, 0, {
@@ -292,6 +292,26 @@ class SurveyLanding(models.Model):
                 # # 'speciality_id': record.speciality_id,
                 # 'url': self.seller_website
             })
+
+        partner_id.create({
+            'name': self.company_id,
+            'url': self.seller_website,
+            # 'shop_banner': [(6 ,0, self.company_logo.ids)],
+            # 'shop_tag_line': self.tag_line_company,
+            # 'description': self.description_company,
+            # 'street': self.street,
+            # 'street2': self.street2,
+            # 'city': self.city,
+            # 'state_id': self.state_id.id,
+            # 'zip': self.zip,
+            # 'country_id': self.country_id.id,
+            # 'phone': self.phone
+            # 'slider_image': self.slider_image
+            # 'shop_mobile': self.shop_mobile,
+            # 'email': self.email,
+            # 'fax': self.fax
+        })
+
         for contact in self.contact_ids:
             res_partner = self.env['res.partner'].create({
                     'parent_id': partner_id.id,
@@ -301,6 +321,7 @@ class SurveyLanding(models.Model):
                     'phone': str(contact.phone),
                     'mobile': str(contact.mobile)
                 })
+
 
     def action_reject(self):
         for record in self:
