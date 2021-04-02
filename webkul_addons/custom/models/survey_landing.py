@@ -95,7 +95,7 @@ class SurveyLanding(models.Model):
     language_id = fields.Many2one('res.lang', 'Language')
     speciality_id = fields.Many2many('partner.speciality', string='Specialisation')
     seller_website = fields.Char("Company Website")
-    contact_ids = fields.One2many('res.partner.child','survey_id','Contacts')
+    contact_ids = fields.One2many('res.partner.child', 'survey_id', 'Contacts')
     is_invoice = fields.Boolean("Invoice Address")
     invoice_contact_name = fields.Char("Contact Name")
     inv_company_name = fields.Char('Company Name')
@@ -154,7 +154,7 @@ class SurveyLanding(models.Model):
 
     def action_confirm(self):
         self.write({'state': 'confirm'})
-        # seller_user = self.env["res.users"].sudo().search([('partner_id', '=', record.partner_id.id)])
+        seller_id = self.env["seller.shop"].sudo().search([('id', '=', self.user_id.id)])
         if self.user_id:
             survey_group_obj = self.env.ref('custom.group_survey_access')
             survey_group_obj.sudo().write({"users": [(3, self.user_id.id, 0)]})
@@ -163,6 +163,8 @@ class SurveyLanding(models.Model):
         product_image_object = self.env['product.image.tree'].search([('product_image_id', '=', self.id)])
         slider_image_object = self.env['slider.image.tree'].search([('slider_id', '=', self.id)])
         company_certification_object = self.env['company.certificate.tree'].search([('certificate_id', '=', self.id)])
+        seller_shop_object = self.env['seller.banner.image'].search([('shop_id', '=', self.id)])
+
 
         for record in company_certification_object:
             partner_id.write({
@@ -293,24 +295,49 @@ class SurveyLanding(models.Model):
                 # 'url': self.seller_website
             })
 
-        partner_id.create({
+        # seller_id.write({
+        #     # 'seller_id': self.user_id,
+        #     'name': self.company_id,
+        #     'url': self.seller_website,
+        #     'shop_banner': [(6 ,0, self.company_logo.ids)],
+        #     'shop_tag_line': self.tag_line_company,
+        #     # 'description': self.description_company,
+        #     # 'street': self.street,
+        #     # 'street2': self.street2,
+        #     # 'city': self.city,
+        #     # 'state_id': self.state_id.id,
+        #     # 'zip': self.zip,
+        #     # 'country_id': self.country_id.id,
+        #     # 'phone': self.phone
+        #     # 'slider_image': self.slider_image
+        #     # 'shop_mobile': self.shop_mobile,
+        #     # 'email': self.email,
+        #     # 'fax': self.fax
+        # })
+
+
+        seller_shop = self.env["seller.shop"].sudo().create({
+            # 'seller_shop_id': self.user_id.id,
             'name': self.company_id,
-            'url': self.seller_website,
-            # 'shop_banner': [(6 ,0, self.company_logo.ids)],
-            # 'shop_tag_line': self.tag_line_company,
-            # 'description': self.description_company,
-            # 'street': self.street,
-            # 'street2': self.street2,
-            # 'city': self.city,
-            # 'state_id': self.state_id.id,
-            # 'zip': self.zip,
-            # 'country_id': self.country_id.id,
-            # 'phone': self.phone
-            # 'slider_image': self.slider_image
-            # 'shop_mobile': self.shop_mobile,
-            # 'email': self.email,
-            # 'fax': self.fax
+            'url_handler': self.company_id,
+            # 'shop_banner': [(6, 0, self.company_logo.ids)],
+            'shop_tag_line': self.tag_line_company,
+            # 'shop_banner_ids': [
+            #     (0, 0, {
+            #         'image': self.company_logo.datas,
+            #     }),
+            # ]
         })
+
+        partner_obj = self.env['res.partner'].sudo().search([('id', '=', seller_shop.id)], limit=1)
+        if partner_obj:
+            partner_update = partner_obj.write({
+                'seller_shop_id': seller_shop
+            })
+
+        # self.env['seller.banner.image'].create({
+        #     'image': self.slider_image_file
+        # })
 
         for contact in self.contact_ids:
             res_partner = self.env['res.partner'].create({
