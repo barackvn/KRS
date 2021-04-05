@@ -377,5 +377,26 @@
         </record>
 
 
+<!--        <record id="action_server_wk_seller_shop_action" model="ir.actions.server">-->
+<!--            <field name="name">Shop Action server</field>-->
+<!--            <field name="model_id" ref="custom.model_seller_shop" />-->
+<!--            <field name="type">ir.actions.server</field>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="code">-->
+<!--            if records:-->
+<!--                action = records.action_seller_shop()</field>-->
+<!--            <field name="binding_model_id" ref="custom.model_seller_shop"/>-->
+<!--        </record>-->
+
+        <record id="action_server_wk_seller_shop_action" model="ir.actions.server">
+            <field name="name">Shop Action server</field>
+            <field name="model_id" ref="custom.model_seller_shop" />
+            <field name="state">code</field>
+            <field name="code">action = model.action_seller_shop()</field>
+        </record>
+
+        <menuitem id="odoo_marketplace.wk_seller_dashboard_menu1_sub_menu2" name="Seller Shops" parent="odoo_marketplace.wk_seller_dashboard_menu1" action="custom.action_server_wk_seller_shop_action" sequence="2" groups="odoo_marketplace.group_marketplace_seller_shop,odoo_marketplace.marketplace_officer_group"/>
+
+
     </data>
 </odoo>

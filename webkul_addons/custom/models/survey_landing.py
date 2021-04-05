@@ -306,3 +306,34 @@ class SurveyLanding(models.Model):
         for record in self:
             record.write({'state': 'cancel'})
 
+
+class SellerShopInherit(models.Model):
+    _inherit = 'seller.shop'
+
+    @api.model
+    def action_seller_shop(self):
+        if self.env.user.has_group(
+                'odoo_marketplace.marketplace_draft_seller_group') and not self.env.user.has_group(
+            'odoo_marketplace.marketplace_officer_group'):
+            shop_id = self.search([('seller_id', '=', self.env.user.partner_id.id)])
+            action = self.env.ref('odoo_marketplace.wk_seller_shop_action').read()[0]
+            if len(shop_id) > 1:
+                action['domain'] = [('id', 'in', shop_id.ids)]
+            elif len(shop_id) == 1:
+                action['views'] = [(self.env.ref('odoo_marketplace.wk_seller_shop_form_view').id, 'form')]
+                action['res_id'] = shop_id.id
+            return action
+        else:
+            action = self.env.ref('odoo_marketplace.wk_seller_shop_action').read()[0]
+            return action
+
+        invoices = self.mapped('move_ids')
+        action = self.env.ref('account.action_move_out_invoice_type').read()[0]
+        if len(invoices) > 1:
+            action['domain'] = [('id', 'in', invoices.ids)]
+        elif len(invoices) == 1:
+            action['views'] = [(self.env.ref('account.view_move_form').id, 'form')]
+            action['res_id'] = invoices.id
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+        return action
