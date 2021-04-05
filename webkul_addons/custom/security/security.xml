@@ -6,20 +6,20 @@
             <field name="name">Landing Page</field>
         </record>
 
-        <record id="survey_landing_user_rule" model="ir.rule">
-			<field name="name">Survey Own Document</field>
-			<field name="model_id" ref="model_survey_landing"/>
-            <field name="groups" eval="[(4,ref('custom.group_survey_access'))]" />
-			<field name="domain_force">[('create_uid','=',user.id)]</field>
-		</record>
+<!--        <record id="survey_landing_user_rule" model="ir.rule">-->
+<!--			<field name="name">Survey Own Document</field>-->
+<!--			<field name="model_id" ref="model_survey_landing"/>-->
+<!--            <field name="groups" eval="[(4,ref('custom.group_survey_access'))]" />-->
+<!--			<field name="domain_force">[('create_uid','=',user.id)]</field>-->
+<!--		</record>-->
 
 
-        <record id="survey_landing_admin_rule" model="ir.rule">
-	        <field name="name">Survey admin</field>
-	        <field name="model_id" ref="model_survey_landing"/>
-	        <field name="domain_force">[(1,'=',1)]</field>
-	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_officer_group'))]"/>
-	    </record>
+<!--        <record id="survey_landing_admin_rule" model="ir.rule">-->
+<!--	        <field name="name">Survey admin</field>-->
+<!--	        <field name="model_id" ref="model_survey_landing"/>-->
+<!--	        <field name="domain_force">[(1,'=',1)]</field>-->
+<!--	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_officer_group'))]"/>-->
+<!--	    </record>-->
 
     </data>
 </odoo>
