@@ -33,7 +33,7 @@
                                     <button name="action_reject_profile" string="NO" type="object" attrs="{'invisible': ['|',('match_profile', '=', True),('email_notify', '=', True)]}"/>
                                     <button name="action_accept_lead" string="Yes" type="object"  attrs="{'invisible': ['|',('match_profile', '!=', True),('email_notify', '=', True)]}"/>
                                 </div>
-                            <field name="assign_membership" domain="[('wk_mp_membership','=',True), ('type', '=', 'service')]" options="{'no_create': True}" attrs="{'invisible': [('is_buyer', '=', True)]}"/>
+                            <field name="assign_membership" domain="[('wk_mp_membership','=',True), ('type', '=', 'service')]" options="{'no_create': True}" attrs="{'invisible': [('is_buyer', '=', True)],'required':[('is_buyer', '!=', True)]}"/>
                             <field name="reason" placeholder="Write a Reason...."/>
                         </group>
 
