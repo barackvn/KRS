@@ -28,6 +28,8 @@ class CrmLeadInherit(models.Model):
     qualify_date = fields.Date("Qualify Date")
     is_seller = fields.Boolean('Seller')
     is_buyer = fields.Boolean('Buyer')
+    url_approve = fields.Char()
+    url_reject = fields.Char()
 
 
     def action_reject_profile(self):
@@ -52,6 +54,12 @@ class CrmLeadInherit(models.Model):
     def action_accept_lead(self):
         for record in self:
             if record.partner_id.seller:
+                url_approve = record.get_base_url() + '/approve/' + str(record.id)
+                url_reject = record.get_base_url() + '/reject/' + str(record.id)
+
+                self.url_approve = url_approve
+                self.url_reject = url_reject
+
                 # if record.partner_id.state != 'approved':
                 #     raise UserError(_("Please first approved the seller profile."))
                 mail_templ_id = self.env['ir.model.data'].get_object_reference(
@@ -72,6 +80,7 @@ class CrmLeadInherit(models.Model):
                 if seller_user:
                     survey_group_obj = self.env.ref('custom.group_survey_access')
                     survey_group_obj.sudo().write({"users": [(4, seller_user.id, 0)]})
+
             else:
                 mail_templ_id = self.env['ir.model.data'].get_object_reference(
                     'custom', 'template_accept_register_buyer')[1]
@@ -110,3 +119,29 @@ class CrmLeadInherit(models.Model):
                     notify_date = member.qualify_date + relativedelta(days=13)
                     if notify_date < datetime.date.today():
                         member.write({'stage_id': loss_id.id})
+
+
+    def send_to_approve(self):
+        if self.partner_id.name and self.partner_id.email:
+            mail_values = {}
+
+            mail_values.update({
+                'body_html': """
+                                  <p>Dear """ + self.partner_id.name + """</p>
+                                  <p>Find quotation as per your request.Kindly approve if accepted</p>
+                                  <br/>
+                              <button style="background-color:#875A7B;color:white; padding:5px; font-size:16px;">
+                                      <a style="color:white; text-decoration:none;" href='""" + url_approve + """'> Approve</a></button>
+
+                              <button style="background-color:#875A7B;color:white; padding:5px; font-size:16px;">
+                                      <a style="color:white; text-decoration:none;" href='""" + url_reject + """'> Reject </a></button>
+                              <br/>
+                              <p>Thanks</p>
+                                                              """
+            })
+            mail_values.update({
+                'subject': self.partner_id.name + 'Quotation Approval',
+                'email_to': self.partner_id.email,
+            })
+            msg_id_managaer = self.env['mail.mail'].create(mail_values)
+            msg_id_managaer.send()
