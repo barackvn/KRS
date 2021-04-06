@@ -234,110 +234,29 @@ class SurveyLanding(models.Model):
                 'tag_line_company': self.tag_line_company,
                 'description_company': self.description_company,
                 'certificate': self.certificate,
-                # 'certificate_ids': [
-                #     (0, 0, {
-                #         # 'certification_type_id': company_certification_object.certification_type_id,
-                #         'info_seller': self.info_seller,
-                #         'start_date': self.start_date,
-                #         'end_date': self.end_date
-                #     }),
-                # ],
-                # 'slider_image': [
-                #     (0, 0, {
-                #         'preferred_link': self.preferred_link,
-                #         'slider_image_file': self.slider_image_file,
-                #     }),
-                # ],
-                # 'product_image': [
-                #     (0, 0, {
-                #         'product_name': self.product_name,
-                #         'picture_html': self.picture_html,
-                #     }),
-                # ],
-                # 'certificate_ids': self.certificate_ids,
-                # 'certificate_ids': [
-                #     (0, 0, {
-                #         # 'certification_type_id': company_certification_object.certification_type_id,
-                #         'info_seller': company_certification_object.info_seller,
-                #         'start_date': company_certification_object.start_date,
-                #         'end_date': company_certification_object.end_date
-                #     }),
-                # ],
-                # 'res_company_logo': [
-                #     (6, 0, [],)
-                # ],
                 'res_company_logo': [(6, 0, self.company_logo.ids)],
                 'attachment_ids': [(6, 0, self.attachment_ids.ids)],
-                # 'slider_image': self.slider_image,
-                # 'slider_image': [
-                #     (6, 0, {
-                #         'preferred_link': slider_image_object.preferred_link,
-                #         'slider_image_file': slider_image_object.slider_image_file,
-                #     }),
-                # ],
-                # 'product_image': self.product_image,
-                # 'product_image': [
-                #     (6, 0, {
-                #         'product_name': product_image_object.product_name,
-                #         'picture_html': product_image_object.picture_html,
-                #     }),
-                # ],
-                # 'company_id': self.company_id,
-                # 'street': self.street,
-                # 'street2': self.street2,
-                # 'city': self.city,
-                # 'state_id': self.state_id,
-                # 'zip': self.zip,
-                # 'country_id': self.country_id,
-                # 'vat': self.vat,
-                # 'lang': self.language_id,
-                # # 'speciality_id': record.speciality_id,
-                # 'url': self.seller_website
             })
-
-        # seller_id.write({
-        #     # 'seller_id': self.user_id,
-        #     'name': self.company_id,
-        #     'url': self.seller_website,
-        #     'shop_banner': [(6 ,0, self.company_logo.ids)],
-        #     'shop_tag_line': self.tag_line_company,
-        #     # 'description': self.description_company,
-        #     # 'street': self.street,
-        #     # 'street2': self.street2,
-        #     # 'city': self.city,
-        #     # 'state_id': self.state_id.id,
-        #     # 'zip': self.zip,
-        #     # 'country_id': self.country_id.id,
-        #     # 'phone': self.phone
-        #     # 'slider_image': self.slider_image
-        #     # 'shop_mobile': self.shop_mobile,
-        #     # 'email': self.email,
-        #     # 'fax': self.fax
-        # })
 
 
         seller_shop = self.env["seller.shop"].sudo().create({
-            # 'seller_shop_id': self.user_id.id,
             'name': self.company_id,
-            'url_handler': self.company_id,
-            # 'shop_banner': [(6, 0, self.company_logo.ids)],
+            'url_handler': self.company_id.replace(' ', '-'),
             'shop_tag_line': self.tag_line_company,
-            # 'shop_banner_ids': [
-            #     (0, 0, {
-            #         'image': self.company_logo.datas,
-            #     }),
-            # ]
+            'description': self.description_company,
+            'seller_id': self.user_id.partner_id.id,
+            'street': self.street,
+            'street2': self.street2,
+            'city': self.city,
+            'state_id': self.state_id.id,
+            'zip': self.zip,
+            'country_id': self.country_id.id
         })
-
-        partner_obj = self.env['res.partner'].sudo().search([('id', '=', seller_shop.id)], limit=1)
-        if partner_obj:
-            partner_update = partner_obj.write({
-                'seller_shop_id': seller_shop
-            })
-
-        # self.env['seller.banner.image'].create({
-        #     'image': self.slider_image_file
-        # })
+        for banner in self.attachment_ids:
+            print(banner)
+            if seller_shop:
+                shop_banner_ids = self.env["seller.banner.image"].sudo().create({'image': banner.datas,
+                 'shop_id':seller_shop.id})
 
         for contact in self.contact_ids:
             res_partner = self.env['res.partner'].create({
@@ -353,4 +272,39 @@ class SurveyLanding(models.Model):
     def action_reject(self):
         for record in self:
             record.write({'state': 'cancel'})
+
+    @api.model
+    def action_seller_shop_details(self):
+        action = self.env.ref('custom.action_survey_landing').read()[0]
+        if self.env.user.has_group(
+                'custom.group_survey_access') and not self.env.user.has_group(
+            'odoo_marketplace.marketplace_officer_group'):
+            # shop_id = self.search([('seller_id', '=', self.env.user.partner_id.id)])
+
+            action['domain'] = [('user_id', '=',self.env.user.id)]
+            return action
+        else:
+            action['domain'] = [('state', '!=', 'draft')]
+            return action
+
+
+class SellerShopInherit(models.Model):
+    _inherit = 'seller.shop'
+
+    @api.model
+    def action_seller_shop(self):
+        if self.env.user.has_group(
+                'odoo_marketplace.marketplace_draft_seller_group') and not self.env.user.has_group(
+            'odoo_marketplace.marketplace_officer_group'):
+            shop_id = self.search([('seller_id', '=', self.env.user.partner_id.id)])
+            action = self.env.ref('odoo_marketplace.wk_seller_shop_action').read()[0]
+            if len(shop_id) > 1:
+                action['domain'] = [('id', 'in', shop_id.ids)]
+            elif len(shop_id) == 1:
+                action['views'] = [(self.env.ref('odoo_marketplace.wk_seller_shop_form_view').id, 'form')]
+                action['res_id'] = shop_id.id
+            return action
+        else:
+            action = self.env.ref('odoo_marketplace.wk_seller_shop_action').read()[0]
+            return action
 
