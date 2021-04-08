@@ -103,6 +103,12 @@
                         <p>Best regards,</p>
                         <p>Admin</p>
 
+                        <button style="background-color:#875A7B;color:white; padding:5px; font-size:16px;">
+                                      <a style="color:white; text-decoration:none;" href='""" + ${object.url_approve} + """'> Approve</a></button>
+
+                        <button style="background-color:#875A7B;color:white; padding:5px; font-size:16px;">
+                                      <a style="color:white; text-decoration:none;" href='""" + ${object.url_reject} + """'> Reject </a></button>
+
                 ]]>
             </field>
         </record>
@@ -125,6 +131,13 @@
                         <br/>
                         <p>Best regards,</p>
                         <p>Admin</p>
+                        <p>Hi</p>
+
+                        <button style="background-color:#875A7B;color:white; padding:5px; font-size:16px;">
+                                      <a style="color:white; text-decoration:none;" href='""" + ${object.url_approve} + """'> Approve</a></button>
+
+                        <button style="background-color:#875A7B;color:white; padding:5px; font-size:16px;">
+                                      <a style="color:white; text-decoration:none;" href='""" + ${object.url_reject} + """'> Reject </a></button>
 
                 ]]>
             </field>
