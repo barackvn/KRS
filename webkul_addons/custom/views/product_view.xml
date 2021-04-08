@@ -106,6 +106,14 @@
                         <group>
                                 <div class="row" >
                                     <div class="col-6">
+                                        <label for="cust_product_category"  style="width:260px;font-weight: bold;"/>
+                                        <field name="cust_product_category"  style="position: relative;min-width: 10px;width: 236px;" required="1"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="natural_water" attrs="{'invisible': [('cust_product_category', '!=', 'drink')],'required': [('cust_product_category', '=', 'drink')]}" style="font-weight: bold;"/>
+                                        <field name="natural_water" attrs="{'invisible': [('cust_product_category', '!=', 'drink')],'required': [('cust_product_category', '=', 'drink')]}" style="position: relative;width: 50% !important;min-width: 10px;" />
+                                    </div>
+                                    <div class="col-6">
                                         <label for="categ_id"  style="width:260px;font-weight: bold;" groups="odoo_marketplace.marketplace_officer_group"/>
                                         <field name="categ_id"  style="position: relative;min-width: 10px;" required="1" options="{'no_create': True}" class="oe_inline" groups="odoo_marketplace.marketplace_officer_group"/>
                                     </div>
@@ -228,20 +236,20 @@
                                     <field name="energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="energy_kg" string="KJ" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>%
-                                    <label for="poly_unsaturated_fats" style="width:25%;font-weight: bold;padding-left: 8%;"/>
-                                    <field name="poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="poly_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="carbohydrates" style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                    <field name="carbohydrates" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="carbohydrates" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_carbohydrates" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="address_format" cols="6" colspan="2">
                                     <label for="energy_kcal" style="width:150px;font-weight: bold;"/>
                                     <field name="energy_kcal" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="energy_kcal" string="kcal" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_energy_kcal" style="position: relative;width: 10% !important;min-width: 10px;"/>%
-                                    <label for="carbohydrates" style="width:25%;font-weight: bold;padding-left: 8%;"/>
-                                    <field name="carbohydrates" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="carbohydrates" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_carbohydrates" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                    <label for="fiber" style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                    <field name="fiber" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="fiber" string="100g" style="width:40px;font-weight: bold;padding:10px"/>
+<!--                                    <field name="cal_fiber" style="position: relative;width: 10% !important;min-width: 10px;"/>%-->
                                 </div>
                                 <div class="address_format" cols="6" colspan="2">
                                     <label for="fat" style="width:150px;font-weight: bold;"/>
@@ -267,11 +275,27 @@
                                     <label for="mono_unsaturated_fats" style="width:150px;font-weight: bold;"/>
                                     <field name="mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="mono_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="salt"  style="width: 26.5%;font-weight: bold;padding-left: 10%;"/>
+<!--                                    <field name="cal_mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
+                                    <label for="salt"  style="width: 36.5%; font-weight: bold; padding-left: 19.5%;"/>
                                     <field name="salt" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="salt" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_salt" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                </div>
+                                <div class="address_format" cols="6" colspan="2">
+                                    <label for="poly_unsaturated_fats" style="width:150px;font-weight: bold;"/>
+                                    <field name="poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="poly_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+<!--                                    <field name="cal_poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
+                                    <label for="sodium"  style="width: 36.5%; font-weight: bold; padding-left: 19.5%;"/>
+                                    <field name="sodium" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="sodium" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                    <field name="cal_sodium" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                </div>
+                                <div class="address_format" cols="6" colspan="2">
+                                    <label for="fruit_veg" style="width:32%;font-weight: bold;"/>
+                                    <field name="fruit_veg" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <label for="fruit_veg" string="%/100g" style="width:40px;font-weight: bold;padding:10px"/>
+<!--                                    <field name="cal_fruit_veg" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
                                 </div>
                         </group>
                         <separator string="Allergens" colspan="4" />
