@@ -4,10 +4,6 @@
     'name': 'Mollie Payments',
     'version': '13.0.1.4',
     'category': 'eCommerce',
-    'license': 'LGPL-3',
-    'author': 'Mollie',
-    'maintainer': 'Applix',
-    'website': 'https://www.mollie.com/',
 
     'summary': 'Accept online payments with mollie. Start growing your business with effortless payments.',
     'description': """
