@@ -6,6 +6,7 @@ from lxml import etree
 import re
 import requests, json
 from base64 import b64encode
+import base64
 
 from requests.auth import HTTPBasicAuth
 
@@ -46,41 +47,43 @@ class CommunicationEwms(models.Model):
             return PreAdvice
 
     def export_pre_advice(self):
-            data = self.get_export_xml()
-            xml_data = data.decode("utf-8")
-            datas = """<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        # data = base64.encodestring(self.get_export_xml())
+        data = self.get_export_xml()
+        xml_data = data.decode("utf-8")
+        datas = """<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
                             <soapenv:Header/>
                             <soapenv:Body>
                             <WebshopCode>99</WebshopCode>
-                            <SoapPassword>Cst78!*%XKevS</SoapPassword>                           
-                            
+                            <SoapPassword>Cst78!*KevS</SoapPassword>  
+                            <PreAdvice>%s</PreAdvice>                      
                             </soapenv:Body>
-                            </soapenv:Envelope>"""
+                            </soapenv:Envelope>""" % (xml_data)
 
-            filename = self.get_export_xml_filename()
-            wizard.file_export = datas
-            wizard.filename = filename
+        filename = self.get_export_xml_filename()
+        wizard = self.env['communication.export.file'].create({'file_export': datas, 'filename': filename})
+        # wizard.file_export = datas
+        # wizard.filename = filename
 
-            model_data_obj = self.env['ir.model.data']
-            view_rec = model_data_obj.get_object_reference(
-                'ewms_connection',
-                'wizard_dati_iva_export_file_exit'
-            )
-            view_id = view_rec and view_rec[1] or False
+        model_data_obj = self.env['ir.model.data']
+        view_rec = model_data_obj.get_object_reference(
+            'ewms_connection',
+            'wizard_dati_iva_export_file_exit'
+        )
+        view_id = view_rec and view_rec[1] or False
 
-            return {
-                'view_type': 'form',
-                'view_id': [view_id],
-                'view_mode': 'form',
-                'res_model': 'communication.export.file',
-                'res_id': wizard.id,
-                'type': 'ir.actions.act_window',
-                'target': 'current',
-            }
+        return {
+            'view_type': 'form',
+            'view_id': [view_id],
+            'view_mode': 'form',
+            'res_model': 'communication.export.file',
+            'res_id': wizard.id,
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+        }
 
-            # response = requests.post(base_url, headers=headers, data=datas)
-            # text_msgs = response.content.decode("utf-8")
-            # print(text_msgs)
+        # response = requests.post(base_url, headers=headers, data=datas)
+        # text_msgs = response.content.decode("utf-8")
+        # print(text_msgs)
 
     def get_export_xml_filename(self):
         self.ensure_one()
