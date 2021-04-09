@@ -90,6 +90,304 @@ class ProductTemplateInherit(models.Model):
                 name += str(int(record.net_weight_per_unit)) + ' ' + str(record.net_weight_uom)
             record.complete_name = name
 
+    @api.depends('cust_product_category', 'energy_kg', 'sugar', 'saturated_fat', 'sodium', 'protein', 'fiber',
+                 'fruit_veg')
+    def _compute_nutriscore(self):
+        for record in self:
+            if record.cust_product_category:
+                if record.cust_product_category:
+                    energy_point = ''
+                    sugar_point = ''
+                    fat_point = ''
+                    sodium_point = ''
+                    protein_point = ''
+                    fiber_point = ''
+                    veg_point = ''
+                    point_a = ''
+                    point = ''
+                    if record.energy_kg:
+                        if record.cust_product_category == 'drink':
+                            if float(record.energy_kg) <= 0:
+                                energy_point = '0'
+                            elif float(record.energy_kg) <= 30:
+                                energy_point = '1'
+                            elif float(record.energy_kg) <= 60:
+                                energy_point = '2'
+                            elif float(record.energy_kg) <= 90:
+                                energy_point = '3'
+                            elif float(record.energy_kg) <= 120:
+                                energy_point = '4'
+                            elif float(record.energy_kg) <= 150:
+                                energy_point = '5'
+                            elif float(record.energy_kg) <= 180:
+                                energy_point = '6'
+                            elif float(record.energy_kg) <= 210:
+                                energy_point = '7'
+                            elif float(record.energy_kg) <= 240:
+                                energy_point = '8'
+                            elif float(record.energy_kg) <= 270:
+                                energy_point = '9'
+                            else:
+                                if float(record.energy_kg) > 270:
+                                    energy_point = '10'
+
+                        else:
+                            if float(record.energy_kg) <= 335:
+                                energy_point = '0'
+                            elif float(record.energy_kg) <= 670:
+                                energy_point = '1'
+                            elif float(record.energy_kg) <= 1005:
+                                energy_point = '2'
+                            elif float(record.energy_kg) <= 1340:
+                                energy_point = '3'
+                            elif float(record.energy_kg) <= 1675:
+                                energy_point = '4'
+                            elif float(record.energy_kg) <= 2010:
+                                energy_point = '5'
+                            elif float(record.energy_kg) <= 2345:
+                                energy_point = '6'
+                            elif float(record.energy_kg) <= 2680:
+                                energy_point = '7'
+                            elif float(record.energy_kg) <= 3015:
+                                energy_point = '8'
+                            elif float(record.energy_kg) <= 3350:
+                                energy_point = '9'
+                            else:
+                                if float(record.energy_kg) > 3350:
+                                    energy_point = '10'
+                    if record.sugar:
+                        if record.cust_product_category == 'drink':
+                            if float(record.sugar) <= 0:
+                                sugar_point = '0'
+                            elif float(record.sugar) <= 1.5:
+                                sugar_point = '1'
+                            elif float(record.sugar) <= 3:
+                                sugar_point = '2'
+                            elif float(record.sugar) <= 4.5:
+                                sugar_point = '3'
+                            elif float(record.sugar) <= 6:
+                                sugar_point = '4'
+                            elif float(record.sugar) <= 7.5:
+                                sugar_point = '5'
+                            elif float(record.sugar) <= 9:
+                                sugar_point = '6'
+                            elif float(record.sugar) <= 10.5:
+                                sugar_point = '7'
+                            elif float(record.sugar) <= 12:
+                                sugar_point = '8'
+                            elif float(record.sugar) <= 13.5:
+                                sugar_point = '9'
+                            else:
+                                if float(record.sugar) > 13.5:
+                                    sugar_point = '10'
+                        else:
+                            if float(record.sugar) <= 4.5:
+                                sugar_point = '0'
+                            elif float(record.sugar) <= 9.0:
+                                sugar_point = '1'
+                            elif float(record.sugar) <= 13.5:
+                                sugar_point = '2'
+                            elif float(record.sugar) <= 18.0:
+                                sugar_point = '3'
+                            elif float(record.sugar) <= 22.5:
+                                sugar_point = '4'
+                            elif float(record.sugar) <= 27.0:
+                                sugar_point = '5'
+                            elif float(record.sugar) <= 32.0:
+                                sugar_point = '6'
+                            elif float(record.sugar) <= 36.0:
+                                sugar_point = '7'
+                            elif float(record.sugar) <= 40.0:
+                                sugar_point = '8'
+                            elif float(record.sugar) <= 45.0:
+                                sugar_point = '9'
+                            else:
+                                if float(record.sugar) > 45.0:
+                                    sugar_point = '10'
+                    if record.saturated_fat:
+                        if record.cust_product_category == 'fat':
+                            ags=''
+                            if record.saturated_fat and record.fat:
+                                ags = round((float(record.saturated_fat)/float(record.fat))*100,2)
+                                if ags <= 10:
+                                    fat_point = '0'
+                                elif ags <= 16:
+                                    fat_point = '1'
+                                elif ags <= 22:
+                                    fat_point = '2'
+                                elif ags <= 28:
+                                    fat_point = '3'
+                                elif ags <= 34:
+                                    fat_point = '4'
+                                elif ags <= 40:
+                                    fat_point = '5'
+                                elif ags <= 46:
+                                    fat_point = '6'
+                                elif ags <= 52:
+                                    fat_point = '7'
+                                elif ags <= 58:
+                                    fat_point = '8'
+                                elif agst <= 64:
+                                    fat_point = '9'
+                                else:
+                                    if ags > 64:
+                                        fat_point = '10'
+
+                        else:
+                            if float(record.saturated_fat) <= 1:
+                                fat_point = '0'
+                            elif float(record.saturated_fat) <= 2:
+                                fat_point = '1'
+                            elif float(record.saturated_fat) <= 3:
+                                fat_point = '2'
+                            elif float(record.saturated_fat) <= 4:
+                                fat_point = '3'
+                            elif float(record.saturated_fat) <= 5:
+                                fat_point = '4'
+                            elif float(record.saturated_fat) <= 6:
+                                fat_point = '5'
+                            elif float(record.saturated_fat) <= 7:
+                                fat_point = '6'
+                            elif float(record.saturated_fat) <= 8:
+                                fat_point = '7'
+                            elif float(record.saturated_fat) <= 9:
+                                fat_point = '8'
+                            elif float(record.saturated_fat) <= 10:
+                                fat_point = '9'
+                            else:
+                                if float(record.saturated_fat) > 10:
+                                    fat_point = '10'
+                    if record.sodium:
+                        if float(record.sodium) <= 90:
+                            sodium_point = '0'
+                        elif float(record.sodium) <= 180:
+                            sodium_point = '1'
+                        elif float(record.sodium) <= 270:
+                            sodium_point = '2'
+                        elif float(record.sodium) <= 360:
+                            sodium_point = '3'
+                        elif float(record.sodium) <= 450:
+                            sodium_point = '4'
+                        elif float(record.sodium) <= 540:
+                            sodium_point = '5'
+                        elif float(record.sodium) <= 630:
+                            sodium_point = '6'
+                        elif float(record.sodium) <= 720:
+                            sodium_point = '7'
+                        elif float(record.sodium) <= 810:
+                            sodium_point = '8'
+                        elif float(record.sodium) <= 900:
+                            sodium_point = '9'
+                        else:
+                            if float(record.sodium) > 900:
+                                sodium_point = '10'
+                    if record.protein:
+                        if float(record.protein) <= 1.6:
+                            protein_point = '0'
+                        elif float(record.protein) <= 3.2:
+                            protein_point = '1'
+                        elif float(record.protein) <= 4.8:
+                            protein_point = '2'
+                        elif float(record.protein) <= 6.4:
+                            protein_point = '3'
+                        elif float(record.protein) <= 8.0:
+                            protein_point = '4'
+                        else:
+                            if float(record.protein) > 8.0:
+                                protein_point = '5'
+                    if record.fiber:
+                        if float(record.fiber) <= 0.9:
+                            fiber_point = '0'
+                        elif float(record.fiber) <= 1.9:
+                            fiber_point = '1'
+                        elif float(record.fiber) <= 2.8:
+                            fiber_point = '2'
+                        elif float(record.fiber) <= 3.7:
+                            fiber_point = '3'
+                        elif float(record.fiber) <= 4.7:
+                            fiber_point = '4'
+                        else:
+                            if float(record.fiber) > 4.7:
+                                fiber_point = '5'
+                    if record.fruit_veg:
+                        if float(record.fruit_veg) <= 40:
+                            veg_point = '0'
+                        elif float(record.fruit_veg) <= 60:
+                            veg_point = '1'
+                        elif float(record.fruit_veg) <= 80:
+                            veg_point = '2'
+                        elif float(record.fruit_veg) > 80:
+                            veg_point = '5'
+                    if record.cust_product_category == 'solid':
+                        if energy_point and sugar_point and fat_point and sodium_point:
+                            point_a = float(energy_point) + float(sugar_point) + float(fat_point) + float(sodium_point)
+                        if point_a and protein_point and fiber_point and veg_point:
+                            if 0 <= point_a < 11:
+                                point = point_a - (float(protein_point) + float(fiber_point) + float(veg_point))
+                            elif point_a >= 11 and float(veg_point) == 5:
+                                point = point_a - (float(protein_point) + float(fiber_point) + float(veg_point))
+                            else:
+                                point = point_a - (float(veg_point) + float(fiber_point))
+                    elif record.cust_product_category == 'cheeses':
+                        if energy_point and sugar_point and fat_point and sodium_point:
+                            point_a = float(energy_point) + float(sugar_point) + float(fat_point) + float(sodium_point)
+                        if point_a and protein_point and fiber_point and veg_point:
+                            point = point_a - (float(protein_point) + float(fiber_point) + float(veg_point))
+
+                    elif record.cust_product_category == 'fat':
+                        if energy_point and sugar_point and fat_point and sodium_point:
+                            point_a = float(energy_point) + float(sugar_point) + float(fat_point) + float(sodium_point)
+                        if point_a and protein_point and fiber_point and veg_point:
+                            point = point_a - (float(protein_point) + float(fiber_point) + float(veg_point))
+
+                    elif record.cust_product_category == 'drink':
+                        if energy_point and sugar_point and fat_point and sodium_point:
+                            point_a = float(energy_point) + float(sugar_point) + float(fat_point) + float(sodium_point)
+                        if point_a and protein_point and fiber_point and veg_point:
+                            if 0 <= point_a < 11:
+                                point = point_a - (float(protein_point) + float(fiber_point) + float(veg_point))
+                            elif point_a >= 11 and float(veg_point) == 5:
+                                point = point_a - (float(protein_point) + float(fiber_point) + float(veg_point))
+                            else:
+                                point = point_a - (float(veg_point) + float(fiber_point))
+                    if point and record.cust_product_category != 'drink':
+                        if point < 0:
+                            record.nutriscore = 'Nutriscore A'
+                        elif point < 3:
+                            record.nutriscore = 'Nutriscore B'
+                        elif point < 11:
+                            record.nutriscore = 'Nutriscore C'
+                        elif point < 19:
+                            record.nutriscore = 'Nutriscore D'
+                        elif point >= 19:
+                            record.nutriscore = 'Nutriscore E'
+                        else:
+                            record.nutriscore = ' '
+                    elif point and record.cust_product_category == 'drink':
+                        if record.natural_water == 'yes':
+                            record.nutriscore = 'Nutriscore A'
+                        elif point < 2:
+                            record.nutriscore = 'Nutriscore B'
+                        elif point < 6:
+                            record.nutriscore = 'Nutriscore C'
+                        elif point < 10:
+                            record.nutriscore = 'Nutriscore D'
+                        elif point >= 10:
+                            record.nutriscore = 'Nutriscore E'
+                        else:
+                            record.nutriscore = ' '
+                    else:
+                        record.nutriscore = ' '
+            else:
+                record.nutriscore = ' '
+
+
+
+
+
+
+
+
     purchase_price_carton_excl_vat = fields.Monetary("Purchase price carton for buyer excl. VAT")
     purchase_price_unit_excl_vat = fields.Monetary("Purchase price per unit excl. VAT")
     adv_sale_price_excl_vat = fields.Monetary("Advisable sales price excl. VAT")
@@ -111,27 +409,33 @@ class ProductTemplateInherit(models.Model):
     product_short_discrp = fields.Text("Product short description")
     product_long_discrp = fields.Text("Product Long description")
     ingredients = fields.Text("Ingredients")
-    nutriscore = fields.Float("Nutriscore")
-    energy_kg = fields.Float("Energy (kj)")
+    nutriscore = fields.Char("Nutriscore", compute="_compute_nutriscore", store=True)
+    energy_kg = fields.Char("Energy (kj)")
     cal_energy_kg = fields.Float("Calculate Energy (kj)")
-    energy_kcal = fields.Float("Energy (kcal)")
+    energy_kcal = fields.Char("Energy (kcal)")
     cal_energy_kcal = fields.Float("Calculate Energy (kcal)")
-    fat = fields.Float("Total Fats")
+    fat = fields.Char("Total Fats")
     cal_fat = fields.Float("Fats")
-    saturated_fat = fields.Float("Total saturated fats")
+    saturated_fat = fields.Char("Total saturated fats")
     cal_saturated_fat = fields.Float("Calculate Totally saturated fats")
-    mono_unsaturated_fats = fields.Float("Monounsaturated Fats")
+    mono_unsaturated_fats = fields.Char("Monounsaturated Fats")
     cal_mono_unsaturated_fats = fields.Float("Calculate Monounsaturated Fats")
-    poly_unsaturated_fats = fields.Float("Polyunsaturated fats")
+    poly_unsaturated_fats = fields.Char("Polyunsaturated fats")
     cal_poly_unsaturated_fats = fields.Float("Calculate Polyunsaturated fats")
-    carbohydrates = fields.Float("Carbohydrates")
+    carbohydrates = fields.Char("Carbohydrates")
     cal_carbohydrates = fields.Float("Calculate Carbohydrates")
-    sugar = fields.Float("Sugars")
+    sugar = fields.Char("Sugars")
     cal_sugar = fields.Float("Calculate Sugars")
-    protein = fields.Float("Proteins")
+    protein = fields.Char("Proteins")
     cal_protein = fields.Float("Calculate Proteins")
-    salt = fields.Float("Sodium")
-    cal_salt = fields.Float("Calculate Sodium")
+    salt = fields.Char("Salt")
+    cal_salt = fields.Float("Calculate Salt")
+    sodium = fields.Char("Sodium")
+    cal_sodium = fields.Float("Calculate Sodium")
+    fruit_veg = fields.Char("Fruits,vegetables,legumes,nuts,canola,nut & olive oils")
+    cal_fruit_veg = fields.Float("Calculate FVLNRNOO")
+    fiber = fields.Char("Dietary Fiber")
+    cal_fiber = fields.Float("Calculate Dietary Fiber")
     cal_nutri_percent = fields.Float("Calculation percentage")
     gluten_contain_grains = fields.Selection([('free', 'Free'), ('may_c', 'May Contain'), ('contain', 'Contains')],
                                              'Gluten-Containing Grains')
@@ -292,7 +596,12 @@ class ProductTemplateInherit(models.Model):
     box_height = fields.Float("Box height")
     box_maximum_weight = fields.Float("Box maximum weight")
     complete_name = fields.Char(string="Complete Name", compute="_compute_complete_product_name", store=True)
-
+    cust_product_category = fields.Selection(
+        [('solid', 'Solid – liquid foods'), ('cheeses', 'Cheeses'), ('fat', 'Added fats'), ('drink', 'Drinks')],
+        string="Product Type")
+    natural_water = fields.Selection(
+        [('yes', 'YES'), ('no', 'NO')],
+        string="Natural Water")
 
     def name_get(self):
         result = []
@@ -309,51 +618,59 @@ class ProductTemplateInherit(models.Model):
     def _onchange_get_cal_energy_kg(self):
         for record in self:
             if record.energy_kg:
-                record.cal_energy_kg = record.energy_kg/8400*100
+                record.cal_energy_kg = float(record.energy_kg)/8400*100
 
     @api.onchange('energy_kcal')
     def _onchange_get_cal_energy_kcal(self):
         for record in self:
             if record.energy_kcal:
-                record.cal_energy_kcal = record.energy_kcal / 2000 * 100
+                record.cal_energy_kcal = float(record.energy_kcal) / 2000 * 100
+                record.energy_kg = str(round(float(record.energy_kcal) * 4.184))
 
 
     @api.onchange('fat')
     def _onchange_get_cal_fat(self):
         for record in self:
             if record.fat:
-                record.cal_fat = record.fat / 70 * 100
+                record.cal_fat = float(record.fat) / 70 * 100
 
 
     @api.onchange('saturated_fat')
     def _onchange_get_cal_saturated_fat(self):
         for record in self:
             if record.saturated_fat:
-                record.cal_saturated_fat = record.saturated_fat / 20 * 100
+                record.cal_saturated_fat = float(record.saturated_fat) / 20 * 100
 
     @api.onchange('carbohydrates')
     def _onchange_get_cal_carbohydrates(self):
         for record in self:
             if record.carbohydrates:
-                record.cal_carbohydrates = record.carbohydrates / 260 * 100
+                record.cal_carbohydrates = float(record.carbohydrates) / 260 * 100
 
     @api.onchange('sugar')
     def _onchange_get_cal_sugar(self):
         for record in self:
             if record.sugar:
-                record.cal_sugar = record.sugar / 90 * 100
+                record.cal_sugar = float(record.sugar) / 90 * 100
 
     @api.onchange('protein')
     def _onchange_get_cal_protein(self):
         for record in self:
             if record.protein:
-                record.cal_protein = record.protein / 50 * 100
+                record.cal_protein = float(record.protein) / 50 * 100
 
     @api.onchange('salt')
     def _onchange_get_cal_salt(self):
         for record in self:
             if record.salt:
-                record.cal_salt = record.salt / 6 * 100
+                record.cal_salt = float(record.salt) / 6 * 100
+                record.sodium = str(round(float(record.salt) / 2.5 * 1000))
+
+    # @api.onchange('sodium')
+    # def _onchange_get_cal_sodium(self):
+    #     for record in self:
+    #         if record.sodium:
+    #             record.cal_sodium = record.sodium / 2.5 * 1000
 
     @api.onchange('length_unit', 'width_unit', 'height_unit')
     def _onchange_get_volume_unit(self):
