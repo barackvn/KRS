@@ -12,22 +12,22 @@
                 </xpath>
                 <xpath expr="//field[@name='origin']" position="after">
                     <field name="pre_advice" invisible="1"/>
-                    <label for="amount_of_pallets"/>
-                    <div attrs="{'invisible': [('pre_advice', '!=', True)]}">
-                        <field name="amount_of_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />
-                        <field name="charge_per_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />+
-                        <field name="add_charge_per_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />=
-                        <field name="total_pallet_charge"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />
+<!--                    <label for="amount_of_pallets"/>-->
+<!--                    <div attrs="{'invisible': [('pre_advice', '!=', True)]}">-->
+<!--                        <field name="amount_of_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
+<!--                        <field name="charge_per_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />+-->
+<!--                        <field name="add_charge_per_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />=-->
+<!--                        <field name="total_pallet_charge"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
 
-                    </div>
-                    <label for="amount_of_case"/>
-                    <div attrs="{'invisible': [('pre_advice', '!=', True)]}">
-                        <field name="amount_of_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />
-                        <field name="charge_per_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />+
-                        <field name="add_charge_per_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />=
-                        <field name="total_case_charge"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />
+<!--                    </div>-->
+<!--                    <label for="amount_of_case"/>-->
+<!--                    <div attrs="{'invisible': [('pre_advice', '!=', True)]}">-->
+<!--                        <field name="amount_of_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
+<!--                        <field name="charge_per_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />+-->
+<!--                        <field name="add_charge_per_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />=-->
+<!--                        <field name="total_case_charge"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
 
-                    </div>
+<!--                    </div>-->
 <!--                    <field name="measure_pallets" placeholder="Brut weight and LxWxH" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>-->
 <!--                    <field name="amount_of_case_pallets" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>-->
                     <field name="pre_advice_type" attrs="{'invisible': [('pre_advice', '!=', True)], 'required':[('pre_advice', '=', True)]}"/>
@@ -65,7 +65,10 @@
                     <field name="price_unit" />
                 </xpath>
                 <xpath expr="//field[@name='move_ids_without_package']//field[@name='quantity_done']" position="after">
-                    <field name="total_value"/>
+                    <field name="amount_of_case"/>
+                    <field name="amount_of_pallets"/>
+                    <field name="total_case_charge"/>
+                    <field name="total_pallet_charge"/>
                 </xpath>
                 <xpath expr="//button[@name='action_confirm']" position="after">
                     <button name="calculate_ff_product_charge" type="object" string="Calculate Product FF" class="oe_highlight" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>

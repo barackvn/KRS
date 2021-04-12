@@ -6,6 +6,18 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//sheet//field[@name='standard_price']" position="before">
+                    <div name="options" groups="base.group_user">
+                            <div>
+                                <field name="sale_ok"/>
+                                <label for="sale_ok"/>
+                            </div>
+                            <div>
+                                <field name="purchase_ok"/>
+                                <label for="purchase_ok"/>
+                            </div>
+                        </div>
+                </xpath>
                 <xpath expr="//notebook/page" position="replace">
                     <page string="Information">
                         <separator string="Prices for your buyer"/>
@@ -30,7 +42,7 @@
                                 </div>
                                 <div class="address_format" cols="6" colspan="2">
                                     <label for="adv_sale_price_excl_vat"  style="width:260px;font-weight: bold;"/>
-                                    <field name="adv_sale_price_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;"/>€
+                                    <field name="adv_sale_price_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;" required="1"/>€
                                     <label for="adv_sale_price_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
                                     <field name="adv_sale_price_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
                                 </div>
@@ -66,15 +78,15 @@
                                 </div>
                                 <div class="col-6">
                                     <label for="hs_code" string="Product classification code / HS code" style="font-weight: bold;"/>
-                                    <field name="hs_code" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="hs_code" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="unit_article_no"  style="width:260px;font-weight: bold;"/>
-                                    <field name="unit_article_no" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="unit_article_no" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="carton_article_no"  style="font-weight: bold;padding-right: 97px;"/>
-                                    <field name="carton_article_no" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="carton_article_no" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="unit_barcode"  style="width:260px;font-weight: bold;"/>
@@ -82,7 +94,7 @@
                                 </div>
                                 <div class="col-6">
                                     <label for="carton_barcode"  style="font-weight: bold;padding-right: 83px;"/>
-                                    <field name="carton_barcode" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="carton_barcode" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="exclusively_id"  style="width:260px;font-weight: bold;"/>
@@ -90,11 +102,11 @@
                                 </div>
                                 <div class="col-6">
                                     <label for="qty_single_unit_per_cartn"  style="font-weight: bold;padding-right: 55px;"/>
-                                    <field name="qty_single_unit_per_cartn" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="qty_single_unit_per_cartn" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="conservation"  style="width:260px;font-weight: bold;"/>
-                                    <field name="conservation" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="conservation" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="default_code"  style="width:233px;font-weight: bold;"/>
@@ -213,11 +225,11 @@
                     <page string="Sales">
 
                         <separator string="Ingredients" colspan="4" />
-                        <field name="ingredients"/>
+                        <field name="ingredients" required="1"/>
                         <separator string="Product short description" colspan="4" />
-                        <field name="product_short_discrp"/>
+                        <field name="product_short_discrp" required="1"/>
                         <separator string="Product long description" colspan="4" />
-                        <field name="product_long_discrp"/>
+                        <field name="product_long_discrp" required="1"/>
                         <separator string="Nutritional values for 100g / 100ml based on daily nutritional values" colspan="4" />
 
                         <group>
@@ -233,17 +245,17 @@
                             </div>
                             <div class="address_format" cols="6" colspan="2">
                                     <label for="energy_kg" style="width:150px;font-weight: bold;"/>
-                                    <field name="energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <field name="energy_kg" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="energy_kg" string="KJ" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>%
                                     <label for="carbohydrates" style="width:25%;font-weight: bold;padding-left: 8%;"/>
-                                    <field name="carbohydrates" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <field name="carbohydrates" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="carbohydrates" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_carbohydrates" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="address_format" cols="6" colspan="2">
                                     <label for="energy_kcal" style="width:150px;font-weight: bold;"/>
-                                    <field name="energy_kcal" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <field name="energy_kcal" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="energy_kcal" string="kcal" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_energy_kcal" style="position: relative;width: 10% !important;min-width: 10px;"/>%
                                     <label for="fiber" style="width:25%;font-weight: bold;padding-left: 8%;"/>
@@ -253,37 +265,37 @@
                                 </div>
                                 <div class="address_format" cols="6" colspan="2">
                                     <label for="fat" style="width:150px;font-weight: bold;"/>
-                                    <field name="fat" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <field name="fat" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="fat" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_fat" style="position: relative;width: 10% !important;min-width: 10px;"/>%
                                     <label for="sugar" style="width:25%;font-weight: bold;padding-left: 8%;"/>
-                                    <field name="sugar" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <field name="sugar" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="sugar" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_sugar" style="position: relative;width: 10% !important;min-width: 10px;"/>%
                                 </div>
                                 <div class="address_format" cols="6" colspan="2">
                                     <label for="saturated_fat" style="width:150px;font-weight: bold;"/>
-                                    <field name="saturated_fat" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <field name="saturated_fat" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="saturated_fat" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_saturated_fat" style="position: relative;width: 10% !important;min-width: 10px;"/>%
                                     <label for="protein"  style="width:25%;font-weight: bold;padding-left: 8%;"/>
-                                    <field name="protein" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <field name="protein" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="protein" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_protein" style="position: relative;width: 10% !important;min-width: 10px;"/>%
                                 </div>
                                 <div class="address_format" cols="6" colspan="2">
                                     <label for="mono_unsaturated_fats" style="width:150px;font-weight: bold;"/>
-                                    <field name="mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <field name="mono_unsaturated_fats" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="mono_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
 <!--                                    <field name="cal_mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
                                     <label for="salt"  style="width: 36.5%; font-weight: bold; padding-left: 19.5%;"/>
-                                    <field name="salt" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <field name="salt" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="salt" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
                                     <field name="cal_salt" style="position: relative;width: 10% !important;min-width: 10px;"/>%
                                 </div>
                                 <div class="address_format" cols="6" colspan="2">
                                     <label for="poly_unsaturated_fats" style="width:150px;font-weight: bold;"/>
-                                    <field name="poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                    <field name="poly_unsaturated_fats" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
                                     <label for="poly_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
 <!--                                    <field name="cal_poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
                                     <label for="sodium"  style="width: 36.5%; font-weight: bold; padding-left: 19.5%;"/>
@@ -303,59 +315,59 @@
                             <div class="row" >
                                 <div class="col-6">
                                     <label for="gluten_contain_grains"  style="width:260px;font-weight: bold;"/>
-                                    <field name="gluten_contain_grains" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="gluten_contain_grains" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="lupine_base_product" style="font-weight: bold;width: 41%;"/>
-                                    <field name="lupine_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="lupine_base_product" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="milk_base_product"  style="width:260px;font-weight: bold;"/>
-                                    <field name="milk_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="milk_base_product" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="celery_base_product" style="font-weight: bold;width: 41%;"/>
-                                    <field name="celery_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="celery_base_product" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="eggs_base_product"  style="width:260px;font-weight: bold;"/>
-                                    <field name="eggs_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="eggs_base_product" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="sesame_base_product" style="font-weight: bold;width: 41%;"/>
-                                    <field name="sesame_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="sesame_base_product" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="peanuts_base_product"  style="width:260px;font-weight: bold;"/>
-                                    <field name="peanuts_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="peanuts_base_product" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="fish_base_product" style="font-weight: bold;width: 41%;"/>
-                                    <field name="fish_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="fish_base_product" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="nuts_base_product"  style="width:260px;font-weight: bold;"/>
-                                    <field name="nuts_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="nuts_base_product" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="molluscs_base_product" style="font-weight: bold;width: 41%;"/>
-                                    <field name="molluscs_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="molluscs_base_product" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="soy_base_product"  style="width:260px;font-weight: bold;"/>
-                                    <field name="soy_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="soy_base_product" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="shellfish_base_product" style="font-weight: bold;width: 41%;"/>
-                                    <field name="shellfish_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="shellfish_base_product" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="mustard_base_product"  style="width:260px;font-weight: bold;"/>
-                                    <field name="mustard_base_product" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="mustard_base_product" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="sulphites_base_product" style="font-weight: bold;width: 41%;"/>
-                                    <field name="sulphites_base_product" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="sulphites_base_product" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
 
                             </div>
@@ -365,103 +377,103 @@
                             <div class="row" >
                                 <div class="col-6">
                                     <label for="allergen_free"  style="width:260px;font-weight: bold;"/>
-                                    <field name="allergen_free" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="allergen_free" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="low_sodium" style="font-weight: bold;width: 41%;"/>
-                                    <field name="low_sodium" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="low_sodium" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="antibiotic_free"  style="width:260px;font-weight: bold;"/>
-                                    <field name="antibiotic_free" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="antibiotic_free" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="organic" style="font-weight: bold;width: 41%;"/>
-                                    <field name="organic" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="organic" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="baby"  style="width:260px;font-weight: bold;"/>
-                                    <field name="baby" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="baby" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="palm_oil_free" style="font-weight: bold;width: 41%;"/>
-                                    <field name="palm_oil_free" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="palm_oil_free" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="dietary"  style="width:260px;font-weight: bold;"/>
-                                    <field name="dietary" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="dietary" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="paraben_free" style="font-weight: bold;width: 41%;"/>
-                                    <field name="paraben_free" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="paraben_free" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                  <div class="col-6">
                                     <label for="fair_trade"  style="width:260px;font-weight: bold;"/>
-                                    <field name="fair_trade" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="fair_trade" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="rich_omega" style="font-weight: bold;width: 41%;"/>
-                                    <field name="rich_omega" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="rich_omega" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="gluten_free"  style="width:260px;font-weight: bold;"/>
-                                    <field name="gluten_free" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="gluten_free" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="stevia" style="font-weight: bold;width: 41%;"/>
-                                    <field name="stevia" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="stevia" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="gmo_free"  style="width:260px;font-weight: bold;"/>
-                                    <field name="gmo_free" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="gmo_free" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="sugar_free" style="font-weight: bold;width: 41%;"/>
-                                    <field name="sugar_free" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="sugar_free" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="halal"  style="width:260px;font-weight: bold;"/>
-                                    <field name="halal" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="halal" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="vegan" style="font-weight: bold;width: 41%;"/>
-                                    <field name="vegan" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="vegan" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="kosher"  style="width:260px;font-weight: bold;"/>
-                                    <field name="kosher" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="kosher" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="vegon_ok" style="font-weight: bold;width: 41%;"/>
-                                    <field name="vegon_ok" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="vegon_ok" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="lactose_free"  style="width:260px;font-weight: bold;"/>
-                                    <field name="lactose_free" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="lactose_free" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="vegetarian" style="font-weight: bold;width: 41%;"/>
-                                    <field name="vegetarian" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="vegetarian" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="low_cholesterol"  style="width:260px;font-weight: bold;"/>
-                                    <field name="low_cholesterol" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="low_cholesterol" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="without_preservative" style="font-weight: bold;width: 41%;"/>
-                                    <field name="without_preservative" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="without_preservative" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                             </div>
                         </group>
 
                         <separator string="Instructions for use" colspan="4" />
-                        <field name="instruction"/>
+                        <field name="instruction" required="1"/>
                         <separator string="Storage instructions" colspan="4" />
-                        <field name="storage_instructions"/>
+                        <field name="storage_instructions" required="1"/>
                         <separator string="Serving instructions" colspan="4" />
-                        <field name="serving_sug"/>
+                        <field name="serving_sug" required="1"/>
                         <separator string="Preparation instructions" colspan="4" />
-                        <field name="prepare_instr"/>
+                        <field name="prepare_instr" required="1"/>
 
                         <separator string="Accreditations &amp; certificates" colspan="4" />
                         <group>
@@ -568,7 +580,7 @@
                         <group name="shop" string="Shop">
                             <group>
                                 <field name="website_url" invisible="1"/>
-                                <field name="public_categ_ids" widget="many2many_tags" string="Categories"/>
+                                <field name="public_categ_ids" required="1" widget="many2many_tags" string="Categories"/>
                                 <field name="alternative_product_ids" widget="many2many_tags"
                                        domain="[('marketplace_seller_id', '=', marketplace_seller_id),('status','=','approved')]"
                                        attrs="{'readonly':[('status', 'in', ('rejected'))]}"
@@ -578,7 +590,7 @@
                             <group>
                                 <field name="website_id" options="{'no_create': True}"
                                        groups="website.group_multi_website"/>
-                                <field name="product_tag_ids" options="{'no_create': True}" widget="many2many_tags" string="Tags"/>
+                                <field name="product_tag_ids" required="1" options="{'no_create': True}" widget="many2many_tags" string="Tags"/>
                                 <field name="accessory_product_ids" widget="many2many_tags"
                                        domain="[('marketplace_seller_id', '=', marketplace_seller_id),('status','=','approved')]"
                                        options="{'no_create': True}"/>
@@ -598,12 +610,12 @@
                             <div class="row" >
                                 <div class="col-6">
                                     <label for="manufacture_days"  style="width:260px;font-weight: bold;"/>
-                                    <field name="manufacture_days" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="manufacture_days" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
                                     days
                                 </div>
                                 <div class="col-6">
                                     <label for="transport_days" style="font-weight: bold;width: 41%;"/>
-                                    <field name="transport_days" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <field name="transport_days" required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                     days
                                 </div>
                                 <div class="col-6">
@@ -642,22 +654,22 @@
                                     </div>
                                     <div class="col-6">
                                         <label for="product_alert_day"  style="width:260px;font-weight: bold;"/>
-                                        <field name="product_alert_day" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                        <field name="product_alert_day" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
                                         days
                                     </div>
                                     <div class="col-6">
                                         <label for="product_removal_days" style="font-weight: bold;width: 41%;"/>
-                                        <field name="product_removal_days"  class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                        <field name="product_removal_days"  required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                         days
                                     </div>
                                     <div class="col-6">
                                         <label for="min_shelf_delivery"  style="width:260px;font-weight: bold;"/>
-                                        <field name="min_shelf_delivery" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                        <field name="min_shelf_delivery" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
                                         days
                                     </div>
                                     <div class="col-6">
                                         <label for="product_use_days" style="font-weight: bold;width: 41%;"/>
-                                        <field name="product_use_days" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                        <field name="product_use_days" required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                         days
                                     </div>
                                 </div>
@@ -667,96 +679,96 @@
                         <div class="row" >
                             <div class="col-6">
                                 <label for="length_unit"  style="width:260px;font-weight: bold;"/>
-                                <field name="length_unit" style="position: relative;min-width: 10px;width: 45%;"/>
+                                <field name="length_unit" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 cm
                             </div>
                             <div class="col-6">
                                 <label for="net_content_per_unit" style="font-weight: bold;width: 41%;"/>
-                                <field name="net_content_per_unit" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="net_content_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
                                 <field name="net_content_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
                             </div>
                             <div class="col-6">
                                 <label for="width_unit"  style="width:260px;font-weight: bold;"/>
-                                <field name="width_unit" style="position: relative;min-width: 10px;width: 45%;"/>
+                                <field name="width_unit" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 cm
                             </div>
                             <div class="col-6">
                                 <label for="drained_weight_per_unit" style="font-weight: bold;width: 41%;"/>
-                                <field name="drained_weight_per_unit" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="drained_weight_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
                                 <field name="drained_weight_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
                             </div>
                             <div class="col-6">
                                 <label for="height_unit"  style="width:260px;font-weight: bold;"/>
-                                <field name="height_unit" style="position: relative;min-width: 10px;width: 45%;"/>
+                                <field name="height_unit" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 cm
                             </div>
                             <div class="col-6">
                                 <label for="net_weight_per_unit" style="font-weight: bold;width: 41%;"/>
-                                <field name="net_weight_per_unit" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="net_weight_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
                                 <field name="net_weight_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
                             </div>
                             <div class="col-6">
                                 <label for="volume_unit"  style="width:260px;font-weight: bold;"/>
-                                <field name="volume_unit" style="position: relative;min-width: 10px;width: 44%;"/>
+                                <field name="volume_unit" required="1" style="position: relative;min-width: 10px;width: 44%;"/>
                                 cm<sup>3</sup>
                             </div>
                             <div class="col-6">
                                 <label for="gross_weight_per_unit" style="font-weight: bold;width: 41%;"/>
-                                <field name="gross_weight_per_unit" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="gross_weight_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
                                 <field name="gross_weight_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
                             </div>
                             <div class="col-6">
                                 <label for="length_carton"  style="width:260px;font-weight: bold;"/>
-                                <field name="length_carton" style="position: relative;min-width: 10px;width: 45%;"/>
+                                <field name="length_carton" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 cm
                             </div>
                             <div class="col-6">
                                 <label for="net_content_per_carton" style="font-weight: bold;width: 41%;"/>
-                                <field name="net_content_per_carton" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="net_content_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
                                 <field name="net_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
                             </div>
                             <div class="col-6">
                                 <label for="width_carton"  style="width:260px;font-weight: bold;"/>
-                                <field name="width_carton" style="position: relative;min-width: 10px;width: 45%;"/>
+                                <field name="width_carton" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 cm
                             </div>
                             <div class="col-6">
                                 <label for="drained_weight_per_carton" style="font-weight: bold;width: 41%;"/>
-                                <field name="drained_weight_per_carton" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="drained_weight_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
                                 <field name="drained_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
                             </div>
                             <div class="col-6">
                                 <label for="height_carton"  style="width:260px;font-weight: bold;"/>
-                                <field name="height_carton" style="position: relative;min-width: 10px;width: 45%;"/>
+                                <field name="height_carton" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 cm
                             </div>
                             <div class="col-6">
                                 <label for="net_weight_per_carton" style="font-weight: bold;width: 41%;"/>
-                                <field name="net_weight_per_carton" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="net_weight_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
                                 <field name="net_weight_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
                             </div>
                             <div class="col-6">
                                 <label for="volume_carton"  style="width:260px;font-weight: bold;"/>
-                                <field name="volume_carton" style="position: relative;min-width: 10px;width: 44%;"/>
+                                <field name="volume_carton" required="1" style="position: relative;min-width: 10px;width: 44%;"/>
                                 cm<sup>3</sup>
                             </div>
                             <div class="col-6">
                                 <label for="gross_weight_per_carton" style="font-weight: bold;width: 41%;"/>
-                                <field name="gross_weight_per_carton" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="gross_weight_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
                                 <field name="gross_weight_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
                             </div>
                             <div class="col-6">
                                 <label for="kind_pallet"  style="width:260px;font-weight: bold;"/>
-                                <field name="kind_pallet" style="position: relative;min-width: 10px;width: 45%;"/>
+                                <field name="kind_pallet" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                             </div>
                             <div class="col-6">
                                 <label for="pallet_quantity" style="font-weight: bold;width: 41%;"/>
-                                <field name="pallet_quantity" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="pallet_quantity" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
                                 cartons
                             </div>
                             <div class="col-6">
                                 <label for="total_pallet_height"  style="width:260px;font-weight: bold;"/>
-                                <field name="total_pallet_height" style="position: relative;min-width: 10px;width: 45%;"/>
+                                <field name="total_pallet_height" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                             </div>
                         </div>
 

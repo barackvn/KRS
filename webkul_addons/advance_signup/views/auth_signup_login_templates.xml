@@ -132,7 +132,7 @@
                 <t t-if="seller_signup">
                     <t t-set="signup_vals" t-value="website.with_context(seller_profile=True).get_signup_fields()"/>
                 </t>
-                <t t-else="">
+                <t t-if="buyer_signup">
                     <t t-set="signup_vals" t-value="website.with_context(buyer_profile=True).get_signup_fields()"/>
                 </t>
             </xpath>
