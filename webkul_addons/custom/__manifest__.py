@@ -21,6 +21,8 @@
         'views/pre_advise_view.xml',
         'views/survey_view.xml',
         # 'views/website_template_view.xml',
+        'report/product_report.xml',
+        'report/product_report_template.xml'
     ],
     "demo": [],
     "images": [],
