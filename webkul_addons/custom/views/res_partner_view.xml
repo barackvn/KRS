@@ -12,7 +12,13 @@
                     <button name="action_create_seller_location" string="create Stock Location" type="object" class="btn-primary" attrs="{'invisible' : ['|',('seller_location_id', '!=', False),('state', '!=', 'approved')]}" groups="odoo_marketplace.marketplace_officer_group"/>
                     <button name="verify_seller_lead" string="Verify Lead" type="object" class="btn-primary" groups="odoo_marketplace.marketplace_officer_group" attrs="{'invisible' : [('lead_verify', '=', True)]}"/>
                 </xpath>
-
+                <xpath expr="//field[@name='website']" position="after">
+                    <field name="contact_id" />
+                    <field name="challenge" />
+                    <field name="start_year" />
+                    <field name="family_owned" />
+                    <field name="agreement_person_data" />
+                </xpath>
                 <xpath expr="//form//field[@name='email']" position="after">
                     <field name="vat" string="VAT"/>
                     <field name="assign_membership"/>
@@ -32,6 +38,9 @@
                     <field name="user_id" invisible="1"/>
                     <field name="seller_location_id" readonly="1"/>
                     <field name="lead_verify" invisible="1"/>
+                    <field name="annual_revenue" />
+                    <field name="no_of_employee" />
+                    <field name="yr_of_exp" />
 
                 </xpath>
                 <xpath expr="//field[@name='shipping_policy']" position="after">
@@ -132,12 +141,92 @@
                                                 <field name="email" widget="email"/>
                                                 <field name="phone" widget="phone"/>
                                                 <field name="mobile" widget="phone"/>
+                                                <field name="birthday" attrs="{'invisible': [('type','!=', 'contact')]}"/>
                                                 <field name="company_id" invisible="1"/>
                                             </group>
                                             <group colspan="1">
                                                 <field name="image_1920" widget="image" class="oe_avatar" nolabel="1" options="{'image_preview': 'image_128'}"/>
                                             </group>
                                         </group>
+                                        <div class="row">
+                                            <div>
+                                                <label for="monday"/>
+                                                <field name="monday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="tuesday"/>
+                                                <field name="tuesday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="wednesday"/>
+                                                <field name="wednesday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="thursday"/>
+                                                <field name="thursday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="friday"/>
+                                                <field name="friday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="saturday"/>
+                                                <field name="saturday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="sunday"/>
+                                                <field name="sunday"  widget="boolean_toggle"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" attrs="{'invisible': [('monday','!=', True)]}">
+                                            <div>
+                                                <label for="monday_from" style="width: 110px;"/>
+                                                <field name="monday_from" style="width:100px"/> TO
+                                                <field name="monday_to" style="width:100px"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" attrs="{'invisible': [('tuesday','!=', True)]}">
+                                            <div>
+                                                <label for="tuesday_from" style="width: 110px;"/>
+                                                <field name="tuesday_from" style="width:100px"/> TO
+                                                <field name="tuesday_to" style="width:100px"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" attrs="{'invisible': [('wednesday','!=', True)]}">
+                                            <div>
+                                                <label for="wednesday_from" style="width: 110px;"/>
+                                                <field name="wednesday_from" style="width:100px"/> TO
+                                                <field name="wednesday_to" style="width:100px"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" attrs="{'invisible': [('thursday','!=', True)]}">
+                                            <div>
+                                                <label for="thursday_from" style="width: 110px;"/>
+                                                <field name="thursday_from" style="width:100px"/> TO
+                                                <field name="thursday_to" style="width:100px"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" attrs="{'invisible': [('friday','!=', True)]}">
+                                            <div>
+                                                <label for="friday_from" style="width: 110px;"/>
+                                                <field name="friday_from" style="width:100px"/> TO
+                                                <field name="friday_to" style="width:100px"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" attrs="{'invisible': [('saturday','!=', True)]}">
+                                            <div>
+                                                <label for="saturday_from" style="width: 110px;"/>
+                                                <field name="saturday_from" style="width:100px"/> TO
+                                                <field name="saturday_to" style="width:100px"/>
+                                            </div>
+                                        </div>
+                                        <div class="row" attrs="{'invisible': [('sunday','!=', True)]}">
+                                            <div>
+                                                <label for="sunday_from" style="width: 110px;"/>
+                                                <field name="sunday_from" style="width:100px"/> TO
+                                                <field name="sunday_to" style="width:100px"/>
+                                            </div>
+                                        </div>
                                         <field name="lang" invisible="True"/>
                                         <field name="user_id" invisible="True"/>
                                     </sheet>

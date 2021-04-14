@@ -11,6 +11,17 @@ from odoo import SUPERUSER_ID
 from dateutil.relativedelta import relativedelta
 
 _logger = logging.getLogger(__name__)
+_calender_time=[('12', '12:00am'), ('12_30', '12:30am'), ('01', '01:00am'), ('01_30', '01:30am'), ('02', '02:00am'),
+         ('02_30', '02:30am'), ('03', '03:00am'), ('03_30', '03:30am'), ('04', '04:00am'), ('04_30', '04:30am'),
+         ('05', '05:00am'), ('05_30', '05:30am'), ('06', '06:00am'), ('06_30', '06:30am'), ('07', '07:00am'),
+         ('07_30', '07:30am'), ('08', '08:00am'), ('08_30', '08:30am'), ('09', '09:00am'), ('09_30', '09:30am'),
+         ('10', '10:00am'), ('10_30', '10:30am'), ('11', '11:00am'), ('11_30', '11:30am'), ('12_p', '12:00pm'),
+         ('12_30_p', '12:30pm'), ('01_p', '01:00pm'), ('01_30_p', '01:30pm'), ('02_p', '02:00pm'),
+         ('02_30_p', '02:30pm'), ('03_p', '03:00pm'), ('03_30_p', '03:30pm'), ('04_p', '04:00pm'),
+         ('04_30_p', '04:30pm'), ('05_p', '05:00pm'), ('05_30_p', '05:30pm'), ('06_p', '06:00pm'),
+         ('06_30_p', '06:30pm'), ('07_p', '07:00pm'), ('07_30_p', '07:30pm'), ('08_p', '08:00pm'),
+         ('08_30_p', '08:30pm'), ('09_p', '09:00pm'), ('09_30_p', '09:30pm'), ('10_p', '10:00pm'),
+         ('10_30_p', '10:30pm'), ('11_p', '11:00pm'), ('11_30_p', '11:30pm')]
 
 
 class SnailmailLetterInherit(models.Model):
@@ -27,6 +38,7 @@ class ProductTemplate(models.Model):
     # 'A consumable product is a product for which stock is not managed.\n'
     # 'A service is a non-material product you provide.')
 
+
 class PartnerSpeciality(models.Model):
     _inherit = 'partner.speciality'
 
@@ -36,15 +48,46 @@ class PartnerSpeciality(models.Model):
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    lead_id=fields.Many2one('crm.lead','Lead')
+    lead_id = fields.Many2one('crm.lead', 'Lead')
     assign_membership = fields.Many2one(related='lead_id.assign_membership', string='Assign Membership Plan')
     certification_attachment = fields.Many2many(comodel_name='ir.attachment', string='Attached Certificate')
     certificate_name = fields.Char(string="File Name", track_visibility="onchange")
     certificate_start_date = fields.Date("Certificate Start Date")
     certificate_end_date = fields.Date("Certificate End Date")
-    seller_location_id = fields.Many2one("stock.location","Seller Location")
+    seller_location_id = fields.Many2one("stock.location", "Seller Location")
     lead_verify = fields.Boolean("Lead Verified")
+    contact_id = fields.Char("Contact ID")
+    challenge = fields.Text("What’s your main challenge?")
+    start_year = fields.Date("Starting Year")
+    family_owned = fields.Selection([('yes', 'YES'), ('no', 'NO')], 'Family owned')
+    annual_revenue = fields.Char("Annual Revenue")
+    no_of_employee = fields.Integer("Number of employees")
+    yr_of_exp = fields.Char("Years of experience in export")
+    agreement_person_data = fields.Boolean("Agreement to store person data (GDPR)")
+    birthday = fields.Date("Birthday")
+    monday = fields.Boolean('M')
+    tuesday = fields.Boolean('T')
+    wednesday = fields.Boolean('w')
+    thursday = fields.Boolean('T')
+    friday = fields.Boolean('f')
+    saturday = fields.Boolean('s')
+    sunday = fields.Boolean('s')
+    monday_from = fields.Selection(selection=_calender_time, String="Monday")
+    monday_to = fields.Selection(selection=_calender_time, String="Monday")
+    tuesday_from = fields.Selection(selection=_calender_time, String="Tuesday")
+    tuesday_to = fields.Selection(selection=_calender_time, String="Tuesday")
+    wednesday_from = fields.Selection(selection=_calender_time, String="Wednesday")
+    wednesday_to = fields.Selection(selection=_calender_time, String="Wednesday")
+    thursday_from = fields.Selection(selection=_calender_time, String="Thursday")
+    thursday_to = fields.Selection(selection=_calender_time, String="Thursday")
+    friday_from = fields.Selection(selection=_calender_time, String="Friday")
+    friday_to = fields.Selection(selection=_calender_time, String="Friday")
+    saturday_from = fields.Selection(selection=_calender_time, String="Saturday")
+    saturday_to = fields.Selection(selection=_calender_time, String="Saturday")
+    sunday_from = fields.Selection(selection=_calender_time, String="Sunday")
+    sunday_to = fields.Selection(selection=_calender_time, String="Sunday")
 
+    # weekday = fields.Selection([('mon','M'), ('tues', 'T'), ('wed', 'W'), ('thur', 'Tuesday'), ('tues', 'Tuesday')])
     # company_id = fields.Char('Company Name')
     # street = fields.Char('Street')
     # street2 = fields.Char('Street2')
@@ -91,9 +134,9 @@ class ResPartner(models.Model):
     certificate_ids = fields.One2many('company.certificate.tree', 'certificate_id_res', 'Certificate1')
     # res_company_logo = fields.Many2many(comodel_name='ir.attachment', string='Company Logo')
     res_company_logo = fields.Many2many('ir.attachment', 'company_logo_attachment_rel', 'res_id',
-                                      'attachment_id', 'Company Logo',)
+                                        'attachment_id', 'Company Logo', )
     attachment_ids = fields.Many2many(
-        'ir.attachment', 'res_survey_attachment_rel','res_id',
+        'ir.attachment', 'res_survey_attachment_rel', 'res_id',
         'attachment_id', 'Banner Image')
     slider_image = fields.One2many('slider.image.tree', 'slider_id_res', 'Slider Image')
     product_image = fields.One2many('product.image.tree', 'product_image_id_res', 'Product Image')
@@ -107,7 +150,8 @@ class ResPartner(models.Model):
         if not self.seller_location_id:
             parent_location = self.env['stock.location'].sudo().search([('name', '=', 'WH')], limit=1)
             if parent_location:
-                location=self.env['stock.location'].sudo().create({'name': self.name, 'location_id': parent_location.id, 'usage': 'internal', 'seller_id': self.id})
+                location = self.env['stock.location'].sudo().create(
+                    {'name': self.name, 'location_id': parent_location.id, 'usage': 'internal', 'seller_id': self.id})
                 self.seller_location_id = location.id
 
     def verify_seller_lead(self):
@@ -120,6 +164,7 @@ class ResPartner(models.Model):
             action['views'] = form_view
         action['res_id'] = leads.id
         return action
+
     #     if self.lead_id:
     #         return {
     #             'name': _('Package Details'),
@@ -159,7 +204,6 @@ class ResPartner(models.Model):
     #     action['context'] = context
     #     return action
 
-
     @api.model
     def create(self, vals):
         _logger.info(">>>>>>>>>>>>>> I am in create>>>%s>>>", self)
@@ -175,7 +219,7 @@ class ResPartner(models.Model):
                 if not res.lead_id:
                     res.with_context(default_is_buyer=True).create_crm_lead()
             if self._context.get('is_seller'):
-                if res.seller and res.state=='new' and not res.lead_id:
+                if res.seller and res.state == 'new' and not res.lead_id:
                     res.sudo().set_to_pending()
                     _logger.info(">>>>>>>>>>>>>> I have update in create2>>>%s>>>", res)
                 mail_templ_id = self.env['ir.model.data'].get_object_reference(
@@ -188,8 +232,8 @@ class ResPartner(models.Model):
 
     def write(self, vals):
         res = super(ResPartner, self).write(vals)
-        _logger.info(">>>>>>>>>>>>>> write>>>%s>>>%s", self.state,self.seller)
-        if self.seller and self.state=='new' and not self.lead_id:
+        _logger.info(">>>>>>>>>>>>>> write>>>%s>>>%s", self.state, self.seller)
+        if self.seller and self.state == 'new' and not self.lead_id:
             self.sudo().set_to_pending()
 
     def create_crm_lead(self):
@@ -224,12 +268,9 @@ class ResPartner(models.Model):
                 leads_to_allocate.allocate_salesman(user_ids, team_id=(values.get('team_id')))
         _logger.info("~~~~~~~~create crm_lead~~~~~~~~~%r~~~~~~~~~~~~~", crm_lead)
 
-
     def set_to_pending(self):
         res_partner = super(ResPartner, self).set_to_pending()
         self.with_context(default_is_seller=True).create_crm_lead()
-
-
 
     def approve(self):
         res_partner = super(ResPartner, self).approve()
@@ -247,8 +288,8 @@ class ResPartner(models.Model):
                     _logger.info(">>>>>>>>>>>>>> Mail send for user reset>>>%s>>>", mailsend)
 
     def scheduler_seller_certificate_expiry_notify(self):
-        notify_date=datetime.date.today() + relativedelta(days=14)
-        seller_ids= self.env['res.partner'].search([('seller','=',True),('certificate_end_date','=',notify_date)])
+        notify_date = datetime.date.today() + relativedelta(days=14)
+        seller_ids = self.env['res.partner'].search([('seller', '=', True), ('certificate_end_date', '=', notify_date)])
         for record in seller_ids:
             if seller_ids:
                 mail_templ_id = self.env['ir.model.data'].get_object_reference(
