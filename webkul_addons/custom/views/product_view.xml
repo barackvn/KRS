@@ -74,7 +74,7 @@
                             <div class="row" >
                                 <div class="col-6">
                                     <label for="type"  style="width:260px;font-weight: bold;"/>
-                                    <field name="type" style="position: relative;min-width: 10px;" attrs="{'readonly' : [('status', 'in', ['approved', 'rejected'])]}"/>
+                                    <field name="type" style="position: relative;min-width: 10px;width: 45% !important;" attrs="{'readonly' : [('status', 'in', ['approved', 'rejected'])]}"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="hs_code" string="Product classification code / HS code" style="font-weight: bold;"/>
@@ -104,9 +104,17 @@
                                     <label for="qty_single_unit_per_cartn"  style="font-weight: bold;padding-right: 55px;"/>
                                     <field name="qty_single_unit_per_cartn" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
+                                <div class="col-6" >
+                                    <label for="retail_sales"  style="width:260px;font-weight: bold;"/>
+                                    <field name="retail_sales" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
                                 <div class="col-6">
-                                    <label for="conservation"  style="width:260px;font-weight: bold;"/>
-                                    <field name="conservation" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <label for="conservation"  style="padding-right: 98px;font-weight: bold;"/>
+                                    <field name="conservation" required="1" style="position: relative;min-width: 10px;width: 50%;"/>
+                                </div>
+                                <div class="col-6" attrs="{'invisible' : [('retail_sales', 'not in', ['yes','planning'])]}">
+                                    <label for="plan_retail_sales"  style="width:260px;font-weight: bold;"/>
+                                    <field name="plan_retail_sales" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="default_code"  style="width:233px;font-weight: bold;"/>
@@ -119,7 +127,7 @@
                                 <div class="row" >
                                     <div class="col-6">
                                         <label for="cust_product_category"  style="width:260px;font-weight: bold;"/>
-                                        <field name="cust_product_category"  style="position: relative;min-width: 10px;width: 236px;" required="1"/>
+                                        <field name="cust_product_category"  style="position: relative;min-width: 10px;width: 45% !important;" required="1"/>
                                     </div>
                                     <div class="col-6">
                                         <label for="natural_water" attrs="{'invisible': [('cust_product_category', '!=', 'drink')],'required': [('cust_product_category', '=', 'drink')]}" style="font-weight: bold;"/>
