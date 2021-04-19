@@ -187,8 +187,35 @@ class StockMoveInherit(models.Model):
         for record in self:
             record.total_value = record.product_uom_qty * record.price_unit
 
-    total_value = fields.Float(compute='_compute_stock_total', string='Subtotal ')
+    @api.depends('amount_of_case', 'amount_of_pallets')
+    def _compute_total_case_pallet_charge(self):
+        for record in self:
+            if record.amount_of_case:
+                c_count = record.amount_of_case - 1
+                record.total_case_charge = 1.35 + (c_count * 0.27)
+            if record.amount_of_pallets:
+                p_count = record.amount_of_pallets - 1
+                record.total_pallet_charge = 4.78 + (p_count * 0.27)
 
+    total_value = fields.Float(compute='_compute_stock_total', string='Subtotal ')
+    amount_of_case = fields.Float("Amount of Boxes")
+    amount_of_pallets = fields.Float("Amount of pallets")
+    total_case_charge = fields.Float("Total Box Charge")
+    total_pallet_charge = fields.Float("Total Pallet Charge")
+
+    @api.onchange('amount_of_case')
+    def _onchange_get_total_case_charge(self):
+        for record in self:
+            if record.amount_of_case:
+                c_count = record.amount_of_case - 1
+                record.total_case_charge = 1.35 + (c_count * 0.27)
+
+    @api.onchange('amount_of_pallets')
+    def _onchange_get_total_pallet_charge(self):
+        for record in self:
+            if record.amount_of_pallets:
+                p_count = record.amount_of_pallets - 1
+                record.total_pallet_charge = 4.78 + (p_count * 0.27)
 
 # class AccountMoveInherit(models.Model):
 #     _inherit = 'account.move'

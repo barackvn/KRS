@@ -42,12 +42,14 @@ class AuthSignupHome(AuthSignupHome):
 
             if required_fields:
                 field_names = tuple(required_fields.mapped(lambda self: self.field.name))
-                values = { key: qcontext.get(key) for key in field_names }
-                for k,v in values.items():
-                    if v == '' or v == None:
-                        raise UserError(_("Some required fields was not properly filled in."))
-        if signup_obj and signup_obj.show_t_n_c and not qcontext.get('adv_signup_t_n_c'):
-            raise UserError(_("Please agree to the Terms and Conditions"))
+                if qcontext.get('buyer_signup') or qcontext.get('seller_signup'):
+                    values = { key: qcontext.get(key) for key in field_names }
+                    for k,v in values.items():
+                        if v == '' or v == None:
+                            raise UserError(_("Some required fields was not properly filled in."))
+        if qcontext.get('buyer_signup') or qcontext.get('seller_signup'):
+            if signup_obj and signup_obj.show_t_n_c and not qcontext.get('adv_signup_t_n_c'):
+                raise UserError(_("Please agree to the Terms and Conditions"))
         return super(AuthSignupHome, self).do_signup(qcontext)
 
     def _signup_with_values(self, token, values):

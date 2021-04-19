@@ -602,6 +602,11 @@ class ProductTemplateInherit(models.Model):
     natural_water = fields.Selection(
         [('yes', 'YES'), ('no', 'NO')],
         string="Natural Water")
+    retail_sales = fields.Selection(
+        [('yes', 'YES'), ('planning', 'Planning'), ('never', 'Never')],
+        string="Sales in retail")
+    plan_retail_sales = fields.Char("Where would you sell in retail?")
+
 
     def name_get(self):
         result = []
