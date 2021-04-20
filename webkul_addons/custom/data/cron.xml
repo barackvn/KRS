@@ -39,5 +39,17 @@
 			<field name="state">code</field>
 			<field name="code">model.scheduler_seller_buyer_crm_loss_won()</field>
 		</record>
+
+		<record id="product_alert_date_cron" model="ir.cron">
+			<field name="name">Product Alert Cron</field>
+			<field name="model_id" ref="model_stock_production_lot"/>
+			<field name="type">ir.actions.server</field>
+			<field name="state">code</field>
+			<field name="code">model.send_product_alert_cron()</field>
+			<field name="interval_number">1</field>
+			<field name="interval_type">minutes</field>
+			<field name="numbercall">-1</field>
+			<field name="active">True</field>
+		</record>
 	</data>
 </odoo>

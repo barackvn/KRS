@@ -393,8 +393,8 @@ class StockMoveInherit(models.Model):
 #             record.line_total_amount = amount
 #
 #
-    # pre_advice_charge = fields.Monetary(string='Pre Advice', store=True, tracking=True,currency_field='company_currency_id')
-    # line_total_amount = fields.Monetary(string='Total', store=True, readonly=True, tracking=True,)
+# pre_advice_charge = fields.Monetary(string='Pre Advice', store=True, tracking=True,currency_field='company_currency_id')
+# line_total_amount = fields.Monetary(string='Total', store=True, readonly=True, tracking=True,)
 #     amount_by_group = fields.Binary(string="Tax amount by group",
 #                                     compute='_compute_invoice_taxes_by_group')
 #
@@ -404,3 +404,47 @@ class StockMoveInherit(models.Model):
 #             self.amount_untaxed = self.amount_untaxed + self.pre_advice_charge
 #         else:
 #             self.amount_untaxed = self.line_total_amount
+class StockProductionLotInherit(models.Model):
+    _inherit = 'stock.production.lot'
+
+    def send_product_alert_cron(self):
+        msg_vals_manager = {}
+        msg_vals_manager2 = {}
+
+
+        for record in self:
+            if record.alert_date:
+                product_name = self.env['product.template'].search([('name', '=', record.product_id.name)], limit=1)
+                seller_email = product_name.marketplace_seller_id.email
+
+                msg_vals_manager.update({
+                    'body_html': """ HELLO YOUR PRODUCT """ + product_name.name + """ IS GOING TO EXPIRE IN 7 DAYS """
+                })
+
+                msg_vals_manager2.update({
+                    'body_html': """ HELLO YOUR PRODUCT """ + product_name.name + """ IS GOING TO EXPIRE TODAY """
+                })
+
+                reminder_date = record.alert_date - timedelta(days=7)
+
+                if record.alert_date.date() == date.today():
+                    msg_vals_manager.update({
+                        'subject': 'PRODUCT EXPIRY REMINDER',
+                        'email_to': seller_email,
+                    })
+                    msg_id_manager = self.env['mail.mail'].create(msg_vals_manager)
+                    msg_id_manager.send()
+
+                if reminder_date.date() == date.today():
+                    msg_vals_manager2.update({
+                        'subject': 'PRODUCT EXPIRY REMINDER',
+                        'email_to': seller_email,
+                    })
+                    msg_id_manager2 = self.env['mail.mail'].create(msg_vals_manager2)
+                    msg_id_manager2.send()
+
+
+
+
+
+

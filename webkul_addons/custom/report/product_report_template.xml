@@ -4,234 +4,273 @@
         <template id="product_report_template">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <div class="header">
-                        <table style="width: 100%; border: solid black 1px;">
-                            <tr>
-                                <th rowspan="2">LOGO</th>
-                                <td>YOU</td>
-                            </tr>
-                            <tr>
-                                <td>BNN</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div>
-                        <div>
-                            <table style="width: 100%; border: solid black 1px;">
+                    <div style="background-color:yellow;padding:15px;">
+                        <style>
+                            table.border_table, td.border_table, th.border_table{
+                            border: 1px solid black;
+                            }
+                        </style>
+                        <div class="header">
+                            <table  style="width: 100%; padding:0px; margin:0px;">
                                 <tr>
-                                    <td colspan="2"><h1 t-field="o.name"></h1></td>
-                                    <td><span t-field="o.image_1920"></span></td>
+                                    <th style="width:50%;" rowspan="3"><img style="width:200px; height:50px;" t-attf-src="data:image/*;base64,{{o.company_id.logo}}"/></th>
+                                    <!--                                <td><img align="right" style="width:100px; height:50px;" t-att-src="'/custom/static/description/barcode.png'"/></td>-->
+                                    <td style="width:25%;">
+                                        <p style="font-family:'Roboto Slab'; font-size: 12px; font-weight:bold;" align="center">Single unit code / EAN13: </p>
+                                        <img align="right" alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s' % ('EAN13', quote_plus(o.unit_barcode or ''))" style="width:200px;height:40px;"/>
+                                        <div style="font-family:'Roboto Slab'; font-size: 12px; font-weight:bold;" align="center" t-field="o.unit_barcode"/>
+                                    </td>
+                                    <td style="width:25%;">
+                                        <p style="font-family:'Roboto Slab'; font-size: 12px; font-weight:bold;" align="center">Carton code / EAN14: </p>
+                                        <img align="right" alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s' % ('EAN13', quote_plus(o.carton_barcode or ''))" style="width:200px;height:40px;"/>
+                                        <div style="font-family:'Roboto Slab'; font-size: 12px; font-weight:bold;" align="center" t-field="o.carton_barcode"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--                    <div class="page" t-attf-style="background-image:url('/custom/static/img/barcode.jpg');">-->
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                        <div>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td><p t-field="o.name" style="font-family:'Roboto Slab'; font-size: 30px; font-weight:bold;" ></p></td>
+                                    <td rowspan="10"><img align="right" style="width:150px; height:150px;" t-attf-src="data:image/*;base64,{{o.image_1920}}"></img></td>
                                 </tr>
                                 <t t-foreach="o.public_categ_ids" t-as="i">
                                     <tr>
-                                        <td colspan="2"><p t-field="i.name"></p></td>
+                                        <td><p style="font-family:'Roboto'; font-size: 10.5px; font-weight:light;" t-field="i.name"></p></td>
                                     </tr>
                                 </t>
                             </table>
                         </div>
                         <div>
-                            <table style="width: 100%; border: solid black 1px;">
+                            <table style="width: 100%; font-family:'Roboto'; font-size: 10.5px; font-weight:light;">
                                 <tr>
-                                    <td colspan="2"><h1>Technical and logistics information</h1></td>
+                                    <td colspan="2"><p style="font-family:'Roboto'; font-size: 20px; font-weight:bold;">Technical and logistics information</p></td>
                                 </tr>
                                 <tr>
-                                    <td>Item number of the single unit</td>
-                                    <td>:<span t-field="o.unit_article_no"></span></td>
+                                    <td style="width:50%;">Item number of the single unit</td>
+                                    <td>: <span t-field="o.unit_article_no"></span></td>
                                 </tr>
                                 <tr>
-                                    <td>Item number of the carton</td>
-                                    <td>:<span t-field="o.carton_article_no"></span></td>
+                                    <td style="width:50%;">Item number of the carton</td>
+                                    <td>: <span t-field="o.carton_article_no"></span></td>
                                 </tr>
                                 <tr>
-                                    <td>Carton quantity</td>
-                                    <td>:<span t-field="o.qty_single_unit_per_cartn"></span></td>
+                                    <td style="width:50%;">Carton quantity</td>
+                                    <td>: <span t-field="o.qty_single_unit_per_cartn"></span></td>
                                 </tr>
                                 <tr>
-                                    <td>Sales shelf life</td>
-                                    <td>:<span t-field="o.min_shelf_delivery"></span></td>
+                                    <td style="width:50%;">Sales shelf life</td>
+                                    <td>: <span t-field="o.min_shelf_delivery"></span></td>
                                 </tr>
                                 <tr>
-                                    <td>Net weight per single unit</td>
-                                    <td>:<span t-field="o.net_weight_single_unit"></span></td>
+                                    <td style="width:50%;">Net weight per single unit</td>
+                                    <td>: <span t-field="o.net_weight_per_unit"></span> [g] / [ml]</td>
                                 </tr>
                                 <tr>
-                                    <td>Net content per single unit</td>
-                                    <td>:<span t-field="o.net_content_per_unit"></span></td>
+                                    <td style="width:50%;">Net content per single unit</td>
+                                    <td>: <span t-field="o.net_content_per_unit"></span> [g] / [ml]</td>
                                 </tr>
                                 <tr>
-                                    <td>Gross weight per single unit</td>
-                                    <td>:<span t-field="o.gross_weight_per_unit"></span></td>
+                                    <td style="width:50%;">Gross weight per single unit</td>
+                                    <td>: <span t-field="o.gross_weight_per_unit"></span> [g] / [ml]</td>
                                 </tr>
                             </table>
                         </div>
                         <div>
-                            <table style="width: 100%; border: solid black 1px;">
+                            <table style="width:100%; font-family:'Roboto'; font-size: 10.5px; font-weight:light;">
                                 <tr>
-                                    <td colspan="2"><h1>Additional product information</h1></td>
+                                    <td colspan="2" style="width:100%;">
+                                        <p style="font-family:'Roboto'; font-size: 20px; font-weight:bold;">Additional product information</p>
+                                    </td>
+                                </tr>
+                                <!--                            <table style="width: 100%; font-family:'Roboto'; font-size: 10.5px; font-weight:light;">-->
+                                <tr>
+                                    <td style="width:20%">
+                                        <pre>Storage conditions :</pre>
+                                    </td>
+                                    <td style="width:80%" align="left">
+                                        <span t-field="o.storage_instructions"></span>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Storage conditions</td>
-                                    <td>:<span t-field="o.storage_instructions"></span></td>
+                                    <td style="width:20%">
+                                        <pre>Claims                    :</pre>
+                                    </td>
+                                    <td style="width:80%" align="left">
+                                        <t t-foreach="o.nutrition_ids" t-as="i">
+                                            <span t-field="i.name"></span>,
+                                        </t>
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <td>Claims</td>
-                                    :<t t-foreach="o.nutrition_ids" t-as="i">
-                                        <td><span t-field="i.name"></span></td>
-                                    </t>
+
+                            </table>
+                            <!--                        <div style="font-family:'Roboto'; font-size: 10.5px; font-weight:light;">-->
+                            <!--                            <p/>Claims-->
+                            <!--                            <span>:</span>-->
+                            <!--                            <t t-foreach="o.nutrition_ids" t-as="i">-->
+                            <!--                                <span t-field="i.name"></span>,-->
+                            <!--                            </t>-->
+                            <!--                        </div>-->
+                        </div>
+                        <div>
+                            <p style="font-family:'Roboto'; font-size: 20px; font-weight:bold;">Ingredients</p>
+                            <span style="font-family:'Roboto'; font-size: 10.5px; font-weight:light;" t-field="o.ingredients"></span>
+                        </div>
+                        <div>
+                            <p style="font-family:'Roboto'; font-size: 20px; font-weight:bold;">Allergen Information</p>
+                            <table  style="border-collapse: collapse; width: 100%; font-family:'Roboto'; font-size: 10.5px; font-weight:light;">
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">This product</th>
+                                    <th class="border_table">Containing</th>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Gluten-containing grains</th>
+                                    <td class="border_table"><span t-field="o.gluten_contain_grains"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Milk and milk-based products</th>
+                                    <td class="border_table"><span t-field="o.milk_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Eggs and egg-based products</th>
+                                    <td class="border_table"><span t-field="o.eggs_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Peanuts (groundnuts) and peanut-based products</th>
+                                    <td class="border_table"><span t-field="o.peanuts_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Nuts and nut-based products</th>
+                                    <td class="border_table"><span t-field="o.nuts_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Soy and soy-based products</th>
+                                    <td class="border_table"><span t-field="o.soy_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Mustard and mustard-based products</th>
+                                    <td class="border_table"><span t-field="o.mustard_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Lupine and lupine-based products</th>
+                                    <td class="border_table"><span t-field="o.lupine_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Celery and celery-based products</th>
+                                    <td class="border_table"><span t-field="o.celery_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Sesame seeds and products based on sesame seeds</th>
+                                    <td class="border_table"><span t-field="o.sesame_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Fish and fish based products</th>
+                                    <td class="border_table"><span t-field="o.fish_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Molluscs and products based on molluscs</th>
+                                    <td class="border_table"><span t-field="o.molluscs_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Crustaceans and products based on shellfish</th>
+                                    <td class="border_table"><span t-field="o.shellfish_base_product"></span></td>
+                                </tr>
+                                <tr align="left">
+                                    <th style="width:50%;" class="border_table">Sulfur dioxide and sulphites (E220-E228)</th>
+                                    <td class="border_table"><span t-field="o.sulphites_base_product"></span></td>
                                 </tr>
                             </table>
                         </div>
-                        <div>
-                            <h1>Ingredients</h1>
-                            <span t-field="o.ingredients"></span>
-                        </div>
-                        <div>
-                            <h1>Allergen Information</h1>
-                            <table style="width: 100%; border: solid black 1px;">
-                                <tr align="left">
-                                    <th>This product</th>
-                                    <th>Containing</th>
-                                </tr>
-                                <tr align="left">
-                                    <th>Gluten-containing grains</th>
-                                    <td><span t-field="o.gluten_contain_grains"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Milk and milk-based products</th>
-                                    <td><span t-field="o.milk_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Eggs and egg-based products</th>
-                                    <td><span t-field="o.eggs_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Peanuts (groundnuts) and peanut-based products</th>
-                                    <td><span t-field="o.peanuts_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Nuts and nut-based products</th>
-                                    <td><span t-field="o.nuts_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Soy and soy-based products</th>
-                                    <td><span t-field="o.soy_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Mustard and mustard-based products</th>
-                                    <td><span t-field="o.mustard_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Lupine and lupine-based products</th>
-                                    <td><span t-field="o.lupine_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Celery and celery-based products</th>
-                                    <td><span t-field="o.celery_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Sesame seeds and products based on sesame seeds</th>
-                                    <td><span t-field="o.sesame_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Fish and fish based products</th>
-                                    <td><span t-field="o.fish_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Molluscs and products based on molluscs</th>
-                                    <td><span t-field="o.molluscs_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Crustaceans and products based on shellfish</th>
-                                    <td><span t-field="o.shellfish_base_product"></span></td>
-                                </tr>
-                                <tr align="left">
-                                    <th>Sulfur dioxide and sulphites (E220-E228)</th>
-                                    <td><span t-field="o.sulphites_base_product"></span></td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div>
-                            <h1>Nutritional Value</h1>
-                            <table >
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                        <div >
+                            <p style="font-family:'Roboto'; font-size: 20px; font-weight:bold;">Nutritional Value</p>
+                            <table style="border-collapse: collapse; font-family:'Roboto'; font-size: 14px; font-weight:light;">
                                 <tr>
                                     <td>Nutriscore</td>
-                                    <td>:<span t-field="o.nutriscore"></span></td>
+                                    <td>: <span t-field="o.nutriscore"></span></td>
                                 </tr>
                             </table>
-                            <table style="width: 100%; border: solid black 1px;">
+                            <table class="border_table" style="border-collapse: collapse; width: 100%; font-family:'Roboto'; font-size: 10.5px; font-weight:light;">
                                 <tr>
-                                    <th>Nutritional Values</th>
-                                    <th>Per 100g / 100ml</th>
-                                    <th>Percentage (%)</th>
+                                    <th class="border_table">Nutritional Values</th>
+                                    <th class="border_table">Per 100g / 100ml</th>
+                                    <th class="border_table">Percentage (%)</th>
                                 </tr>
                                 <tr>
-                                    <th align="left">Energy (kJ)</th>
-                                    <td align="right"><span t-field="o.energy_kg"></span></td>
-                                    <td align="right"><span t-field="o.cal_energy_kg"></span>%</td>
+                                    <th class="border_table" align="left">Energy (kJ)</th>
+                                    <td class="border_table" align="right"><span t-field="o.energy_kg"></span> [KJ]</td>
+                                    <td class="border_table" align="right"><span t-esc="sum(o.mapped('cal_energy_kg'))" t-options='{"widget": "float", "precision": 1}'></span> %</td>
                                 </tr>
                                 <tr>
-                                    <th align="left">Energy (kcal)</th>
-                                    <td align="right"><span t-field="o.energy_kcal"></span></td>
-                                    <td align="right"><span t-field="o.cal_energy_kcal"></span>%</td>
+                                    <th class="border_table" align="left">Energy (kcal)</th>
+                                    <td class="border_table" align="right"><span t-field="o.energy_kcal"></span> [kcal]</td>
+                                    <td class="border_table" align="right"><span t-esc="sum(o.mapped('cal_energy_kcal'))" t-options='{"widget": "float", "precision": 1}'></span> %</td>
                                 </tr>
                                 <tr>
-                                    <th align="left">Fats</th>
-                                    <td align="right"><span t-field="o.fat"></span></td>
-                                    <td align="right"><span t-field="o.cal_fat"></span>%</td>
+                                    <th class="border_table" align="left">Fats</th>
+                                    <td class="border_table" align="right"><span t-field="o.fat"></span> [gram]</td>
+                                    <td class="border_table" align="right"><span t-esc="sum(o.mapped('cal_fat'))" t-options='{"widget": "float", "precision": 1}'></span> %</td>
                                 </tr>
                                 <tr>
-                                    <th align="left">Totally saturated fats</th>
-                                    <td align="right"><span t-field="o.saturated_fat"></span></td>
-                                    <td align="right"><span t-field="o.cal_saturated_fat"></span>%</td>
+                                    <th class="border_table" align="left">Totally saturated fats</th>
+                                    <td class="border_table" align="right"><span t-field="o.saturated_fat"></span> [gram]</td>
+                                    <td class="border_table" align="right"><span t-esc="sum(o.mapped('cal_saturated_fat'))" t-options='{"widget": "float", "precision": 1}'></span> %</td>
                                 </tr>
                                 <tr>
-                                    <th align="left">Monounsaturated fats</th>
-                                    <td align="right"><span t-field="o.mono_unsaturated_fats"></span></td>
-                                    <td align="right"></td>
+                                    <th class="border_table" align="left">Monounsaturated fats</th>
+                                    <td class="border_table" align="right"><span t-field="o.mono_unsaturated_fats"></span> [gram]</td>
+                                    <td class="border_table" align="right"></td>
                                 </tr>
                                 <tr>
-                                    <th align="left">Polyunsaturated fats</th>
-                                    <td align="right"><span t-field="o.poly_unsaturated_fats"></span></td>
-                                    <td align="right"></td>
+                                    <th class="border_table" align="left">Polyunsaturated fats</th>
+                                    <td class="border_table" align="right"><span t-field="o.poly_unsaturated_fats"></span> [gram]</td>
+                                    <td class="border_table" align="right"></td>
                                 </tr>
                                 <tr>
-                                    <th align="left">Carbohydrates</th>
-                                    <td align="right"><span t-field="o.carbohydrates"></span></td>
-                                    <td align="right"><span t-field="o.cal_carbohydrates"></span>%</td>
+                                    <th class="border_table" align="left">Carbohydrates</th>
+                                    <td class="border_table" align="right"><span t-field="o.carbohydrates"></span> [gram]</td>
+                                    <td class="border_table" align="right"><span t-esc="sum(o.mapped('cal_carbohydrates'))" t-options='{"widget": "float", "precision": 1}'></span> %</td>
                                 </tr>
                                 <tr>
-                                    <th align="left">Sugars</th>
-                                    <td align="right"><span t-field="o.sugar"></span></td>
-                                    <td align="right"><span t-field="o.cal_sugar"></span>%</td>
+                                    <th class="border_table" align="left">Sugars</th>
+                                    <td class="border_table" align="right"><span t-field="o.sugar"></span> [gram]</td>
+                                    <td class="border_table" align="right"><span t-esc="sum(o.mapped('cal_sugar'))" t-options='{"widget": "float", "precision": 1}'></span> %</td>
                                 </tr>
                                 <tr>
-                                    <th align="left">Proteins</th>
-                                    <td align="right"><span t-field="o.protein"></span></td>
-                                    <td align="right"><span t-field="o.cal_protein"></span>%</td>
+                                    <th class="border_table" align="left">Proteins</th>
+                                    <td class="border_table" align="right"><span t-field="o.protein"></span> [gram]</td>
+                                    <td class="border_table" align="right"><span t-esc="sum(o.mapped('cal_protein'))" t-options='{"widget": "float", "precision": 1}'></span> %</td>
                                 </tr>
                                 <tr>
-                                    <th align="left">Salt</th>
-                                    <td align="right"><span t-field="o.salt"></span></td>
-                                    <td align="right"><span t-field="o.cal_salt"></span>%</td>
+                                    <th class="border_table" align="left">Salt</th>
+                                    <td class="border_table" align="right"><span t-field="o.salt"></span> [gram]</td>
+                                    <td class="border_table" align="right"><span t-esc="sum(o.mapped('cal_salt'))" t-options='{"widget": "float", "precision": 1}'></span> %</td>
                                 </tr>
                             </table>
                         </div>
+
                         <div>
-                            <h1>Contact</h1>
-                            <p>[Company name Kairos]</p>
-                            <p>[Street Kairos], [Street number Kairos]</p>
-                            <p>[ZIP code Kairos] [City Kairos], [Country Kairos]</p>
+                            <p style="font-family:'Roboto'; font-size: 20px; font-weight:bold;">Contact</p>
+                            <div style="font-family:'Roboto'; font-size: 10.5px; font-weight:light;">
+                                <p>[Company name]</p>
+                                <p>[Street Kairos], [Street number Kairos]</p>
+                                <p>[ZIP code Kairos] [City Kairos], [Country Kairos]</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="footer">
-                        <h3>About product information</h3>
-                        <p>[Company name Kairos] always prepare the food information, such as ingredient lists, allergen information, etc. with the necessary due
-diligence on the basis of the information available to us. However, there is a possibility that the mentioned information has been changed
-by the producer or manufacturer, such as a change in recipe, ingredients, proportions, allergens, without informing us. Therefore, it is
-possible that the information given incomplete, incorrect or not up to date. We therefore refer to for correct information the article /
-product itself. This information is the only correct information. For unpackaged items / products we point out the possibility that these
-products come into contact with substances containing allergens, merely by collecting, displaying or other actions that are still necessary
-for the sale of these products. We recommend that you wash these products before use.</p>
+
+                        <div class="footer" style="position:absolute; margin:0px; padding:0px;">
+                            <div style="font-family:'Roboto Slab'; font-size: 12px; font-weight:bold; text-decoration: underline;">About product information</div>
+                            <div style="font-family:'Roboto'; font-size: 10.5px; font-weight:light;">[Company name Kairos] always prepare the food information, such as ingredient lists, allergen information, etc. with the necessary due
+                                diligence on the basis of the information available to us. However, there is a possibility that the mentioned information has been changed
+                                by the producer or manufacturer, such as a change in recipe, ingredients, proportions, allergens, without informing us. Therefore, it is
+                                possible that the information given incomplete, incorrect or not up to date. We therefore refer to for correct information the article /
+                                product itself. This information is the only correct information. For unpackaged items / products we point out the possibility that these
+                                products come into contact with substances containing allergens, merely by collecting, displaying or other actions that are still necessary
+                                for the sale of these products. We recommend that you wash these products before use.</div>
+                            <div align="right" style="font-family:'Roboto'; font-size: 10.5px; font-weight:light;">Page <span class="page"/>/<span class="topage"/></div>
+                        </div>
                     </div>
                 </t>
             </t>
