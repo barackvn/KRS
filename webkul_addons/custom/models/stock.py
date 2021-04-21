@@ -126,6 +126,7 @@ class StockQuantInherit(models.Model):
 
     product_minimum_qty = fields.Float(related='product_id.product_minimum_qty', string="Minimum On Hand Qty")
     seller_id = fields.Many2one(related='product_id.marketplace_seller_id', string="Seller")
+    # lot_id = fields.Many2one('stock.production.lot', 'Lot')
 
     def scheduler_minimum_product_qty_notify(self):
         location_id = self.env['stock.location'].search([('ff_location', '=', True)], limit=1)
@@ -407,10 +408,11 @@ class StockMoveInherit(models.Model):
 class StockProductionLotInherit(models.Model):
     _inherit = 'stock.production.lot'
 
+    production_date = fields.Date('Production Date')
+
     def send_product_alert_cron(self):
         msg_vals_manager = {}
         msg_vals_manager2 = {}
-
 
         for record in self:
             if record.alert_date:
