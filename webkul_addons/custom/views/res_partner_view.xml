@@ -18,6 +18,90 @@
                     <field name="start_year" />
                     <field name="family_owned" />
                     <field name="agreement_person_data" />
+
+
+                </xpath>
+                <xpath expr="//form/sheet/group[2]" position="after">
+                    <separator string="Delivery Hours"/>
+                    <div class="row">
+                                            <div style="margin-left: 17px;">
+                                                <label for="monday"/>
+                                                <field name="monday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="tuesday"/>
+                                                <field name="tuesday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="wednesday"/>
+                                                <field name="wednesday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="thursday"/>
+                                                <field name="thursday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="friday"/>
+                                                <field name="friday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="saturday"/>
+                                                <field name="saturday"  widget="boolean_toggle"/>
+                                            </div>
+                                            <div>
+                                                <label for="sunday"/>
+                                                <field name="sunday"  widget="boolean_toggle"/>
+                                            </div>
+                                        </div>
+                    <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('monday','!=', True)]}">
+                        <div>
+                            <label for="monday_from" style="width: 110px;"/>
+                            <field name="monday_from" style="width:100px"/> TO
+                            <field name="monday_to" style="width:100px"/>
+                        </div>
+                    </div>
+                    <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('tuesday','!=', True)]}">
+                        <div>
+                            <label for="tuesday_from" style="width: 110px;"/>
+                            <field name="tuesday_from" style="width:100px"/> TO
+                            <field name="tuesday_to" style="width:100px"/>
+                        </div>
+                    </div>
+                    <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('wednesday','!=', True)]}">
+                        <div>
+                            <label for="wednesday_from" style="width: 110px;"/>
+                            <field name="wednesday_from" style="width:100px"/> TO
+                            <field name="wednesday_to" style="width:100px"/>
+                        </div>
+                    </div>
+                    <div style="margin-left: 2px;" class="row" attrs="{'invisible': [('thursday','!=', True)]}">
+                        <div>
+                            <label for="thursday_from" style="width: 110px;"/>
+                            <field name="thursday_from" style="width:100px"/> TO
+                            <field name="thursday_to" style="width:100px"/>
+                        </div>
+                    </div>
+                    <div style="margin-left: 2px;" class="row" attrs="{'invisible': [('friday','!=', True)]}">
+                        <div>
+                            <label for="friday_from" style="width: 110px;"/>
+                            <field name="friday_from" style="width:100px"/> TO
+                            <field name="friday_to" style="width:100px"/>
+                        </div>
+                    </div>
+                    <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('saturday','!=', True)]}">
+                        <div>
+                            <label for="saturday_from" style="width: 110px;"/>
+                            <field name="saturday_from" style="width:100px"/> TO
+                            <field name="saturday_to" style="width:100px"/>
+                        </div>
+                    </div>
+                    <div style="margin-left: 2px;" class="row" attrs="{'invisible': [('sunday','!=', True)]}">
+                                            <div>
+                                                <label for="sunday_from" style="width: 110px;"/>
+                                                <field name="sunday_from" style="width:100px"/> TO
+                                                <field name="sunday_to" style="width:100px"/>
+                                            </div>
+                                        </div>
                 </xpath>
                 <xpath expr="//form//field[@name='email']" position="after">
                     <field name="vat" string="VAT"/>
