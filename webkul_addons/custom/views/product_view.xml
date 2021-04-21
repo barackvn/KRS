@@ -8,50 +8,50 @@
             <field name="arch" type="xml">
                 <xpath expr="//sheet//field[@name='standard_price']" position="before">
                     <div name="options" groups="base.group_user">
-                            <div>
-                                <field name="sale_ok"/>
-                                <label for="sale_ok"/>
-                            </div>
-                            <div>
-                                <field name="purchase_ok"/>
-                                <label for="purchase_ok"/>
-                            </div>
+                        <div>
+                            <field name="sale_ok"/>
+                            <label for="sale_ok"/>
                         </div>
+                        <div>
+                            <field name="purchase_ok"/>
+                            <label for="purchase_ok"/>
+                        </div>
+                    </div>
                 </xpath>
                 <xpath expr="//notebook/page" position="replace">
                     <page string="Information">
                         <separator string="Prices for your buyer"/>
                         <group>
-                                <div class="address_format" cols="6" colspan="2">
-                                    <label for="lst_price" string="Sellers price" style="width:260px;font-weight: bold;"/>
-                                    <field name="lst_price" style="position: relative;width: 20% !important;min-width: 10px;"/>€
-                                    <label for="krs_margin" style="width:300px;font-weight: bold;padding-left: 45px;"/>
-                                    <field name="krs_margin" style="position: relative;width: 25% !important;min-width: 10px;"/>
-                                </div>
-                                <div class="address_format" cols="6" colspan="2">
-                                    <label for="purchase_price_carton_excl_vat"  style="width:260px;font-weight: bold;"/>
-                                    <field name="purchase_price_carton_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;"/>€
-                                    <label for="purchase_price_carton_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
-                                    <field name="purchase_price_carton_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
-                                </div>
-                                <div class="address_format" cols="6" colspan="2">
-                                    <label for="purchase_price_unit_excl_vat"  style="width:260px;font-weight: bold;"/>
-                                    <field name="purchase_price_unit_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;"/>€
-                                    <label for="purchase_price_unit_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
-                                    <field name="purchase_price_unit_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
-                                </div>
-                                <div class="address_format" cols="6" colspan="2">
-                                    <label for="adv_sale_price_excl_vat"  style="width:260px;font-weight: bold;"/>
-                                    <field name="adv_sale_price_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;" required="1"/>€
-                                    <label for="adv_sale_price_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
-                                    <field name="adv_sale_price_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
-                                </div>
-                                <div class="address_format" cols="6" colspan="2">
-                                    <label for="vat_seller_kairos"  style="width:260px;font-weight: bold;"/>
-                                    <field name="vat_seller_kairos" style="position: relative;width: 20% !important;min-width: 10px;"/>€
-                                    <label for="vat_buyer_kairos" style="width:300px;font-weight: bold;padding-left: 45px;"/>
-                                    <field name="vat_buyer_kairos" style="position: relative;width: 25% !important;min-width: 10px;"/>€
-                                </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="lst_price" string="Sellers price" style="width:260px;font-weight: bold;"/>
+                                <field name="lst_price" style="position: relative;width: 20% !important;min-width: 10px;"/>€
+                                <label for="krs_margin" style="width:300px;font-weight: bold;padding-left: 45px;"/>
+                                <field name="krs_margin" style="position: relative;width: 25% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="purchase_price_carton_excl_vat"  style="width:260px;font-weight: bold;"/>
+                                <field name="purchase_price_carton_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;"/>€
+                                <label for="purchase_price_carton_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
+                                <field name="purchase_price_carton_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                            </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="purchase_price_unit_excl_vat"  style="width:260px;font-weight: bold;"/>
+                                <field name="purchase_price_unit_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;"/>€
+                                <label for="purchase_price_unit_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
+                                <field name="purchase_price_unit_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                            </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="adv_sale_price_excl_vat"  style="width:260px;font-weight: bold;"/>
+                                <field name="adv_sale_price_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;" required="1"/>€
+                                <label for="adv_sale_price_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
+                                <field name="adv_sale_price_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                            </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="vat_seller_kairos"  style="width:260px;font-weight: bold;"/>
+                                <field name="vat_seller_kairos" style="position: relative;width: 20% !important;min-width: 10px;"/>€
+                                <label for="vat_buyer_kairos" style="width:300px;font-weight: bold;padding-left: 45px;"/>
+                                <field name="vat_buyer_kairos" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                            </div>
 
                         </group>
                         <group groups="product.group_product_pricelist" name="pricelists">
@@ -124,111 +124,111 @@
                         </group>
                         <separator string="Product Required"/>
                         <group>
-                                <div class="row" >
-                                    <div class="col-6">
-                                        <label for="cust_product_category"  style="width:260px;font-weight: bold;"/>
-                                        <field name="cust_product_category"  style="position: relative;min-width: 10px;width: 45% !important;" required="1"/>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="natural_water" attrs="{'invisible': [('cust_product_category', '!=', 'drink')],'required': [('cust_product_category', '=', 'drink')]}" style="font-weight: bold;"/>
-                                        <field name="natural_water" attrs="{'invisible': [('cust_product_category', '!=', 'drink')],'required': [('cust_product_category', '=', 'drink')]}" style="position: relative;width: 50% !important;min-width: 10px;" />
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="categ_id"  style="width:260px;font-weight: bold;" groups="odoo_marketplace.marketplace_officer_group"/>
-                                        <field name="categ_id"  style="position: relative;min-width: 10px;" required="1" options="{'no_create': True}" class="oe_inline" groups="odoo_marketplace.marketplace_officer_group"/>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="marketplace_seller_id"  style="font-weight: bold;padding-right: 105px;"/>
-                                        <field name="marketplace_seller_id" style="position: relative;width: 50% !important;min-width: 10px;" required="1" attrs="{'readonly': [('status', 'in', ('approved','rejected'))]}" domain="[('seller', '=', True), ('state', '=', 'approved')]" options="{'no_create': True}" context="{'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}" groups="odoo_marketplace.marketplace_officer_group"/>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="product_minimum_qty"  style="width:260px;font-weight: bold;"/>
-                                        <field name="product_minimum_qty"  style="position: relative;min-width: 10px;width: 236px;"/>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="per_product_ff_charge" style="font-weight: bold;"/>
-                                        <field name="per_product_ff_charge" style="position: relative;width: 50% !important;min-width: 10px;" />
-                                    </div>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <label for="cust_product_category"  style="width:260px;font-weight: bold;"/>
+                                    <field name="cust_product_category"  style="position: relative;min-width: 10px;width: 45% !important;" required="1"/>
                                 </div>
+                                <div class="col-6">
+                                    <label for="natural_water" attrs="{'invisible': [('cust_product_category', '!=', 'drink')],'required': [('cust_product_category', '=', 'drink')]}" style="font-weight: bold;"/>
+                                    <field name="natural_water" attrs="{'invisible': [('cust_product_category', '!=', 'drink')],'required': [('cust_product_category', '=', 'drink')]}" style="position: relative;width: 50% !important;min-width: 10px;" />
+                                </div>
+                                <div class="col-6">
+                                    <label for="categ_id"  style="width:260px;font-weight: bold;" groups="odoo_marketplace.marketplace_officer_group"/>
+                                    <field name="categ_id"  style="position: relative;min-width: 10px;" required="1" options="{'no_create': True}" class="oe_inline" groups="odoo_marketplace.marketplace_officer_group"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="marketplace_seller_id"  style="font-weight: bold;padding-right: 105px;"/>
+                                    <field name="marketplace_seller_id" style="position: relative;width: 50% !important;min-width: 10px;" required="1" attrs="{'readonly': [('status', 'in', ('approved','rejected'))]}" domain="[('seller', '=', True), ('state', '=', 'approved')]" options="{'no_create': True}" context="{'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}" groups="odoo_marketplace.marketplace_officer_group"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="product_minimum_qty"  style="width:260px;font-weight: bold;"/>
+                                    <field name="product_minimum_qty"  style="position: relative;min-width: 10px;width: 236px;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="per_product_ff_charge" style="font-weight: bold;"/>
+                                    <field name="per_product_ff_charge" style="position: relative;width: 50% !important;min-width: 10px;" />
+                                </div>
+                            </div>
                         </group>
                         <group>
                             <separator string="Certificates"/>
                             <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>
                         </group>
                         <separator string="Internal Notes" colspan="4" groups="odoo_marketplace.marketplace_officer_group"/>
-								<field name="description" placeholder="This note is only for internal purposes." groups="odoo_marketplace.marketplace_officer_group"/>
+                        <field name="description" placeholder="This note is only for internal purposes." groups="odoo_marketplace.marketplace_officer_group"/>
 
 
                     </page>
                 </xpath>
 
 
-<!--                <xpath expr="//field[@name='hs_code']" position="replace">-->
-<!--                </xpath>-->
-<!--                <xpath expr="//field[@name='exclusively_id']" position="replace">-->
-<!--                </xpath>-->
-<!--                <xpath expr="//field[@name='default_code']" position="attributes">-->
-<!--                    <attribute name="readonly">1</attribute>-->
-<!--                </xpath>-->
-<!--                <xpath expr="//field[@name='lst_price']" position="replace">-->
-<!--                    <separator string="Prices for your buyer"/>-->
-<!--                    <field name="lst_price" string="Sellers price"/>-->
-<!--                    <field name="purchase_price_carton_excl_vat" />-->
-<!--                    <field name="purchase_price_unit_excl_vat" />-->
-<!--                    <field name="adv_sale_price_excl_vat" />-->
-<!--                    <field name="krs_margin" />-->
-<!--                    <field name="purchase_price_carton_incl_vat" />-->
-<!--                    <field name="purchase_price_unit_incl_vat" />-->
-<!--                    <field name="adv_sale_price_incl_vat" />-->
-<!--                    <field name="product_minimum_qty" />-->
+                <!--                <xpath expr="//field[@name='hs_code']" position="replace">-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='exclusively_id']" position="replace">-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='default_code']" position="attributes">-->
+                <!--                    <attribute name="readonly">1</attribute>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='lst_price']" position="replace">-->
+                <!--                    <separator string="Prices for your buyer"/>-->
+                <!--                    <field name="lst_price" string="Sellers price"/>-->
+                <!--                    <field name="purchase_price_carton_excl_vat" />-->
+                <!--                    <field name="purchase_price_unit_excl_vat" />-->
+                <!--                    <field name="adv_sale_price_excl_vat" />-->
+                <!--                    <field name="krs_margin" />-->
+                <!--                    <field name="purchase_price_carton_incl_vat" />-->
+                <!--                    <field name="purchase_price_unit_incl_vat" />-->
+                <!--                    <field name="adv_sale_price_incl_vat" />-->
+                <!--                    <field name="product_minimum_qty" />-->
 
-<!--                </xpath>-->
-<!--                <xpath expr="//field[@name='marketplace_seller_id']" position="after">-->
-<!--                    <div class="address_format" cols="6" colspan="2">-->
-<!--                        <label for="per_product_ff_charge" style="width:250px;font-weight: bold;"/>-->
-<!--                        <field name="per_product_ff_charge" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
-<!--                    </div>-->
-<!--                    <div class="address_format" cols="6" colspan="2">-->
-<!--                        <label for="hs_code" string="Product classification code / HS code" style="width:250px;font-weight: bold;"/>-->
-<!--                        <field name="hs_code" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
-<!--                    </div>-->
-<!--                    <div class="address_format" cols="6" colspan="2">-->
-<!--                        <label for="unit_article_no" style="width:250px;font-weight: bold;"/>-->
-<!--                        <field name="unit_article_no" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
-<!--                    </div>-->
-<!--                    <div class="address_format" cols="6" colspan="2">-->
-<!--                        <label for="unit_barcode" style="width:250px;font-weight: bold;"/>-->
-<!--                        <field name="unit_barcode" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
-<!--                    </div>-->
-<!--                    <div class="address_format" cols="6" colspan="2">-->
-<!--                        <label for="carton_article_no" style="width:250px;font-weight: bold;"/>-->
-<!--                        <field name="carton_article_no" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
-<!--                    </div>-->
-<!--                    <div class="address_format" cols="6" colspan="2">-->
-<!--                        <label for="carton_barcode" style="width:250px;font-weight: bold;"/>-->
-<!--                        <field name="carton_barcode" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
-<!--                    </div>-->
-<!--                    <div class="address_format" cols="6" colspan="2">-->
-<!--                        <label for="exclusively_id" style="width:250px;font-weight: bold;"/>-->
-<!--                        <field name="exclusively_id" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
-<!--                    </div>-->
-<!--                    <div class="address_format" cols="6" colspan="2">-->
-<!--                        <label for="qty_single_unit_per_cartn" style="width:250px;font-weight: bold;"/>-->
-<!--                        <field name="qty_single_unit_per_cartn" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
-<!--                    </div>-->
-<!--                    <div class="address_format" cols="6" colspan="2">-->
-<!--                        <label for="conservation" style="width:250px;font-weight: bold;"/>-->
-<!--                        <field name="conservation" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
-<!--                    </div>-->
-
-
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='marketplace_seller_id']" position="after">-->
+                <!--                    <div class="address_format" cols="6" colspan="2">-->
+                <!--                        <label for="per_product_ff_charge" style="width:250px;font-weight: bold;"/>-->
+                <!--                        <field name="per_product_ff_charge" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+                <!--                    </div>-->
+                <!--                    <div class="address_format" cols="6" colspan="2">-->
+                <!--                        <label for="hs_code" string="Product classification code / HS code" style="width:250px;font-weight: bold;"/>-->
+                <!--                        <field name="hs_code" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+                <!--                    </div>-->
+                <!--                    <div class="address_format" cols="6" colspan="2">-->
+                <!--                        <label for="unit_article_no" style="width:250px;font-weight: bold;"/>-->
+                <!--                        <field name="unit_article_no" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+                <!--                    </div>-->
+                <!--                    <div class="address_format" cols="6" colspan="2">-->
+                <!--                        <label for="unit_barcode" style="width:250px;font-weight: bold;"/>-->
+                <!--                        <field name="unit_barcode" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+                <!--                    </div>-->
+                <!--                    <div class="address_format" cols="6" colspan="2">-->
+                <!--                        <label for="carton_article_no" style="width:250px;font-weight: bold;"/>-->
+                <!--                        <field name="carton_article_no" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+                <!--                    </div>-->
+                <!--                    <div class="address_format" cols="6" colspan="2">-->
+                <!--                        <label for="carton_barcode" style="width:250px;font-weight: bold;"/>-->
+                <!--                        <field name="carton_barcode" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+                <!--                    </div>-->
+                <!--                    <div class="address_format" cols="6" colspan="2">-->
+                <!--                        <label for="exclusively_id" style="width:250px;font-weight: bold;"/>-->
+                <!--                        <field name="exclusively_id" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+                <!--                    </div>-->
+                <!--                    <div class="address_format" cols="6" colspan="2">-->
+                <!--                        <label for="qty_single_unit_per_cartn" style="width:250px;font-weight: bold;"/>-->
+                <!--                        <field name="qty_single_unit_per_cartn" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+                <!--                    </div>-->
+                <!--                    <div class="address_format" cols="6" colspan="2">-->
+                <!--                        <label for="conservation" style="width:250px;font-weight: bold;"/>-->
+                <!--                        <field name="conservation" style="position: relative;width: 50% !important;min-width: 10px;"/>-->
+                <!--                    </div>-->
 
 
 
-<!--                </xpath>-->
-<!--                <xpath expr="//field[@name='barcode']" position="attributes">-->
-<!--                    <attribute name="invisible">1</attribute>-->
-<!--                </xpath>-->
+
+
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='barcode']" position="attributes">-->
+                <!--                    <attribute name="invisible">1</attribute>-->
+                <!--                </xpath>-->
                 <xpath expr="//notebook/page[3]" position="replace">
                     <page string="Sales">
 
@@ -242,81 +242,81 @@
 
                         <group>
                             <div class="address_format" cols="6" colspan="2">
-                                    <label for="nutriscore" style="width:150px;font-weight: bold;"/>
-                                    <field name="nutriscore" style="position: relative;width: 10% !important;min-width: 10px;"/>
-    <!--                                <label for="energy_kg" string="kj" style="width:40px;font-weight: bold;padding:10px"/>-->
-    <!--                                <field name="energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>%-->
-    <!--                                <label for="poly_unsaturated_fats" style="width:25%;font-weight: bold;padding-left: 8%;"/>-->
-    <!--                                <field name="poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
-    <!--                                <label for="poly_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>-->
-    <!--                                <field name="poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>%-->
+                                <label for="nutriscore" style="width:150px;font-weight: bold;"/>
+                                <field name="nutriscore" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <!--                                <label for="energy_kg" string="kj" style="width:40px;font-weight: bold;padding:10px"/>-->
+                                <!--                                <field name="energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>%-->
+                                <!--                                <label for="poly_unsaturated_fats" style="width:25%;font-weight: bold;padding-left: 8%;"/>-->
+                                <!--                                <field name="poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
+                                <!--                                <label for="poly_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>-->
+                                <!--                                <field name="poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>%-->
                             </div>
                             <div class="address_format" cols="6" colspan="2">
-                                    <label for="energy_kg" style="width:150px;font-weight: bold;"/>
-                                    <field name="energy_kg" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="energy_kg" string="KJ" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>%
-                                    <label for="carbohydrates" style="width:25%;font-weight: bold;padding-left: 8%;"/>
-                                    <field name="carbohydrates" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="carbohydrates" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_carbohydrates" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                </div>
-                                <div class="address_format" cols="6" colspan="2">
-                                    <label for="energy_kcal" style="width:150px;font-weight: bold;"/>
-                                    <field name="energy_kcal" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="energy_kcal" string="kcal" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_energy_kcal" style="position: relative;width: 10% !important;min-width: 10px;"/>%
-                                    <label for="fiber" style="width:25%;font-weight: bold;padding-left: 8%;"/>
-                                    <field name="fiber" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="fiber" string="100g" style="width:40px;font-weight: bold;padding:10px"/>
-<!--                                    <field name="cal_fiber" style="position: relative;width: 10% !important;min-width: 10px;"/>%-->
-                                </div>
-                                <div class="address_format" cols="6" colspan="2">
-                                    <label for="fat" style="width:150px;font-weight: bold;"/>
-                                    <field name="fat" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="fat" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_fat" style="position: relative;width: 10% !important;min-width: 10px;"/>%
-                                    <label for="sugar" style="width:25%;font-weight: bold;padding-left: 8%;"/>
-                                    <field name="sugar" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="sugar" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_sugar" style="position: relative;width: 10% !important;min-width: 10px;"/>%
-                                </div>
-                                <div class="address_format" cols="6" colspan="2">
-                                    <label for="saturated_fat" style="width:150px;font-weight: bold;"/>
-                                    <field name="saturated_fat" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="saturated_fat" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_saturated_fat" style="position: relative;width: 10% !important;min-width: 10px;"/>%
-                                    <label for="protein"  style="width:25%;font-weight: bold;padding-left: 8%;"/>
-                                    <field name="protein" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="protein" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_protein" style="position: relative;width: 10% !important;min-width: 10px;"/>%
-                                </div>
-                                <div class="address_format" cols="6" colspan="2">
-                                    <label for="mono_unsaturated_fats" style="width:150px;font-weight: bold;"/>
-                                    <field name="mono_unsaturated_fats" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="mono_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-<!--                                    <field name="cal_mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
-                                    <label for="salt"  style="width: 36.5%; font-weight: bold; padding-left: 19.5%;"/>
-                                    <field name="salt" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="salt" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_salt" style="position: relative;width: 10% !important;min-width: 10px;"/>%
-                                </div>
-                                <div class="address_format" cols="6" colspan="2">
-                                    <label for="poly_unsaturated_fats" style="width:150px;font-weight: bold;"/>
-                                    <field name="poly_unsaturated_fats" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="poly_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-<!--                                    <field name="cal_poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
-                                    <label for="sodium"  style="width: 36.5%; font-weight: bold; padding-left: 19.5%;"/>
-                                    <field name="sodium" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="sodium" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
-                                    <field name="cal_sodium" style="position: relative;width: 10% !important;min-width: 10px;"/>%
-                                </div>
-                                <div class="address_format" cols="6" colspan="2">
-                                    <label for="fruit_veg" style="width:32%;font-weight: bold;"/>
-                                    <field name="fruit_veg" style="position: relative;width: 10% !important;min-width: 10px;"/>
-                                    <label for="fruit_veg" string="%/100g" style="width:40px;font-weight: bold;padding:10px"/>
-<!--                                    <field name="cal_fruit_veg" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
-                                </div>
+                                <label for="energy_kg" style="width:150px;font-weight: bold;"/>
+                                <field name="energy_kg" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="energy_kg" string="KJ" style="width:40px;font-weight: bold;padding:10px"/>
+                                <field name="cal_energy_kg" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                <label for="carbohydrates" style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                <field name="carbohydrates" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="carbohydrates" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                <field name="cal_carbohydrates" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="energy_kcal" style="width:150px;font-weight: bold;"/>
+                                <field name="energy_kcal" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="energy_kcal" string="kcal" style="width:40px;font-weight: bold;padding:10px"/>
+                                <field name="cal_energy_kcal" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                <label for="fiber" style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                <field name="fiber" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="fiber" string="100g" style="width:40px;font-weight: bold;padding:10px"/>
+                                <!--                                    <field name="cal_fiber" style="position: relative;width: 10% !important;min-width: 10px;"/>%-->
+                            </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="fat" style="width:150px;font-weight: bold;"/>
+                                <field name="fat" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="fat" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                <field name="cal_fat" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                <label for="sugar" style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                <field name="sugar" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="sugar" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                <field name="cal_sugar" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                            </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="saturated_fat" style="width:150px;font-weight: bold;"/>
+                                <field name="saturated_fat" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="saturated_fat" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                <field name="cal_saturated_fat" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                                <label for="protein"  style="width:25%;font-weight: bold;padding-left: 8%;"/>
+                                <field name="protein" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="protein" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                <field name="cal_protein" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                            </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="mono_unsaturated_fats" style="width:150px;font-weight: bold;"/>
+                                <field name="mono_unsaturated_fats" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="mono_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                <!--                                    <field name="cal_mono_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
+                                <label for="salt"  style="width: 36.5%; font-weight: bold; padding-left: 19.5%;"/>
+                                <field name="salt" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="salt" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                <field name="cal_salt" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                            </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="poly_unsaturated_fats" style="width:150px;font-weight: bold;"/>
+                                <field name="poly_unsaturated_fats" required="1" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="poly_unsaturated_fats" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                <!--                                    <field name="cal_poly_unsaturated_fats" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
+                                <label for="sodium"  style="width: 36.5%; font-weight: bold; padding-left: 19.5%;"/>
+                                <field name="sodium" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="sodium" string="gram" style="width:40px;font-weight: bold;padding:10px"/>
+                                <field name="cal_sodium" style="position: relative;width: 10% !important;min-width: 10px;"/>%
+                            </div>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="fruit_veg" style="width:32%;font-weight: bold;"/>
+                                <field name="fruit_veg" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                                <label for="fruit_veg" string="%/100g" style="width:40px;font-weight: bold;padding:10px"/>
+                                <!--                                    <field name="cal_fruit_veg" style="position: relative;width: 10% !important;min-width: 10px;"/>-->
+                            </div>
                         </group>
                         <separator string="Allergens" colspan="4" />
                         <group>
@@ -415,7 +415,7 @@
                                     <label for="paraben_free" style="font-weight: bold;width: 41%;"/>
                                     <field name="paraben_free" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
-                                 <div class="col-6">
+                                <div class="col-6">
                                     <label for="fair_trade"  style="width:260px;font-weight: bold;"/>
                                     <field name="fair_trade" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
@@ -575,10 +575,10 @@
                                 </div>
                             </div>
                         </group>
-<!--                        <group name="description">-->
-<!--                                        <separator string="Description for Customers" colspan="4"/>-->
-<!--                                        <field name="description_sale" colspan="4" nolabel="1" placeholder="This note will be displayed on the quotations."/>-->
-<!--                                    </group>-->
+                        <!--                        <group name="description">-->
+                        <!--                                        <separator string="Description for Customers" colspan="4"/>-->
+                        <!--                                        <field name="description_sale" colspan="4" nolabel="1" placeholder="This note will be displayed on the quotations."/>-->
+                        <!--                                    </group>-->
                     </page>
 
 
@@ -613,76 +613,76 @@
                 </xpath>
                 <xpath expr="//notebook/page[6]" position="replace">
                     <page string="Inventory">
-                            <separator string="Operation" colspan="4" />
-                            <field name="sale_ok" invisible="1"/>
-                            <div class="row" >
-                                <div class="col-6">
-                                    <label for="manufacture_days"  style="width:260px;font-weight: bold;"/>
-                                    <field name="manufacture_days" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
-                                    days
-                                </div>
-                                <div class="col-6">
-                                    <label for="transport_days" style="font-weight: bold;width: 41%;"/>
-                                    <field name="transport_days" required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                                    days
-                                </div>
-                                <div class="col-6">
-                                    <label for="fulfilment_days"  style="width:260px;font-weight: bold;"/>
-                                    <field name="fulfilment_days" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
-                                    days
-                                </div>
-                                <div class="col-6">
-                                    <label for="sale_delay" style="font-weight: bold;width: 41%;"/>
-                                    <field name="sale_delay" attrs="{'readonly':[('sale_ok','=',False)]}" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                                    days
-                                </div>
+                        <separator string="Operation" colspan="4" />
+                        <field name="sale_ok" invisible="1"/>
+                        <div class="row" >
+                            <div class="col-6">
+                                <label for="manufacture_days"  style="width:260px;font-weight: bold;"/>
+                                <field name="manufacture_days" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                days
                             </div>
-                            <separator string="Stock" colspan="4" />
-<!--                            <group>-->
-                                <field name="pending_qty_request" invisible="1"/>
-                                <label for="qty_available" attrs="{'invisible':['|',('id', '=', False),('status', 'in', ('pending','draft'))]}"/>
-                                <div attrs="{'invisible':['|',('id', '=', False),('status', 'in', ('pending','draft'))]}">
-                                    <field name="qty_available" class="oe_inline"/>
-                                    <button
-                                        name="%(odoo_marketplace.marketplace_product_stock_action2)d"
-                                        string="⇒ Update"
-                                        type="action"
-                                        class="oe_link"
-                                        attrs="{'invisible':['|', '|', ('status', 'in', ('pending','draft','rejected')),('pending_qty_request', '=', True), ('type', '!=', 'product')]}" context="{'mp_stock': True}"/>
-                                    <button name="pending_qty_stock_request" string="⇒ Request Pending" type="object" class="oe_link" attrs="{'invisible':['|', '|', ('status', 'in', ('pending','draft','rejected')),('pending_qty_request', '=', False), ('type', '!=', 'product')]}"/>
-                                </div>
-                                <div class="row" >
-                                    <div class="col-6">
-                                        <label for="qty"  style="width:260px;font-weight: bold;"/>
-                                        <field name="qty" placeholder="Initail Quantity" attrs="{'readonly':[('status', 'in', ('approved','rejected'))]}" style="position: relative;min-width: 10px;width: 45%;"/>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="virtual_available" style="font-weight: bold;width: 41%;" attrs="{'invisible':[('status', 'in', ('pending','draft'))]}"/>
-                                        <field name="virtual_available" attrs="{'invisible':[('status', 'in', ('pending','draft'))]}" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="product_alert_day"  style="width:260px;font-weight: bold;"/>
-                                        <field name="product_alert_day" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
-                                        days
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="product_removal_days" style="font-weight: bold;width: 41%;"/>
-                                        <field name="product_removal_days"  required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                                        days
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="min_shelf_delivery"  style="width:260px;font-weight: bold;"/>
-                                        <field name="min_shelf_delivery" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
-                                        days
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="product_use_days" style="font-weight: bold;width: 41%;"/>
-                                        <field name="product_use_days" required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                                        days
-                                    </div>
-                                </div>
+                            <div class="col-6">
+                                <label for="transport_days" style="font-weight: bold;width: 41%;"/>
+                                <field name="transport_days" required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                days
+                            </div>
+                            <div class="col-6">
+                                <label for="fulfilment_days"  style="width:260px;font-weight: bold;"/>
+                                <field name="fulfilment_days" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                days
+                            </div>
+                            <div class="col-6">
+                                <label for="sale_delay" style="font-weight: bold;width: 41%;"/>
+                                <field name="sale_delay" attrs="{'readonly':[('sale_ok','=',False)]}" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                days
+                            </div>
+                        </div>
+                        <separator string="Stock" colspan="4" />
+                        <!--                            <group>-->
+                        <field name="pending_qty_request" invisible="1"/>
+                        <label for="qty_available" attrs="{'invisible':['|',('id', '=', False),('status', 'in', ('pending','draft'))]}"/>
+                        <div attrs="{'invisible':['|',('id', '=', False),('status', 'in', ('pending','draft'))]}">
+                            <field name="qty_available" class="oe_inline"/>
+                            <button
+                                    name="%(odoo_marketplace.marketplace_product_stock_action2)d"
+                                    string="⇒ Update"
+                                    type="action"
+                                    class="oe_link"
+                                    attrs="{'invisible':['|', '|', ('status', 'in', ('pending','draft','rejected')),('pending_qty_request', '=', True), ('type', '!=', 'product')]}" context="{'mp_stock': True}"/>
+                            <button name="pending_qty_stock_request" string="⇒ Request Pending" type="object" class="oe_link" attrs="{'invisible':['|', '|', ('status', 'in', ('pending','draft','rejected')),('pending_qty_request', '=', False), ('type', '!=', 'product')]}"/>
+                        </div>
+                        <div class="row" >
+                            <div class="col-6">
+                                <label for="qty"  style="width:260px;font-weight: bold;"/>
+                                <field name="qty" placeholder="Initail Quantity" attrs="{'readonly':[('status', 'in', ('approved','rejected'))]}" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="virtual_available" style="font-weight: bold;width: 41%;" attrs="{'invisible':[('status', 'in', ('pending','draft'))]}"/>
+                                <field name="virtual_available" attrs="{'invisible':[('status', 'in', ('pending','draft'))]}" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="product_alert_day"  style="width:260px;font-weight: bold;"/>
+                                <field name="product_alert_day" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                days
+                            </div>
+                            <div class="col-6">
+                                <label for="product_removal_days" style="font-weight: bold;width: 41%;"/>
+                                <field name="product_removal_days"  required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                days
+                            </div>
+                            <div class="col-6">
+                                <label for="min_shelf_delivery"  style="width:260px;font-weight: bold;"/>
+                                <field name="min_shelf_delivery" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                days
+                            </div>
+                            <div class="col-6">
+                                <label for="product_use_days" style="font-weight: bold;width: 41%;"/>
+                                <field name="product_use_days" required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                days
+                            </div>
+                        </div>
 
-<!--                            </group>-->
+                        <!--                            </group>-->
                         <separator string="Weights &amp; volumes" colspan="4" />
                         <div class="row" >
                             <div class="col-6">
@@ -785,7 +785,7 @@
                             <div class="col-6">
                                 <label for="inbound_full_pallet"  style="width:260px;font-weight: bold;"/>
                                 <field name="inbound_full_pallet" style="position: relative;min-width: 10px;width: 45%;"/>
-                           </div>
+                            </div>
                             <div class="col-6">
                                 <label for="stock_full_pallet_per_month" style="font-weight: bold;width: 41%;"/>
                                 <field name="stock_full_pallet_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
@@ -793,7 +793,7 @@
                             <div class="col-6">
                                 <label for="inbound_first_box"  style="width:260px;font-weight: bold;"/>
                                 <field name="inbound_first_box" style="position: relative;min-width: 10px;width: 45%;"/>
-                           </div>
+                            </div>
                             <div class="col-6">
                                 <label for="stock_half_pallet_per_month" style="font-weight: bold;width: 41%;"/>
                                 <field name="stock_half_pallet_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
@@ -801,7 +801,7 @@
                             <div class="col-6">
                                 <label for="inbound_additional_box"  style="width:260px;font-weight: bold;"/>
                                 <field name="inbound_additional_box" style="position: relative;min-width: 10px;width: 45%;"/>
-                           </div>
+                            </div>
                             <div class="col-6">
                                 <label for="stock_shelf_location_per_month" style="font-weight: bold;width: 41%;"/>
                                 <field name="stock_shelf_location_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
@@ -809,7 +809,7 @@
                             <div class="col-6">
                                 <label for="max_cases_volume_full_box"  style="width:260px;font-weight: bold;"/>
                                 <field name="max_cases_volume_full_box" style="position: relative;min-width: 10px;width: 45%;"/>
-                           </div>
+                            </div>
                             <div class="col-6">
                                 <label for="cost_sending_per_single_unit" style="font-weight: bold;width: 41%;"/>
                                 <field name="cost_sending_per_single_unit" style="position: relative;width: 50% !important;min-width: 10px;"/>
@@ -817,7 +817,7 @@
                             <div class="col-6">
                                 <label for="max_cases_weight_transport"  style="width:260px;font-weight: bold;"/>
                                 <field name="max_cases_weight_transport" style="position: relative;min-width: 10px;width: 45%;"/>
-                           </div>
+                            </div>
                             <div class="col-6">
                                 <label for="cost_sending_per_case" style="font-weight: bold;width: 41%;"/>
                                 <field name="cost_sending_per_case" style="position: relative;width: 50% !important;min-width: 10px;"/>
@@ -825,7 +825,7 @@
                             <div class="col-6">
                                 <label for="max_cases_by_weight_volume"  style="width:260px;font-weight: bold;"/>
                                 <field name="max_cases_by_weight_volume" style="position: relative;min-width: 10px;width: 45%;"/>
-                           </div>
+                            </div>
                             <div class="col-6">
                                 <label for="cost_sending_per_full_box" style="font-weight: bold;width: 41%;"/>
                                 <field name="cost_sending_per_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
@@ -833,7 +833,7 @@
                             <div class="col-6">
                                 <label for="used_box_volume"  style="width:260px;font-weight: bold;"/>
                                 <field name="used_box_volume" style="position: relative;min-width: 10px;width: 45%;"/>
-                           </div>
+                            </div>
                             <div class="col-6">
                                 <label for="cost_full_box" style="font-weight: bold;width: 41%;"/>
                                 <field name="cost_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
@@ -841,7 +841,7 @@
                             <div class="col-6">
                                 <label for="percentage_cost_case"  style="width:260px;font-weight: bold;"/>
                                 <field name="percentage_cost_case" style="position: relative;min-width: 10px;width: 45%;"/>
-                           </div>
+                            </div>
                             <div class="col-6">
                                 <label for="reserve_full_box" style="font-weight: bold;width: 41%;"/>
                                 <field name="reserve_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
@@ -849,7 +849,7 @@
                             <div class="col-6">
                                 <label for="cost_effective_x_purchase"  style="width:260px;font-weight: bold;"/>
                                 <field name="cost_effective_x_purchase" style="position: relative;min-width: 10px;width: 45%;"/>
-                           </div>
+                            </div>
                             <div class="col-6">
                                 <label for="margin_per_box" style="font-weight: bold;width: 41%;"/>
                                 <field name="margin_per_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
@@ -885,10 +885,10 @@
         </record>
 
         <record id="wk_seller_product_template_kanban_view_custom" model="ir.ui.view">
-			<field name="name">Seller.Product.template.kanban.custom</field>
-			<field name="model">product.template</field>
+            <field name="name">Seller.Product.template.kanban.custom</field>
+            <field name="model">product.template</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_kanban_view"/>
-			<field name="arch" type="xml">
+            <field name="arch" type="xml">
                 <xpath expr="//kanban/templates/t//div[@id='product_name']" position="replace">
                     <div id="product_name">
                         <a type="open">
@@ -941,7 +941,7 @@
             <field name="model">nutrition.claims</field>
             <field name="arch" type="xml">
                 <tree>
-                        <field name="name"/>
+                    <field name="name"/>
                 </tree>
             </field>
         </record>
@@ -998,11 +998,11 @@
             </field>
         </record>
         <menuitem
-        id="menuitem_accredited_package_action"
-        name="Accredited"
-        action="accredited_package_action"
-        groups="odoo_marketplace.marketplace_officer_group"
-        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+                id="menuitem_accredited_package_action"
+                name="Accredited"
+                action="accredited_package_action"
+                groups="odoo_marketplace.marketplace_officer_group"
+                parent="odoo_marketplace.wk_seller_dashboard_menu8"
         />
         <record id="regulatory_type_form_view" model="ir.ui.view">
             <field name="name">regulatory.type.form.view</field>
@@ -1024,7 +1024,7 @@
             <field name="model">regulatory.type</field>
             <field name="arch" type="xml">
                 <tree>
-                        <field name="name"/>
+                    <field name="name"/>
                 </tree>
             </field>
         </record>
@@ -1042,13 +1042,13 @@
             </field>
         </record>
         <menuitem
-        id="menuitem_regulatory_type_action"
-        name="Regulatory"
-        action="regulatory_type_action"
-        groups="odoo_marketplace.marketplace_officer_group"
-        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+                id="menuitem_regulatory_type_action"
+                name="Regulatory"
+                action="regulatory_type_action"
+                groups="odoo_marketplace.marketplace_officer_group"
+                parent="odoo_marketplace.wk_seller_dashboard_menu8"
         />
-         <record id="diet_info_form_view" model="ir.ui.view">
+        <record id="diet_info_form_view" model="ir.ui.view">
             <field name="name">diet.info.form.view</field>
             <field name="model">diet</field>
             <field name="arch" type="xml">
@@ -1068,7 +1068,7 @@
             <field name="model">diet</field>
             <field name="arch" type="xml">
                 <tree>
-                        <field name="name"/>
+                    <field name="name"/>
                 </tree>
             </field>
         </record>
@@ -1086,11 +1086,11 @@
             </field>
         </record>
         <menuitem
-        id="menuitem_diet_info_action"
-        name="Diet"
-        action="diet_info_action"
-        groups="odoo_marketplace.marketplace_officer_group"
-        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+                id="menuitem_diet_info_action"
+                name="Diet"
+                action="diet_info_action"
+                groups="odoo_marketplace.marketplace_officer_group"
+                parent="odoo_marketplace.wk_seller_dashboard_menu8"
         />
         <record id="fish_zone_form_view" model="ir.ui.view">
             <field name="name">fish.zone.form.view</field>
@@ -1113,7 +1113,7 @@
             <field name="arch" type="xml">
                 <tree>
 
-                        <field name="name"/>
+                    <field name="name"/>
 
                 </tree>
             </field>
@@ -1132,11 +1132,11 @@
             </field>
         </record>
         <menuitem
-        id="menuitem_fish_zone_action"
-        name="Fish Zone"
-        action="fish_zone_action"
-        groups="odoo_marketplace.marketplace_officer_group"
-        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+                id="menuitem_fish_zone_action"
+                name="Fish Zone"
+                action="fish_zone_action"
+                groups="odoo_marketplace.marketplace_officer_group"
+                parent="odoo_marketplace.wk_seller_dashboard_menu8"
         />
         <record id="fishing_form_view" model="ir.ui.view">
             <field name="name">fishing.form.view</field>
@@ -1159,7 +1159,7 @@
             <field name="arch" type="xml">
                 <tree>
 
-                        <field name="name"/>
+                    <field name="name"/>
 
                 </tree>
             </field>
@@ -1178,11 +1178,11 @@
             </field>
         </record>
         <menuitem
-        id="menuitem_fishing_action"
-        name="Fishing"
-        action="fishing_action"
-        groups="odoo_marketplace.marketplace_officer_group"
-        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+                id="menuitem_fishing_action"
+                name="Fishing"
+                action="fishing_action"
+                groups="odoo_marketplace.marketplace_officer_group"
+                parent="odoo_marketplace.wk_seller_dashboard_menu8"
         />
         <record id="volume_form_view" model="ir.ui.view">
             <field name="name">volume.form.view</field>
@@ -1205,7 +1205,7 @@
             <field name="arch" type="xml">
                 <tree>
 
-                        <field name="name"/>
+                    <field name="name"/>
 
                 </tree>
             </field>
@@ -1225,11 +1225,11 @@
             </field>
         </record>
         <menuitem
-        id="menuitem_volume_action"
-        name="Volume"
-        action="volume_action"
-        groups="odoo_marketplace.marketplace_officer_group"
-        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+                id="menuitem_volume_action"
+                name="Volume"
+                action="volume_action"
+                groups="odoo_marketplace.marketplace_officer_group"
+                parent="odoo_marketplace.wk_seller_dashboard_menu8"
         />
 
         <record id="pallet_kind_form_view" model="ir.ui.view">
@@ -1253,7 +1253,7 @@
             <field name="arch" type="xml">
                 <tree>
 
-                        <field name="name"/>
+                    <field name="name"/>
 
                 </tree>
             </field>
@@ -1271,12 +1271,27 @@
                 </p>
             </field>
         </record>
+
+        <record id="product_template_production_time" model="ir.ui.view">
+            <field name="name">product.template.production.time</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='use_time']" position="before">
+                    <div>
+                        <field name="production_time" class="oe_inline"/>
+                        <span> days</span>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
         <menuitem
-        id="menuitem_pallet_kind_action"
-        name="Pallet Kind"
-        action="pallet_kind_action"
-        groups="odoo_marketplace.marketplace_officer_group"
-        parent="odoo_marketplace.wk_seller_dashboard_menu8"
+                id="menuitem_pallet_kind_action"
+                name="Pallet Kind"
+                action="pallet_kind_action"
+                groups="odoo_marketplace.marketplace_officer_group"
+                parent="odoo_marketplace.wk_seller_dashboard_menu8"
         />
 
 
