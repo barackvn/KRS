@@ -407,6 +407,8 @@ class StockMoveInherit(models.Model):
 class StockProductionLotInherit(models.Model):
     _inherit = 'stock.production.lot'
 
+    production_date = fields.Date('Production Date')
+
     def send_product_alert_cron(self):
         msg_vals_manager = {}
         msg_vals_manager2 = {}
