@@ -153,8 +153,9 @@ class SurveyLanding(models.Model):
             msg_vals_manager = {}
 
             msg_vals_manager.update({
-                'body_html': """ Hello the seller """ + self.user_id + """ have saved and sent their information. """,
+                'body_html': """ Hello the seller """ + record.user_id.name + """ have saved and sent their information. """,
                 'subject': 'SELLER ID APPROVAL',
+                'email_from': record.email,
                 'email_to': 'admin@sophiesgarden.be',
             })
 
@@ -171,7 +172,8 @@ class SurveyLanding(models.Model):
         msg_vals_manager = {}
 
         msg_vals_manager.update({
-            'body_html': """ HELLO""" + self.user_id.partner_id.name + """  YOUR SELLER ID FOR COMPANY """ + self.company_id + """ HAS BEEN CONFIRMED! """
+            'body_html': """ HELLO""" + self.user_id.partner_id.name + """  YOUR SELLER ID FOR COMPANY """ + self.company_id + """ HAS BEEN CONFIRMED! <br/>
+                        You can start creating your new products through this link <a href='"""+ str(self.get_base_url)+"""/web#id=&action=473&model=product.template&view_type=form&cids=1&menu_id=295'>here.</a>"""
         })
         msg_vals_manager.update({
             'subject': 'SELLER ID APPROVAL',
@@ -219,6 +221,9 @@ class SurveyLanding(models.Model):
             partner_id.write({
                 'product_image': [
                     (0, 0, {
+                        'brand_name': record.brand_name,
+                        'net_weight': record.net_weight,
+                        'uom': record.uom,
                         'product_name': record.product_name,
                         'picture_html': record.picture_html,
                         'filename': record.filename,
@@ -261,6 +266,8 @@ class SurveyLanding(models.Model):
                 'certificate': self.certificate,
                 'res_company_logo': [(6, 0, self.company_logo.ids)],
                 'attachment_ids': [(6, 0, self.attachment_ids.ids)],
+                'description': self.description_company,
+
             })
 
 
@@ -296,6 +303,16 @@ class SurveyLanding(models.Model):
 
     def action_reject(self):
         for record in self:
+            msg_vals_manager = {}
+
+            msg_vals_manager.update({
+                'body_html': """ Hello seller, your application for the shop has been rejected. You need to make a few changes in the application.""",
+                'subject': 'SELLER ID APPROVAL',
+                'email_to': self.user_id.partner_id.email,
+            })
+
+            msg_id_manager = self.env['mail.mail'].create(msg_vals_manager)
+            msg_id_manager.send()
 
             record.write({'state': 'cancel'})
 

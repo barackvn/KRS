@@ -134,39 +134,39 @@
                                 <field name="end_date"/>
                             </tree>
                         </field>
-<!--                        <separator string="Images"/>-->
+                        <!--                        <separator string="Images"/>-->
 
-                            <separator string="Company logo*" />
-                            <div>
-                                <a style="font-size: 15px;">Square photo: This is the image that will appear in our catalog. Minimum size 300 * 300px. Maximum size 2000 * 2000px.</a>
-                            </div>
-                            <field name="company_logo" widget="many2many_binary" required="1" nolabel="1"/>
+                        <separator string="Company logo*" />
+                        <div>
+                            <a style="font-size: 15px;">Square photo: This is the image that will appear in our catalog. Minimum size 300 * 300px. Maximum size 2000 * 2000px.</a>
+                        </div>
+                        <field name="company_logo" widget="many2many_binary" required="1" nolabel="1"/>
 
 
 
-                            <separator string="Banner Image*"/>
-                            <div>
-                                <a style="font-size: 15px;">1298 x 400 px for perfect view</a>
-                            </div>
-                            <field name="attachment_ids" widget="many2many_binary" required="1"/>
+                        <separator string="Banner Image*"/>
+                        <div>
+                            <a style="font-size: 15px;">1298 x 400 px for perfect view</a>
+                        </div>
+                        <field name="attachment_ids" widget="many2many_binary" required="1"/>
 
 
                         <separator string="Slider image"/>
                         <div>
-                                <a style="font-size: 15px;">1298 x 400 px for perfect view</a>
+                            <a style="font-size: 15px;">1298 x 400 px for perfect view</a>
                         </div>
                         <field name="slider_image">
                             <tree string="Slider Image" editable="bottom">
                                 <field name="preferred_link"/>
-                                 <field name="slider_image_file" widget="binary" filename="filename"/>
+                                <field name="slider_image_file" widget="binary" filename="filename"/>
                                 <field name="filename" invisible="1"/>
                             </tree>
                         </field>
 
                         <separator string="Product images"/>
-<!--                        <div attrs="{'invisible' : [('state', '!=', 'draft')]}" >-->
-<!--                            <a>If you do not have 360° view product image click on</a><button style="border: none; color: green;padding: 4px;" name="action_send_product_360_image" type="object" string="Click Here"/><a>  to get instruction on email</a>-->
-<!--                        </div>-->
+                        <!--                        <div attrs="{'invisible' : [('state', '!=', 'draft')]}" >-->
+                        <!--                            <a>If you do not have 360° view product image click on</a><button style="border: none; color: green;padding: 4px;" name="action_send_product_360_image" type="object" string="Click Here"/><a>  to get instruction on email</a>-->
+                        <!--                        </div>-->
                         <field name="product_image">
                             <tree string="Product Image" editable="bottom">
                                 <field name="brand_name"/>
@@ -178,7 +178,7 @@
                             </tree>
                         </field>
                         <div>
-                        <a style="padding: 40%;"><button class="oe_highlight" name="action_send_product_360_image" type="object" string="I would like to have 360° pictures"/></a>
+                            <a style="padding: 40%;"><button class="oe_highlight" name="action_send_product_360_image" type="object" string="I would like to have 360° pictures"/></a>
                         </div>
                     </sheet>
                 </form>
@@ -340,6 +340,10 @@
                                     <field name="certificate"/>
                                 </group>
 
+                                <group>
+                                    <field name="description"/>
+                                </group>
+
                                 <separator string="Certificate on company level"/>
                                 <field name="certificate_ids">
                                     <tree string="Certificates" editable="bottom">
@@ -372,8 +376,12 @@
                                 <separator string="Product images"/>
                                 <field name="product_image">
                                     <tree string="Product Image" editable="bottom">
+                                        <field name="brand_name"/>
                                         <field name="product_name"/>
-                                        <field name="picture_html"/>
+                                        <field name="net_weight"/>
+                                        <field name="uom"/>
+                                        <field name="picture_html" widget="binary" filename="filename"/>
+                                        <field name="filename" invisible="1"/>
                                     </tree>
                                 </field>
                             </sheet>
@@ -384,16 +392,16 @@
         </record>
 
 
-<!--        <record id="action_server_wk_seller_shop_action" model="ir.actions.server">-->
-<!--            <field name="name">Shop Action server</field>-->
-<!--            <field name="model_id" ref="custom.model_seller_shop" />-->
-<!--            <field name="type">ir.actions.server</field>-->
-<!--            <field name="state">code</field>-->
-<!--            <field name="code">-->
-<!--            if records:-->
-<!--                action = records.action_seller_shop()</field>-->
-<!--            <field name="binding_model_id" ref="custom.model_seller_shop"/>-->
-<!--        </record>-->
+        <!--        <record id="action_server_wk_seller_shop_action" model="ir.actions.server">-->
+        <!--            <field name="name">Shop Action server</field>-->
+        <!--            <field name="model_id" ref="custom.model_seller_shop" />-->
+        <!--            <field name="type">ir.actions.server</field>-->
+        <!--            <field name="state">code</field>-->
+        <!--            <field name="code">-->
+        <!--            if records:-->
+        <!--                action = records.action_seller_shop()</field>-->
+        <!--            <field name="binding_model_id" ref="custom.model_seller_shop"/>-->
+        <!--        </record>-->
 
         <record id="action_server_wk_seller_shop_action" model="ir.actions.server">
             <field name="name">Shop Action server</field>

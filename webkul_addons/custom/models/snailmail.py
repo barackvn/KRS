@@ -141,6 +141,8 @@ class ResPartner(models.Model):
     slider_image = fields.One2many('slider.image.tree', 'slider_id_res', 'Slider Image')
     product_image = fields.One2many('product.image.tree', 'product_image_id_res', 'Product Image')
 
+    description = fields.Char('Description Company')
+
     # state = fields.Selection(
     #     [('draft', 'Draft'), ('pending', 'Pending For Approval'), ('confirm', 'Confirm'), ('done', 'Done'),
     #      ('cancelled', 'Cancelled')], string='Status', default='draft')
