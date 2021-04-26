@@ -306,8 +306,16 @@ class SurveyLanding(models.Model):
                 'custom.group_survey_access') and not self.env.user.has_group(
             'odoo_marketplace.marketplace_officer_group'):
             # shop_id = self.search([('seller_id', '=', self.env.user.partner_id.id)])
-
-            action['domain'] = [('user_id', '=',self.env.user.id)]
+            landing_id = self.search([('user_id', '=', self.env.user.id)])
+            if len(landing_id) > 1:
+                action['domain'] = [('id', '=',landing_id.id)]
+            elif len(landing_id) == 1:
+                action['views'] = [(self.env.ref('custom.survey_landing_form_view').id, 'form')]
+                action['res_id'] = landing_id.id
+                action['domain'] = [('id', 'in', landing_id.id)]
+            else:
+                action['views'] = [(self.env.ref('custom.survey_landing_form_view').id, 'form')]
+                action['domain'] = [('user_id', 'in', self.env.user.id)]
             return action
         else:
             action['domain'] = [('state', '!=', 'draft')]
