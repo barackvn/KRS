@@ -54,11 +54,11 @@ class CrmLeadInherit(models.Model):
     def action_accept_lead(self):
         for record in self:
             if record.partner_id.seller:
-                url_approve = record.get_base_url() + '/approve/' + str(record.id)
-                url_reject = record.get_base_url() + '/reject/' + str(record.id)
+                url_approve1 = record.get_base_url() + '/approve/' + str(record.id)
+                url_reject1 = record.get_base_url() + '/reject/' + str(record.id)
 
-                self.url_approve = url_approve
-                self.url_reject = url_reject
+                self.url_approve = url_approve1
+                self.url_reject = url_reject1
 
                 # if record.partner_id.state != 'approved':
                 #     raise UserError(_("Please first approved the seller profile."))
@@ -131,10 +131,10 @@ class CrmLeadInherit(models.Model):
                                   <p>Find quotation as per your request.Kindly approve if accepted</p>
                                   <br/>
                               <button style="background-color:#875A7B;color:white; padding:5px; font-size:16px;">
-                                      <a style="color:white; text-decoration:none;" href='""" + url_approve + """'> Approve</a></button>
+                                      <a style="color:white; text-decoration:none;" href='""" + self.url_approve + """'> Approve</a></button>
 
                               <button style="background-color:#875A7B;color:white; padding:5px; font-size:16px;">
-                                      <a style="color:white; text-decoration:none;" href='""" + url_reject + """'> Reject </a></button>
+                                      <a style="color:white; text-decoration:none;" href='""" + self.url_reject + """'> Reject </a></button>
                               <br/>
                               <p>Thanks</p>
                                                               """

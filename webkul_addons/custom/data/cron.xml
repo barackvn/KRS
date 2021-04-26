@@ -47,7 +47,7 @@
 			<field name="state">code</field>
 			<field name="code">model.send_product_alert_cron()</field>
 			<field name="interval_number">1</field>
-			<field name="interval_type">minutes</field>
+			<field name="interval_type">days</field>
 			<field name="numbercall">-1</field>
 			<field name="active">True</field>
 		</record>

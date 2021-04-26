@@ -10,7 +10,6 @@
                 <xpath expr="//field[@name='tag_ids']" position="after">
                     <field name="is_seller" attrs="{'invisible': [('is_seller', '=', False)]}"/>
                     <field name="is_buyer" attrs="{'invisible': [('is_buyer', '=', False)]}"/>
-                    <button name="send_to_approve" type="object" string="Send to approve"/>
                 </xpath>
 
                 <xpath expr="//page[@name='lead']" position="after">

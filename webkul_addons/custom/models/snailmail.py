@@ -158,11 +158,13 @@ class ResPartner(models.Model):
         leads = self.mapped('lead_id')
         action = self.env.ref('crm.crm_lead_action_pipeline').read()[0]
         form_view = [(self.env.ref('crm.crm_lead_view_form').id, 'form')]
+
         if 'views' in action:
             action['views'] = form_view + [(state, view) for state, view in action['views'] if view != 'form']
         else:
             action['views'] = form_view
         action['res_id'] = leads.id
+
         return action
 
     #     if self.lead_id:
@@ -208,6 +210,9 @@ class ResPartner(models.Model):
     def create(self, vals):
         _logger.info(">>>>>>>>>>>>>> I am in create>>>%s>>>", self)
         res = super(ResPartner, self).create(vals)
+        msg_vals_manager_seller = {}
+        msg_vals_manager_buyer = {}
+
         if res:
             _logger.info(">>>>>>>>>>>>>> I am in create2>>>%s>>>", res)
             if not self._context.get('is_seller'):
@@ -215,17 +220,31 @@ class ResPartner(models.Model):
                     'custom', 'template_thnk_register_buyer')[1]
                 template_obj = self.env['mail.template'].browse(mail_templ_id)
                 send = template_obj.with_context(company=res.env.company).send_mail(res.id, True)
+
+                buyer_mail_templ_id = self.env['ir.model.data'].get_object_reference(
+                    'custom', 'template_register_buyer')[1]
+                buyer_template_obj = self.env['mail.template'].browse(buyer_mail_templ_id)
+                buyer_send = buyer_template_obj.with_context(company=res.env.company).send_mail(res.id, True)
+
                 _logger.info(">>>>>>>>>>>>>> buyer Mail send for thank you>>>%s>>>", send)
+
                 if not res.lead_id:
                     res.with_context(default_is_buyer=True).create_crm_lead()
             if self._context.get('is_seller'):
                 if res.seller and res.state == 'new' and not res.lead_id:
                     res.sudo().set_to_pending()
                     _logger.info(">>>>>>>>>>>>>> I have update in create2>>>%s>>>", res)
+
                 mail_templ_id = self.env['ir.model.data'].get_object_reference(
                     'custom', 'template_thnk_register_seller')[1]
                 template_obj = self.env['mail.template'].browse(mail_templ_id)
                 send = template_obj.with_context(company=res.env.company).send_mail(res.id, True)
+
+                seller_mail_templ_id = self.env['ir.model.data'].get_object_reference(
+                    'custom', 'template_register_seller')[1]
+                seller_template_obj = self.env['mail.template'].browse(seller_mail_templ_id)
+                seller_send = seller_template_obj.with_context(company=res.env.company).send_mail(res.id, True)
+
                 _logger.info(">>>>>>>>>>>>>> seller Mail send for thank you>>>%s>>>", send)
 
         return res

@@ -6,30 +6,31 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
+
                 <xpath expr="//h1/field[@name='name']" position="replace">
                     <field name="name" attrs="{'invisible': ['|',('name','=','/'),('pre_advice', '=', True)]}"/>
                     <field name="pre_advice_name" readonly="1" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>
                 </xpath>
                 <xpath expr="//field[@name='origin']" position="after">
                     <field name="pre_advice" invisible="1"/>
-<!--                    <label for="amount_of_pallets"/>-->
-<!--                    <div attrs="{'invisible': [('pre_advice', '!=', True)]}">-->
-<!--                        <field name="amount_of_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
-<!--                        <field name="charge_per_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />+-->
-<!--                        <field name="add_charge_per_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />=-->
-<!--                        <field name="total_pallet_charge"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
+                    <!--                    <label for="amount_of_pallets"/>-->
+                    <!--                    <div attrs="{'invisible': [('pre_advice', '!=', True)]}">-->
+                    <!--                        <field name="amount_of_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
+                    <!--                        <field name="charge_per_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />+-->
+                    <!--                        <field name="add_charge_per_pallets"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />=-->
+                    <!--                        <field name="total_pallet_charge"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
 
-<!--                    </div>-->
-<!--                    <label for="amount_of_case"/>-->
-<!--                    <div attrs="{'invisible': [('pre_advice', '!=', True)]}">-->
-<!--                        <field name="amount_of_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
-<!--                        <field name="charge_per_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />+-->
-<!--                        <field name="add_charge_per_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />=-->
-<!--                        <field name="total_case_charge"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
+                    <!--                    </div>-->
+                    <!--                    <label for="amount_of_case"/>-->
+                    <!--                    <div attrs="{'invisible': [('pre_advice', '!=', True)]}">-->
+                    <!--                        <field name="amount_of_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
+                    <!--                        <field name="charge_per_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />+-->
+                    <!--                        <field name="add_charge_per_case"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />=-->
+                    <!--                        <field name="total_case_charge"  class="oe_inline" style="position: relative;width: 50px !important;min-width: 10px;" />-->
 
-<!--                    </div>-->
-<!--                    <field name="measure_pallets" placeholder="Brut weight and LxWxH" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>-->
-<!--                    <field name="amount_of_case_pallets" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>-->
+                    <!--                    </div>-->
+                    <!--                    <field name="measure_pallets" placeholder="Brut weight and LxWxH" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>-->
+                    <!--                    <field name="amount_of_case_pallets" attrs="{'invisible': [('pre_advice', '!=', True)]}"/>-->
                     <field name="pre_advice_type" attrs="{'invisible': [('pre_advice', '!=', True)], 'required':[('pre_advice', '=', True)]}"/>
                 </xpath>
                 <xpath expr="//field[@name='scheduled_date']" position="after">
@@ -99,14 +100,14 @@
             </field>
         </record>
 
-		<record id="stock_picking_action_picking_type_pre_advice" model="ir.actions.act_window">
+        <record id="stock_picking_action_picking_type_pre_advice" model="ir.actions.act_window">
             <field name="name">Pre Advice</field>
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('pre_advice','=',1)]</field>
             <field name="context">{'contact_display': 'partner_address','default_pre_advice':1}</field>
-<!--            <field name="search_view_id" ref="stock_picking_stock_tree_view_for_pre_advice"/>-->
+            <!--            <field name="search_view_id" ref="stock_picking_stock_tree_view_for_pre_advice"/>-->
             <field name="view_ids" eval="[(5, 0),
 					(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('custom.stock_picking_stock_tree_view_for_pre_advice')}),
 					(0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('stock.view_picking_form')})]"/>
@@ -115,17 +116,17 @@
                 <p class="o_view_nocontent_smiling_face">
                     Create a new pre Advice
                 </p><p>
-                    Transfers allow you to move products from seller location to FF Company.
-                </p>
+                Transfers allow you to move products from seller location to FF Company.
+            </p>
             </field>
         </record>
 
         <menuitem name="Pre Advice"
-			id="menu_pre_advice_action"
-            action="stock_picking_action_picking_type_pre_advice"
-			parent="odoo_marketplace.wk_seller_dashboard_menu4"
-			sequence="6"
-		/>
+                  id="menu_pre_advice_action"
+                  action="stock_picking_action_picking_type_pre_advice"
+                  parent="odoo_marketplace.wk_seller_dashboard_menu4"
+                  sequence="6"
+        />
 
         <record id="view_location_form_ff_inherit" model="ir.ui.view">
             <field name="name">stock.location.ff</field>
@@ -168,6 +169,18 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='use_date']" position="before">
                     <field name="production_date"/>
+                </xpath>
+                <xpath expr="//field[@name='use_date']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='removal_date']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='life_date']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='alert_date']" position="attributes">
+                    <attribute name="required">1</attribute>
                 </xpath>
             </field>
         </record>

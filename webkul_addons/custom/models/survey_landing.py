@@ -150,11 +150,36 @@ class SurveyLanding(models.Model):
 
     def send_to_krs(self):
         for record in self:
+            msg_vals_manager = {}
+
+            msg_vals_manager.update({
+                'body_html': """ Hello the seller """ + self.user_id + """ have saved and sent their information. """,
+                'subject': 'SELLER ID APPROVAL',
+                'email_to': 'admin@sophiesgarden.be',
+            })
+
+            msg_id_manager = self.env['mail.mail'].create(msg_vals_manager)
+            msg_id_manager.send()
+
             record.write({'state': 'pending'})
 
     def action_confirm(self):
         self.write({'state': 'confirm'})
+        admin = self.env['res.users'].sudo().search([('id', '=', 2)])
         seller_id = self.env["seller.shop"].sudo().search([('id', '=', self.user_id.id)])
+        email = self.user_id.partner_id.email
+        msg_vals_manager = {}
+
+        msg_vals_manager.update({
+            'body_html': """ HELLO""" + self.user_id.partner_id.name + """  YOUR SELLER ID FOR COMPANY """ + self.company_id + """ HAS BEEN CONFIRMED! """
+        })
+        msg_vals_manager.update({
+            'subject': 'SELLER ID APPROVAL',
+            'email_to': email,
+        })
+        msg_id_manager = self.env['mail.mail'].create(msg_vals_manager)
+        msg_id_manager.send()
+
         if self.user_id:
             survey_group_obj = self.env.ref('custom.group_survey_access')
             survey_group_obj.sudo().write({"users": [(3, self.user_id.id, 0)]})
@@ -271,6 +296,7 @@ class SurveyLanding(models.Model):
 
     def action_reject(self):
         for record in self:
+
             record.write({'state': 'cancel'})
 
     @api.model
