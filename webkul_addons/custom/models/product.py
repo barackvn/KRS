@@ -80,6 +80,8 @@ class ProductProductInherit(models.Model):
 class ProductTemplateInherit(models.Model):
     _inherit = 'product.template'
 
+    production_time =  fields.Integer('Product Production Time')
+
     @api.depends('name', 'net_weight_per_unit','net_weight_uom')
     def _compute_complete_product_name(self):
         for record in self:

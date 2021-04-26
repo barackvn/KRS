@@ -21,7 +21,7 @@
                         <group>
                             <group>
                                 <separator string="Company"/>
-                                <field name="company_id"/>
+                                <field name="company_id" required="1"/>
                                 <label for="" name="address_name">
                                     <b>Address</b>
                                 </label>

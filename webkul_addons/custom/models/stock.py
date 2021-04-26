@@ -1,6 +1,6 @@
 import re
 import base64
-import datetime
+from datetime import datetime
 
 from odoo import fields, models, api, _, tools
 from odoo.addons.iap import jsonrpc
@@ -126,6 +126,7 @@ class StockQuantInherit(models.Model):
 
     product_minimum_qty = fields.Float(related='product_id.product_minimum_qty', string="Minimum On Hand Qty")
     seller_id = fields.Many2one(related='product_id.marketplace_seller_id', string="Seller")
+    # lot_id = fields.Many2one('stock.production.lot', 'Lot')
 
     def scheduler_minimum_product_qty_notify(self):
         location_id = self.env['stock.location'].search([('ff_location', '=', True)], limit=1)
@@ -409,12 +410,35 @@ class StockProductionLotInherit(models.Model):
 
     production_date = fields.Date('Production Date')
 
+    alert_date1 = fields.Date(compute="get_date")
+    end_date1 = fields.Date(compute="get_date")
+    best_date1 = fields.Date(compute="get_date")
+    removal_date1 = fields.Date(compute="get_date")
+
+    @api.depends('alert_date')
+    def get_date(self):
+        for record in self:
+            if record.alert_date and record.life_date and record.use_date and record.removal_date:
+                record.alert_date1 = record.alert_date.date()
+                record.end_date1 = record.life_date.date()
+                record.best_date1 = record.use_date.date()
+                record.removal_date1 = record.removal_date.date()
+            else:
+                record.alert_date1 = False
+                record.end_date1 = False
+                record.best_date1 = False
+                record.removal_date1 = False
+
     def send_product_alert_cron(self):
         msg_vals_manager = {}
         msg_vals_manager2 = {}
 
+        day_7 = date.today() + timedelta(days=7)
+        day_now = date.today()
 
-        for record in self:
+        stock_lot = self.env['stock.production.lot'].search(['|', ('alert_date1', '=', day_7), ('alert_date1', '=', day_now)])
+
+        for record in stock_lot:
             if record.alert_date:
                 product_name = self.env['product.template'].search([('name', '=', record.product_id.name)], limit=1)
                 seller_email = product_name.marketplace_seller_id.email
