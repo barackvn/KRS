@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_calendar_event_form_inherit" model="ir.ui.view">
+            <field name="name">calendar.event.form.inherit</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]" position="replace">
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name" string="Exception Subject"/>
+                        </div>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <label for="partner_ids" string="Attendees" class="oe_edit_only" attrs="{'invisible': [('type','==','exception')]}"/>
+                        <h2 attrs="{'invisible': [('type','==','exception')]}">
+                            <field name="partner_ids" widget="many2manyattendee"
+                                context="{'force_email':True}"
+                                on_change="onchange_partner_ids(partner_ids)"
+                                class="oe_inline"/>
+                        </h2>
+                    </div>
+                </xpath>
+                <field name="allday" position="replace">
+                    <field name="allday"  class="oe_inline" on_change="onchange_allday(start, stop, start_date, stop_date, start_datetime, stop_datetime, allday)" attrs="{'invisible': [('type','==','appointment')]}"/>
+                </field>
+                <field name="duration" position="after">
+                    <field name="number_of_days_temp"/>
+                </field>
+                <field name="categ_ids" position="replace">
+                    <field name="type"/>
+                    <field name="app_partner_id"/>
+                    <field name="app_tz"/>
+                </field>
+                <field name="alarm_ids" position="replace" />
+                <field name="location" position="replace"/>
+            </field>
+        </record>
+
+        <record id="view_calendar_event_calendar" model="ir.ui.view">
+            <field name="name">calendar.event.calendar</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_calendar"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='attendee_status']" position="before">
+                    <field name="type"/>
+                    <field name="app_partner_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_kanak_exception_calendar">
+            <field name="name">Exception Calendar</field>
+            <field name="model">calendar.event</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar js_class="attendee_calendar" string="Meetings" date_start="start" date_stop="stop" date_delay="duration" all_day="allday"
+                    event_open_popup="true"
+                    event_limit="5"
+                    color="partner_id">
+                    <field name="type"/>
+                    <field name="app_partner_id"/>
+                    <field name="attendee_status"/>
+                    <field name="partner_id"/>
+                    <field name="partner_ids" widget="many2many_tags_avatar" write_model="calendar.contacts" write_field="partner_id" avatar_field="image_128"/>
+                    <field name="is_highlighted" invisible="1"/>
+                    <field name="description"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_appointment_appointment_action" model="ir.actions.act_window">
+            <field name="name">My Calendar</field>
+            <field name="res_model">calendar.event</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="view_id" ref="view_kanak_exception_calendar"/>
+            <field name="domain">[('type', 'in', ['appointment','exception'])]</field>
+        </record>
+
+        <record id="view_appointment_exception_action" model="ir.actions.act_window">
+            <field name="name">My Exception</field>
+            <field name="res_model">calendar.event</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="view_id" ref="view_kanak_exception_calendar"/>
+            <field name="domain">[('type', 'in', ['exception'])]</field>
+            <field name="context">{'default_type': 'exception'}</field>
+        </record>
+
+        <menuitem id="menu_apppointment_calendar_second_menu" parent="menu_apppointment_calendar" name="Calendar" sequence="1"/>
+        <menuitem id="menu_exception_calendar_submenu" name="My Calendar" parent="menu_apppointment_calendar_second_menu" action="kanak_appointment.view_appointment_appointment_action" sequence="1"/>
+        <menuitem id="menu_exception_calendar_submenu_2" name="My Exception" parent="menu_apppointment_calendar_second_menu" action="kanak_appointment.view_appointment_exception_action" sequence="2"/>
+    </data>
+</odoo>
