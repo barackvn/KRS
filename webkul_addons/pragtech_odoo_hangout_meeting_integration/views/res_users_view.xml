@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="project_task_users_view_users_form">
+        <field name="name">view.users.form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[1]" position="after">
+                <page name="hangout_configuration_page" string="Google Meet Configuration">
+
+
+                    <div class="row">
+							<div class="col-md-4" align="center">
+								<button string='Authenticate' type="object" name="users_authentic"
+									class="oe_highlight" icon="fa-plug" />
+							</div>
+
+
+                            <div class="col-md-4" align="center">
+								<button string='Refresh Token' type="object" name="generate_refresh_token_from_access_token"
+									class="oe_highlight" icon="fa-plug" />
+							</div>
+							
+						
+
+					</div> 
+                   
+                    <group string="Credentials">
+                        <field name="authorization_code" />
+                        <field name="refresh_token" />
+	                    <field name="access_token" />
+                        <field name="calendar_id"/>
+                    </group>
+
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
