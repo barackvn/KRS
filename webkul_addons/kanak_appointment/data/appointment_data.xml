@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="menu_kanak_appointment" model="website.menu">
+            <field name="name">Appointment</field>
+            <field name="url" eval="'/kanak/team'"/>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">1</field>
+        </record>
+
+        <record id="action_open_website" model="ir.actions.act_url">
+            <field name="name">Appontment</field>
+            <field name="target">self</field>
+            <field name="url">/kanak/team</field>
+        </record>
+        <record id="base.open_menu" model="ir.actions.todo">
+            <field name="action_id" ref="action_open_website"/>
+            <field name="state">open</field>
+        </record>
+
+        <record id="calendar_template_meeting_kanak_invitation" model="mail.template">
+            <field name="name">Calendar: Meeting Invitation</field>
+            <field name="email_from">${object.event_id.user_id.email or ''}</field>
+            <field name="subject">${object.event_id.name} invitation</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="email_to" >${('' if object.partner_id and object.partner_id.email and object.partner_id.email==object.email else object.email|safe)}</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.email==object.email and object.partner_id.id or False }</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html">
+                <![CDATA[
+                <div style="border-radius: 2px; max-width: 1200px; height: auto;margin-left: auto;margin-right: auto;">
+                    <div style="height:auto;text-align: center;font-size : 30px;color: #8A89BA;">
+                        <strong>Your Booking</strong>
+                    </div>
+                    <div style="text-align: left;font-size : 14px;margin-top:10px">
+                        <p>Hi ${object.partner_id.name}</p>
+                        <p>Thanks for booking your appointment on ${object.event_id.date_appointment}</p>
+                        <p>Here are the details for your records... </p>
+                        <p>Booking starts: ${object.event_id.date_appointment}</p>
+                        % if object.event_id.app_duration:
+                            <p>Duration     : ${object.event_id.app_duration}  hours </p>
+                        % else:
+                            <p>Duration     : ${object.event_id.app_duration}  minutes</p>
+                        % endif
+
+                        <p>Phone Number : ${object.partner_id.phone}</p>
+                        <p>Name   : ${object.partner_id.name}</p>
+                        <p>Email        : ${object.partner_id.email}</p>
+                    </div>
+                </div>
+                <a style="padding: 8px 30px 8px 30px;border-radius: 6px;border: 1px solid #CCCCCC;background:#8A89BA;margin : 0 15px 0 0;text-decoration: none;color:#FFFFFF;display: inline-block;" href="/kanak/appointment/reschedule/${object.event_id.app_partner_id.id}?token=${object.access_token}">Reschedule Booking</a>
+                <a style="padding: 8px 30px 8px 30px;border-radius: 6px;border: 1px solid #CCCCCC;background:#808080;margin : 0 15px 0 0;text-decoration: none;color:#FFFFFF;display: inline-block;" href="/kanak/appointment/cancel/${object.event_id.app_partner_id.id}?token=${object.access_token}">Cancel Booking</a>
+                ]]>
+            </field>
+        </record>
+
+        <record id="kanak_calendar_booking" model="mail.template">
+            <field name="name">Kanak Appointment Booking</field>
+            <field name="email_from">${object.email or ''}</field>
+            <field name="subject">Your Booking</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="email_to" >${('' if object.partner_id and object.partner_id.email and object.partner_id.email==object.email else object.email|safe)}</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.email==object.email and object.partner_id.id or False }</field>
+            <field name="auto_delete" eval="True"/>
+
+            <field name="body_html">
+                <![CDATA[
+                <div style="border-radius: 2px; max-width: 1200px; height: auto;margin-left: auto;margin-right: auto;">
+                    <div style="height:auto;text-align: center;font-size : 30px;color: #8A89BA;">
+                        <strong>Your Booking</strong>
+                    </div>
+                    <div style="text-align: left;font-size : 14px;margin-top:10px">
+                        <h3>Booked: ${object.partner_id.name}  ${object.partner_id.email}</h3>
+                        <hr/>
+                        <h3>Booking Details:</h3>
+                        <p>Booking: ${object.event_id.app_partner_id.name}</p>
+                        <p>Start : ${object.event_id.date_appointment}</p>
+                        % if object.event_id.app_duration:
+                            <p>Duration     : ${object.event_id.app_duration}  hours </p>
+                        % else:
+                            <p>Duration     : ${object.event_id.app_duration}  minutes</p>
+                        % endif
+                        <p>Their timezone: ${object.partner_id.tz}</p>
+                        <p>Their start time: ${object.event_id.date_appointment}</p>
+                        <hr/>
+                        <p>Phone Number : ${object.partner_id.phone}</p>
+                        <p>Name   : ${object.partner_id.name}</p>
+                        <p>Email        : ${object.partner_id.email}</p>
+                    </div>
+                </div>
+                <a style="padding: 8px 30px 8px 30px;border-radius: 6px;border: 1px solid #CCCCCC;background:#8A89BA;margin : 0 15px 0 0;text-decoration: none;color:#FFFFFF;display: inline-block;" href="/kanak/appointment/reschedule/${object.event_id.app_partner_id.id}?token=${object.access_token}">Reschedule Booking</a>
+                <a style="padding: 8px 30px 8px 30px;border-radius: 6px;border: 1px solid #CCCCCC;background:#808080;margin : 0 15px 0 0;text-decoration: none;color:#FFFFFF;display: inline-block;" href="/kanak/appointment/cancel/${object.event_id.app_partner_id.id}?token=${object.access_token}">Cancel Booking</a>
+                ]]>
+            </field>
+        </record>
+
+        <record id="calendar_template_meeting_kanak_changedate" model="mail.template">
+            <field name="name">Calendar: Date updated kanak</field>
+            <field name="email_from">${(object.event_id.user_id.email_formatted or user.email_formatted or object.event_id.user_id.company_id.email or '') | safe}</field>
+            <field name="subject">${object.event_id.name}: Date updated</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="email_to" >${('' if object.partner_id and object.partner_id.email and object.partner_id.email==object.email else object.email|safe)}</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.email==object.email and object.partner_id.id or False }</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+                <html>
+                    <body>
+                        <div style="border-radius: 2px; max-width: 1200px; height: auto;margin-left: auto;margin-right: auto;background-color:#f9f9f9;">
+                            <div style="height:auto;text-align: center;font-size : 30px;color: #8A89BA;">
+                                <strong>${object.event_id.name}</strong>
+                            </div>
+                            <div style="height: 50px;text-align: left;font-size : 14px;border-collapse: separate;margin-top:10px">
+                                <strong style="margin-left:12px">Dear ${object.cn}</strong> ,<br/>
+                                <p style="margin-left:12px">The date of the meeting has been rescheduled...<br/>
+                                The meeting created by ${object.event_id.user_id.partner_id.name or ''} is now scheduled for : ${object.event_id.get_display_time_tz(tz=object.partner_id.tz)}.</p>
+                            </div>
+                        </div>
+                    </body>
+                </html>
+                ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

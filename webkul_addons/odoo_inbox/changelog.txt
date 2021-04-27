@@ -1,0 +1,14 @@
+Date: 10 Jul 2020
+version: 1.4
+-----------------
+1. [FIX] Read previous inbox message which have bold text
+2. [FIX] Read Inbox previous notification (Notification no. Should be removed)
+3. [FIX] Starred message should be removed from starred menu
+4. [FIX] Message should be delete from trash menu
+5. [FIX] Click on delete icon of any send message not remove
+6. [FIX] Click calender icon in snooze pop-up not open calendar
+7. [FIX] Select multiple messages and click on unstarred from dropdown menu. Selecte message should be removed in starred menu.
+8. [IMP] Sidemenu hide/show
+9. [IMP] Compose Mail button move to left side top
+10.[IMP] Datetime format make sorter
+11.[IMP] UI Modification and minor bug fixes

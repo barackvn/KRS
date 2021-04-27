@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="hangouts_meet_form_id" model="ir.ui.view">
+            <field name="name">Hangouts Meet View</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <group class="oe_subtotal_footer oe_right">
+                        <button string='Join a Google Meet' style="width:95px;" type="object" name="redirect_join_meet"
+                                attrs="{'invisible':[('meet_code','=',False)]}"
+                                class="btn btn-primary"
+                                icon="fa-phone-square"
+                                />
+
+                    </group>
+                </xpath>
+
+                <xpath expr="//field[@name='start']" position="after">
+                    <field name="end_date_time" attrs="{'required':[('meet_flag','=',True)]}"/>
+                </xpath>
+
+                <xpath expr="//form/sheet/div/h1" position="after">
+                    <h1>
+                        <label for="meet_flag" string="Add Google Meet" placeholder="Add Google Meet" /><br/>
+                        <field name="meet_flag" />
+                    </h1>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_ids']" position="replace">
+                    <field name="partner_ids" attrs="{'required':[('meet_flag', '==', True)]}" widget="many2manyattendee"
+                        placeholder="Select attendees..." context="{'force_email':True}" class="oe_inline"/>
+                </xpath>
+
+                <xpath expr="//page[1]" position="after">
+                    <page string="Google Meet" attrs="{'invisible':[('meet_flag','=',False)]}">
+                        <group>
+                            <group>
+                                <field name="meet_id" readonly="True"/>
+                                <field name="meet_url" readonly="1" invisible="1"/>
+                                <field name="meet_code" readonly="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+</odoo>
