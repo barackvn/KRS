@@ -200,6 +200,29 @@
                 ]]>
             </field>
         </record>
+
+        <record id="template_seller_send_to_kairos" model="mail.template">
+            <field name="name">Notification Mail to Admin</field>
+            <field name="email_from">${object.email or ''}</field>
+            <field name="subject">Shop Details Confirmation</field>
+            <field name="email_to">admin@sophiesgarden.be</field>
+            <field name="model_id" ref="custom.model_res_partner"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+                        <p>Dear admin,</p><br/><br/>
+                        <p>Hello the seller {object.name} have saved and sent their information. </p>
+                        <br/>
+                        <br/>
+
+
+                ]]>
+            </field>
+        </record>
+
         <record id="template_seller_minimum_qty_notify" model="mail.template">
             <field name="name">Notification Mail to Seller for Minimum Qty</field>
             <field name="email_from">admin@sophiesgarden.be</field>

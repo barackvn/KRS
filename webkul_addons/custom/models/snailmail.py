@@ -148,6 +148,8 @@ class ResPartner(models.Model):
     #      ('cancelled', 'Cancelled')], string='Status', default='draft')
     # survey_landing_ids = fields.Many2one('res.partner')
 
+
+
     def action_create_seller_location(self):
         if not self.seller_location_id:
             parent_location = self.env['stock.location'].sudo().search([('name', '=', 'WH')], limit=1)
@@ -223,10 +225,10 @@ class ResPartner(models.Model):
                 template_obj = self.env['mail.template'].browse(mail_templ_id)
                 send = template_obj.with_context(company=res.env.company).send_mail(res.id, True)
 
-                buyer_mail_templ_id = self.env['ir.model.data'].get_object_reference(
-                    'custom', 'template_register_buyer')[1]
-                buyer_template_obj = self.env['mail.template'].browse(buyer_mail_templ_id)
-                buyer_send = buyer_template_obj.with_context(company=res.env.company).send_mail(res.id, True)
+                # buyer_mail_templ_id = self.env['ir.model.data'].get_object_reference(
+                #     'custom', 'template_register_buyer')[1]
+                # buyer_template_obj = self.env['mail.template'].browse(buyer_mail_templ_id)
+                # buyer_send = buyer_template_obj.with_context(company=res.env.company).send_mail(res.id, True)
 
                 _logger.info(">>>>>>>>>>>>>> buyer Mail send for thank you>>>%s>>>", send)
 
@@ -318,3 +320,10 @@ class ResPartner(models.Model):
                 template_obj = self.env['mail.template'].browse(mail_templ_id)
                 send = template_obj.with_context(company=record.env.company).send_mail(record.id, True)
                 _logger.info(">>>>>>>>>>>>>> buyer Mail send for thank you>>>%s>>>", send)
+
+# class ResPartnerTransient(models.TransientModel):
+#     _inherit = "seller.status.reason.wizard"
+
+    # def do_denied(self):
+    #     super_res = super(ResPartnerTransient, self).do_denied()
+

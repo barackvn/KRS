@@ -7,9 +7,9 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="send_to_krs" type="object" string="Send to KRS" class="oe_highlight" attrs="{'invisible' : [('state', 'in', ['pending','confirm'])]}"/>
+                        <button name="send_to_krs" type="object" string="Send to Kairos" class="oe_highlight" attrs="{'invisible' : [('state', 'in', ['pending','confirm','reject'])]}"/>
                         <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" attrs="{'invisible' : [('state', 'in', ['rip','draft','reject','confirm'])]}" groups="odoo_marketplace.marketplace_officer_group"/>
-                        <button name="action_reject" type="object" string="Rejected" class="oe_highlight" attrs="{'invisible' : [('state', 'in', ['draft','confirm'])]}" groups="odoo_marketplace.marketplace_officer_group"/>
+                        <button name="action_reject" type="object" string="Rejected" class="oe_highlight" attrs="{'invisible' : [('state', 'in', ['draft','confirm','reject'])]}" groups="odoo_marketplace.marketplace_officer_group"/>
                         <field name="state" widget="statusbar"
                                statusbar_visible="draft,rip,pending,confirm,reject"/>
                     </header>
@@ -18,38 +18,40 @@
                         <h6>Document will be reviewed as soon as possible</h6>
                     </div>
                     <sheet>
-                        <group>
-                            <group>
-                                <separator string="Company"/>
-                                <field name="company_id" required="1"/>
-                                <label for="" name="address_name">
-                                    <b>Address</b>
-                                </label>
-                                <div class="o_address_format">
-                                    <field name="street" placeholder="Street..." class="o_address_street"/>
-                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
-                                    <field name="city" placeholder="City" class="o_address_city"/>
-                                    <field name="state_id" class="o_address_state" placeholder="State"
-                                           options="{&quot;no_open&quot;: True}"
-                                           context="{'country_id': country_id, 'zip': zip}"/>
-                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
-                                    <field name="country_id" placeholder="Country" class="o_address_country"
-                                           options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
-                                </div>
-                                <field name="vat" placeholder="e.g. BE0477472701"/>
-                                <field name="language_id" domain="[('active','=',True)]"
-                                       options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" required="1"/>
-                                <field name="speciality_id" widget="many2many_tags" domain="[('type','=','seller')]"
-                                       options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
-                                <field name="user_id" invisible="1"/>
-                            </group>
-                        </group>
-                        <group>
-                            <field name="seller_website"/>
-                        </group>
+                        <field name="user_id" invisible="1"/>
+                        <field name="email_360"/>
+                        <!--                        <group>-->
+                        <!--                            <group>-->
+                        <!--                                <separator string="Company"/>-->
+                        <!--                                <field name="company_id"/>-->
+                        <!--                                <label for="" name="address_name">-->
+                        <!--                                    <b>Address</b>-->
+                        <!--                                </label>-->
+                        <!--                                <div class="o_address_format">-->
+                        <!--                                    <field name="street" placeholder="Street..." class="o_address_street"/>-->
+                        <!--                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>-->
+                        <!--                                    <field name="city" placeholder="City" class="o_address_city"/>-->
+                        <!--                                    <field name="state_id" class="o_address_state" placeholder="State"-->
+                        <!--                                           options="{&quot;no_open&quot;: True}"-->
+                        <!--                                           context="{'country_id': country_id, 'zip': zip}"/>-->
+                        <!--                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>-->
+                        <!--                                    <field name="country_id" placeholder="Country" class="o_address_country"-->
+                        <!--                                           options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>-->
+                        <!--                                </div>-->
+                        <!--                                <field name="vat" placeholder="e.g. BE0477472701"/>-->
+                        <!--                                <field name="language_id" domain="[('active','=',True)]"-->
+                        <!--                                       options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>-->
+                        <!--                                <field name="speciality_id" widget="many2many_tags" domain="[('type','=','seller')]"-->
+                        <!--                                       options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>-->
+
+                        <!--                            </group>-->
+                        <!--                        </group>-->
+                        <!--                        <group>-->
+                        <!--                            <field name="seller_website"/>-->
+                        <!--                        </group>-->
                         <separator string="Contact persons"/>
                         <field name="contact_ids">
-                            <tree string="Contacts" editable="bottom">
+                            <tree string="Contacts">
                                 <field name="first_name" required="1"/>
                                 <field name="last_name" required="1"/>
                                 <field name="job_position" required="1"/>
@@ -175,6 +177,8 @@
                                 <field name="uom"/>
                                 <field name="picture_html" widget="binary" filename="filename"/>
                                 <field name="filename" invisible="1"/>
+                                <field name="product_hq_image" widget="binary" filename="filename1"/>
+                                <field name="filename1" invisible="1"/>
                             </tree>
                         </field>
                         <div>
@@ -218,9 +222,9 @@
         <menuitem name="Shop Details"
                   id="menu_action_survey_landing"
                   action="server_action_survey_landing"
-                  parent="odoo_marketplace.wk_seller_dashboard_menu1"
+                  parent="odoo_marketplace.wk_seller_dashboard"
                   groups="custom.group_survey_access"
-                  sequence="10"
+                  sequence="0"
         />
 
         <record id="certificate_type_form_view" model="ir.ui.view">
@@ -382,6 +386,7 @@
                                         <field name="uom"/>
                                         <field name="picture_html" widget="binary" filename="filename"/>
                                         <field name="filename" invisible="1"/>
+                                        <field name="product_hq_image"/>
                                     </tree>
                                 </field>
                             </sheet>
@@ -390,6 +395,24 @@
                 </xpath>
             </field>
         </record>
+
+        <!--        <record id="seller_shop_inherit_page" model="ir.ui.view">-->
+        <!--            <field name="name">seller.shop.inherit.page</field>-->
+        <!--            <field name="model">seller.shop</field>-->
+        <!--            <field name="inherit_id" ref="odoo_marketplace.wk_seller_shop_form_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath name="name" position="attribute">-->
+        <!--                    <field name="required">0</field>-->
+        <!--                </xpath>-->
+        <!--                <xpath name="url_handler" position="attribute">-->
+        <!--                    <field name="required">0</field>-->
+        <!--                </xpath>-->
+        <!--                <xpath name="url" position="attribute">-->
+        <!--                    <field name="required">0</field>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
 
 
         <!--        <record id="action_server_wk_seller_shop_action" model="ir.actions.server">-->
@@ -409,6 +432,33 @@
             <field name="state">code</field>
             <field name="code">action = model.action_seller_shop()</field>
         </record>
+
+<!--        <template id="survey_landing_popup" inherit_id="survey.landing">-->
+<!--            <xpath expr="." position="inside">-->
+<!--                <script type="text/javascript" src="/custom/static/src/js/popup.js"/>-->
+<!--            </xpath>-->
+<!--        </template>-->
+
+<!--        <t t-name="NoBarcodeFound">-->
+<!--            <div role="dialog" class="modal-dialog">-->
+<!--                <div class="popup popup-barcode" style= "height: 200px;width: 30%;background-color: #e6b4ed">-->
+<!--                    <header class="title">Unknown Barcode-->
+<!--                        <br />-->
+<!--                        <span class='barcode'>-->
+<!--                            <t t-esc="widget.options.barcode"/>-->
+<!--                        </span>-->
+<!--                    </header>-->
+<!--                    <main class="body">-->
+<!--                        There is no such a barcode-->
+<!--                    </main>-->
+<!--                    <footer class="footer">-->
+<!--                        <div class="button cancel">-->
+<!--                            Cancel-->
+<!--                        </div>-->
+<!--                    </footer>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </t>-->
 
         <menuitem id="odoo_marketplace.wk_seller_dashboard_menu1_sub_menu2" name="Seller Shops" parent="odoo_marketplace.wk_seller_dashboard_menu1" action="custom.action_server_wk_seller_shop_action" sequence="2" groups="odoo_marketplace.group_marketplace_seller_shop,odoo_marketplace.marketplace_officer_group"/>
 
