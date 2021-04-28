@@ -9,6 +9,20 @@
             <field name="padding">5</field>
             <field name="company_id" eval="False"/>
         </record>
+        <record id="seq_internal_refernce_su_product" model="ir.sequence">
+            <field name="name">Product Product</field>
+            <field name="code">internal.ref.su</field>
+            <field name="prefix">SU</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_internal_refernce_c_product" model="ir.sequence">
+            <field name="name">Product Product</field>
+            <field name="code">internal.ref.c</field>
+            <field name="prefix">c</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
 
         <record model="ir.sequence" id="pre_advice__seq">
 			<field name="name">Pre Advice Sequence</field>

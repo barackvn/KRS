@@ -22,7 +22,7 @@
         'views/survey_view.xml',
         # 'views/website_template_view.xml',
         'report/product_report.xml',
-        # 'views/templates.xml',
+        'views/templates.xml',
         'report/product_report_template.xml'
     ],
     "demo": [],

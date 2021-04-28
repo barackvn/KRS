@@ -77,8 +77,8 @@
                                     <field name="type" style="position: relative;min-width: 10px;width: 45% !important;" attrs="{'readonly' : [('status', 'in', ['approved', 'rejected'])]}"/>
                                 </div>
                                 <div class="col-6">
-                                    <label for="hs_code" string="Product classification code / HS code" style="font-weight: bold;"/>
-                                    <field name="hs_code" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                    <label for="conservation" style="font-weight: bold;padding-right: 98px;"/>
+                                    <field name="conservation" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="unit_article_no"  style="width:260px;font-weight: bold;"/>
@@ -87,6 +87,14 @@
                                 <div class="col-6">
                                     <label for="carton_article_no"  style="font-weight: bold;padding-right: 97px;"/>
                                     <field name="carton_article_no" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
+                                <div class="col-6" >
+                                    <label for="internal_ref_su"  style="width:260px;font-weight: bold;"/>
+                                    <field name="internal_ref_su" readonly="1" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="internal_ref_c"  style="padding-right: 74px;font-weight: bold;"/>
+                                    <field name="internal_ref_c" readonly="1" style="position: relative;min-width: 10px;width: 50%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="unit_barcode"  style="width:260px;font-weight: bold;"/>
@@ -98,26 +106,33 @@
                                 </div>
                                 <div class="col-6">
                                     <label for="exclusively_id"  style="width:260px;font-weight: bold;"/>
-                                    <field name="exclusively_id" style="position: relative;min-width: 10px;width: 45%;"/>
+                                    <field name="exclusively_id" widget="many2many_tags" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
                                     <label for="qty_single_unit_per_cartn"  style="font-weight: bold;padding-right: 55px;"/>
                                     <field name="qty_single_unit_per_cartn" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6" >
+                                    <label for="taxes_id"  string="Excise duties(national duties)" style="width:260px;font-weight: bold;"/>
+                                    <field name="taxes_id" widget="many2many_tags" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="hs_code"  string="Product classification code / HS code"  style="font-weight: bold;"/>
+                                    <field name="hs_code" required="1" style="position: relative;min-width: 10px;width: 50%;"/>
+                                </div>
+                                <div class="col-6" >
                                     <label for="retail_sales"  style="width:260px;font-weight: bold;"/>
                                     <field name="retail_sales" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
-                                <div class="col-6">
-                                    <label for="conservation"  style="padding-right: 98px;font-weight: bold;"/>
-                                    <field name="conservation" required="1" style="position: relative;min-width: 10px;width: 50%;"/>
+                                <div class="col-6" >
                                 </div>
+
                                 <div class="col-6" attrs="{'invisible' : [('retail_sales', 'not in', ['yes','planning'])]}">
                                     <label for="plan_retail_sales"  style="width:260px;font-weight: bold;"/>
                                     <field name="plan_retail_sales" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
-                                    <label for="default_code"  style="width:233px;font-weight: bold;"/>
+                                    <label for="default_code"  style="width:260px;font-weight: bold;"/>
                                     <field name="default_code" readonly="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                             </div>
@@ -486,6 +501,14 @@
                         <separator string="Accreditations &amp; certificates" colspan="4" />
                         <group>
                             <div class="row" >
+                                <div class="col-6">
+                                    <label for="packaging"  style="width:260px;font-weight: bold;"/>
+                                    <field name="packaging" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
+                                <div class="col-6">
+                                    <label for="nutritional_structure" style="font-weight: bold;width: 41%;"/>
+                                    <field name="nutritional_structure" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                </div>
                                 <div class="col-6">
                                     <label for="local_accredit_package"  style="width:260px;font-weight: bold;"/>
                                     <field name="local_accredit_package" style="position: relative;min-width: 10px;width: 45%;"/>

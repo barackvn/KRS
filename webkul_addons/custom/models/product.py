@@ -608,7 +608,15 @@ class ProductTemplateInherit(models.Model):
         [('yes', 'YES'), ('planning', 'Planning'), ('never', 'Never')],
         string="Sales in retail")
     plan_retail_sales = fields.Char("Where would you sell in retail?")
-
+    internal_ref_su = fields.Char("Internal Reference Single Unit")
+    internal_ref_c = fields.Char("Internal Reference Carton")
+    exclusively_id = fields.Many2many('partner.speciality', string='Exclusively')
+    packaging = fields.Selection([('brik', 'Brik'),('Can', 'can'),('glass', 'Glass'),
+         ('large', 'Large'), ('mill', 'Mill'),('pet', 'Pet'),('portion', 'Portion'),
+         ('pouch', 'Pouch'), ('small', 'Small'), ('packaging', 'Packaging'),
+         ('tetra', 'Tetra'), ('vending', 'Vending')],'Packaging')
+    nutritional_structure = fields.Selection([('brik', 'Dehydrated'),('liquid', 'Liquid'),('oil', 'Oil'),
+         ('pasta', 'Pasta'), ('powder', 'Powder'), ('tablets', 'Tablets')], 'Nutritional structure')
 
     def name_get(self):
         result = []
@@ -714,7 +722,10 @@ class ProductTemplateInherit(models.Model):
     def create(self, vals):
         res = super(ProductTemplateInherit, self).create(vals)
         if res:
-            res.write({'default_code': self.env['ir.sequence'].next_by_code('internal.ref') or ''})
+            res.write({'default_code': self.env['ir.sequence'].next_by_code('internal.ref') or '',
+                       'internal_ref_su': self.env['ir.sequence'].next_by_code('internal.ref.su') or '',
+                       'internal_ref_c': self.env['ir.sequence'].next_by_code('internal.ref.c') or '',
+                       })
         return res
 
 

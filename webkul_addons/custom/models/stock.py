@@ -415,7 +415,7 @@ class StockProductionLotInherit(models.Model):
     best_date1 = fields.Date(compute="get_date")
     removal_date1 = fields.Date(compute="get_date")
 
-    @api.depends('alert_date')
+    @api.depends('alert_date','removal_date')
     def get_date(self):
         for record in self:
             if record.alert_date and record.life_date and record.use_date and record.removal_date:
@@ -430,44 +430,76 @@ class StockProductionLotInherit(models.Model):
                 record.removal_date1 = False
 
     def send_product_alert_cron(self):
-        msg_vals_manager = {}
-        msg_vals_manager2 = {}
-
+        alert_vals = {}
+        alert_vals2 = {}
+        removal_vals = {}
+        removal_vals2 = {}
         day_7 = date.today() + timedelta(days=7)
         day_now = date.today()
-
-        stock_lot = self.env['stock.production.lot'].search(['|', ('alert_date1', '=', day_7), ('alert_date1', '=', day_now)])
-
-        for record in stock_lot:
+        alert_day_7 = self.env['stock.production.lot'].search([('alert_date1', '=', day_7)])
+        alert_day_now = self.env['stock.production.lot'].search([('alert_date1', '=', day_now)])
+        removal_day_7 = self.env['stock.production.lot'].search([('removal_date1', '=', day_7)])
+        removal_day_now = self.env['stock.production.lot'].search([('removal_date1', '=', day_now)])
+        for record in alert_day_7:
             if record.alert_date:
                 product_name = self.env['product.template'].search([('name', '=', record.product_id.name)], limit=1)
                 seller_email = product_name.marketplace_seller_id.email
 
-                msg_vals_manager.update({
-                    'body_html': """ HELLO YOUR PRODUCT """ + product_name.name + """ IS GOING TO EXPIRE IN 7 DAYS """
+                alert_vals.update({
+                    'body_html': """ Hello Your Product """ + product_name.name + """ is going to Expire in 7 Days """
                 })
-
-                msg_vals_manager2.update({
-                    'body_html': """ HELLO YOUR PRODUCT """ + product_name.name + """ IS GOING TO EXPIRE TODAY """
+                alert_vals.update({
+                    'subject': 'Product Expiry Reminder',
+                    'email_to': seller_email,
                 })
-
-                reminder_date = record.alert_date - timedelta(days=7)
-
-                if record.alert_date.date() == date.today():
-                    msg_vals_manager.update({
-                        'subject': 'PRODUCT EXPIRY REMINDER',
-                        'email_to': seller_email,
-                    })
-                    msg_id_manager = self.env['mail.mail'].create(msg_vals_manager)
+                if alert_vals.get('email_to'):
+                    msg_id_manager = self.env['mail.mail'].create(alert_vals)
                     msg_id_manager.send()
-
-                if reminder_date.date() == date.today():
-                    msg_vals_manager2.update({
-                        'subject': 'PRODUCT EXPIRY REMINDER',
-                        'email_to': seller_email,
-                    })
-                    msg_id_manager2 = self.env['mail.mail'].create(msg_vals_manager2)
+        for current in alert_day_now:
+            if current.alert_date:
+                product_name = self.env['product.template'].search([('name', '=', current.product_id.name)],
+                                                                   limit=1)
+                seller_email1 = product_name.marketplace_seller_id.email
+                alert_vals2.update({
+                    'body_html': """ Hello Your Product """ + product_name.name + """ is going to Expire Today """
+                })
+                alert_vals2.update({
+                    'subject': 'Product Expiry Reminder',
+                    'email_to': seller_email1,
+                })
+                if alert_vals2.get('email_to'):
+                    msg_id_manager2 = self.env['mail.mail'].create(alert_vals2)
                     msg_id_manager2.send()
+        for record in removal_day_7:
+            if record.removal_day:
+                product_name = self.env['product.template'].search([('name', '=', record.product_id.name)], limit=1)
+                r_seller_email = product_name.marketplace_seller_id.email
+
+                removal_vals.update({
+                    'body_html': """ Hello Your Product """ + product_name.name + """ is going to Remove in 7 Days """
+                })
+                removal_vals.update({
+                    'subject': 'Product Removal Reminder',
+                    'email_to': r_seller_email,
+                })
+                if removal_vals.get('email_to'):
+                    msg_id_removal = self.env['mail.mail'].create(removal_vals)
+                    msg_id_removal.send()
+        for record in removal_day_now:
+            if record.removal_day:
+                product_name = self.env['product.template'].search([('name', '=', record.product_id.name)], limit=1)
+                r_seller_email1 = product_name.marketplace_seller_id.email
+
+                removal_vals2.update({
+                    'body_html': """ Hello Your Product """ + product_name.name + """ is going to Removed Today """
+                })
+                removal_vals2.update({
+                    'subject': 'Product Removal Reminder',
+                    'email_to': r_seller_email1,
+                })
+                if removal_vals2.get('email_to'):
+                    msg_id_removal2 = self.env['mail.mail'].create(removal_vals2)
+                    msg_id_removal2.send()
 
 
 
