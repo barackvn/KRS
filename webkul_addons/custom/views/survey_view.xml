@@ -19,7 +19,6 @@
                     </div>
                     <sheet>
                         <field name="user_id" invisible="1"/>
-                        <field name="email_360"/>
                         <!--                        <group>-->
                         <!--                            <group>-->
                         <!--                                <separator string="Company"/>-->
@@ -433,32 +432,30 @@
             <field name="code">action = model.action_seller_shop()</field>
         </record>
 
-<!--        <template id="survey_landing_popup" inherit_id="survey.landing">-->
-<!--            <xpath expr="." position="inside">-->
-<!--                <script type="text/javascript" src="/custom/static/src/js/popup.js"/>-->
-<!--            </xpath>-->
-<!--        </template>-->
+        <record id="send_mail_360" model="ir.ui.view">
+            <field name="name">Send Mail 360</field>
+            <field name="model">email.sent</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="email_sent"/>
+                    </group>
+                    <footer>
+                        <button name="close_window" string="Ok" type="object" class="oe_highlight" invisible="1"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
 
-<!--        <t t-name="NoBarcodeFound">-->
-<!--            <div role="dialog" class="modal-dialog">-->
-<!--                <div class="popup popup-barcode" style= "height: 200px;width: 30%;background-color: #e6b4ed">-->
-<!--                    <header class="title">Unknown Barcode-->
-<!--                        <br />-->
-<!--                        <span class='barcode'>-->
-<!--                            <t t-esc="widget.options.barcode"/>-->
-<!--                        </span>-->
-<!--                    </header>-->
-<!--                    <main class="body">-->
-<!--                        There is no such a barcode-->
-<!--                    </main>-->
-<!--                    <footer class="footer">-->
-<!--                        <div class="button cancel">-->
-<!--                            Cancel-->
-<!--                        </div>-->
-<!--                    </footer>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </t>-->
+<!--        <record id="email_sent_form_view" model="ir.ui.view">-->
+<!--            <field name="name">email.sent.form.view</field>-->
+<!--            <field name="model">email.sent</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form>-->
+<!--                    <field name="email_sent"/>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
 
         <menuitem id="odoo_marketplace.wk_seller_dashboard_menu1_sub_menu2" name="Seller Shops" parent="odoo_marketplace.wk_seller_dashboard_menu1" action="custom.action_server_wk_seller_shop_action" sequence="2" groups="odoo_marketplace.group_marketplace_seller_shop,odoo_marketplace.marketplace_officer_group"/>
 

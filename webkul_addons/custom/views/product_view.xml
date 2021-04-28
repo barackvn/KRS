@@ -112,6 +112,10 @@
                                     <label for="conservation"  style="padding-right: 98px;font-weight: bold;"/>
                                     <field name="conservation" required="1" style="position: relative;min-width: 10px;width: 50%;"/>
                                 </div>
+                                <div class="col-6">
+                                    <label for="product_quantity_type"  style="width:260px;font-weight: bold;"/>
+                                    <field name="product_quantity_type" style="position: relative;min-width: 10px;width: 45%;"/>
+                                </div>
                                 <div class="col-6" attrs="{'invisible' : [('retail_sales', 'not in', ['yes','planning'])]}">
                                     <label for="plan_retail_sales"  style="width:260px;font-weight: bold;"/>
                                     <field name="plan_retail_sales" style="position: relative;min-width: 10px;width: 45%;"/>

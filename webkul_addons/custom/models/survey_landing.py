@@ -153,7 +153,21 @@ class SurveyLanding(models.Model):
                 send = template_obj.with_context(company=self.env.company, email=email,
                                                  seller_name=record.user_id.partner_id.name).sudo().send_mail(record.id, True)
                 record.write({'state':'rip'})
-                raise UserError(_('Email Sent'))
+
+        return {
+            'name': 'Email Sent',
+            'domain': [],
+            'res_model': 'email.sent',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'context': {},
+            'target': 'new',
+        }
+
+    def close_window(self):
+
+        return
 
     def send_to_krs(self):
         for record in self:
@@ -457,3 +471,7 @@ class SellerShopInherit(models.Model):
             action = self.env.ref('odoo_marketplace.wk_seller_shop_action').read()[0]
             return action
 
+class EmailSent360(models.Model):
+    _name = 'email.sent'
+
+    email_sent = fields.Char('Email Sent.', readonly=True)

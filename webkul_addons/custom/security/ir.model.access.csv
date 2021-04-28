@@ -17,3 +17,4 @@ access_slider_image_tree,slider.image.tree,model_slider_image_tree,,1,1,1,1
 access_product_image_tree,product.image.tree,model_product_image_tree,,1,1,1,1
 access_extra_class_m2m,extra.class.m2m,model_extra_class_m2m,,1,1,1,1
 access_certificate_type,certificate.type,model_certificate_type,,1,1,1,1
+access_email_sent,access.email.sent,model_email_sent,,1,1,1,1
