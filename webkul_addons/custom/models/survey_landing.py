@@ -166,8 +166,7 @@ class SurveyLanding(models.Model):
         }
 
     def close_window(self):
-
-        return
+        return True
 
     def send_to_krs(self):
         for record in self:
@@ -183,14 +182,13 @@ class SurveyLanding(models.Model):
             # msg_id_manager = self.env['mail.mail'].create(msg_vals_manager)
             # msg_id_manager.send()
 
-            if record.user_id.partner_id.email:
-                admin = self.env['res.users'].sudo().search([('id', '=', 2)])
-                email = str(record.user_id.partner_id.email) + ',' + str(admin.partner_id.email)
-                mail_templ_id = self.env['ir.model.data'].sudo().get_object_reference(
+
+            admin = self.env['res.users'].sudo().search([('id', '=', 2)])
+            email = str(record.user_id.partner_id.email) + ',' + str(admin.partner_id.email)
+            mail_templ_id = self.env['ir.model.data'].sudo().get_object_reference(
                     'custom', 'template_seller_send_to_kairos')[1]
-                template_obj = self.env['mail.template'].browse(mail_templ_id)
-                send = template_obj.with_context(company=self.env.company, email=email,
-                                                 seller_name=record.user_id.partner_id.name).sudo().send_mail(record.id, True)
+            template_obj = self.env['mail.template'].browse(mail_templ_id)
+            send = template_obj.with_context(company=self.env.company, email=email,seller_name=record.user_id.partner_id.name).sudo().send_mail(record.id, True)
 
 
             record.write({'state': 'pending'})
