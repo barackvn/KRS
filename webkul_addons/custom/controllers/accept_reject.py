@@ -23,7 +23,7 @@ class ApproveSample(http.Controller):
 
         sample_data = request.env['crm.lead'].sudo().search([('id', '=', int(id))], limit=1)
         sample_data = request.env['crm.lead'].sudo().search([('id', '=', int(id))], limit=1)
-        stage = request.env['crm.stage'].sudo().search([('name', '=', 'Accepted')], limit=1)
+        stage = request.env['crm.stage'].sudo().search([('name', '=', 'Won')], limit=1)
         for crm in sample_data:
             crm.sudo().write({'stage_id': stage.id})
 
@@ -31,7 +31,7 @@ class ApproveSample(http.Controller):
                 'body_html': """ Thanks for approving the membership.<br/> Here are your details:<br/> 
                                         Text: Sending samples to Kairos for 360° view pictures<br/>
                                         Attachment: Excel file about the calculation of the fulfilment<br/>
-                                        Link: <a href='""" + self.get_base_url+"""/web#id=&action=969&model=survey.landing&view_type=form&cids=&menu_id=295'>Enter shop details here.</a>
+                                        Link: <a href='http://localhost:8074/web#id=&action=969&model=survey.landing&view_type=form&cids=&menu_id=295'>Enter shop details here.</a>
                                         <br/>"""
             })
 
@@ -64,7 +64,7 @@ class ApproveSample(http.Controller):
 
 
         sample_data = request.env['crm.lead'].sudo().search([('id', '=', int(id))], limit=1)
-        stage = request.env['crm.stage'].sudo().search([('name', '=', 'Rejected')], limit=1)
+        stage = request.env['crm.stage'].sudo().search([('name', '=', 'Loss')], limit=1)
         for sale in sample_data:
             sale.sudo().write({'stage_id': stage.id})
 
@@ -80,14 +80,14 @@ class ApproveSample(http.Controller):
                 'subject': 'Membership Rejection',
                 'email_to': sale.email_from,
             })
-            msg_id_manager_seller = self.env['mail.mail'].create(msg_vals_manager_seller)
+            msg_id_manager_seller = request.env['mail.mail'].create(msg_vals_manager_seller)
             msg_id_manager_seller.send()
 
             msg_vals_manager_admin.update({
                 'subject': 'Membership Rejection',
                 'email_to': 'admin@sophiesgarden.be',
             })
-            msg_id_manager_admin = self.env['mail.mail'].create(msg_vals_manager_admin)
+            msg_id_manager_admin = request.env['mail.mail'].create(msg_vals_manager_admin)
             msg_id_manager_admin.send()
 
             return request.redirect('/my/home')
