@@ -31,8 +31,8 @@ class ApproveSample(http.Controller):
                 'body_html': """ Thanks for approving the membership.<br/> Here are your details:<br/> 
                                         Text: Sending samples to Kairos for 360° view pictures<br/>
                                         Attachment: Excel file about the calculation of the fulfilment<br/>
-                                        Link: <a href='http://localhost:8074/web#id=&action=969&model=survey.landing&view_type=form&cids=&menu_id=295'>Enter shop details here.</a>
-                                        <br/>"""
+                                        Link: <a href='http://18.198.93.210//web#id=&action=969&model=survey.landing&view_type=form&cids=&menu_id=295'>Enter shop details here.</a><br/>
+                                        Purchase Your Membership Plan Here: <a href='http://18.198.93.210//seller-membership-plan'>Purchase Membership</a><br/>"""
             })
 
             msg_vals_manager_seller.update({
