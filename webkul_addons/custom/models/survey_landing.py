@@ -12,6 +12,7 @@ from odoo import SUPERUSER_ID
 from dateutil.relativedelta import relativedelta
 
 from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -62,17 +63,20 @@ class ProductImageTree(models.Model):
     brand_name = fields.Char('Brand Name')
     product_name = fields.Char('Product Name')
     net_weight = fields.Integer("Net weight")
-    uom = fields.Selection([('gram','gran'),('ml','ml')], String='g/ml')
+    uom = fields.Selection([('gram','gram'),('ml','ml')], String='g/ml')
     picture_html = fields.Binary('Picture')
     filename = fields.Char(string="File Name", track_visibility="onchange")
+    filename1 = fields.Char(string="File Name2", track_visibility="onchange")
     product_image_id = fields.Many2one('survey.landing', 'Product Image')
+    product_hq_image = fields.Binary('HQ Image')
     product_image_id_res = fields.Many2one('res.partner', 'Res Product Image')
+
 
     @api.onchange('picture_html')
     def _onchange_picture_html(self):
         if self.picture_html:
-            if str(self.filename).split('.')[-1] != 'html':
-                raise ValidationError(_("Only HTML files can be selected."))
+            if str(self.filename).split('.')[-1] != 'html5':
+                raise ValidationError(_("Only HTML5 files can be selected."))
 
 class SurveyLanding(models.Model):
     _name = 'survey.landing'
@@ -134,7 +138,9 @@ class SurveyLanding(models.Model):
                                       'attachment_id', 'Attachments')
     slider_image = fields.One2many('slider.image.tree','slider_id', 'Slider Image')
     product_image = fields.One2many('product.image.tree','product_image_id', 'Product Image')
-    state = fields.Selection([('draft', 'Draft'), ('rip', 'RIP'),('pending', 'Pending For Approval'), ('confirm', 'Done'), ('reject', 'Rejected')], string='Status', default='draft')
+    state = fields.Selection([('draft', 'Draft'), ('rip', 'RIP'),('pending', 'Pending For Approval'), ('confirm', 'Done'), ('reject', 'Reject')], string='Status', default='draft')
+    email_360 = fields.Boolean('Email 360')
+
 
     def action_send_product_360_image(self):
         for record in self:
@@ -148,32 +154,68 @@ class SurveyLanding(models.Model):
                                                  seller_name=record.user_id.partner_id.name).sudo().send_mail(record.id, True)
                 record.write({'state':'rip'})
 
+        return {
+            'name': 'Email Sent',
+            'domain': [],
+            'res_model': 'email.sent',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'context': {},
+            'target': 'new',
+        }
+
+    def close_window(self):
+
+        return
+
     def send_to_krs(self):
         for record in self:
-            msg_vals_manager = {}
+            # msg_vals_manager = {}
+            #
+            # msg_vals_manager.update({
+            #     'body_html': """ Hello the seller """ + record.user_id.name + """ have saved and sent their information. """,
+            #     'subject': 'SELLER ID APPROVAL',
+            #     'email_from': record.user_id.email,
+            #     'email_to': 'admin@sophiesgarden.be',
+            # })
+            #
+            # msg_id_manager = self.env['mail.mail'].create(msg_vals_manager)
+            # msg_id_manager.send()
 
-            msg_vals_manager.update({
-                'body_html': """ Hello the seller """ + record.user_id.name + """ have saved and sent their information. """,
-                'subject': 'SELLER ID APPROVAL',
-                'email_from': record.email,
-                'email_to': 'admin@sophiesgarden.be',
-            })
+            if record.user_id.partner_id.email:
+                admin = self.env['res.users'].sudo().search([('id', '=', 2)])
+                email = str(record.user_id.partner_id.email) + ',' + str(admin.partner_id.email)
+                mail_templ_id = self.env['ir.model.data'].sudo().get_object_reference(
+                    'custom', 'template_seller_send_to_kairos')[1]
+                template_obj = self.env['mail.template'].browse(mail_templ_id)
+                send = template_obj.with_context(company=self.env.company, email=email,
+                                                 seller_name=record.user_id.partner_id.name).sudo().send_mail(record.id, True)
 
-            msg_id_manager = self.env['mail.mail'].create(msg_vals_manager)
-            msg_id_manager.send()
 
             record.write({'state': 'pending'})
 
     def action_confirm(self):
         self.write({'state': 'confirm'})
         admin = self.env['res.users'].sudo().search([('id', '=', 2)])
-        seller_id = self.env["seller.shop"].sudo().search([('id', '=', self.user_id.id)])
+        url_name = ''
+        seller_id = self.env["res.partner"].sudo().search([('id', '=', self.user_id.partner_id.id)], limit=1)
+        for record in seller_id:
+            url_name = self.user_id.partner_id.name
+            record.ensure_one()
+            record.write({'state': 'approved'})
+            if record.state == "approved":
+                record.enable_seller_360degree_group()
+                record.enable_seller_coll_group()
+                record.enable_profile_tabs_group()
+                record.enable_seller_mass_upload_group()
+
         email = self.user_id.partner_id.email
         msg_vals_manager = {}
 
         msg_vals_manager.update({
-            'body_html': """ HELLO""" + self.user_id.partner_id.name + """  YOUR SELLER ID FOR COMPANY """ + self.company_id + """ HAS BEEN CONFIRMED! <br/>
-                        You can start creating your new products through this link <a href='"""+ str(self.get_base_url)+"""/web#id=&action=473&model=product.template&view_type=form&cids=1&menu_id=295'>here.</a>"""
+            'body_html': """ HELLO""" + str(self.user_id.partner_id.name) + """  YOUR SELLER ID FOR COMPANY """ + str(self.company_id) + """ HAS BEEN CONFIRMED! <br/>
+                        You can start creating your new products through this link <a href='http://localhost:8074/web#id=&action=473&model=product.template&view_type=form&cids=1&menu_id=295'>here.</a>"""
         })
         msg_vals_manager.update({
             'subject': 'SELLER ID APPROVAL',
@@ -227,9 +269,77 @@ class SurveyLanding(models.Model):
                         'product_name': record.product_name,
                         'picture_html': record.picture_html,
                         'filename': record.filename,
+                        'filename1': record.filename1,
                     }),
                 ]
             })
+            # product_template_object = self.env['product.template'].sudo().create({
+            #     'name': record.product_name,
+            #     'unit_article_no': '0',
+            #     'hs_code': '0',
+            #     'carton_article_no': '0',
+            #     'carton_barcode': '0',
+            #     'conservation': 'ambient',
+            #     'cust_product_category': 'solid',
+            #     'ingredients': '0',
+            #     'product_short_discrp': '0',
+            #     'product_long_discrp': '0',
+            #     'energy_kg': '0',
+            #     'energy_kcal': '0',
+            #     'fat': '0',
+            #     'saturated_fat': '0',
+            #     'mono_unsaturated_fats': '0',
+            #     'poly_unsaturated_fats': '0',
+            #     'carbohydrates': '0',
+            #     'sugar': '0',
+            #     'protein': '0',
+            #     'salt': '0',
+            #     'gluten_contain_grains': 'free',
+            #     'milk_base_product': 'free',
+            #     'eggs_base_product': 'free',
+            #     'peanuts_base_product': 'free',
+            #     'nuts_base_product': 'free',
+            #     'soy_base_product': 'free',
+            #     'mustard_base_product': 'free',
+            #     'lupine_base_product': 'free',
+            #     'celery_base_product': 'free',
+            #     'sesame_base_product': 'free',
+            #     'fish_base_product': 'free',
+            #     'molluscs_base_product': 'free',
+            #     'shellfish_base_product': 'free',
+            #     'sulphites_base_product': 'free',
+            #     'allergen_free': 'none',
+            #     'antibiotic_free': 'none',
+            #     'baby': 'none',
+            #     'dietary': 'none',
+            #     'fair_trade': 'none',
+            #     'gluten_free': 'none',
+            #     'gmo_free': 'none',
+            #     'halal': 'none',
+            #     'kosher': 'none',
+            #     'lactose_free': 'none',
+            #     'low_cholesterol': 'none',
+            #     'low_sodium': 'none',
+            #     'organic': 'none',
+            #     'palm_oil_free': 'none',
+            #     'paraben_free': 'none',
+            #     'rich_omega': 'none',
+            #     'stevia': 'none',
+            #     'sugar_free': 'none',
+            #     'vegan': 'none',
+            #     'vegon_ok': 'none',
+            #     'vegetarian': 'none',
+            #     'without_preservative': 'none',
+            #     'instruction': '0',
+            #     'storage_instructions': '0',
+            #     'serving_sug': '0',
+            #     'prepare_instr': '0',
+            #     'total_pallet_height': '0',
+            #     'public_categ_ids': [(6, 0, 'test')],
+            #     'product_tag_ids': [(6, 0, 'test')],
+            #     'kind_pallet': 'test',
+            #
+            # })
 
         partner_id.write({
                 'is_invoice': self.is_invoice,
@@ -271,9 +381,11 @@ class SurveyLanding(models.Model):
             })
 
 
+
+
         seller_shop = self.env["seller.shop"].sudo().create({
             'name': self.company_id,
-            'url_handler': self.company_id.replace(' ', '-'),
+            'url_handler': url_name,
             'shop_tag_line': self.tag_line_company,
             'description': self.description_company,
             'seller_id': self.user_id.partner_id.id,
@@ -307,14 +419,14 @@ class SurveyLanding(models.Model):
 
             msg_vals_manager.update({
                 'body_html': """ Hello seller, your application for the shop has been rejected. You need to make a few changes in the application.""",
-                'subject': 'SELLER ID APPROVAL',
+                'subject': 'SELLER ID REJECTION',
                 'email_to': self.user_id.partner_id.email,
             })
 
             msg_id_manager = self.env['mail.mail'].create(msg_vals_manager)
             msg_id_manager.send()
 
-            record.write({'state': 'cancel'})
+            record.write({'state': 'reject'})
 
     @api.model
     def action_seller_shop_details(self):
@@ -359,3 +471,7 @@ class SellerShopInherit(models.Model):
             action = self.env.ref('odoo_marketplace.wk_seller_shop_action').read()[0]
             return action
 
+class EmailSent360(models.Model):
+    _name = 'email.sent'
+
+    email_sent = fields.Char('Email Sent.', readonly=True)

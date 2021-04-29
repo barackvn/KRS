@@ -30,6 +30,10 @@ class CrmLeadInherit(models.Model):
     is_buyer = fields.Boolean('Buyer')
     url_approve = fields.Char()
     url_reject = fields.Char()
+    first_name = fields.Char('First Name')
+    last_name = fields.Char('Last Name')
+
+
 
 
     def action_reject_profile(self):
@@ -44,9 +48,9 @@ class CrmLeadInherit(models.Model):
                     'custom', 'template_reject_register_buyer')[1]
             template_obj = self.env['mail.template'].browse(mail_templ_id)
             send = template_obj.with_context(company=self.env.company).send_mail(record.id, True)
-            stage = self.env['crm.stage'].sudo().search([('name', '=', 'Rejected')])
+            stage = self.env['crm.stage'].sudo().search([('name', '=', 'Not Qualified')])
             if not stage:
-                raise UserError(_("There is no stage called Rejected in Crm Lead,Can you please create the stage."))
+                raise UserError(_("There is no stage called Not Qualified in Crm Lead,Can you please create the stage."))
             record.stage_id = stage.id
             record.email_notify = True
             record.qualify_date = datetime.date.today()

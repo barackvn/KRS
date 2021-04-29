@@ -82,6 +82,34 @@ class ProductTemplateInherit(models.Model):
 
     production_time =  fields.Integer('Product Production Time')
 
+    def approved(self):
+        product_template = super(ProductTemplateInherit, self).approved()
+        mail_templ_id = self.env['ir.model.data'].get_object_reference(
+            'custom', 'template_product_approval_mail')[1]
+        template_obj = self.env['mail.template'].browse(mail_templ_id)
+        send = template_obj.with_context(company=self.env.company, email=self.marketplace_seller_id.email,
+                                         seller_name=self.marketplace_seller_id.name).send_mail(
+            self.marketplace_seller_id.id, True)
+
+
+    def reject(self):
+        product_template = super(ProductTemplateInherit, self).reject()
+        mail_templ_id = self.env['ir.model.data'].get_object_reference(
+            'custom', 'template_product_rejection_mail')[1]
+        template_obj = self.env['mail.template'].browse(mail_templ_id)
+        send = template_obj.with_context(company=self.env.company, email=self.marketplace_seller_id.email,
+                                         seller_name=self.marketplace_seller_id.name).send_mail(
+            self.marketplace_seller_id.id, True)
+
+    def set_pending(self):
+        product_template_pending = super(ProductTemplateInherit, self).set_pending()
+        mail_templ_id = self.env['ir.model.data'].get_object_reference(
+            'custom', 'template_send_product_creation_mail')[1]
+        template_obj = self.env['mail.template'].browse(mail_templ_id)
+        send = template_obj.with_context(company=self.env.company, email=self.marketplace_seller_id.email,
+                                         seller_name=self.marketplace_seller_id.name).send_mail(self.marketplace_seller_id.id, True)
+
+
     @api.depends('name', 'net_weight_per_unit','net_weight_uom')
     def _compute_complete_product_name(self):
         for record in self:
@@ -617,6 +645,9 @@ class ProductTemplateInherit(models.Model):
          ('tetra', 'Tetra'), ('vending', 'Vending')],'Packaging')
     nutritional_structure = fields.Selection([('brik', 'Dehydrated'),('liquid', 'Liquid'),('oil', 'Oil'),
          ('pasta', 'Pasta'), ('powder', 'Powder'), ('tablets', 'Tablets')], 'Nutritional structure')
+    product_quantity_type = fields.Selection([('article', 'Sell per article'), ('case', 'Sell per case'), ('article_case', 'Sell per article and case')],
+                                            'Product Quantity Type')
+
 
     def name_get(self):
         result = []

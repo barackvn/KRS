@@ -7,10 +7,39 @@
             <field name="inherit_id" ref="crm.crm_lead_view_form"/>
             <field name="arch" type="xml">
 
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="context">
+                        {'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}
+                    </attribute>
+                </xpath>
+
+                <xpath expr="//label[@for='email_from']" position="before">
+
+                    <field name="first_name"/>
+
+                    <field name="last_name"/>
+                </xpath>
+
+                <xpath expr="//button[@name='action_set_won_rainbowman']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='%(crm.crm_lead_lost_action)d']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
                 <xpath expr="//field[@name='tag_ids']" position="after">
                     <field name="is_seller" attrs="{'invisible': [('is_seller', '=', False)]}"/>
                     <field name="is_buyer" attrs="{'invisible': [('is_buyer', '=', False)]}"/>
                 </xpath>
+
+                <page name="lead" position="attributes">
+                    <attribute name='invisible'>1</attribute>
+                </page>
+
+                <!--                <xpath expr="//page[@name='lead']" position="attributes">-->
+                <!--                    <field name="invisible">1</field>-->
+                <!--                </xpath>-->
 
                 <xpath expr="//page[@name='lead']" position="after">
                     <page name="verify" string="Verification">
@@ -23,17 +52,17 @@
                             <field name="website_info_url" attrs="{'invisible': [('information_match', '!=', True)]}"/>
                             <field name="email_notify" invisible="1"/>
                             <label for="match_profile" style="width:250px" attrs="{'invisible': [('is_buyer', '=', True)]}"/>
-                                <div attrs="{'invisible': [('is_buyer', '=', True)]}">
-                                    <field name="match_profile" nolabel="1"/>
-                                    <button name="action_reject_profile" string="NO" type="object" attrs="{'invisible': ['|',('match_profile', '=', True),('email_notify', '=', True)]}"/>
-                                    <button name="action_accept_lead" string="Yes" type="object"  attrs="{'invisible': ['|',('match_profile', '!=', True),('email_notify', '=', True)]}"/>
-                                </div>
+                            <div attrs="{'invisible': [('is_buyer', '=', True)]}">
+                                <field name="match_profile" nolabel="1"/>
+                                <button name="action_reject_profile" string="NO" type="object" attrs="{'invisible': ['|',('match_profile', '=', True),('email_notify', '=', True)]}"/>
+                                <button name="action_accept_lead" string="Yes" type="object"  attrs="{'invisible': ['|',('match_profile', '!=', True),('email_notify', '=', True)]}"/>
+                            </div>
                             <label for="match_profile" string="Is the buyer matching with the profile?" style="width:250px" attrs="{'invisible': [('is_buyer', '!=', True)]}"/>
-                                <div attrs="{'invisible': [('is_buyer', '!=', True)]}">
-                                    <field name="match_profile" nolabel="1"/>
-                                    <button name="action_reject_profile" string="NO" type="object" attrs="{'invisible': ['|',('match_profile', '=', True),('email_notify', '=', True)]}"/>
-                                    <button name="action_accept_lead" string="Yes" type="object"  attrs="{'invisible': ['|',('match_profile', '!=', True),('email_notify', '=', True)]}"/>
-                                </div>
+                            <div attrs="{'invisible': [('is_buyer', '!=', True)]}">
+                                <field name="match_profile" nolabel="1"/>
+                                <button name="action_reject_profile" string="NO" type="object" attrs="{'invisible': ['|',('match_profile', '=', True),('email_notify', '=', True)]}"/>
+                                <button name="action_accept_lead" string="Yes" type="object"  attrs="{'invisible': ['|',('match_profile', '!=', True),('email_notify', '=', True)]}"/>
+                            </div>
                             <field name="assign_membership" domain="[('wk_mp_membership','=',True), ('type', '=', 'service')]" options="{'no_create': True}" attrs="{'invisible': [('is_buyer', '=', True)],'required':[('is_buyer', '!=', True)]}"/>
                             <field name="reason" placeholder="Write a Reason...."/>
                         </group>
@@ -51,16 +80,16 @@
             <field name="arch" type="xml">
                 <xpath expr="//filter[@name='assigned_to_me']" position="after">
                     <filter string="Buyer" name="is_buyer"
-                        domain="[('is_buyer', '=', True)]"
-                        />
+                            domain="[('is_buyer', '=', True)]"
+                    />
                     <filter string="Seller" name="is_seller"
-                        domain="[('is_seller', '=', True)]"
-                        />
+                            domain="[('is_seller', '=', True)]"
+                    />
                 </xpath>
             </field>
         </record>
         <menuitem id="odoo_marketplace.wk_seller_website_menu" name="Website" groups="odoo_marketplace.marketplace_seller_group" web_icon="website,static/description/icon.png" action="odoo_marketplace.wk_seller_action_website"/>
         <menuitem id="marketplace_rma.marketplace_exchange_rma" name="Exchange RMA" parent="marketplace_rma.marketplace_rma_root" action="marketplace_rma.mp_seller_exchange_rma_action" sequence="1" groups="odoo_marketplace.marketplace_seller_group"/>
-		<menuitem id="marketplace_rma.marketplace_refund_rma" name="Refund RMA" parent="marketplace_rma.marketplace_rma_root" action="marketplace_rma.mp_seller_refund_rma_action" sequence="2" groups="odoo_marketplace.marketplace_seller_group"/>
+        <menuitem id="marketplace_rma.marketplace_refund_rma" name="Refund RMA" parent="marketplace_rma.marketplace_rma_root" action="marketplace_rma.mp_seller_refund_rma_action" sequence="2" groups="odoo_marketplace.marketplace_seller_group"/>
     </data>
 </odoo>
