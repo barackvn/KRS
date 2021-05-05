@@ -68,8 +68,8 @@ class KanakAppointment(http.Controller):
         from_zone = pytz.timezone('UTC')
         return from_zone.localize(date).astimezone(to_zone)
 
-    @http.route(['/kanak/member/appointment/<int:partner_id>',
-                 '/kanak/member/appointment/<int:partner_id>/page/<int:page>',
+    @http.route(['/member/appointment/<int:partner_id>',
+                 '/member/appointment/<int:partner_id>/page/<int:page>',
                  '/kanak/appointment/reschedule/<int:partner_id>'
                  ], auth="public", website=True, csrf=False)
     def appointment_member(self, partner_id=None, page=1, token=None, tz=None, **post):
@@ -99,7 +99,7 @@ class KanakAppointment(http.Controller):
                 cal_start_date = jump_date
 
             pager = request.website.pager(
-                url='/kanak/member/appointment/%s' % (partner_id),
+                url='/member/appointment/%s' % (partner_id),
                 total=self._total_days,
                 page=page,
                 step=self._days_per_page,
@@ -159,7 +159,7 @@ class KanakAppointment(http.Controller):
                     values['msg'] = 'Thank You. No action was taken as that booking is in the past.'
             return request.render('kanak_appointment.kanak_member_calendar', values)
 
-    @http.route('/kanak/member/book/<int:partner_id>', auth="public", website=True)
+    @http.route('/member/book/<int:partner_id>', auth="public", website=True)
     def book_member(self, partner_id=None, **post):
         partner = request.env['res.partner'].sudo().browse(partner_id)
         times = post.get('time') and post.get('time').split(':') or [0, 0]
@@ -170,7 +170,7 @@ class KanakAppointment(http.Controller):
         post['req_partner'] = request.env.user.partner_id if not request.env.user._is_public() else None
         return request.render('kanak_appointment.kanak_member_book', post)
 
-    @http.route('/kanak/confirm/booking/<int:partner_id>', auth="public", website=True)
+    @http.route('/confirm/booking/<int:partner_id>', auth="public", website=True)
     def booking_confirm(self, partner_id=None, **post):
         Partner = request.env['res.partner'].sudo()
         appointment_with = Partner.sudo().browse(partner_id)
@@ -213,7 +213,7 @@ class KanakAppointment(http.Controller):
             template.sudo().send_mail(attendee.sudo().id, force_send=True)
 
         post['date'] = date_appointment
-        return request.render('kanak_appointment.appointment_thankyou', post)
+        return request.render('website.appointment-thankyou', post)
 
     @http.route('/kanak/appointment/reschedule/pre_conformation/<int:partner_id>/<string:access_token>', auth="public", website=True)
     def booking_reschedule(self, partner_id=None, access_token=None, **post):
