@@ -12,6 +12,7 @@ Kanak Calendar Appointment
     """,
     'license': 'OPL-1',
     'author': 'Kanak Infosystems LLP.',
+    'website': 'https://www.kanakinfosystems.com',
     'images': ['static/description/banner.gif'],
     'category': 'website',
     'depends': ['website', 'mail', 'calendar', 'contacts'],
@@ -27,5 +28,7 @@ Kanak Calendar Appointment
     'installable': True,
     'application': True,
     'auto_install': False,
-
+    'price': 149,
+    'currency': 'EUR',
+    'live_test_url': 'https://youtu.be/D1igSOPAebE',
 }

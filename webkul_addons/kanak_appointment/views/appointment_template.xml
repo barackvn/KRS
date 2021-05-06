@@ -39,7 +39,7 @@
                                                         <p>
                                                             <em class="text-kanak-danger" t-esc="partner.function"></em>
                                                         </p>
-                                                        <a class="btn btn-default btn-sm btn-kanak" t-attf-href="/member/appointment/#{partner.id}">
+                                                        <a class="btn btn-default btn-sm btn-kanak" t-attf-href="/kanak/member/appointment/#{partner.id}">
                                                             Select
                                                             <i class="fa fa-chevron-circle-right"></i>
                                                         </a>
@@ -77,7 +77,7 @@
                             </div>
                             <div class="col-md-10 offset-md-1 mt32 pb32 text-center">
                                 <div class="col-md-12 kanak_appointment_header">
-                                    <form class="form-inline appointment_form mt32" t-attf-action="/member/appointment/#{partner.id}" method="POST">
+                                    <form class="form-inline appointment_form mt32" t-attf-action="/kanak/member/appointment/#{partner.id}" method="POST">
                                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                         <div class="form-group col-md-6">
                                             <label>Time Zone:</label>
@@ -140,7 +140,7 @@
                                                     <t t-foreach="dates" t-as="a_date">
                                                         <td t-if="a_date" style="padding:0">
                                                             <t t-if="not appointment">
-                                                                <form class="form-inline mb0 mt0" t-attf-action="/member/book/#{partner.id}" method="POST">
+                                                                <form class="form-inline mb0 mt0" t-attf-action="/kanak/member/book/#{partner.id}" method="POST">
                                                                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                                                     <input type="hidden" name="date" t-att-value="a_date[1]"/>
                                                                     <input type="hidden" name="time" t-att-value="total"/>
@@ -179,7 +179,7 @@
                         <div class="card-body kanak-card-body">
                             <div class="row">
                                 <div class="container">
-                                    <form class="form-horizontal" t-attf-action="/confirm/booking/#{partner.id}" method="POST">
+                                    <form class="form-horizontal" t-attf-action="/kanak/confirm/booking/#{partner.id}" method="POST">
                                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                         <input type="hidden" name="date" t-att-value="date"/>
                                         <input type="hidden" name="time" t-att-value="time"/>
