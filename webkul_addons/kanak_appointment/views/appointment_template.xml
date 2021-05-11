@@ -140,7 +140,7 @@
                                                     <t t-foreach="dates" t-as="a_date">
                                                         <td t-if="a_date" style="padding:0">
                                                             <t t-if="not appointment">
-                                                                <form class="form-inline mb0 mt0" t-attf-action="/kanak/member/book/#{partner.id}" method="POST">
+                                                                <form class="form-inline mb0 mt0" t-attf-action="/member/book/#{partner.id}" method="POST">
                                                                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                                                     <input type="hidden" name="date" t-att-value="a_date[1]"/>
                                                                     <input type="hidden" name="time" t-att-value="total"/>
@@ -149,7 +149,7 @@
                                                                 </form>
                                                             </t>
                                                             <t t-if="appointment">
-                                                                <form class="form-inline mb0 mt0" t-attf-action="/kanak/appointment/reschedule/pre_conformation/#{partner.id}/#{appointment.access_token}" method="POST">
+                                                                <form class="form-inline mb0 mt0" t-attf-action="/appointment/reschedule/pre_conformation/#{partner.id}/#{appointment.access_token}" method="POST">
                                                                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                                                     <input type="hidden" name="date" t-att-value="a_date[1]"/>
                                                                     <input type="hidden" name="time" t-att-value="total"/>
@@ -179,7 +179,7 @@
                         <div class="card-body kanak-card-body">
                             <div class="row">
                                 <div class="container">
-                                    <form class="form-horizontal" t-attf-action="/kanak/confirm/booking/#{partner.id}" method="POST">
+                                    <form class="form-horizontal" t-attf-action="/confirm/booking/#{partner.id}" method="POST">
                                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                         <input type="hidden" name="date" t-att-value="date"/>
                                         <input type="hidden" name="time" t-att-value="time"/>
@@ -241,7 +241,7 @@
                             <p t-esc="msg"></p>
                         </div>
                         <div t-if="not msg" class="row">
-                            <form class="form-horizontal" t-attf-action="/kanak/confirm/reschedule/#{partner.id}/#{appointment.access_token}" method="POST">
+                            <form class="form-horizontal" t-attf-action="/confirm/reschedule/#{partner.id}/#{appointment.access_token}" method="POST">
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                 <input type="hidden" name="date" t-att-value="date"/>
                                 <input type="hidden" name="time" t-att-value="time"/>
@@ -271,7 +271,7 @@
                             <p t-esc="msg"></p>
                         </div>
                         <div t-if="not msg" class="">
-                            <form class="form-horizontal" t-attf-action="/kanak/confirm/cancel/#{partner.id}/#{appointment.access_token}" method="POST">
+                            <form class="form-horizontal" t-attf-action="/confirm/cancel/#{partner.id}/#{appointment.access_token}" method="POST">
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                 <div class="col-md-4">
                                     <p>You are about to cancel the following booking:</p>

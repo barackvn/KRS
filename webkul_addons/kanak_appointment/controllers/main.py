@@ -14,7 +14,7 @@ class KanakAppointment(http.Controller):
     _total_days = 30
     _day_diff = 0
 
-    @http.route('/kanak/team', auth="public", website=True)
+    @http.route('/team', auth="public", website=True)
     def team_list(self, **post):
         partners = request.env['res.partner'].sudo().search([('team_member', '=', True)])
         return request.render('kanak_appointment.kanak_select_partner', {'partners': partners})
@@ -70,7 +70,7 @@ class KanakAppointment(http.Controller):
 
     @http.route(['/member/appointment/<int:partner_id>',
                  '/member/appointment/<int:partner_id>/page/<int:page>',
-                 '/kanak/appointment/reschedule/<int:partner_id>'
+                 '/appointment/reschedule/<int:partner_id>'
                  ], auth="public", website=True, csrf=False)
     def appointment_member(self, partner_id=None, page=1, token=None, tz=None, **post):
         partner = request.env['res.partner'].sudo().browse(partner_id)
@@ -149,7 +149,7 @@ class KanakAppointment(http.Controller):
             if token:
                 appointment = request.env['calendar.attendee'].sudo().search([('access_token', '=', token)])
                 pager = request.website.pager(
-                    url='/kanak/appointment/reschedule/%s?token=%s' % (partner_id, token),
+                    url='/appointment/reschedule/%s?token=%s' % (partner_id, token),
                     total=self._total_days,
                     page=page,
                     step=self._days_per_page,
@@ -159,7 +159,7 @@ class KanakAppointment(http.Controller):
                     values['msg'] = 'Thank You. No action was taken as that booking is in the past.'
             return request.render('kanak_appointment.kanak_member_calendar', values)
 
-    @http.route('/kanak/member/book/<int:partner_id>', auth="public", website=True)
+    @http.route('/member/book/<int:partner_id>', auth="public", website=True)
     def book_member(self, partner_id=None, **post):
         partner = request.env['res.partner'].sudo().browse(partner_id)
         times = post.get('time') and post.get('time').split(':') or [0, 0]
@@ -170,7 +170,7 @@ class KanakAppointment(http.Controller):
         post['req_partner'] = request.env.user.partner_id if not request.env.user._is_public() else None
         return request.render('kanak_appointment.kanak_member_book', post)
 
-    @http.route('/kanak/confirm/booking/<int:partner_id>', auth="public", website=True)
+    @http.route('/confirm/booking/<int:partner_id>', auth="public", website=True)
     def booking_confirm(self, partner_id=None, **post):
         Partner = request.env['res.partner'].sudo()
         appointment_with = Partner.sudo().browse(partner_id)
@@ -217,7 +217,7 @@ class KanakAppointment(http.Controller):
         post['date'] = date_appointment
         return request.render('kanak_appointment.appointment_thankyou', post)
 
-    @http.route('/kanak/appointment/reschedule/pre_conformation/<int:partner_id>/<string:access_token>', auth="public", website=True)
+    @http.route('/appointment/reschedule/pre_conformation/<int:partner_id>/<string:access_token>', auth="public", website=True)
     def booking_reschedule(self, partner_id=None, access_token=None, **post):
         partner = request.env['res.partner'].sudo().browse(partner_id)
         appointment = request.env['calendar.attendee'].sudo().search([('access_token', '=', access_token)])
@@ -226,7 +226,7 @@ class KanakAppointment(http.Controller):
         post.update({'appointment': appointment, 'partner': partner, 'date_appointment': date_appointment})
         return request.render('kanak_appointment.appointment_reschedule', post)
 
-    @http.route('/kanak/confirm/reschedule/<int:partner_id>/<string:access_token>', auth="public", website=True)
+    @http.route('/confirm/reschedule/<int:partner_id>/<string:access_token>', auth="public", website=True)
     def reschedule_confirm(self, partner_id=None, access_token=None, **post):
         partner = request.env['res.partner'].sudo().browse(partner_id)
         appointment = request.env['calendar.attendee'].sudo().search([('access_token', '=', access_token)])
@@ -246,14 +246,14 @@ class KanakAppointment(http.Controller):
         post.update({'date': date_appointment})
         return request.render('kanak_appointment.appointment_thankyou', post)
 
-    @http.route('/kanak/appointment/cancel/<int:partner_id>', auth="public", website=True)
+    @http.route('/appointment/cancel/<int:partner_id>', auth="public", website=True)
     def booking_cancel(self, partner_id=None, token=None, **post):
         partner = request.env['res.partner'].sudo().browse(partner_id)
         appointment = request.env['calendar.attendee'].sudo().search([('access_token', '=', token)])
         post.update({'appointment': appointment, 'partner': partner, 'date_appointment': appointment.event_id.date_appointment})
         return request.render('kanak_appointment.appointment_cancel', post)
 
-    @http.route('/kanak/confirm/cancel/<int:partner_id>/<string:access_token>', auth="public", website=True)
+    @http.route('/confirm/cancel/<int:partner_id>/<string:access_token>', auth="public", website=True)
     def confirm_cancel(self, partner_id=None, access_token=None, **post):
         appointment = request.env['calendar.attendee'].sudo().search([('access_token', '=', access_token)])
         appointment.event_id.app_state = 'cancel'
