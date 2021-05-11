@@ -36,3 +36,45 @@ $(document).ready(function() {
             $('.appointment_form').submit();
         });
 });
+
+
+function populate_data(el){
+
+    var country_id;
+    country_id = $(el).val();
+    console.log(">>>>>>>>>>country_id>>>>>>>>>>>",country_id);
+
+        $.ajax({
+            type: "POST",
+            url: "/populate/data",
+            data: {country_id:country_id},
+        })
+        .done(function(data){
+             var load_data = jQuery.parseJSON(data);
+             document.getElementById('dial_code').innerHTML="";
+
+
+
+             if (load_data !== 'undifined' || load_data.length>0) {
+//               var product_data="<option value=''>Select Product</option>"
+
+//               console.log(">>>>>>>>>>>>product_data>>>>>>>>>",product_data);
+//               ='<select name="product_id">'
+                for(var i=0; i<load_data.length;i++){
+
+                    dial_code ='<option value="'+load_data[i].country_id+'">'+load_data[i].dial_code+'</option>'
+                    console.log(">>>>>>>>>>dial_code>>>>>>>>>>>",dial_code);
+
+
+                }
+//                product_data+='</select>'
+//                   var product=document.getElementById("product")
+                    var product=$('.dial_code');
+                   console.log(">>>>>>>>>>>>>product",product);
+                  $('.dial_code').append(dial_code);
+
+             }
+
+        });
+
+};

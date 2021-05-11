@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
 from odoo import fields, http
 from odoo.http import request
+import json
 
 
 class KanakAppointment(http.Controller):
@@ -13,6 +14,24 @@ class KanakAppointment(http.Controller):
     _days_per_page = 7
     _total_days = 30
     _day_diff = 0
+
+    @http.route('/populate/data', auth='public', methods=['POST'], website=True, type='http', csrf=False)
+    def populate_data(self, **post):
+        try:
+
+            if post['country_id']:
+                country_id = request.env['res.country'].sudo().browse(int(post['country_id']))
+                dial_code = []
+                for con in country_id:
+                    vals = {
+                        'country_id': con.id,
+                        'dial_code': con.custom_dial_code}
+                    dial_code.append(vals)
+                return_data = json.dumps(dial_code)
+                return return_data
+
+        except:
+            return json.dumps({'render_data': True})
 
     @http.route('/team', auth="public", website=True)
     def team_list(self, **post):
@@ -165,8 +184,10 @@ class KanakAppointment(http.Controller):
         times = post.get('time') and post.get('time').split(':') or [0, 0]
         metting_time = int(times[0]) * 60 + int(times[1])
         date = datetime.strptime(str(post.get('date')), '%d/%m/%Y') + timedelta(minutes=metting_time)
+        country_ids = request.env['res.country'].sudo().search([('custom_dial_code','!=',False)])
         post['booking'] = date.strftime('%A, %B %d, %Y %H:%M')
         post['partner'] = partner
+        post['countries'] = country_ids
         post['req_partner'] = request.env.user.partner_id if not request.env.user._is_public() else None
         return request.render('kanak_appointment.kanak_member_book', post)
 
