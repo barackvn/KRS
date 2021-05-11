@@ -39,7 +39,7 @@
                                                         <p>
                                                             <em class="text-kanak-danger" t-esc="partner.function"></em>
                                                         </p>
-                                                        <a class="btn btn-default btn-sm btn-kanak" t-attf-href="/kanak/member/appointment/#{partner.id}">
+                                                        <a class="btn btn-default btn-sm btn-kanak" t-attf-href="/member/appointment/#{partner.id}">
                                                             Select
                                                             <i class="fa fa-chevron-circle-right"></i>
                                                         </a>
@@ -77,7 +77,7 @@
                             </div>
                             <div class="col-md-10 offset-md-1 mt32 pb32 text-center">
                                 <div class="col-md-12 kanak_appointment_header">
-                                    <form class="form-inline appointment_form mt32" t-attf-action="/kanak/member/appointment/#{partner.id}" method="POST">
+                                    <form class="form-inline appointment_form mt32" t-attf-action="/member/appointment/#{partner.id}" method="POST">
                                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                         <div class="form-group col-md-6">
                                             <label>Time Zone:</label>

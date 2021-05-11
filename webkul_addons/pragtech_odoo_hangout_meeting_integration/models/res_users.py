@@ -36,6 +36,8 @@ class CustomResUsers(models.Model):
 
     def generate_refresh_token_from_access_token(self):
         client_crendtials_obj = self.env['res.users'].sudo().search([('id', '=', self._context.get('uid'))],limit=1).company_id
+        if not client_crendtials_obj:
+            client_crendtials_obj = self.company_id
         # print("\n\n\nclient_crendtials_obj\t\t",client_crendtials_obj,"\n\n")
         client_id = client_crendtials_obj.client_id
         # print("\n\n\nclient_id\t\t",client_id,"\n\n")

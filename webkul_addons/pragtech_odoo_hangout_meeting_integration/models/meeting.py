@@ -99,10 +99,14 @@ class CustomHangoutsMeet(models.Model):
     
     def send_mail_notification_mail(self):
         company_id = self.env['res.users'].search([('id', '=', self._context.get('uid'))]).company_id
+        if not company_id:
+            company_id = self.user_id.company_id
         # print("\n\ncompany_id\t\t",company_id.outgoing_server_mail_id,"\n\n")
         template_id = self.env['ir.model.data'].get_object_reference('pragtech_odoo_hangout_meeting_integration',
                                                                      'calendar_template_meeting_invitation_of_meeting_creation_call')[1]
         login_user_id = self.env['res.users'].sudo().search([('id', '=', self._context.get('uid'))], limit=1)
+        if not login_user_id:
+            login_user_id = self.user_id
 
         for i in self.attendee_ids:
             if i.partner_id != login_user_id.partner_id:
@@ -121,7 +125,8 @@ class CustomHangoutsMeet(models.Model):
                     values['message_type'] = "email"
                     values['res_id'] = False
                     values['reply_to'] = False
-                    values['author_id'] = self.env['res.users'].browse(request.env.uid).partner_id.id
+                    # values['author_id'] = self.env['res.users'].browse(request.env.uid).partner_id.id
+                    values['author_id'] = login_user_id.partner_id.id
                     mail_mail_obj = self.env['mail.mail']
                     msg_id = mail_mail_obj.sudo().create(values)
                     if msg_id:
@@ -151,6 +156,8 @@ class CustomHangoutsMeet(models.Model):
 
     def post_request_hangout_meet(self):
         login_user_id = self.env['res.users'].sudo().search([('id', '=', self._context.get('uid'))], limit=1)
+        if not login_user_id:
+            login_user_id=self.user_id
         login_user_id.generate_refresh_token_from_access_token()
         start_datetime = fields.Datetime.context_timestamp(self,self.start).isoformat('T')
         end_datetime = fields.Datetime.context_timestamp(self,self.end_date_time).isoformat('T')

@@ -68,8 +68,8 @@ class KanakAppointment(http.Controller):
         from_zone = pytz.timezone('UTC')
         return from_zone.localize(date).astimezone(to_zone)
 
-    @http.route(['/kanak/member/appointment/<int:partner_id>',
-                 '/kanak/member/appointment/<int:partner_id>/page/<int:page>',
+    @http.route(['/member/appointment/<int:partner_id>',
+                 '/member/appointment/<int:partner_id>/page/<int:page>',
                  '/kanak/appointment/reschedule/<int:partner_id>'
                  ], auth="public", website=True, csrf=False)
     def appointment_member(self, partner_id=None, page=1, token=None, tz=None, **post):
@@ -99,7 +99,7 @@ class KanakAppointment(http.Controller):
                 cal_start_date = jump_date
 
             pager = request.website.pager(
-                url='/kanak/member/appointment/%s' % (partner_id),
+                url='/member/appointment/%s' % (partner_id),
                 total=self._total_days,
                 page=page,
                 step=self._days_per_page,
@@ -204,6 +204,8 @@ class KanakAppointment(http.Controller):
             'stop': fields.Datetime.to_string((utc_date + timedelta(minutes=int(appointment_with.minutes_slot)))),
             'start_datetime': fields.Datetime.to_string(utc_date),
             'stop_datetime': fields.Datetime.to_string((utc_date + timedelta(minutes=int(appointment_with.minutes_slot)))),
+            'end_date_time': fields.Datetime.to_string((utc_date + timedelta(minutes=int(appointment_with.minutes_slot)))),
+            'meet_flag': True,
             'type': 'appointment',
             'user_id': user_id.id
         }
