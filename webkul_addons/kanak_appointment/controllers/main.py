@@ -195,6 +195,7 @@ class KanakAppointment(http.Controller):
     def booking_confirm(self, partner_id=None, **post):
         Partner = request.env['res.partner'].sudo()
         appointment_with = Partner.sudo().browse(partner_id)
+        country_id =request.env['res.country'].sudo().browse(int(post.get('country_id')))
         date = self.get_booking_date(post.get('time', "00:00"), post.get("date"))
         utc_date = Partner.get_utc_date(date, post.get('timezone'))
         date_appointment = str(date.strftime('%A, %B %d, %Y %H:%M'))
@@ -203,8 +204,8 @@ class KanakAppointment(http.Controller):
             partner = Partner.sudo().create({
                 'name': "%s %s" % (post.get('first_name'), post.get('last_name') and post.get('last_name') or ''),
                 'email': post.get('email'),
-                'country_id': post.get('country_id'),
-                'phone_dial_code': post.get('dial_code'),
+                'country_id': country_id.id,
+                'phone_dial_code': country_id.custom_dial_code,
                 'phone': post.get('phone'),
                 'tz': post.get('timezone'),
             })
