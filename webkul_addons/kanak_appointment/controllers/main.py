@@ -267,6 +267,8 @@ class KanakAppointment(http.Controller):
             'stop_datetime': fields.Datetime.to_string((utc_date + timedelta(minutes=int(partner.minutes_slot)))),
         })
         post.update({'date': date_appointment})
+        partners = request.env['res.partner'].sudo().search([('team_member', '=', True)], limit=1)
+        post['partner'] = partners
         return request.render('website.appointment-thankyou', post)
 
     @http.route('/appointment/cancel/<int:partner_id>', auth="public", website=True)
