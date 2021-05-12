@@ -203,6 +203,8 @@ class KanakAppointment(http.Controller):
             partner = Partner.sudo().create({
                 'name': "%s %s" % (post.get('first_name'), post.get('last_name') and post.get('last_name') or ''),
                 'email': post.get('email'),
+                'country_id': post.get('country_id'),
+                'phone_dial_code': post.get('dial_code'),
                 'phone': post.get('phone'),
                 'tz': post.get('timezone'),
             })
