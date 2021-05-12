@@ -180,6 +180,9 @@ class KanakAppointment(http.Controller):
 
     @http.route('/member/book/<int:partner_id>', auth="public", website=True)
     def book_member(self, partner_id=None, **post):
+        if not post:
+            partner_id = request.env['res.partner'].sudo().search([('team_member', '=', True)], limit=1)
+            return request.redirect('/member/appointment/%s' % partner_id.id)
         partner = request.env['res.partner'].sudo().browse(partner_id)
         times = post.get('time') and post.get('time').split(':') or [0, 0]
         metting_time = int(times[0]) * 60 + int(times[1])
