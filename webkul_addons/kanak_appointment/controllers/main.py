@@ -236,7 +236,9 @@ class KanakAppointment(http.Controller):
             template.sudo().send_mail(attendee.sudo().id, force_send=True)
 
         post['date'] = date_appointment
-        return request.render('kanak_appointment.appointment_thankyou', post)
+        partners = request.env['res.partner'].sudo().search([('team_member', '=', True)], limit=1)
+        post['partner']=partners
+        return request.render('website.appointment-thankyou', post)
 
     @http.route('/appointment/reschedule/pre_conformation/<int:partner_id>/<string:access_token>', auth="public", website=True)
     def booking_reschedule(self, partner_id=None, access_token=None, **post):
@@ -265,7 +267,7 @@ class KanakAppointment(http.Controller):
             'stop_datetime': fields.Datetime.to_string((utc_date + timedelta(minutes=int(partner.minutes_slot)))),
         })
         post.update({'date': date_appointment})
-        return request.render('kanak_appointment.appointment_thankyou', post)
+        return request.render('website.appointment-thankyou', post)
 
     @http.route('/appointment/cancel/<int:partner_id>', auth="public", website=True)
     def booking_cancel(self, partner_id=None, token=None, **post):

@@ -15,7 +15,7 @@ Kanak Calendar Appointment
     'website': 'https://www.kanakinfosystems.com',
     'images': ['static/description/banner.gif'],
     'category': 'website',
-    'depends': ['website', 'mail', 'calendar', 'contacts'],
+    'depends': ['website', 'mail', 'calendar', 'contacts', 'pragtech_odoo_hangout_meeting_integration'],
     'data': [
         'data/appointment_data.xml',
         'views/res_partner.xml',
