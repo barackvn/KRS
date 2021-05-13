@@ -93,7 +93,7 @@ class KanakAppointment(http.Controller):
                  ], auth="public", website=True, csrf=False)
     def appointment_member(self, partner_id=None, page=1, token=None, tz=None, **post):
         partner = request.env['res.partner'].sudo().browse(partner_id)
-        date_format = "%m/%d/%Y"
+        date_format = "%d/%m/%Y"
 
         browser_timezone = post.get('timezone')
         if browser_timezone:
