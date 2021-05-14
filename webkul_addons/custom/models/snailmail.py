@@ -48,6 +48,7 @@ class PartnerSpeciality(models.Model):
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    country_code_ph = fields.Char()
     lead_id = fields.Many2one('crm.lead', 'Lead')
     assign_membership = fields.Many2one(related='lead_id.assign_membership', string='Assign Membership Plan')
     certification_attachment = fields.Many2many(comodel_name='ir.attachment', string='Attached Certificate')
@@ -95,7 +96,7 @@ class ResPartner(models.Model):
     # city = fields.Char('City')
     # state_id = fields.Many2one("res.country.state", string='State')
     # country_id = fields.Many2one('res.country', string='Country')
-    # vat = fields.Char(string='VAT')
+    vat = fields.Char(string='VAT')
     # language_id = fields.Many2one('res.lang', 'Language')
     # speciality_id = fields.Many2many('partner.speciality', string='Specialisation')
     # contact_ids = fields.One2many('res.partner.child', 'survey_id', 'Contacts')
@@ -147,8 +148,31 @@ class ResPartner(models.Model):
     #     [('draft', 'Draft'), ('pending', 'Pending For Approval'), ('confirm', 'Confirm'), ('done', 'Done'),
     #      ('cancelled', 'Cancelled')], string='Status', default='draft')
     # survey_landing_ids = fields.Many2one('res.partner')
+    def see_offer_button(self):
+        pass
 
+    def action_send_product_360(self):
+        for record in self:
+            if record.email:
+                admin = self.env['res.users'].sudo().search([('id', '=', 2)])
+                email = str(record.email) + ',' + str(admin.email)
+                mail_templ_id = self.env['ir.model.data'].sudo().get_object_reference(
+                    'custom', 'template_seller_for_product_360_image')[1]
+                template_obj = self.env['mail.template'].browse(mail_templ_id)
+                send = template_obj.with_context(company=self.env.company, email=email,
+                                                 seller_name=record.name).sudo().send_mail(record.id, True)
+                # record.write({'state': 'rip'})
 
+        # return {
+        #     'name': 'Email Sent',
+        #     'domain': [],
+        #     'res_model': 'email.sent',
+        #     'type': 'ir.actions.act_window',
+        #     'view_mode': 'form',
+        #     'view_type': 'form',
+        #     'context': {},
+        #     'target': 'new',
+        # }
 
     def action_create_seller_location(self):
         if not self.seller_location_id:
