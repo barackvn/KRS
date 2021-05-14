@@ -367,27 +367,29 @@
                                     <separator string="Banner Image*"/>
                                     <field name="attachment_ids" widget="many2many_binary"/>
                                 </group>
+                                <div>
+                                    <a style="padding: 40%;"><button class="oe_highlight" name="action_send_product_360" type="object" string="I would like to have 360° pictures"/></a>
+                                </div>
+                                <!--                                <separator string="Slider image"/>-->
+                                <!--                                <field name="slider_image">-->
+                                <!--                                    <tree string="Slider Image" editable="bottom">-->
+                                <!--                                        <field name="preferred_link"/>-->
+                                <!--                                        <field name="slider_image_file"/>-->
+                                <!--                                    </tree>-->
+                                <!--                                </field>-->
 
-                                <separator string="Slider image"/>
-                                <field name="slider_image">
-                                    <tree string="Slider Image" editable="bottom">
-                                        <field name="preferred_link"/>
-                                        <field name="slider_image_file"/>
-                                    </tree>
-                                </field>
-
-                                <separator string="Product images"/>
-                                <field name="product_image">
-                                    <tree string="Product Image" editable="bottom">
-                                        <field name="brand_name"/>
-                                        <field name="product_name"/>
-                                        <field name="net_weight"/>
-                                        <field name="uom"/>
-                                        <field name="picture_html" widget="binary" filename="filename"/>
-                                        <field name="filename" invisible="1"/>
-                                        <field name="product_hq_image"/>
-                                    </tree>
-                                </field>
+                                <!--                                <separator string="Product images"/>-->
+                                <!--                                <field name="product_image">-->
+                                <!--                                    <tree string="Product Image" editable="bottom">-->
+                                <!--                                        <field name="brand_name"/>-->
+                                <!--                                        <field name="product_name"/>-->
+                                <!--                                        <field name="net_weight"/>-->
+                                <!--                                        <field name="uom"/>-->
+                                <!--                                        <field name="picture_html" widget="binary" filename="filename"/>-->
+                                <!--                                        <field name="filename" invisible="1"/>-->
+                                <!--                                        <field name="product_hq_image"/>-->
+                                <!--                                    </tree>-->
+                                <!--                                </field>-->
                             </sheet>
                         </form>
                     </page>
@@ -447,15 +449,15 @@
             </field>
         </record>
 
-<!--        <record id="email_sent_form_view" model="ir.ui.view">-->
-<!--            <field name="name">email.sent.form.view</field>-->
-<!--            <field name="model">email.sent</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <form>-->
-<!--                    <field name="email_sent"/>-->
-<!--                </form>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="email_sent_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">email.sent.form.view</field>-->
+        <!--            <field name="model">email.sent</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form>-->
+        <!--                    <field name="email_sent"/>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
         <menuitem id="odoo_marketplace.wk_seller_dashboard_menu1_sub_menu2" name="Seller Shops" parent="odoo_marketplace.wk_seller_dashboard_menu1" action="custom.action_server_wk_seller_shop_action" sequence="2" groups="odoo_marketplace.group_marketplace_seller_shop,odoo_marketplace.marketplace_officer_group"/>
 
