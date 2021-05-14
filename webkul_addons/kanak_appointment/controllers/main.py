@@ -99,7 +99,7 @@ class KanakAppointment(http.Controller):
         if browser_timezone:
             request.session['timezone'] = browser_timezone
         # req_tz = pytz.timezone(request.session.get('timezone', 'UTC'))
-        req_tz = pytz.timezone(request.session.get('Europe/Brussels', 'UTC'))
+        req_tz = pytz.timezone('Europe/Brussels')
         user_tz = pytz.timezone(partner.tz)
         offset = (req_tz.utcoffset(datetime.now()).total_seconds() - user_tz.utcoffset(datetime.now()).total_seconds()) / 3600
         cal_start_date = datetime.strptime(str(datetime.now().strftime(date_format)), date_format)
