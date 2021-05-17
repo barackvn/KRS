@@ -156,13 +156,13 @@
                         <div>
                             <a style="font-size: 15px;">1298 x 400 px for perfect view</a>
                         </div>
-                        <field name="slider_image">
-                            <tree string="Slider Image" editable="bottom">
-                                <field name="preferred_link"/>
-                                <field name="slider_image_file" widget="binary" filename="filename"/>
-                                <field name="filename" invisible="1"/>
-                            </tree>
-                        </field>
+                        <field name="slider_image"/>
+<!--                            <tree string="Slider Image" editable="bottom">-->
+<!--                                <field name="preferred_link"/>-->
+<!--                                <field name="slider_image_file" widget="binary" filename="filename"/>-->
+<!--                                <field name="filename" invisible="1"/>-->
+<!--                            </tree>-->
+<!--                        </field>-->
 
                         <separator string="Product images"/>
                         <!--                        <div attrs="{'invisible' : [('state', '!=', 'draft')]}" >-->
@@ -279,73 +279,73 @@
                     <page name="survey_landing_view" string="Survey Landing Information">
                         <form>
                             <sheet>
-                                <group>
-                                    <group>
-                                        <separator string="Invoice address"/>
-                                        <field name="is_invoice" widget="boolean_toggle"/>
-                                        <label for="" name="invoice_address_name"
-                                               attrs="{'invisible' : [('is_invoice', '=', False)]}">
-                                            <b>Address</b>
-                                        </label>
-                                        <div class="o_address_format" attrs="{'invisible' : [('is_invoice', '=', False)]}">
-                                            <field name="inv_street" placeholder="Street..." class="o_address_street"/>
-                                            <field name="inv_street2" placeholder="Street 2..." class="o_address_street"/>
-                                            <field name="inv_city" placeholder="City" class="o_address_city"/>
-                                            <field name="inv_state_id" class="o_address_state" placeholder="State"
-                                                   options="{&quot;no_open&quot;: True}"/>
-                                            <field name="inv_zip" placeholder="ZIP" class="o_address_zip"/>
-                                            <field name="inv_country_id" placeholder="Country" class="o_address_country"
-                                                   options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
-                                        </div>
-                                        <field name="inv_job_position" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
-                                        <field name="inv_email" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
-                                        <field name="inv_phone" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
-                                        <field name="inv_mobile" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>
-                                    </group>
-                                    <group>
-                                        <separator string="Shipping address"/>
-                                        <field name="is_shipping" widget="boolean_toggle"/>
-                                        <label for="" name="shipping_address_name"
-                                               attrs="{'invisible' : [('is_shipping', '=', False)]}">
-                                            <b>Address</b>
-                                        </label>
-                                        <div class="o_address_format" attrs="{'invisible' : [('is_shipping', '=', False)]}">
-                                            <field name="ship_street" placeholder="Street..." class="o_address_street"/>
-                                            <field name="ship_street2" placeholder="Street 2..." class="o_address_street"/>
-                                            <field name="ship_city" placeholder="City" class="o_address_city"/>
-                                            <field name="ship_state_id" class="o_address_state" placeholder="State"
-                                                   options="{&quot;no_open&quot;: True}"/>
-                                            <field name="ship_zip" placeholder="ZIP" class="o_address_zip"/>
-                                            <field name="ship_country_id" placeholder="Country" class="o_address_country"
-                                                   options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
-                                        </div>
-                                        <field name="ship_job_position" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
-                                        <field name="ship_email" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
-                                        <field name="ship_phone" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
-                                        <field name="ship_mobile" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>
-                                    </group>
-                                </group>
-                                <separator string="Company Information"/>
-                                <group>
-                                    <group>
-                                        <separator string="Invoicing"/>
-                                        <field name="bank"/>
-                                        <field name="account_number"/>
-                                    </group>
-                                    <group>
-                                        <separator string="Shop information"/>
-                                        <field name="year_starting_business"/>
-                                        <field name="tag_line_company"/>
-                                        <field name="description_company"/>
-                                    </group>
-                                </group>
-                                <group>
-                                    <field name="certificate"/>
-                                </group>
+                                <!--                                <group>-->
+                                <!--                                    <group>-->
+                                <!--                                        <separator string="Invoice address"/>-->
+                                <!--                                        <field name="is_invoice" widget="boolean_toggle"/>-->
+                                <!--                                        <label for="" name="invoice_address_name"-->
+                                <!--                                               attrs="{'invisible' : [('is_invoice', '=', False)]}">-->
+                                <!--                                            <b>Address</b>-->
+                                <!--                                        </label>-->
+                                <!--                                        <div class="o_address_format" attrs="{'invisible' : [('is_invoice', '=', False)]}">-->
+                                <!--                                            <field name="inv_street" placeholder="Street..." class="o_address_street"/>-->
+                                <!--                                            <field name="inv_street2" placeholder="Street 2..." class="o_address_street"/>-->
+                                <!--                                            <field name="inv_city" placeholder="City" class="o_address_city"/>-->
+                                <!--                                            <field name="inv_state_id" class="o_address_state" placeholder="State"-->
+                                <!--                                                   options="{&quot;no_open&quot;: True}"/>-->
+                                <!--                                            <field name="inv_zip" placeholder="ZIP" class="o_address_zip"/>-->
+                                <!--                                            <field name="inv_country_id" placeholder="Country" class="o_address_country"-->
+                                <!--                                                   options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>-->
+                                <!--                                        </div>-->
+                                <!--                                        <field name="inv_job_position" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>-->
+                                <!--                                        <field name="inv_email" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>-->
+                                <!--                                        <field name="inv_phone" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>-->
+                                <!--                                        <field name="inv_mobile" attrs="{'invisible' : [('is_invoice', '=', False)]}"/>-->
+                                <!--                                    </group>-->
+                                <!--                                    <group>-->
+                                <!--                                        <separator string="Shipping address"/>-->
+                                <!--                                        <field name="is_shipping" widget="boolean_toggle"/>-->
+                                <!--                                        <label for="" name="shipping_address_name"-->
+                                <!--                                               attrs="{'invisible' : [('is_shipping', '=', False)]}">-->
+                                <!--                                            <b>Address</b>-->
+                                <!--                                        </label>-->
+                                <!--                                        <div class="o_address_format" attrs="{'invisible' : [('is_shipping', '=', False)]}">-->
+                                <!--                                            <field name="ship_street" placeholder="Street..." class="o_address_street"/>-->
+                                <!--                                            <field name="ship_street2" placeholder="Street 2..." class="o_address_street"/>-->
+                                <!--                                            <field name="ship_city" placeholder="City" class="o_address_city"/>-->
+                                <!--                                            <field name="ship_state_id" class="o_address_state" placeholder="State"-->
+                                <!--                                                   options="{&quot;no_open&quot;: True}"/>-->
+                                <!--                                            <field name="ship_zip" placeholder="ZIP" class="o_address_zip"/>-->
+                                <!--                                            <field name="ship_country_id" placeholder="Country" class="o_address_country"-->
+                                <!--                                                   options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>-->
+                                <!--                                        </div>-->
+                                <!--                                        <field name="ship_job_position" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>-->
+                                <!--                                        <field name="ship_email" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>-->
+                                <!--                                        <field name="ship_phone" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>-->
+                                <!--                                        <field name="ship_mobile" attrs="{'invisible' : [('is_shipping', '=', False)]}"/>-->
+                                <!--                                    </group>-->
+                                <!--                                </group>-->
+                                <!--                                <separator string="Company Information"/>-->
 
                                 <group>
-                                    <field name="description"/>
+                                    <separator string="Invoicing"/>
+                                    <field name="bank"/>
+                                    <field name="account_number"/>
                                 </group>
+                                <group>
+                                    <separator string="Company Description"/>
+                                    <!--                                    <field name="year_starting_business"/>-->
+                                    <field name="tag_line_company"/>
+                                    <field name="description_company"/>
+                                </group>
+
+                                <!--                                <group>-->
+                                <!--                                    <field name="certificate"/>-->
+                                <!--                                </group>-->
+
+                                <!--                                <group>-->
+                                <!--                                    <field name="description"/>-->
+                                <!--                                </group>-->
 
                                 <separator string="Certificate on company level"/>
                                 <field name="certificate_ids">
@@ -367,27 +367,31 @@
                                     <separator string="Banner Image*"/>
                                     <field name="attachment_ids" widget="many2many_binary"/>
                                 </group>
+                                <separator string="Slider Image*"/>
+                                <label for="slider_image"/>
+                                <field name="slider_image"/>
+<!--                                    <tree string="Slider Image" editable="bottom">-->
+<!--                                        <field name="preferred_link"/>-->
+<!--                                    <field name="slider_image_file"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+                                <div>
+                                    <a style="padding: 40%;"><button class="oe_highlight" name="action_send_product_360" type="object" string="I would like to have 360° pictures"/></a>
+                                </div>
 
-                                <separator string="Slider image"/>
-                                <field name="slider_image">
-                                    <tree string="Slider Image" editable="bottom">
-                                        <field name="preferred_link"/>
-                                        <field name="slider_image_file"/>
-                                    </tree>
-                                </field>
 
-                                <separator string="Product images"/>
-                                <field name="product_image">
-                                    <tree string="Product Image" editable="bottom">
-                                        <field name="brand_name"/>
-                                        <field name="product_name"/>
-                                        <field name="net_weight"/>
-                                        <field name="uom"/>
-                                        <field name="picture_html" widget="binary" filename="filename"/>
-                                        <field name="filename" invisible="1"/>
-                                        <field name="product_hq_image"/>
-                                    </tree>
-                                </field>
+                                <!--                                <separator string="Product images"/>-->
+                                <!--                                <field name="product_image">-->
+                                <!--                                    <tree string="Product Image" editable="bottom">-->
+                                <!--                                        <field name="brand_name"/>-->
+                                <!--                                        <field name="product_name"/>-->
+                                <!--                                        <field name="net_weight"/>-->
+                                <!--                                        <field name="uom"/>-->
+                                <!--                                        <field name="picture_html" widget="binary" filename="filename"/>-->
+                                <!--                                        <field name="filename" invisible="1"/>-->
+                                <!--                                        <field name="product_hq_image"/>-->
+                                <!--                                    </tree>-->
+                                <!--                                </field>-->
                             </sheet>
                         </form>
                     </page>
@@ -447,15 +451,15 @@
             </field>
         </record>
 
-<!--        <record id="email_sent_form_view" model="ir.ui.view">-->
-<!--            <field name="name">email.sent.form.view</field>-->
-<!--            <field name="model">email.sent</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <form>-->
-<!--                    <field name="email_sent"/>-->
-<!--                </form>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="email_sent_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">email.sent.form.view</field>-->
+        <!--            <field name="model">email.sent</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form>-->
+        <!--                    <field name="email_sent"/>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
         <menuitem id="odoo_marketplace.wk_seller_dashboard_menu1_sub_menu2" name="Seller Shops" parent="odoo_marketplace.wk_seller_dashboard_menu1" action="custom.action_server_wk_seller_shop_action" sequence="2" groups="odoo_marketplace.group_marketplace_seller_shop,odoo_marketplace.marketplace_officer_group"/>
 

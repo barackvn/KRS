@@ -136,7 +136,9 @@ class SurveyLanding(models.Model):
     company_logo = fields.Many2many(comodel_name='ir.attachment', string='')
     attachment_ids = fields.Many2many('ir.attachment', 'email_template_attachment_rels', 'email_template_ids',
                                       'attachment_id', 'Attachments')
-    slider_image = fields.One2many('slider.image.tree','slider_id', 'Slider Image')
+    # slider_image = fields.One2many('slider.image.tree','slider_id', 'Slider Image')
+    slider_image = fields.Binary('Slider Image')
+    filename = fields.Char(string="File Name", track_visibility="onchange")
     product_image = fields.One2many('product.image.tree','product_image_id', 'Product Image')
     state = fields.Selection([('draft', 'Draft'), ('rip', 'RIP'),('pending', 'Pending For Approval'), ('confirm', 'Done'), ('reject', 'Reject')], string='Status', default='draft')
     email_360 = fields.Boolean('Email 360')
@@ -375,7 +377,8 @@ class SurveyLanding(models.Model):
                 'res_company_logo': [(6, 0, self.company_logo.ids)],
                 'attachment_ids': [(6, 0, self.attachment_ids.ids)],
                 'description': self.description_company,
-
+                'slider_image': self.slider_image,
+                'filename': self.filename
             })
 
 
