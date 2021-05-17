@@ -50,7 +50,7 @@ class SliderImageTree(models.Model):
     slider_image_file = fields.Binary('Slider Image')
     filename = fields.Char(string="File Name", track_visibility="onchange")
     slider_id = fields.Many2one('survey.landing', 'Slider Image')
-    slider_id_res = fields.Many2one('re.partner', 'Res Slider Image')
+    slider_id_res = fields.Many2one('res.partner', 'Res Slider Image')
 
 class ExtraClassM2M(models.Model):
     _name = 'extra.class.m2m'

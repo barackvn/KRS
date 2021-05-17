@@ -660,6 +660,33 @@ class ProductTemplateInherit(models.Model):
             result.append((res.id, name))
         return result
 
+    @api.onchange('volume_unit','box_length','box_width','box_height','box_maximum_weight')
+    def _onchange_get_fulfilment_cost(self):
+        for record in self:
+            if record.volume_unit and record.box_length and record.box_width and record.box_height and record.box_maximum_weight:
+                cases=[]
+                v1_t1 =int(record.box_length/record.length_unit)*int(record.box_width/record.width_unit)*int(record.box_height/record.height_unit)
+                cases.append(v1_t1)
+                v1_t2 =int(record.box_width/record.length_unit)*int(record.box_height/record.width_unit)*int(record.box_length/record.height_unit)
+                cases.append(v1_t2)
+                v1_t3 =int(record.box_height/record.length_unit)*int(record.box_length/record.width_unit)*int(record.box_width/record.height_unit)
+                cases.append(v1_t3)
+                v2_t1 =int(record.box_length/record.length_unit)*int(record.box_height/record.width_unit)*int(record.box_width/record.height_unit)
+                cases.append(v2_t1)
+                v2_t2 =int(record.box_width/record.length_unit)*int(record.box_length/record.width_unit)*int(record.box_height/record.height_unit)
+                cases.append(v2_t2)
+                v2_t3 =int(record.box_height/record.length_unit)*int(record.box_width/record.width_unit)*int(record.box_length/record.height_unit)
+                cases.append(v2_t3)
+                max_weight_kg = int(record.box_maximum_weight /1.08)
+                adjust_weight_kg = int(int(record.box_maximum_weight * (80/100))/1.08)
+                max_case_volume = min(max(cases), 9)
+                max_case_weight =min(max_weight_kg,adjust_weight_kg)
+                cost_pending_pr_case = round((1.85+(0.3*min(max_case_volume,max_case_weight))+1.23+5.3)/min(max_case_volume,max_case_weight),3)
+
+
+
+
+
     @api.onchange('energy_kg')
     def _onchange_get_cal_energy_kg(self):
         for record in self:

@@ -276,13 +276,13 @@ class ResPartner(models.Model):
             leads = crm_lead
             values.update({'lead_ids': leads.ids, 'user_ids': [crm_lead.user_id.id]})
             res = False
-            leads = self.env['crm.lead'].browse(values.get('lead_ids'))
+            leads = self.env['crm.lead'].sudo().browse(values.get('lead_ids'))
             for lead in leads:
                 # self_def_user = self.with_context(default_user_id=self.user_id.id)
                 # action == 'each_exist_or_create'
                 # partner_id = self_def_user._create_partner(
                 #     lead.id, action, values.get('partner_id') or lead.partner_id.id)
-                lead.convert_opportunity(self.id, [], False)
+                lead.sudo().convert_opportunity(self.id, [], False)
             user_ids = values.get('user_ids')
             leads_to_allocate = leads
             if self._context.get('no_force_assignation'):
