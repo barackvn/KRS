@@ -20,16 +20,15 @@
                     <button name="verify_seller_lead" string="Verify Lead" type="object" class="btn-primary" groups="odoo_marketplace.marketplace_officer_group" attrs="{'invisible' : [('lead_verify', '=', True)]}"/>
                 </xpath>
                 <xpath expr="//field[@name='website']" position="after">
-                    <field name="contact_id" />
-                    <field name="challenge" />
-                    <field name="start_year" />
-                    <field name="family_owned" />
-                    <field name="agreement_person_data" />
-
-
+                    <field name="family_owned" invisible="1"/>
+                    <field name="agreement_person_data" invisible="1"/>
                 </xpath>
 
                 <xpath expr="//field[@name='phone']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='title']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
 
@@ -41,31 +40,61 @@
                     <attribute name="invisible">1</attribute>
                 </xpath>
 
-                <xpath expr="//field[@name='challenge']" position="attributes">
+                <xpath expr="//label[@for='url']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='url']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='url_handler']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
 
 
+
                 <xpath expr="//field[@name='website']" position="before">
-                    <field name="country_code_ph"/>
-                    <field name="phone"/>
+                    <label for="phone" string="Phone"/>
+                    <div class="address_format">
+                        <field name="country_code_ph" style="width: 15%"/>
+                        <field name="phone" style="width: 85%"/>
+                    </div>
+                    <label for="mobile" string="Mobile"/>
+                    <div class="address_format">
+                        <field name="country_code_mo" style="width: 15%"/>
+                        <field name="mobile" style="width: 85%"/>
+                    </div>
+                    <label for="email" string="Email"/>
+                    <div>
+                        <field name="email" readonly="True"/>
+                    </div>
+                </xpath>
+
+
+                <xpath expr="//field[@name='website']" position="after">
+                    <label for="lang" attrs="{'invisible': [('active_lang_count', '&lt;=', 1)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('active_lang_count', '&lt;=', 1)]}">
+                        <field name="lang"/>
+                        <button
+                                type="action"
+                                name="%(base.res_lang_act_window)d"
+                                class="btn-sm btn-link mb4 fa fa-globe"
+                                aria-label="More languages"
+                                groups="base.group_system"
+                                title="More languages"
+                        />
+                    </div>
+
                 </xpath>
 
                 <xpath expr="//label[@for='url']" position="before">
-                    <field name="challenge"/>
+                    <div>
+                        <label style="font-weight:bold;" for="challenge" string="What’s your main challenge today?"/>
+                        <field name="challenge"/>
+                    </div><br/>
                 </xpath>
 
-                <xpath expr="//field[@name='website']" position="after">
-                    <field name="lang"/>
-                </xpath>
-
-<!--                <xpath expr="//field[@name='vat']" position="before">-->
-<!--                    <field name="contact_id"/>-->
-<!--                </xpath>-->
-
-                <xpath expr="//field[@name='assign_membership']" position="before">
-                    <field name="start_year"/>
-                </xpath>
 
                 <!--                <xpath expr="//field[@name='phone']" position="after">-->
                 <!--                    <field name="email"/>-->
@@ -154,29 +183,20 @@
                         </div>
                     </div>
                 </xpath>
-                <xpath expr="//form//field[@name='email']" position="after">
-                    <field name="vat" string="VAT"/>
+                <xpath expr="//form//field[@name='title']" position="before">
+                    <field name="contact_id" />
                     <field name="assign_membership"/>
-                    <field name="active_lang_count" invisible="1"/>
-                    <label for="lang" attrs="{'invisible': [('active_lang_count', '&lt;=', 1)]}"/>
-                    <div class="o_row" attrs="{'invisible': [('active_lang_count', '&lt;=', 1)]}">
-                        <field name="lang"/>
-                        <button
-                                type="action"
-                                name="%(base.res_lang_act_window)d"
-                                class="btn-sm btn-link mb4 fa fa-globe"
-                                aria-label="More languages"
-                                groups="base.group_system"
-                                title="More languages"
-                        />
-                    </div>
-                    <field name="user_id" invisible="1"/>
-                    <field name="seller_location_id" readonly="1"/>
-                    <field name="lead_verify" invisible="1"/>
-                    <field name="annual_revenue" />
-                    <field name="no_of_employee" />
+                    <field name="membership_date"/>
+                    <field name="vat" string="VAT"/>
+                    <field name="start_year" />
                     <field name="yr_of_exp" />
-
+                    <field name="matching_tags"/>
+                    <field name="no_of_employee" />
+                    <field name="active_lang_count" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="seller_location_id" readonly="1" invisible="1"/>
+                    <field name="lead_verify" invisible="1"/>
+                    <field name="annual_revenue" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='shipping_policy']" position="after">
                     <field name="certification_attachment" widget="many2many_binary"/>
@@ -311,6 +331,10 @@
                                         <div>
                                             <label for="sunday"/>
                                             <field name="sunday"  widget="boolean_toggle"/>
+                                        </div>
+                                        <div>
+                                            <label for="copy_all" string="Copy to all"/>
+                                            <field name="copy_all" widget="checkbox"/>
                                         </div>
                                     </div>
                                     <div class="row" attrs="{'invisible': [('monday','!=', True)]}">

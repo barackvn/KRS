@@ -43,14 +43,14 @@ class CompanyCertificateTree(models.Model):
     certificate_id = fields.Many2one('survey.landing', 'Certificate')
     certification_type_id = fields.Many2one("certificate.type", "Company Certification")
 
-class SliderImageTree(models.Model):
-    _name = 'slider.image.tree'
-
-    preferred_link = fields.Char('Preferred Website Link')
-    slider_image_file = fields.Binary('Slider Image')
-    filename = fields.Char(string="File Name", track_visibility="onchange")
-    slider_id = fields.Many2one('survey.landing', 'Slider Image')
-    slider_id_res = fields.Many2one('re.partner', 'Res Slider Image')
+# class SliderImageTree(models.Model):
+#     _name = 'slider.image.tree'
+#
+#     preferred_link = fields.Char('Preferred Website Link')
+#     slider_image_file = fields.Binary('Slider Image')
+#     filename = fields.Char(string="File Name", track_visibility="onchange")
+#     slider_id = fields.Many2one('survey.landing', 'Slider Image')
+#     slider_id_res = fields.Many2one('re.partner', 'Res Slider Image')
 
 class ExtraClassM2M(models.Model):
     _name = 'extra.class.m2m'
@@ -136,7 +136,9 @@ class SurveyLanding(models.Model):
     company_logo = fields.Many2many(comodel_name='ir.attachment', string='')
     attachment_ids = fields.Many2many('ir.attachment', 'email_template_attachment_rels', 'email_template_ids',
                                       'attachment_id', 'Attachments')
-    slider_image = fields.One2many('slider.image.tree','slider_id', 'Slider Image')
+    # slider_image = fields.One2many('slider.image.tree','slider_id', 'Slider Image')
+    slider_image = fields.Binary('Slider Image')
+    filename = fields.Char(string="File Name", track_visibility="onchange")
     product_image = fields.One2many('product.image.tree','product_image_id', 'Product Image')
     state = fields.Selection([('draft', 'Draft'), ('rip', 'RIP'),('pending', 'Pending For Approval'), ('confirm', 'Done'), ('reject', 'Reject')], string='Status', default='draft')
     email_360 = fields.Boolean('Email 360')
@@ -228,7 +230,7 @@ class SurveyLanding(models.Model):
         partner_id = self.user_id.partner_id
 
         product_image_object = self.env['product.image.tree'].search([('product_image_id', '=', self.id)])
-        slider_image_object = self.env['slider.image.tree'].search([('slider_id', '=', self.id)])
+        # slider_image_object = self.env['slider.image.tree'].search([('slider_id', '=', self.id)])
         company_certification_object = self.env['company.certificate.tree'].search([('certificate_id', '=', self.id)])
         seller_shop_object = self.env['seller.banner.image'].search([('shop_id', '=', self.id)])
 
@@ -246,16 +248,16 @@ class SurveyLanding(models.Model):
                 ]
             })
 
-        for record in slider_image_object:
-            partner_id.write({
-                'slider_image': [
-                    (0, 0, {
-                        'preferred_link': record.preferred_link,
-                        'slider_image_file': record.slider_image_file,
-                        'filename': record.filename,
-                    }),
-                ]
-            })
+        # for record in slider_image_object:
+        #     partner_id.write({
+        #         'slider_image': [
+        #             (0, 0, {
+        #                 'preferred_link': record.preferred_link,
+        #                 'slider_image_file': record.slider_image_file,
+        #                 'filename': record.filename,
+        #             }),
+        #         ]
+        #     })
 
         for record in product_image_object:
             partner_id.write({
@@ -375,7 +377,8 @@ class SurveyLanding(models.Model):
                 'res_company_logo': [(6, 0, self.company_logo.ids)],
                 'attachment_ids': [(6, 0, self.attachment_ids.ids)],
                 'description': self.description_company,
-
+                'slider_image': self.slider_image,
+                'filename': self.filename
             })
 
 

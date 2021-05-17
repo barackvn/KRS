@@ -48,7 +48,10 @@ class PartnerSpeciality(models.Model):
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    country_code_ph = fields.Char()
+
+    membership_date = fields.Date("Membership valid until")
+    country_code_ph = fields.Char(" ")
+    country_code_mo = fields.Char(" ")
     lead_id = fields.Many2one('crm.lead', 'Lead')
     assign_membership = fields.Many2one(related='lead_id.assign_membership', string='Assign Membership Plan')
     certification_attachment = fields.Many2many(comodel_name='ir.attachment', string='Attached Certificate')
@@ -58,8 +61,8 @@ class ResPartner(models.Model):
     seller_location_id = fields.Many2one("stock.location", "Seller Location")
     lead_verify = fields.Boolean("Lead Verified")
     contact_id = fields.Char("Contact ID")
-    challenge = fields.Text("What’s your main challenge?")
-    start_year = fields.Date("Starting Year")
+    challenge = fields.Text(" ")
+    start_year = fields.Date("Start year business")
     family_owned = fields.Selection([('yes', 'YES'), ('no', 'NO')], 'Family owned')
     annual_revenue = fields.Char("Annual Revenue")
     no_of_employee = fields.Integer("Number of employees")
@@ -87,6 +90,8 @@ class ResPartner(models.Model):
     saturday_to = fields.Selection(selection=_calender_time, String="Saturday")
     sunday_from = fields.Selection(selection=_calender_time, String="Sunday")
     sunday_to = fields.Selection(selection=_calender_time, String="Sunday")
+    matching_tags = fields.Char("Matching Business tags")
+    copy_all = fields.Boolean("Copy to all")
 
     # weekday = fields.Selection([('mon','M'), ('tues', 'T'), ('wed', 'W'), ('thur', 'Tuesday'), ('tues', 'Tuesday')])
     # company_id = fields.Char('Company Name')
@@ -96,7 +101,7 @@ class ResPartner(models.Model):
     # city = fields.Char('City')
     # state_id = fields.Many2one("res.country.state", string='State')
     # country_id = fields.Many2one('res.country', string='Country')
-    vat = fields.Char(string='VAT')
+    # vat = fields.Char(string='VAT number')
     # language_id = fields.Many2one('res.lang', 'Language')
     # speciality_id = fields.Many2many('partner.speciality', string='Specialisation')
     # contact_ids = fields.One2many('res.partner.child', 'survey_id', 'Contacts')
@@ -129,8 +134,8 @@ class ResPartner(models.Model):
     bank = fields.Char("Bank")
     account_number = fields.Char("Account Number")
     year_starting_business = fields.Char('Year')
-    tag_line_company = fields.Char("Tag Line Company")
-    description_company = fields.Char("Description Company")
+    tag_line_company = fields.Char("Company tagline")
+    description_company = fields.Char("Company Description")
     certificate = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Status', default='yes')
     certificate_ids = fields.One2many('company.certificate.tree', 'certificate_id_res', 'Certificate1')
     # res_company_logo = fields.Many2many(comodel_name='ir.attachment', string='Company Logo')
@@ -139,7 +144,8 @@ class ResPartner(models.Model):
     attachment_ids = fields.Many2many(
         'ir.attachment', 'res_survey_attachment_rel', 'res_id',
         'attachment_id', 'Banner Image')
-    slider_image = fields.One2many('slider.image.tree', 'slider_id_res', 'Slider Image')
+    # slider_image = fields.One2many('slider.image.tree', 'slider_id_res', 'Slider Image')
+    slider_image = fields.Binary('Slider Image')
     product_image = fields.One2many('product.image.tree', 'product_image_id_res', 'Product Image')
 
     description = fields.Char('Description Company')
@@ -148,6 +154,13 @@ class ResPartner(models.Model):
     #     [('draft', 'Draft'), ('pending', 'Pending For Approval'), ('confirm', 'Confirm'), ('done', 'Done'),
     #      ('cancelled', 'Cancelled')], string='Status', default='draft')
     # survey_landing_ids = fields.Many2one('res.partner')
+    @api.depends('country_id')
+    def _onchange_country(self):
+        if self.country_id:
+            self.country_code_ph = self.country_id.phone_code
+            self.country_code_mo = self.country_id.phone_code
+
+
     def see_offer_button(self):
         pass
 
@@ -161,7 +174,7 @@ class ResPartner(models.Model):
                 template_obj = self.env['mail.template'].browse(mail_templ_id)
                 send = template_obj.with_context(company=self.env.company, email=email,
                                                  seller_name=record.name).sudo().send_mail(record.id, True)
-                # record.write({'state': 'rip'})
+                # record.wri.te({'state': 'rip'})
 
         # return {
         #     'name': 'Email Sent',
