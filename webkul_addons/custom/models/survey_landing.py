@@ -42,6 +42,7 @@ class CompanyCertificateTree(models.Model):
     certificate_id_res = fields.Many2one('res.partner', 'Res Certificate')
     certificate_id = fields.Many2one('survey.landing', 'Certificate')
     certification_type_id = fields.Many2one("certificate.type", "Certificate")
+    product_id = fields.Many2one("product.template", "product")
 
 class SliderImageTree(models.Model):
     _name = 'slider.image.tree'

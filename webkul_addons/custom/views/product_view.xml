@@ -9,67 +9,80 @@
                 <xpath expr="//sheet//field[@name='standard_price']" position="before">
                     <div name="options" groups="base.group_user">
                         <div>
-                            <field name="sale_ok"/>
-                            <label for="sale_ok"/>
+                            <field name="sale_ok" invisible="1"/>
+                            <label for="sale_ok" invisible="1"/>
                         </div>
                         <div>
-                            <field name="purchase_ok"/>
-                            <label for="purchase_ok"/>
+                            <field name="purchase_ok" invisible="1"/>
+                            <label for="purchase_ok" invisible="1"/>
                         </div>
                     </div>
                 </xpath>
+<!--                <xpath expr="//sheet//div[@class='oe_title']" position="replace">-->
+<!--                    <div class='oe_title'>-->
+<!--							<label class="oe_edit_only" for="name" string="Product Name"/>-->
+<!--							<h1><field name="name"/></h1>-->
+<!--							<label class="oe_edit_only" for="public_categ_ids"/>-->
+<!--							<h3><field name="public_categ_ids" required="1" options="{'no_create': True}" widget="many2many_tags" placeholder="Category..."/></h3>-->
+<!--						</div>-->
+<!--                </xpath>-->
                 <xpath expr="//notebook/page" position="replace">
                     <page string="Information">
-                        <separator string="Prices for your buyer"/>
+                        <separator string="Prices for your buyer" style="color:#000000b8"/>
+                        <h6>Your main calculations will be done the moment inventory has been finished.</h6>
                         <group>
                             <div class="address_format" cols="6" colspan="2">
-                                <label for="lst_price" string="Sellers price" style="width:260px;font-weight: bold;"/>
-                                <field name="lst_price" style="position: relative;width: 20% !important;min-width: 10px;"/>€
-                                <label for="krs_margin" style="width:300px;font-weight: bold;padding-left: 45px;"/>
-                                <field name="krs_margin" style="position: relative;width: 25% !important;min-width: 10px;"/>
+                                <label for="lst_price" string="Your general sellers price" style="width:300px;font-weight: bold;"/>
+                                <field name="lst_price" style="position: relative;width: 16% !important;min-width: 10px;"/>€
+                                <label for="krs_margin" string="Margin for your buyer" style="width:332px;font-weight: bold;padding-left: 45px;"/>
+                                <field name="krs_margin" style="position: relative;width: 18% !important;min-width: 10px;"/>
                             </div>
                             <div class="address_format" cols="6" colspan="2">
-                                <label for="purchase_price_carton_excl_vat"  style="width:260px;font-weight: bold;"/>
-                                <field name="purchase_price_carton_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;"/>€
-                                <label for="purchase_price_carton_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
-                                <field name="purchase_price_carton_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                                <label for="purchase_price_unit_excl_vat"  string="Purchase price per unit for buyer excel. VAT" style="width:300px;font-weight: bold;"/>
+                                <field name="purchase_price_unit_excl_vat" style="position: relative;width: 16% !important;min-width: 10px;"/>€
+                                <label for="purchase_price_unit_incl_vat" string="Purchase price per unit for buyer incl. VAT" style="width:332px;font-weight: bold;padding-left: 45px;"/>
+                                <field name="purchase_price_unit_incl_vat" style="position: relative;width: 18% !important;min-width: 10px;"/>€
                             </div>
                             <div class="address_format" cols="6" colspan="2">
-                                <label for="purchase_price_unit_excl_vat"  style="width:260px;font-weight: bold;"/>
-                                <field name="purchase_price_unit_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;"/>€
-                                <label for="purchase_price_unit_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
-                                <field name="purchase_price_unit_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                                <label for="purchase_price_carton_excl_vat" string="Purchase price per cartoon for buyer excel. VAT" style="width:300px;font-weight: bold;"/>
+                                <field name="purchase_price_carton_excl_vat" style="position: relative;width: 16% !important;min-width: 10px;"/>€
+                                <label for="purchase_price_carton_incl_vat" string="Purchase price per cartoon for buyer incl. VAT" style="width:332px;font-weight: bold;padding-left: 45px;"/>
+                                <field name="purchase_price_carton_incl_vat" style="position: relative;width: 18% !important;min-width: 10px;"/>€
                             </div>
                             <div class="address_format" cols="6" colspan="2">
-                                <label for="adv_sale_price_excl_vat"  style="width:260px;font-weight: bold;"/>
-                                <field name="adv_sale_price_excl_vat" style="position: relative;width: 20% !important;min-width: 10px;" required="1"/>€
-                                <label for="adv_sale_price_incl_vat" style="width:300px;font-weight: bold;padding-left: 45px;"/>
-                                <field name="adv_sale_price_incl_vat" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                                <label for="adv_sale_price_excl_vat"  string="Advisable sales price to buyer excl. VAT" style="width:300px;font-weight: bold;"/>
+                                <field name="adv_sale_price_excl_vat" style="position: relative;width: 16% !important;min-width: 10px;" required="1"/>€
+                                <label for="adv_sale_price_incl_vat" string="Advisable sales price to buyer incl. VAT" style="width:332px;font-weight: bold;padding-left: 45px;"/>
+                                <field name="adv_sale_price_incl_vat" style="position: relative;width: 18% !important;min-width: 10px;"/>€
                             </div>
                             <div class="address_format" cols="6" colspan="2">
-                                <label for="vat_seller_kairos"  style="width:260px;font-weight: bold;"/>
-                                <field name="vat_seller_kairos" style="position: relative;width: 20% !important;min-width: 10px;"/>€
-                                <label for="vat_buyer_kairos" style="width:300px;font-weight: bold;padding-left: 45px;"/>
-                                <field name="vat_buyer_kairos" style="position: relative;width: 25% !important;min-width: 10px;"/>€
+                                <label for="vat_seller_kairos"  style="width:300px;font-weight: bold;"/>
+                                <field name="vat_seller_kairos" style="position: relative;width: 16% !important;min-width: 10px;"/>€
+                                <label for="vat_buyer_kairos" style="width:332px;font-weight: bold;padding-left: 45px;"/>
+                                <field name="vat_buyer_kairos" style="position: relative;width: 18% !important;min-width: 10px;"/>€
                             </div>
 
                         </group>
                         <group groups="product.group_product_pricelist" name="pricelists">
                             <div name="pricelist_item" groups="product.group_product_pricelist">
-                                <separator string="Pricing"/>
+                                <separator string="Pricelists" style="color:#000000b8"/>
+                                <h6>You can create reductions for all buyers for certain amounts of time and quantities. When you create a pricelist it will take over the general sellers price when your buyer reaches the amount that you mention.</h6>
                                 <field name="item_ids" nolabel="1" context="{'default_base':'list_price', 'default_applied_on' :'1_product'}">
-                                    <tree string="Pricelist Items" editable="bottom">
-                                        <field name="pricelist_id" string="Pricelist" required='1' options="{'no_create': True}"/>
-                                        <field name="fixed_price" string="Price" required='1'/>
-                                        <field name="min_quantity"/>
-                                        <field name="date_start"/>
-                                        <field name="date_end"/>
+                                    <tree string="Pricelist Items" editable="bottom" >
+                                        <field name="pricelist_id" style="text-align:center" string="Pricelist" required='1' options="{'no_create': True}" width="15%"/>
+                                        <field name="single_unit_carton" style="text-align:center" width="15%"/>
+                                        <field name="fixed_price" style="text-align:center" string="Price" required='1' width="15%"/>
+                                        <field name="min_quantity" style="text-align:center" string="Minimum quantity" width="15%"/>
+                                        <field name="max_quantity" style="text-align:center" width="15%"/>
+                                        <field name="date_start" style="text-align:center" width="15%"/>
+                                        <field name="date_end" style="text-align:center" width="15%"/>
                                         <field name="applied_on" invisible="1"/>
                                     </tree>
                                 </field>
                             </div>
                         </group>
-                        <separator string="Product information"/>
+                        <separator string="Product information" style="color:#000000b8"/>
+                        <h6>The information is required for the fulfilment and also to who you would like to focus your product</h6>
                         <group>
                             <div class="row" >
                                 <div class="col-6">
@@ -81,11 +94,11 @@
                                     <field name="conservation" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
-                                    <label for="unit_article_no"  style="width:260px;font-weight: bold;"/>
+                                    <label for="unit_article_no"  string="Single unit internal reference" style="width:260px;font-weight: bold;"/>
                                     <field name="unit_article_no" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
-                                    <label for="carton_article_no"  style="font-weight: bold;padding-right: 97px;"/>
+                                    <label for="carton_article_no"  string="Carton internal reference" style="font-weight: bold;padding-right: 77px;"/>
                                     <field name="carton_article_no" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6" >
@@ -105,7 +118,7 @@
                                     <field name="carton_barcode" required="1" style="position: relative;width: 50% !important;min-width: 10px;"/>
                                 </div>
                                 <div class="col-6">
-                                    <label for="exclusively_id"  style="width:260px;font-weight: bold;"/>
+                                    <label for="exclusively_id" string="Exclusively for" style="width:260px;font-weight: bold;"/>
                                     <field name="exclusively_id" widget="many2many_tags" style="position: relative;min-width: 10px;width: 45%;"/>
                                 </div>
                                 <div class="col-6">
@@ -169,12 +182,20 @@
                                 </div>
                             </div>
                         </group>
-                        <group>
-                            <separator string="Certificates"/>
-                            <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>
-                        </group>
-                        <separator string="Internal Notes" colspan="4" groups="odoo_marketplace.marketplace_officer_group"/>
-                        <field name="description" placeholder="This note is only for internal purposes." groups="odoo_marketplace.marketplace_officer_group"/>
+                        <separator string="Certificates of the product" style="color:#000000b8"/>
+                        <field name="certificate_ids">
+                            <tree string="Certificates" editable="bottom">
+                                <field name="certification_type_id" string="Certificate" width="25%"/>
+                                <field name="info_seller" widget="binary" filename="filename" string=" Your PDF attachment" width="25%"/>
+                                <field name="filename" invisible="1"/>
+                                <field name="start_date" string ="Start date certificate" width="25%"/>
+                                <field name="end_date" string ="End date certificate" width="25%"/>
+                            </tree>
+                        </field>
+<!--                            <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>-->
+
+<!--                        <separator string="Internal Notes" colspan="4" groups="odoo_marketplace.marketplace_officer_group"/>-->
+<!--                        <field name="description" placeholder="This note is only for internal purposes." groups="odoo_marketplace.marketplace_officer_group"/>-->
 
 
                     </page>
@@ -248,17 +269,312 @@
                 <!--                    <attribute name="invisible">1</attribute>-->
                 <!--                </xpath>-->
                 <xpath expr="//notebook/page[3]" position="replace">
+                    <page string="Inventory">
+                        <separator string="Operations" colspan="4" style="color:#000000b8"/>
+                        <h6>To make sure the buyer always can order your product, We need to know how much time so that we can inform you on time that your stock is low.</h6>
+                        <field name="sale_ok" invisible="1"/>
+                        <div class="row" >
+                            <div class="col-6">
+                                <label for="manufacture_days"  string="Manufacturing time" style="width:260px;font-weight: bold;"/>
+                                <field name="manufacture_days" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                days
+                            </div>
+                            <div class="col-6">
+                                <label for="transport_days" string="Transport time to fulfilment warehouse" style="font-weight: bold;width: 51%;"/>
+                                <field name="transport_days" required="1" class="oe_inline" style="position: relative;width: 41% !important;min-width: 10px;"/>
+                                days
+                            </div>
+                            <div class="col-6">
+                                <label for="fulfilment_days"  style="width:260px;font-weight: bold;"/>
+                                <field name="fulfilment_days" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                days
+                            </div>
+                            <div class="col-6">
+                                <label for="sale_delay" string="Customer delivery time" style="font-weight: bold;width: 51%;"/>
+                                <field name="sale_delay" attrs="{'readonly':[('sale_ok','=',False)]}" class="oe_inline" style="position: relative;width: 41% !important;min-width: 10px;"/>
+                                days
+                            </div>
+                        </div>
+                        <separator string="Stock" colspan="4" style="color:#000000b8"/>
+                        <h6>The settings you will provide here is about how long your products can be stored and when you would like to take them back in case they aren't sold yet</h6>
+                        <field name="pending_qty_request" invisible="1"/>
+                        <label for="qty_available" attrs="{'invisible':['|',('id', '=', False),('status', 'in', ('pending','draft'))]}"/>
+                        <div attrs="{'invisible':['|',('id', '=', False),('status', 'in', ('pending','draft'))]}">
+                            <field name="qty_available" class="oe_inline"/>
+                            <button
+                                    name="%(odoo_marketplace.marketplace_product_stock_action2)d"
+                                    string="⇒ Update"
+                                    type="action"
+                                    class="oe_link"
+                                    attrs="{'invisible':['|', '|', ('status', 'in', ('pending','draft','rejected')),('pending_qty_request', '=', True), ('type', '!=', 'product')]}" context="{'mp_stock': True}"/>
+                            <button name="pending_qty_stock_request" string="⇒ Request Pending" type="object" class="oe_link" attrs="{'invisible':['|', '|', ('status', 'in', ('pending','draft','rejected')),('pending_qty_request', '=', False), ('type', '!=', 'product')]}"/>
+                        </div>
+                        <div class="row" >
+                            <div class="col-6">
+                                <label for="qty" string="Initial quantity in cartons" style="width:260px;font-weight: bold;"/>
+                                <field name="qty" placeholder="Initail Quantity" attrs="{'readonly':[('status', 'in', ('approved','rejected'))]}" style="position: relative;min-width: 10px;width: 36%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="virtual_available" string="Forecasted stock in cartons" style="font-weight: bold;width: 41%;" attrs="{'invisible':[('status', 'in', ('pending','draft'))]}"/>
+                                <field name="virtual_available" attrs="{'invisible':[('status', 'in', ('pending','draft'))]}" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="first_warning_min_carton"  style="width:260px;font-weight: bold;"/>
+                                <field name="first_warning_min_carton" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+
+                            </div>
+                            <div class="col-6">
+                                <label for="min_stock_carton" style="font-weight: bold;width: 41%;"/>
+                                <field name="min_stock_carton"  required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+
+                            </div>
+                            <div class="col-6">
+                                <label for="product_alert_day"  style="width:260px;font-weight: bold;"/>
+                                <field name="product_alert_day" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                days
+                            </div>
+                            <div class="col-6">
+                                <label for="product_removal_days" style="font-weight: bold;width: 41%;"/>
+                                <field name="product_removal_days"  required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                days
+                            </div>
+                            <div class="col-6">
+                                <label for="min_shelf_delivery"  style="width:260px;font-weight: bold;"/>
+                                <field name="min_shelf_delivery" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
+                                days
+                            </div>
+                            <div class="col-6">
+                                <label for="product_use_days" style="font-weight: bold;width: 41%;"/>
+                                <field name="product_use_days" required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                days
+                            </div>
+                        </div>
+
+                        <!--                            </group>-->
+                        <separator string="Weights &amp; volumes" colspan="4" style="color:#000000b8"/>
+                        <h6>The values are required to make the calculation on the information tab. Depending of your product measurements and weight, We calculate the fulfilment cost.</h6>
+                        <div class="row" >
+                            <div class="col-6">
+                                <label for="length_unit"  style="width:260px;font-weight: bold;"/>
+                                <field name="length_unit" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="net_content_per_unit" style="font-weight: bold;width: 41%;"/>
+                                <field name="net_content_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="net_content_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="width_unit"  style="width:260px;font-weight: bold;"/>
+                                <field name="width_unit" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="drained_weight_per_unit" style="font-weight: bold;width: 41%;"/>
+                                <field name="drained_weight_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="drained_weight_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="height_unit"  style="width:260px;font-weight: bold;"/>
+                                <field name="height_unit" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="net_weight_per_unit" style="font-weight: bold;width: 41%;"/>
+                                <field name="net_weight_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="net_weight_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="volume_unit"  style="width:260px;font-weight: bold;"/>
+                                <field name="volume_unit" required="1" style="position: relative;min-width: 10px;width: 44%;"/>
+                                cm<sup>3</sup>
+                            </div>
+                            <div class="col-6">
+                                <label for="gross_weight_per_unit" style="font-weight: bold;width: 41%;"/>
+                                <field name="gross_weight_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="gross_weight_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="length_carton"  style="width:260px;font-weight: bold;"/>
+                                <field name="length_carton" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="net_content_per_carton" style="font-weight: bold;width: 41%;"/>
+                                <field name="net_content_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="net_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="width_carton"  style="width:260px;font-weight: bold;"/>
+                                <field name="width_carton" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="drained_weight_per_carton" style="font-weight: bold;width: 41%;"/>
+                                <field name="drained_weight_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="drained_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="height_carton"  style="width:260px;font-weight: bold;"/>
+                                <field name="height_carton" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="net_weight_per_carton" style="font-weight: bold;width: 41%;"/>
+                                <field name="net_weight_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="net_weight_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="volume_carton"  style="width:260px;font-weight: bold;"/>
+                                <field name="volume_carton" required="1" style="position: relative;min-width: 10px;width: 44%;"/>
+                                cm<sup>3</sup>
+                            </div>
+                            <div class="col-6">
+                                <label for="gross_weight_per_carton" style="font-weight: bold;width: 41%;"/>
+                                <field name="gross_weight_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                <field name="gross_weight_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="kind_pallet"  style="width:260px;font-weight: bold;"/>
+                                <field name="kind_pallet" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="pallet_quantity" style="font-weight: bold;width: 41%;"/>
+                                <field name="pallet_quantity" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                                cartons
+                            </div>
+                            <div class="col-6">
+                                <label for="total_pallet_height"  style="width:260px;font-weight: bold;"/>
+                                <field name="total_pallet_height" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="single_unit_package" style="font-weight: bold;width: 41%;"/>
+                                <field name="single_unit_package" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
+                            </div>
+                        </div>
+
+                        <separator string="Fulfilment costs" colspan="4" style="color:#000000b8"/>
+                        <h6>An overview of what the costs would be for your product                 <field name="cost_type" widget="radio" options="{'horizontal': true}" style="background: grey;border: 1px solid; height: 30px;"/></h6>
+                        <div class="row" >
+                            <div class="col-6">
+                                <label for="inbound_full_pallet"  style="width:260px;font-weight: bold;"/>
+                                <field name="inbound_full_pallet" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="stock_full_pallet_per_month" style="font-weight: bold;width: 41%;"/>
+                                <field name="stock_full_pallet_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="inbound_first_box"  style="width:260px;font-weight: bold;"/>
+                                <field name="inbound_first_box" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="stock_half_pallet_per_month" style="font-weight: bold;width: 41%;"/>
+                                <field name="stock_half_pallet_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="inbound_additional_box"  style="width:260px;font-weight: bold;"/>
+                                <field name="inbound_additional_box" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="stock_shelf_location_per_month" style="font-weight: bold;width: 41%;"/>
+                                <field name="stock_shelf_location_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="max_cases_volume_full_box"  style="width:260px;font-weight: bold;"/>
+                                <field name="max_cases_volume_full_box" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="cost_sending_per_single_unit" style="font-weight: bold;width: 41%;"/>
+                                <field name="cost_sending_per_single_unit" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="max_cases_weight_transport"  style="width:260px;font-weight: bold;"/>
+                                <field name="max_cases_weight_transport" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="cost_sending_per_case" style="font-weight: bold;width: 41%;"/>
+                                <field name="cost_sending_per_case" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="max_cases_by_weight_volume"  style="width:260px;font-weight: bold;"/>
+                                <field name="max_cases_by_weight_volume" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="cost_sending_per_full_box" style="font-weight: bold;width: 41%;"/>
+                                <field name="cost_sending_per_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="used_box_volume"  style="width:260px;font-weight: bold;"/>
+                                <field name="used_box_volume" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="cost_full_box" style="font-weight: bold;width: 41%;"/>
+                                <field name="cost_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="percentage_cost_case"  style="width:260px;font-weight: bold;"/>
+                                <field name="percentage_cost_case" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="reserve_full_box" style="font-weight: bold;width: 41%;"/>
+                                <field name="reserve_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="cost_effective_x_purchase"  style="width:260px;font-weight: bold;"/>
+                                <field name="cost_effective_x_purchase" style="position: relative;min-width: 10px;width: 45%;"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="margin_per_box" style="font-weight: bold;width: 41%;"/>
+                                <field name="margin_per_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                            </div>
+                        </div>
+                        <separator string="Fulfilment information" colspan="4" style="color:#000000b8"/>
+                        <h6>The values are required to make the calculation on the information tab. Depending of your product measurements and weight, We calculate the fulfilment cost.</h6>
+                        <div class="row" >
+                            <div class="col-6">
+                                <label for="box_length"  style="width:260px;font-weight: bold;"/>
+                                <field name="box_length" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="box_height" style="font-weight: bold;width: 41%;"/>
+                                <field name="box_height" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="box_width"  style="width:260px;font-weight: bold;"/>
+                                <field name="box_width" style="position: relative;min-width: 10px;width: 45%;"/>
+                                cm
+                            </div>
+                            <div class="col-6">
+                                <label for="box_maximum_weight" style="font-weight: bold;width: 41%;"/>
+                                <field name="box_maximum_weight" style="position: relative;width: 50% !important;min-width: 10px;"/>
+                                Kg
+                            </div>
+                        </div>
+
+                    </page>
+                </xpath>
+                <xpath expr="//notebook/page[6]" position="replace">
+                </xpath>
+                <xpath expr="//page[@name='shop']" position="before">
                     <page string="Sales">
-
-                        <separator string="Ingredients" colspan="4" />
+                        <h3>Description for your buyers</h3>
+                        <h6>All the information to present your product well to your buyer</h6>
+                        <separator string="Ingredients" colspan="4" style="color:#000000b8;font-size: 15px;"/>
                         <field name="ingredients" required="1"/>
-                        <separator string="Product short description" colspan="4" />
+                        <separator string="Product short description" colspan="4" style="color:#000000b8;font-size: 15px;"/>
                         <field name="product_short_discrp" required="1"/>
-                        <separator string="Product long description" colspan="4" />
+                        <separator string="Product long description" colspan="4" style="color:#000000b8;font-size: 15px;"/>
                         <field name="product_long_discrp" required="1"/>
-                        <separator string="Nutritional values for 100g / 100ml based on daily nutritional values" colspan="4" />
-
+                        <separator string="Nutritional values for 100g / 100ml" colspan="4" style="color:#000000b8;"/>
+                        <h6>By filling in the values, the nutriscore will be calculated for you. In case no relevant value, please place 0.</h6>
                         <group>
+                            <div class="address_format" cols="6" colspan="2">
+                                <label for="product_quantity_type" string="Product type" style="width:150px;font-weight: bold;"/>
+                                <field name="product_quantity_type" style="position: relative;width: 10% !important;min-width: 10px;"/>
+                            </div>
                             <div class="address_format" cols="6" colspan="2">
                                 <label for="nutriscore" style="width:150px;font-weight: bold;"/>
                                 <field name="nutriscore" style="position: relative;width: 10% !important;min-width: 10px;"/>
@@ -635,276 +951,6 @@
                                    context="{'default_name': name}" mode="kanban"
                                    options="{'create_text':'Add a Media'}" nolabel="1"/>
                         </group>
-                    </page>
-                </xpath>
-                <xpath expr="//notebook/page[6]" position="replace">
-                    <page string="Inventory">
-                        <separator string="Operation" colspan="4" />
-                        <field name="sale_ok" invisible="1"/>
-                        <div class="row" >
-                            <div class="col-6">
-                                <label for="manufacture_days"  style="width:260px;font-weight: bold;"/>
-                                <field name="manufacture_days" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
-                                days
-                            </div>
-                            <div class="col-6">
-                                <label for="transport_days" style="font-weight: bold;width: 41%;"/>
-                                <field name="transport_days" required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                                days
-                            </div>
-                            <div class="col-6">
-                                <label for="fulfilment_days"  style="width:260px;font-weight: bold;"/>
-                                <field name="fulfilment_days" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
-                                days
-                            </div>
-                            <div class="col-6">
-                                <label for="sale_delay" style="font-weight: bold;width: 41%;"/>
-                                <field name="sale_delay" attrs="{'readonly':[('sale_ok','=',False)]}" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                                days
-                            </div>
-                        </div>
-                        <separator string="Stock" colspan="4" />
-                        <!--                            <group>-->
-                        <field name="pending_qty_request" invisible="1"/>
-                        <label for="qty_available" attrs="{'invisible':['|',('id', '=', False),('status', 'in', ('pending','draft'))]}"/>
-                        <div attrs="{'invisible':['|',('id', '=', False),('status', 'in', ('pending','draft'))]}">
-                            <field name="qty_available" class="oe_inline"/>
-                            <button
-                                    name="%(odoo_marketplace.marketplace_product_stock_action2)d"
-                                    string="⇒ Update"
-                                    type="action"
-                                    class="oe_link"
-                                    attrs="{'invisible':['|', '|', ('status', 'in', ('pending','draft','rejected')),('pending_qty_request', '=', True), ('type', '!=', 'product')]}" context="{'mp_stock': True}"/>
-                            <button name="pending_qty_stock_request" string="⇒ Request Pending" type="object" class="oe_link" attrs="{'invisible':['|', '|', ('status', 'in', ('pending','draft','rejected')),('pending_qty_request', '=', False), ('type', '!=', 'product')]}"/>
-                        </div>
-                        <div class="row" >
-                            <div class="col-6">
-                                <label for="qty"  style="width:260px;font-weight: bold;"/>
-                                <field name="qty" placeholder="Initail Quantity" attrs="{'readonly':[('status', 'in', ('approved','rejected'))]}" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="virtual_available" style="font-weight: bold;width: 41%;" attrs="{'invisible':[('status', 'in', ('pending','draft'))]}"/>
-                                <field name="virtual_available" attrs="{'invisible':[('status', 'in', ('pending','draft'))]}" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="product_alert_day"  style="width:260px;font-weight: bold;"/>
-                                <field name="product_alert_day" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
-                                days
-                            </div>
-                            <div class="col-6">
-                                <label for="product_removal_days" style="font-weight: bold;width: 41%;"/>
-                                <field name="product_removal_days"  required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                                days
-                            </div>
-                            <div class="col-6">
-                                <label for="min_shelf_delivery"  style="width:260px;font-weight: bold;"/>
-                                <field name="min_shelf_delivery" required="1" class="oe_inline" style="position: relative;min-width: 10px;width: 45%;"/>
-                                days
-                            </div>
-                            <div class="col-6">
-                                <label for="product_use_days" style="font-weight: bold;width: 41%;"/>
-                                <field name="product_use_days" required="1" class="oe_inline" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                                days
-                            </div>
-                        </div>
-
-                        <!--                            </group>-->
-                        <separator string="Weights &amp; volumes" colspan="4" />
-                        <div class="row" >
-                            <div class="col-6">
-                                <label for="length_unit"  style="width:260px;font-weight: bold;"/>
-                                <field name="length_unit" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
-                                cm
-                            </div>
-                            <div class="col-6">
-                                <label for="net_content_per_unit" style="font-weight: bold;width: 41%;"/>
-                                <field name="net_content_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
-                                <field name="net_content_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="width_unit"  style="width:260px;font-weight: bold;"/>
-                                <field name="width_unit" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
-                                cm
-                            </div>
-                            <div class="col-6">
-                                <label for="drained_weight_per_unit" style="font-weight: bold;width: 41%;"/>
-                                <field name="drained_weight_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
-                                <field name="drained_weight_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="height_unit"  style="width:260px;font-weight: bold;"/>
-                                <field name="height_unit" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
-                                cm
-                            </div>
-                            <div class="col-6">
-                                <label for="net_weight_per_unit" style="font-weight: bold;width: 41%;"/>
-                                <field name="net_weight_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
-                                <field name="net_weight_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="volume_unit"  style="width:260px;font-weight: bold;"/>
-                                <field name="volume_unit" required="1" style="position: relative;min-width: 10px;width: 44%;"/>
-                                cm<sup>3</sup>
-                            </div>
-                            <div class="col-6">
-                                <label for="gross_weight_per_unit" style="font-weight: bold;width: 41%;"/>
-                                <field name="gross_weight_per_unit" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
-                                <field name="gross_weight_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="length_carton"  style="width:260px;font-weight: bold;"/>
-                                <field name="length_carton" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
-                                cm
-                            </div>
-                            <div class="col-6">
-                                <label for="net_content_per_carton" style="font-weight: bold;width: 41%;"/>
-                                <field name="net_content_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
-                                <field name="net_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="width_carton"  style="width:260px;font-weight: bold;"/>
-                                <field name="width_carton" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
-                                cm
-                            </div>
-                            <div class="col-6">
-                                <label for="drained_weight_per_carton" style="font-weight: bold;width: 41%;"/>
-                                <field name="drained_weight_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
-                                <field name="drained_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="height_carton"  style="width:260px;font-weight: bold;"/>
-                                <field name="height_carton" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
-                                cm
-                            </div>
-                            <div class="col-6">
-                                <label for="net_weight_per_carton" style="font-weight: bold;width: 41%;"/>
-                                <field name="net_weight_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
-                                <field name="net_weight_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="volume_carton"  style="width:260px;font-weight: bold;"/>
-                                <field name="volume_carton" required="1" style="position: relative;min-width: 10px;width: 44%;"/>
-                                cm<sup>3</sup>
-                            </div>
-                            <div class="col-6">
-                                <label for="gross_weight_per_carton" style="font-weight: bold;width: 41%;"/>
-                                <field name="gross_weight_per_carton" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
-                                <field name="gross_weight_carton_uom" style="height: 25px !important;padding: 0px !important; position: relative;width: 12% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="kind_pallet"  style="width:260px;font-weight: bold;"/>
-                                <field name="kind_pallet" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="pallet_quantity" style="font-weight: bold;width: 41%;"/>
-                                <field name="pallet_quantity" required="1" style="position: relative;width: 38% !important;min-width: 10px;"/>
-                                cartons
-                            </div>
-                            <div class="col-6">
-                                <label for="total_pallet_height"  style="width:260px;font-weight: bold;"/>
-                                <field name="total_pallet_height" required="1" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                        </div>
-
-                        <separator string="Fulfilment costs" colspan="4" />
-                        <div class="row" >
-                            <div class="col-6">
-                                <label for="inbound_full_pallet"  style="width:260px;font-weight: bold;"/>
-                                <field name="inbound_full_pallet" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="stock_full_pallet_per_month" style="font-weight: bold;width: 41%;"/>
-                                <field name="stock_full_pallet_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="inbound_first_box"  style="width:260px;font-weight: bold;"/>
-                                <field name="inbound_first_box" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="stock_half_pallet_per_month" style="font-weight: bold;width: 41%;"/>
-                                <field name="stock_half_pallet_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="inbound_additional_box"  style="width:260px;font-weight: bold;"/>
-                                <field name="inbound_additional_box" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="stock_shelf_location_per_month" style="font-weight: bold;width: 41%;"/>
-                                <field name="stock_shelf_location_per_month" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="max_cases_volume_full_box"  style="width:260px;font-weight: bold;"/>
-                                <field name="max_cases_volume_full_box" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="cost_sending_per_single_unit" style="font-weight: bold;width: 41%;"/>
-                                <field name="cost_sending_per_single_unit" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="max_cases_weight_transport"  style="width:260px;font-weight: bold;"/>
-                                <field name="max_cases_weight_transport" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="cost_sending_per_case" style="font-weight: bold;width: 41%;"/>
-                                <field name="cost_sending_per_case" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="max_cases_by_weight_volume"  style="width:260px;font-weight: bold;"/>
-                                <field name="max_cases_by_weight_volume" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="cost_sending_per_full_box" style="font-weight: bold;width: 41%;"/>
-                                <field name="cost_sending_per_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="used_box_volume"  style="width:260px;font-weight: bold;"/>
-                                <field name="used_box_volume" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="cost_full_box" style="font-weight: bold;width: 41%;"/>
-                                <field name="cost_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="percentage_cost_case"  style="width:260px;font-weight: bold;"/>
-                                <field name="percentage_cost_case" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="reserve_full_box" style="font-weight: bold;width: 41%;"/>
-                                <field name="reserve_full_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="cost_effective_x_purchase"  style="width:260px;font-weight: bold;"/>
-                                <field name="cost_effective_x_purchase" style="position: relative;min-width: 10px;width: 45%;"/>
-                            </div>
-                            <div class="col-6">
-                                <label for="margin_per_box" style="font-weight: bold;width: 41%;"/>
-                                <field name="margin_per_box" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                            </div>
-                        </div>
-                        <separator string="Fulfilment information" colspan="4" />
-                        <div class="row" >
-                            <div class="col-6">
-                                <label for="box_length"  style="width:260px;font-weight: bold;"/>
-                                <field name="box_length" style="position: relative;min-width: 10px;width: 45%;"/>
-                                cm
-                            </div>
-                            <div class="col-6">
-                                <label for="box_width" style="font-weight: bold;width: 41%;"/>
-                                <field name="box_width" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                                cm
-                            </div>
-                            <div class="col-6">
-                                <label for="box_height"  style="width:260px;font-weight: bold;"/>
-                                <field name="box_height" style="position: relative;min-width: 10px;width: 45%;"/>
-                                cm
-                            </div>
-                            <div class="col-6">
-                                <label for="box_maximum_weight" style="font-weight: bold;width: 41%;"/>
-                                <field name="box_maximum_weight" style="position: relative;width: 50% !important;min-width: 10px;"/>
-                                cm
-                            </div>
-                        </div>
-
                     </page>
                 </xpath>
             </field>

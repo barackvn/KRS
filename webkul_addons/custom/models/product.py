@@ -71,6 +71,13 @@ class IrAttachment(models.Model):
 
     # product_id = fields.Many2one("product.template","product")
 
+
+class ProductPricelistItemInherit(models.Model):
+    _inherit = "product.pricelist.item"
+
+    single_unit_carton = fields.Char("Single unit or carton")
+    max_quantity = fields.Integer("Maximum quantity")
+
 class ProductProductInherit(models.Model):
     _inherit = 'product.product'
 
@@ -257,7 +264,7 @@ class ProductTemplateInherit(models.Model):
                                     fat_point = '7'
                                 elif ags <= 58:
                                     fat_point = '8'
-                                elif agst <= 64:
+                                elif ags <= 64:
                                     fat_point = '9'
                                 else:
                                     if ags > 64:
@@ -584,7 +591,7 @@ class ProductTemplateInherit(models.Model):
     volume_carton = fields.Float("Volume carton")
     net_content_per_unit = fields.Float("Net content per single unit")
     net_content_uom = fields.Selection([('gram', 'gram'),('ml', 'ml')],string="UOM", default='gram')
-    drained_weight_per_unit = fields.Float("Drained weight per single unit")
+    drained_weight_per_unit = fields.Float("Drained content per single unit")
     drained_weight_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
     net_weight_per_unit = fields.Float("Net weight per single unit")
     net_weight_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
@@ -592,7 +599,7 @@ class ProductTemplateInherit(models.Model):
     gross_weight_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
     net_content_per_carton = fields.Float("Net content carton")
     net_carton_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
-    drained_weight_per_carton = fields.Float("Drained weight carton")
+    drained_weight_per_carton = fields.Float("Drained content carton")
     drained_carton_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
     net_weight_per_carton = fields.Float("Net weight carton")
     net_weight_carton_uom = fields.Selection([('gram', 'gram'), ('ml', 'ml')], string="UOM", default='gram')
@@ -611,7 +618,7 @@ class ProductTemplateInherit(models.Model):
     stock_shelf_location_per_month = fields.Float("Stock shelf location per month (100x50x50)")
     max_cases_volume_full_box = fields.Float("Max cases on volume of the full box")
     cost_sending_per_single_unit = fields.Float("Cost sending per single unit")
-    max_cases_weight_transport = fields.Float("Max cases on weight of transport")
+    max_cases_weight_transport = fields.Float("Max cases on weight per transport")
     cost_sending_per_case = fields.Float("Cost sending per case")
     max_cases_by_weight_volume = fields.Float("Max cases by weight and volume")
     cost_sending_per_full_box = fields.Float("Cost sending per full box")
@@ -621,10 +628,10 @@ class ProductTemplateInherit(models.Model):
     reserve_full_box = fields.Float("Reserve full box")
     cost_effective_x_purchase = fields.Float("Cost effective from x purchase")
     margin_per_box = fields.Float("Margin per box")
-    box_length = fields.Float("Box length")
-    box_width = fields.Float("Box width")
-    box_height = fields.Float("Box height")
-    box_maximum_weight = fields.Float("Box maximum weight")
+    box_length = fields.Float("Length Kairos box")
+    box_width = fields.Float("Width Kairos box")
+    box_height = fields.Float("Height Kairos box")
+    box_maximum_weight = fields.Float("Maximum weight Kairos box")
     complete_name = fields.Char(string="Complete Name", compute="_compute_complete_product_name", store=True)
     cust_product_category = fields.Selection(
         [('solid', 'Solid – liquid foods'), ('cheeses', 'Cheeses'), ('fat', 'Added fats'), ('drink', 'Drinks')],
@@ -647,6 +654,10 @@ class ProductTemplateInherit(models.Model):
          ('pasta', 'Pasta'), ('powder', 'Powder'), ('tablets', 'Tablets')], 'Nutritional structure')
     product_quantity_type = fields.Selection([('article', 'Sell per article'), ('case', 'Sell per case'), ('article_case', 'Sell per article and case')],
                                             'Product Quantity Type')
+    first_warning_min_carton = fields.Integer("First warning minimum stock in cartons")
+    min_stock_carton = fields.Integer("Minimum stock in cartons")
+    single_unit_package = fields.Char("Single unit packaging")
+    cost_type = fields.Selection([('unit', 'Single unit cost'),('carton', 'Carton cost')],'Type')
 
 
     def name_get(self):
@@ -773,8 +784,9 @@ class ProductTemplateInherit(models.Model):
 
 
 
-    # file_upload = fields.One2many(comodel_name='ir.attachment',inverse_name='product_id', string="File Upload")
-    attachment_ids = fields.Many2many(comodel_name='ir.attachment', string='Attachments')
+    # file_upload = fields.One2many(comodel_name='ir.attachment',inverse_name='product_id', string="Certificates of the product")
+    # attachment_ids = fields.Many2many(comodel_name='ir.attachment', string='Attachments')
+    certificate_ids = fields.One2many('company.certificate.tree', 'product_id', 'Certificates')
 
     @api.model
     def create(self, vals):
