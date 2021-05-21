@@ -15,17 +15,22 @@ import logging
 
 class ApproveSample(http.Controller):
 
-    @http.route('/approve/<string:id>', type='http', auth="user", methods=['GET', 'POST'], website=True,
+    @http.route('/approve/<string:id>', type='http', auth="public", methods=['GET', 'POST'], website=True,
                 csrf=False)
     def approval_details(self, id, **post):
         msg_vals_manager_seller = {}
         msg_vals_manager_admin = {}
 
         sample_data = request.env['crm.lead'].sudo().search([('id', '=', int(id))], limit=1)
-        sample_data = request.env['crm.lead'].sudo().search([('id', '=', int(id))], limit=1)
+        # sample_data = request.env['crm.lead'].sudo().search([('id', '=', int(id))], limit=1)
         stage = request.env['crm.stage'].sudo().search([('name', '=', 'Won')], limit=1)
         for crm in sample_data:
             crm.sudo().write({'stage_id': stage.id})
+            crm.partner_id.sudo().write({'accept_mail_proposal':True})
+            seller_user = request.env["res.users"].sudo().search([('partner_id', '=', crm.partner_id.id)])
+            if seller_user:
+                survey_group_obj = request.env.ref('custom.group_survey_access')
+                survey_group_obj.sudo().write({"users": [(4, seller_user.id, 0)]})
 
             msg_vals_manager_seller.update({
                 'body_html': """ Thanks for approving the membership.<br/> Here are your details:<br/> 
@@ -38,8 +43,9 @@ class ApproveSample(http.Controller):
             msg_vals_manager_seller.update({
                 'subject': 'Membership Approval',
                 'email_to': crm.email_from,
+                'email_from': 'admin@sophiesgarden.be'
             })
-            msg_id_manager_seller = request.env['mail.mail'].create(msg_vals_manager_seller)
+            msg_id_manager_seller = request.env['mail.mail'].sudo().create(msg_vals_manager_seller)
             msg_id_manager_seller.send()
 
             msg_vals_manager_admin.update({
@@ -49,13 +55,14 @@ class ApproveSample(http.Controller):
             msg_vals_manager_admin.update({
                 'subject': 'Membership Approval',
                 'email_to': 'admin@sophiesgarden.be',
+                'email_from': 'admin@sophiesgarden.be',
             })
-            msg_id_manager_admin = request.env['mail.mail'].create(msg_vals_manager_admin)
+            msg_id_manager_admin = request.env['mail.mail'].sudo().create(msg_vals_manager_admin)
             msg_id_manager_admin.send()
 
             return request.redirect('/my/home')
 
-    @http.route('/reject/<string:id>', type='http', auth="user", methods=['GET', 'POST'], website=True,
+    @http.route('/reject/<string:id>', type='http', auth="public", methods=['GET', 'POST'], website=True,
                 csrf=False)
     def reject_details(self, id, **post):
         msg_vals_manager_seller = {}

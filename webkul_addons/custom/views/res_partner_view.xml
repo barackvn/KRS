@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record model="ir.ui.view" id="wk_membership_inherit_seller_form_mp_membership">
+            <field name="name">res.partner.form.inherit.mp</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="marketplace_membership.wk_membership_inherit_seller_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='mp_membership_plan_ids']" position="replace">
+                </xpath>
+
+            </field>
+        </record>
         <record id="wk_seller_form_view_inherit_vat" model="ir.ui.view">
             <field name="name">seller.form.inherit</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='name']" position="before">
-                    <div>
-                        <p align="center" style="font-size:10px;">Great talk with you! We truly believe in your potential passion and would like to provide you an offer as discussed.</p>
-                        <p align="center" style="font-size:10px;">Please click on the button below to see our offer. When you click on 'Accept' we can start with the creation of your profile.</p>
-                        <a style="padding: 40%;"><button class="oe_highlight" name="see_offer_button" type="object" string="I would like to see my offer"/></a>
+                 <xpath expr="//sheet/div[@name='button_box']" position="after">
+                      <div style="text-align:center" attrs="{'invisible' : ['|',('state', '!=', 'pending'),('lead_verify','=',True)]}">
+                          <strong>Thank you for your registration as a FOODMAKER, Your request has been already send for approval. We will process</strong>
+                          <br/>
+                          <strong>your request as soon as possible</strong>
+                      </div>
+
+                     <div style="text-align:center" attrs="{'invisible' : ['|',('lead_verify','!=',True),('accept_mail_proposal','=',True)]}">
+                         <strong><p>Great talk with you! We truly believe in your potential passion and would like to provide you an offer as discussed.</p></strong>
+                         <strong><p>Please click on the button below to see our offer. When you click on 'Accept' we can start with the creation of your profile.</p></strong>
                     </div>
+                     <div style="text-align:center" attrs="{'invisible' : ['|',('lead_verify','!=',True),('accept_mail_proposal','=',True)]}">
+                         <a><button style="background-color: #808080a8;border-color: #808080a8;color: black;height: 57px;width: 350px;position: relative;font-size: 18px;" class="oe_highlight" name="see_offer_button" type="object" string="I would like to see my offer"/></a>
+                     </div>
                 </xpath>
                 <xpath expr="//button[@name='approve']" position="replace">
                     <button name="approve" string="Approve" type="object" states="pending" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary" attrs="{'invisible' : ['|',('lead_verify', '!=', True)]}"/>
@@ -57,13 +75,13 @@
                 <xpath expr="//field[@name='website']" position="before">
                     <label for="phone" string="Phone"/>
                     <div class="address_format">
-                        <field name="country_code_ph" style="width: 15%"/>
-                        <field name="phone" style="width: 85%"/>
+                        <field name="country_code_ph" placeholder="Dial Code..." style="width: 21%; margin-right:10px"/>
+                        <field name="phone" placeholder="Phone Number" style="width: 76%"/>
                     </div>
                     <label for="mobile" string="Mobile"/>
                     <div class="address_format">
-                        <field name="country_code_mo" style="width: 15%"/>
-                        <field name="mobile" style="width: 85%"/>
+                        <field name="country_code_mo" placeholder="Dial Code..." style="width: 21%; margin-right:10px"/>
+                        <field name="mobile" placeholder="Mobile Number" style="width: 76%"/>
                     </div>
                     <label for="email" string="Email"/>
                     <div>
@@ -94,6 +112,19 @@
                         <field name="challenge"/>
                     </div><br/>
                 </xpath>
+                <xpath expr="//field[@name='url_handler']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//span[@class='fa fa-pencil url_validation oe_edit_only']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//span[@id='profile_url_error']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@class='oe_edit_only oe_grey']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
 
 
                 <!--                <xpath expr="//field[@name='phone']" position="after">-->
@@ -102,7 +133,7 @@
 
 
                 <xpath expr="//form/sheet/group[2]" position="after">
-                    <separator string="Delivery Hours"/>
+                    <separator string="Delivery hours to your warehouse" style="color:#000000b8"/>
                     <div class="row">
                         <div style="margin-left: 17px;">
                             <label for="monday"/>
@@ -133,69 +164,117 @@
                             <field name="sunday"  widget="boolean_toggle"/>
                         </div>
                     </div>
-                    <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('monday','!=', True)]}">
-                        <div>
-                            <label for="monday_from" style="width: 110px;"/>
-                            <field name="monday_from" style="width:100px"/> TO
-                            <field name="monday_to" style="width:100px"/>
+                    <div class="row">
+                    <div class="col-4">
+                        <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('monday','!=', True)]}">
+                            <div>
+                                <label for="monday_from" style="width: 110px;"/>
+                                <field name="monday_from" style="width:100px"/> TO
+                                <field name="monday_to" style="width:100px"/>
+                            </div>
                         </div>
-                    </div>
-                    <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('tuesday','!=', True)]}">
-                        <div>
-                            <label for="tuesday_from" style="width: 110px;"/>
-                            <field name="tuesday_from" style="width:100px"/> TO
-                            <field name="tuesday_to" style="width:100px"/>
+                        <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('tuesday','!=', True)]}">
+                            <div>
+                                <label for="tuesday_from" style="width: 110px;"/>
+                                <field name="tuesday_from" style="width:100px"/> TO
+                                <field name="tuesday_to" style="width:100px"/>
+                            </div>
                         </div>
-                    </div>
-                    <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('wednesday','!=', True)]}">
-                        <div>
-                            <label for="wednesday_from" style="width: 110px;"/>
-                            <field name="wednesday_from" style="width:100px"/> TO
-                            <field name="wednesday_to" style="width:100px"/>
+                        <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('wednesday','!=', True)]}">
+                            <div>
+                                <label for="wednesday_from" style="width: 110px;"/>
+                                <field name="wednesday_from" style="width:100px"/> TO
+                                <field name="wednesday_to" style="width:100px"/>
+                            </div>
                         </div>
-                    </div>
-                    <div style="margin-left: 2px;" class="row" attrs="{'invisible': [('thursday','!=', True)]}">
-                        <div>
-                            <label for="thursday_from" style="width: 110px;"/>
-                            <field name="thursday_from" style="width:100px"/> TO
-                            <field name="thursday_to" style="width:100px"/>
+                        <div style="margin-left: 2px;" class="row" attrs="{'invisible': [('thursday','!=', True)]}">
+                            <div>
+                                <label for="thursday_from" style="width: 110px;"/>
+                                <field name="thursday_from" style="width:100px"/> TO
+                                <field name="thursday_to" style="width:100px"/>
+                            </div>
                         </div>
-                    </div>
-                    <div style="margin-left: 2px;" class="row" attrs="{'invisible': [('friday','!=', True)]}">
-                        <div>
-                            <label for="friday_from" style="width: 110px;"/>
-                            <field name="friday_from" style="width:100px"/> TO
-                            <field name="friday_to" style="width:100px"/>
+                        <div style="margin-left: 2px;" class="row" attrs="{'invisible': [('friday','!=', True)]}">
+                            <div>
+                                <label for="friday_from" style="width: 110px;"/>
+                                <field name="friday_from" style="width:100px"/> TO
+                                <field name="friday_to" style="width:100px"/>
+                            </div>
                         </div>
-                    </div>
-                    <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('saturday','!=', True)]}">
-                        <div>
-                            <label for="saturday_from" style="width: 110px;"/>
-                            <field name="saturday_from" style="width:100px"/> TO
-                            <field name="saturday_to" style="width:100px"/>
+                        <div style="margin-left: 2px;"  class="row" attrs="{'invisible': [('saturday','!=', True)]}">
+                            <div>
+                                <label for="saturday_from" style="width: 110px;"/>
+                                <field name="saturday_from" style="width:100px"/> TO
+                                <field name="saturday_to" style="width:100px"/>
+                            </div>
                         </div>
-                    </div>
-                    <div style="margin-left: 2px;" class="row" attrs="{'invisible': [('sunday','!=', True)]}">
+                        <div style="margin-left: 2px;" class="row" attrs="{'invisible': [('sunday','!=', True)]}">
                         <div>
                             <label for="sunday_from" style="width: 110px;"/>
                             <field name="sunday_from" style="width:100px"/> TO
                             <field name="sunday_to" style="width:100px"/>
                         </div>
                     </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="column" attrs="{'invisible': [('monday','!=', True),('tuesday','!=', True),('wednesday','!=', True),('thursday','!=', True),('friday','!=', True),('saturday','!=', True),('sunday','!=', True)]}">
+                                <a class="fa fa-copy"><button style="border:0px !important;font-weight:bold" name="copy_them_all" string="Copy them to all" type="object" help="copy time to all available day."/></a>
+                        </div>
+                    </div>
+                    </div>
+                    <separator string="General" style="color:#000000b8" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <div class="row" >
+                        <div class="col-6" groups="odoo_marketplace.marketplace_officer_group">
+                            <div groups="odoo_marketplace.marketplace_officer_group">
+                                <label for="allow_seller_for_collection" string="Allow Collections" help="Enable to allow seller to make collections of products."/>
+                                <field name="allow_seller_for_collection" readonly="1" help="Enable to allow seller to make collections of products."/>
+                                <button name="enable_seller_coll_group" string="Click to Allow" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_collection', '=', True)]}"/>
+                                <button name="disable_seller_coll_group" string="Click to Deny" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_collection', '=', False)]}"/>
+                            </div>
+                        </div>
+                        <div class="col-6" groups="odoo_marketplace.marketplace_officer_group">
+                            <div>
+                                <label for="allow_seller_for_mass_upload" string="Allow Mass Upload" help="Enable to allow seller mass upload products and inventory."/>
+                                <field name="allow_seller_for_mass_upload" readonly="1" help="Enable to allow seller mass upload products and inventory."/>
+                                <button name="enable_seller_mass_upload_group" string="Click to Allow" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_mass_upload', '=', True)]}"/>
+                                <button name="disable_seller_mass_upload_group" string="Click to Deny" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_mass_upload', '=', False)]}"/>
+                            </div>
+                        </div>
+                        <div class="col-6" groups="odoo_marketplace.marketplace_officer_group">
+                            <div>
+                                <label for="allow_seller_for_360degree_view" string="Allow 360 View" help="Enable to allow seller for 360 degree view."/>
+                                <field name="allow_seller_for_360degree_view" readonly="1" help="Enable to allow seller 360 degree view for products."/>
+                                <button name="enable_seller_360degree_group" string="Click to Allow" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_360degree_view', '=', True)]}"/>
+                                <button name="disable_seller_360degree_group" string="Click to Deny" type="object" class="oe_link" attrs="{'invisible':[('allow_seller_for_360degree_view', '=', False)]}"/>
+                            </div>
+                        </div>
+                    </div>
                 </xpath>
                 <xpath expr="//form//field[@name='title']" position="before">
-                    <field name="contact_id" />
-                    <field name="assign_membership"/>
+                    <label for="contact_id"  style="width:200px;font-weight: bold;"/>
+                    <field name="contact_id" nolabel="1" readonly="1"/>
+                    <field name="assign_membership"  string="Membership Plan"/>
                     <field name="membership_date"/>
-                    <field name="vat" string="VAT"/>
+                    <field name="vat" string="VAT Number"/>
                     <field name="start_year" />
                     <field name="yr_of_exp" />
                     <field name="matching_tags"/>
                     <field name="no_of_employee" />
+                    <label for="url" string="Your Kairos shop link"/>
+                    <div>
+                        <field name="url" widget="url" style="width: 61%%" readonly="1"/>
+                        <field name="url_handler" class="oe_edit_only profile_url" style="width: 38%%;padding-right:20px;" required="1" placeholder="Unique Seller Profile URL handler..."/>
+                        <span class="fa fa-pencil url_validation oe_edit_only" aria-label="Edit" title="Edit"></span>
+                        <span class="text-danger oe_edit_only" id="profile_url_error" style="display:none;margin-left:17px;"></span>
+                        <div class="oe_edit_only oe_grey">
+                            URL handler must be unique and do not change it frequently for the purpose of SEO.
+                        </div>
+                    </div>
                     <field name="active_lang_count" invisible="1"/>
                     <field name="user_id" invisible="1"/>
                     <field name="seller_location_id" readonly="1" invisible="1"/>
                     <field name="lead_verify" invisible="1"/>
+                    <field name="accept_mail_proposal" invisible="1"/>
                     <field name="annual_revenue" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='shipping_policy']" position="after">
@@ -204,8 +283,10 @@
                     <field name="certificate_start_date"/>
                     <field name="certificate_end_date"/>
                 </xpath>
-                <xpath expr="//sheet/notebook/page" position="after">
-                    <page string="Contacts &amp; Addresses" autofocus="autofocus">
+                <xpath expr="//notebook" position="before">
+
+                    <separator string="Contacts &amp; Addresses" style="color:#000000b8"/>
+                    <div>
                         <field name="child_ids" mode="kanban" context="{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_lang': lang, 'default_user_id': user_id, 'default_type': 'other'}">
                             <kanban>
                                 <field name="id"/>
@@ -303,96 +384,114 @@
                                             <field name="image_1920" widget="image" class="oe_avatar" nolabel="1" options="{'image_preview': 'image_128'}"/>
                                         </group>
                                     </group>
-                                    <div class="row">
-                                        <div>
-                                            <label for="monday"/>
-                                            <field name="monday"  widget="boolean_toggle"/>
-                                        </div>
-                                        <div>
-                                            <label for="tuesday"/>
-                                            <field name="tuesday"  widget="boolean_toggle"/>
-                                        </div>
-                                        <div>
-                                            <label for="wednesday"/>
-                                            <field name="wednesday"  widget="boolean_toggle"/>
-                                        </div>
-                                        <div>
-                                            <label for="thursday"/>
-                                            <field name="thursday"  widget="boolean_toggle"/>
-                                        </div>
-                                        <div>
-                                            <label for="friday"/>
-                                            <field name="friday"  widget="boolean_toggle"/>
-                                        </div>
-                                        <div>
-                                            <label for="saturday"/>
-                                            <field name="saturday"  widget="boolean_toggle"/>
-                                        </div>
-                                        <div>
-                                            <label for="sunday"/>
-                                            <field name="sunday"  widget="boolean_toggle"/>
-                                        </div>
-                                        <div>
-                                            <label for="copy_all" string="Copy to all"/>
-                                            <field name="copy_all" widget="checkbox"/>
-                                        </div>
-                                    </div>
-                                    <div class="row" attrs="{'invisible': [('monday','!=', True)]}">
-                                        <div>
-                                            <label for="monday_from" style="width: 110px;"/>
-                                            <field name="monday_from" style="width:100px"/> TO
-                                            <field name="monday_to" style="width:100px"/>
-                                        </div>
-                                    </div>
-                                    <div class="row" attrs="{'invisible': [('tuesday','!=', True)]}">
-                                        <div>
-                                            <label for="tuesday_from" style="width: 110px;"/>
-                                            <field name="tuesday_from" style="width:100px"/> TO
-                                            <field name="tuesday_to" style="width:100px"/>
-                                        </div>
-                                    </div>
-                                    <div class="row" attrs="{'invisible': [('wednesday','!=', True)]}">
-                                        <div>
-                                            <label for="wednesday_from" style="width: 110px;"/>
-                                            <field name="wednesday_from" style="width:100px"/> TO
-                                            <field name="wednesday_to" style="width:100px"/>
-                                        </div>
-                                    </div>
-                                    <div class="row" attrs="{'invisible': [('thursday','!=', True)]}">
-                                        <div>
-                                            <label for="thursday_from" style="width: 110px;"/>
-                                            <field name="thursday_from" style="width:100px"/> TO
-                                            <field name="thursday_to" style="width:100px"/>
-                                        </div>
-                                    </div>
-                                    <div class="row" attrs="{'invisible': [('friday','!=', True)]}">
-                                        <div>
-                                            <label for="friday_from" style="width: 110px;"/>
-                                            <field name="friday_from" style="width:100px"/> TO
-                                            <field name="friday_to" style="width:100px"/>
-                                        </div>
-                                    </div>
-                                    <div class="row" attrs="{'invisible': [('saturday','!=', True)]}">
-                                        <div>
-                                            <label for="saturday_from" style="width: 110px;"/>
-                                            <field name="saturday_from" style="width:100px"/> TO
-                                            <field name="saturday_to" style="width:100px"/>
-                                        </div>
-                                    </div>
-                                    <div class="row" attrs="{'invisible': [('sunday','!=', True)]}">
-                                        <div>
-                                            <label for="sunday_from" style="width: 110px;"/>
-                                            <field name="sunday_from" style="width:100px"/> TO
-                                            <field name="sunday_to" style="width:100px"/>
-                                        </div>
-                                    </div>
                                     <field name="lang" invisible="True"/>
                                     <field name="user_id" invisible="True"/>
                                 </sheet>
                             </form>
                         </field>
-                    </page>
+                    </div>
+                    <separator string="Invoicing" style="color:#000000b8" groups="custom.group_survey_access"/>
+                    <group groups="custom.group_survey_access">
+                        <group>
+                            <field name="bank"/>
+                            <field name="total_mp_payment"/>
+                            <field name="balance_mp_payment"/>
+                        </group>
+                        <group>
+                            <field name="account_number"/>
+                            <field name="paid_mp_payment"/>
+                            <field name="seller_currency_id"/>
+                        </group>
+                    </group>
+                    <separator string="Company Description" style="color:#000000b8" groups="custom.group_survey_access"/>
+                    <group groups="custom.group_survey_access">
+                        <field name="tag_line_company"/>
+                        <field name="description_company"/>
+                    </group>
+                    <separator string="Your social media" style="color:#000000b8" groups="custom.group_survey_access"/>
+                    <group groups="custom.group_survey_access">
+                        <group>
+                            <field name="facebook_url"/>
+                            <field name="instagram_url"/>
+                            <field name="twitter_url"/>
+                        </group>
+                        <group>
+                            <field name="linkedin_url"/>
+                            <field name="youtube_url"/>
+                        </group>
+                    </group>
+                    <separator string="Certificates of the Company" style="color:#000000b8" groups="custom.group_survey_access"/>
+                    <field name="certificate_ids" groups="custom.group_survey_access">
+                        <tree string="Certificates" editable="bottom">
+                            <field name="certification_type_id" string="Certificate" width="25%"/>
+                            <field name="info_seller" widget="binary" filename="filename" string=" Your PDF attachment" width="25%"/>
+                            <field name="filename" invisible="1"/>
+                            <field name="start_date" string ="Start date certificate" width="25%"/>
+                            <field name="end_date" string ="End date certificate" width="25%"/>
+                        </tree>
+                    </field>
+                    <separator string="Pictures" style="color:#000000b8" groups="custom.group_survey_access"/>
+                    <separator string="Company logo" style="color:#000000b8" groups="custom.group_survey_access"/>
+                    <group groups="custom.group_survey_access">
+                        <field name="res_company_logo" widget="many2many_binary" nolabel="1"/>
+                    </group>
+                    <separator groups="custom.group_survey_access" string="Banner image" style="color:#000000b8" />
+                    <group groups="custom.group_survey_access">
+                        <field name="attachment_ids" widget="many2many_binary" nolabel="1"/>
+                    </group>
+                    <separator groups="custom.group_survey_access" string="Slider image" style="color:#000000b8" />
+                    <group groups="custom.group_survey_access">
+                        <field name="slider_image" nolabel="1"/>
+                    </group>
+                    <div style="text-align:center" groups="custom.group_survey_access">
+                         <a><button style="background-color: #808080a8;border-color: #808080a8;color: black;height: 57px;width: 350px;position: relative;font-size: 16px;" class="oe_highlight" name="action_send_product_360" type="object" string="I would like to have 360° pictures"/></a>
+                     </div>
+                    <separator groups="custom.group_survey_access" string="Membership" style="color:#000000b8" />
+                    <h5 groups="custom.group_survey_access">Current Foodmaker membership       <button style="background-color: #808080a8;border-color: #808080a8;" type="object" string=" Membership plan " name=""/>      what's included?</h5>
+                    <field name="mp_membership_plan_ids" nolabel="1" colspan="4" readonly="1" groups="custom.group_survey_access">
+                            <tree string="MP Memberships" decoration-success="is_active!=False">
+                                <field name="date" string="Date registration" width='150px'/>
+                                <field name="mp_membership_plan_id" width='150px'/>
+                                <field name="mp_membership_date_from" width='150px'/>
+                                <field name="first_purchase_date" width='150px'/>
+                                <field name="mp_membership_date_to" width='150px'/>
+                                <field name="no_of_product" string="Allowed Products" invisible="1"/>
+                                <field name="state" groups="odoo_marketplace.marketplace_manager_group" width='150px'/>
+                                <!-- <field name="currency_id" invisible="1"/> -->
+                                <field name="mp_membership_fee" widget="monetary" width='150px'/>
+                                <field name="is_active" invisible="1"/>
+                            </tree>
+                            <form string="Memberships">
+                                <group col="2">
+                                    <group>
+                                        <field name="mp_membership_plan_id" widget="selection"/>
+                                        <!-- <field name="currency_id" invisible="1"/> -->
+                                        <field name="mp_membership_fee" widget="monetary"/>
+                                        <field name="no_of_product"/>
+                                        <field name="account_invoice_id" widget="selection" context="{'form_view_ref': 'account.view_move_form'}"/>
+                                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                        <field name="state" groups="odoo_marketplace.marketplace_manager_group"/>
+                                    </group>
+                                    <group>
+                                        <field name="date"/>
+                                        <field name="mp_membership_date_from"/>
+                                        <field name="mp_membership_date_to"/>
+                                        <field name="order_id" widget="selection"/>
+                                        <field name="is_active" invisible="1"/>
+                                    </group>
+                                </group>
+                            </form>
+                        </field>
+
                 </xpath>
+                <xpath expr="//notebook" position="replace">
+                </xpath>
+                <xpath expr="//div[@class='oe_form_box_info oe_text_center']" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="new,pending,verifying,approved,denied"/>
+                </xpath>
+
             </field>
         </record>
 

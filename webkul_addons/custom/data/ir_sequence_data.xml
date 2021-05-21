@@ -30,5 +30,12 @@
 			<field name="prefix">PA-</field>
 			<field name="padding">4</field>
 		</record>
+
+        <record model="ir.sequence" id="seller_contact_seq">
+			<field name="name">contact Sequence</field>
+			<field name="code">seller.contact</field>
+			<field name="prefix">FM-</field>
+			<field name="padding">5</field>
+		</record>
     </data>
 </odoo>

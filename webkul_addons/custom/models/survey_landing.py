@@ -35,13 +35,13 @@ class CertificateType(models.Model):
 class CompanyCertificateTree(models.Model):
     _name = 'company.certificate.tree'
 
-    info_seller = fields.Binary('Information from Seller')
+    info_seller = fields.Binary('Your PDF attachment')
     filename = fields.Char(string="File Name", track_visibility="onchange")
-    start_date = fields.Date('Start Date')
-    end_date = fields.Date('End Date')
+    start_date = fields.Date('Start date certificate')
+    end_date = fields.Date('End date certificate')
     certificate_id_res = fields.Many2one('res.partner', 'Res Certificate')
     certificate_id = fields.Many2one('survey.landing', 'Certificate')
-    certification_type_id = fields.Many2one("certificate.type", "Company Certification")
+    certification_type_id = fields.Many2one("certificate.type", "Certificate")
 
 class SliderImageTree(models.Model):
     _name = 'slider.image.tree'

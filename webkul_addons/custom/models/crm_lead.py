@@ -72,7 +72,7 @@ class CrmLeadInherit(models.Model):
                 base_url += '/web#id=%d&view_type=form&model=%s' % (record.partner_id.id, record.partner_id._name)
                 print(base_url)
                 template_obj = self.env['mail.template'].browse(mail_templ_id)
-                send = template_obj.with_context(company=self.env.company,url=base_url).send_mail(record.id, True)
+                send = template_obj.with_context(company=self.env.company).send_mail(record.id, True)
                 stage=self.env['crm.stage'].sudo().search([('name','=','Qualified')])
                 if not stage:
                     raise UserError(_("There is no stage called Qualified in Crm Lead,Can you please create the stage."))
@@ -80,10 +80,10 @@ class CrmLeadInherit(models.Model):
                 record.email_notify = True
                 record.qualify_date = datetime.date.today()
                 record.partner_id.lead_verify = True
-                seller_user = self.env["res.users"].sudo().search([('partner_id', '=', record.partner_id.id)])
-                if seller_user:
-                    survey_group_obj = self.env.ref('custom.group_survey_access')
-                    survey_group_obj.sudo().write({"users": [(4, seller_user.id, 0)]})
+                # seller_user = self.env["res.users"].sudo().search([('partner_id', '=', record.partner_id.id)])
+                # if seller_user:
+                #     survey_group_obj = self.env.ref('custom.group_survey_access')
+                #     survey_group_obj.sudo().write({"users": [(4, seller_user.id, 0)]})
 
             else:
                 mail_templ_id = self.env['ir.model.data'].get_object_reference(

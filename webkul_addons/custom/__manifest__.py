@@ -8,7 +8,7 @@
     "sequence": 1,
     "author": "Planet Odoo.",
     "depends": ['snailmail', 'product', 'stock', 'base', 'odoo_marketplace', 'crm', 'stock',
-                'mp_advance_signup_customized', 'marketplace_rma'],
+                'mp_advance_signup_customized', 'marketplace_rma', 'marketplace_membership'],
     "data": [
         'data/ir_sequence_data.xml',
         'data/cron.xml',

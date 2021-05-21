@@ -218,13 +218,13 @@
             <field name="code">action = model.action_seller_shop_details()</field>
         </record>
 
-        <menuitem name="Shop Details"
-                  id="menu_action_survey_landing"
-                  action="server_action_survey_landing"
-                  parent="odoo_marketplace.wk_seller_dashboard"
-                  groups="custom.group_survey_access"
-                  sequence="0"
-        />
+<!--        <menuitem name="Shop Details"-->
+<!--                  id="menu_action_survey_landing"-->
+<!--                  action="server_action_survey_landing"-->
+<!--                  parent="odoo_marketplace.wk_seller_dashboard"-->
+<!--                  groups="custom.group_survey_access"-->
+<!--                  sequence="0"-->
+<!--        />-->
 
         <record id="certificate_type_form_view" model="ir.ui.view">
             <field name="name">certificate.type.form</field>

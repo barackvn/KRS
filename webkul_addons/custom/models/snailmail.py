@@ -71,11 +71,11 @@ class ResPartner(models.Model):
     birthday = fields.Date("Birthday")
     monday = fields.Boolean('M')
     tuesday = fields.Boolean('T')
-    wednesday = fields.Boolean('w')
+    wednesday = fields.Boolean('W')
     thursday = fields.Boolean('T')
-    friday = fields.Boolean('f')
-    saturday = fields.Boolean('s')
-    sunday = fields.Boolean('s')
+    friday = fields.Boolean('F')
+    saturday = fields.Boolean('S')
+    sunday = fields.Boolean('S')
     monday_from = fields.Selection(selection=_calender_time, String="Monday")
     monday_to = fields.Selection(selection=_calender_time, String="Monday")
     tuesday_from = fields.Selection(selection=_calender_time, String="Tuesday")
@@ -140,19 +140,25 @@ class ResPartner(models.Model):
     certificate_ids = fields.One2many('company.certificate.tree', 'certificate_id_res', 'Certificate1')
     # res_company_logo = fields.Many2many(comodel_name='ir.attachment', string='Company Logo')
     res_company_logo = fields.Many2many('ir.attachment', 'company_logo_attachment_rel', 'res_id',
-                                        'attachment_id', 'Company Logo', )
+                                        'attachment_id', 'Company logo', )
     attachment_ids = fields.Many2many(
         'ir.attachment', 'res_survey_attachment_rel', 'res_id',
-        'attachment_id', 'Banner Image')
+        'attachment_id', 'Banner image')
     # slider_image = fields.One2many('slider.image.tree', 'slider_id_res', 'Slider Image')
-    slider_image = fields.Binary('Slider Image')
+    slider_image = fields.Binary('Slider image')
     product_image = fields.One2many('product.image.tree', 'product_image_id_res', 'Product Image')
 
     description = fields.Char('Description Company')
+    facebook_url = fields.Char('Facebook')
+    instagram_url = fields.Char('Instagram')
+    twitter_url = fields.Char('Twitter')
+    linkedin_url = fields.Char('Linkedin')
+    youtube_url = fields.Char('Youtube')
+    accept_mail_proposal = fields.Boolean("Accept Proposal")
 
-    # state = fields.Selection(
-    #     [('draft', 'Draft'), ('pending', 'Pending For Approval'), ('confirm', 'Confirm'), ('done', 'Done'),
-    #      ('cancelled', 'Cancelled')], string='Status', default='draft')
+    state = fields.Selection([('new', 'New'), ('pending', 'Pending for Approval'), ('verifying', 'Verifying'), ('approved', 'Approved'), (
+        'denied', 'Denied')], string="Seller Status", default="new", copy=False, translate=True,
+                             track_visibility='onchange')
     # survey_landing_ids = fields.Many2one('res.partner')
     @api.depends('country_id')
     def _onchange_country(self):
@@ -208,93 +214,98 @@ class ResPartner(models.Model):
 
         return action
 
-    #     if self.lead_id:
-    #         return {
-    #             'name': _('Package Details'),
-    #             'type': 'ir.actions.act_window',
-    #             'view_mode': 'form',
-    #             'res_model': 'choose.delivery.package',
-    #             'view_id': self.lead_id,
-    #             'views': [(view_id, 'form')],
-    #         }
-    #
-    # def action_view_invoice(self):
-    #     invoices = self.mapped('invoice_ids')
-    #     action = self.env.ref('crm.crm_lead_action_pipeline').read()[0]
-    #     if len(invoices) > 1:
-    #         action['domain'] = [('id', 'in', invoices.ids)]
-    #     elif len(invoices) == 1:
-    #         form_view = [(self.env.ref('account.view_move_form').id, 'form')]
-    #         if 'views' in action:
-    #             action['views'] = form_view + [(state,view) for state,view in action['views'] if view != 'form']
-    #         else:
-    #             action['views'] = form_view
-    #         action['res_id'] = invoices.id
-    #     else:
-    #         action = {'type': 'ir.actions.act_window_close'}
-    #
-    #     context = {
-    #         'default_type': 'out_invoice',
-    #     }
-    #     if len(self) == 1:
-    #         context.update({
-    #             'default_partner_id': self.partner_id.id,
-    #             'default_partner_shipping_id': self.partner_shipping_id.id,
-    #             'default_invoice_payment_term_id': self.payment_term_id.id or self.partner_id.property_payment_term_id.id or self.env['account.move'].default_get(['invoice_payment_term_id']).get('invoice_payment_term_id'),
-    #             'default_invoice_origin': self.mapped('name'),
-    #             'default_user_id': self.user_id.id,
-    #         })
-    #     action['context'] = context
-    #     return action
-
     @api.model
     def create(self, vals):
         _logger.info(">>>>>>>>>>>>>> I am in create>>>%s>>>", self)
         res = super(ResPartner, self).create(vals)
         msg_vals_manager_seller = {}
         msg_vals_manager_buyer = {}
-
         if res:
             _logger.info(">>>>>>>>>>>>>> I am in create2>>>%s>>>", res)
-            if not self._context.get('is_seller'):
+            if not self._context.get('is_seller') and not res.parent_id:
                 mail_templ_id = self.env['ir.model.data'].get_object_reference(
                     'custom', 'template_thnk_register_buyer')[1]
                 template_obj = self.env['mail.template'].browse(mail_templ_id)
                 send = template_obj.with_context(company=res.env.company).send_mail(res.id, True)
-
-                # buyer_mail_templ_id = self.env['ir.model.data'].get_object_reference(
-                #     'custom', 'template_register_buyer')[1]
-                # buyer_template_obj = self.env['mail.template'].browse(buyer_mail_templ_id)
-                # buyer_send = buyer_template_obj.with_context(company=res.env.company).send_mail(res.id, True)
-
                 _logger.info(">>>>>>>>>>>>>> buyer Mail send for thank you>>>%s>>>", send)
-
                 if not res.lead_id:
                     res.with_context(default_is_buyer=True).create_crm_lead()
-            if self._context.get('is_seller'):
+            if self._context.get('is_seller') and not res.parent_id:
+                res.write({'contact_id': self.env['ir.sequence'].next_by_code('seller.contact') or ''})
+                seller_user = self.env["res.users"].sudo().search([('partner_id', '=', res.id)])
+                if seller_user:
+                    contact_group_obj = self.env.ref('base.group_partner_manager')
+                    contact_group_obj.sudo().write({"users": [(4, seller_user.id, 0)]})
                 if res.seller and res.state == 'new' and not res.lead_id:
                     res.sudo().set_to_pending()
                     _logger.info(">>>>>>>>>>>>>> I have update in create2>>>%s>>>", res)
-
                 mail_templ_id = self.env['ir.model.data'].get_object_reference(
                     'custom', 'template_thnk_register_seller')[1]
                 template_obj = self.env['mail.template'].browse(mail_templ_id)
                 send = template_obj.with_context(company=res.env.company).send_mail(res.id, True)
-
                 seller_mail_templ_id = self.env['ir.model.data'].get_object_reference(
                     'custom', 'template_register_seller')[1]
                 seller_template_obj = self.env['mail.template'].browse(seller_mail_templ_id)
                 seller_send = seller_template_obj.with_context(company=res.env.company).send_mail(res.id, True)
-
                 _logger.info(">>>>>>>>>>>>>> seller Mail send for thank you>>>%s>>>", send)
-
         return res
 
     def write(self, vals):
         res = super(ResPartner, self).write(vals)
         _logger.info(">>>>>>>>>>>>>> write>>>%s>>>%s", self.state, self.seller)
-        if self.seller and self.state == 'new' and not self.lead_id:
+        if self.seller and self.state == 'new' and not self.lead_id and not self.parent_id:
             self.sudo().set_to_pending()
+
+
+    @api.onchange('monday','tuesday','wednesday','thursday','friday','saturday','sunday')
+    def _onchange_delivery_time(self):
+        if not self.monday:
+            self.monday_from = False
+            self.monday_to = False
+        if not self.tuesday:
+            self.tuesday_from = False
+            self.tuesday_to = False
+        if not self.wednesday:
+            self.wednesday_from = False
+            self.wednesday_to = False
+        if not self.thursday:
+            self.thursday_from = False
+            self.thursday_to = False
+        if not self.friday:
+            self.friday_from = False
+            self.friday_to = False
+        if not self.saturday:
+            self.saturday_from = False
+            self.saturday_to = False
+        if not self.sunday:
+            self.sunday_from = False
+            self.sunday_to = False
+
+
+    def copy_them_all(self):
+        time_from = self.monday_from or self.tuesday_from or self.wednesday_from or self.thursday_from or self.friday_from or self.saturday_from or self.sunday_from
+        time_to = self.monday_to or self.tuesday_to or self.wednesday_to or self.thursday_to or self.friday_to or self.saturday_to or self.sunday_to
+        if self.monday:
+            self.monday_from = time_from
+            self.monday_to = time_to
+        if self.tuesday:
+            self.tuesday_from = time_from
+            self.tuesday_to  = time_to
+        if self.wednesday:
+            self.wednesday_from = time_from
+            self.wednesday_to  = time_to
+        if self.thursday:
+            self.thursday_from = time_from
+            self.thursday_to  = time_to
+        if self.friday:
+            self.friday_from = time_from
+            self.friday_to  = time_to
+        if self.saturday:
+            self.saturday_from = time_from
+            self.saturday_to  = time_to
+        if self.sunday:
+            self.sunday_from = time_from
+            self.sunday_to  = time_to
 
     def create_crm_lead(self):
         if self._context.get('is_seller'):
@@ -358,9 +369,12 @@ class ResPartner(models.Model):
                 send = template_obj.with_context(company=record.env.company).send_mail(record.id, True)
                 _logger.info(">>>>>>>>>>>>>> buyer Mail send for thank you>>>%s>>>", send)
 
-# class ResPartnerTransient(models.TransientModel):
-#     _inherit = "seller.status.reason.wizard"
+class SellerMembershipInherit(models.Model):
+    _inherit = 'seller.membership'
 
-    # def do_denied(self):
-    #     super_res = super(ResPartnerTransient, self).do_denied()
+    mp_membership_date_from = fields.Date(string='Accepted date')
+    mp_membership_date_to = fields.Date(string='Expire date')
+    date = fields.Date(string='Date registration', help="Date on which member has requested the membership")
+    mp_membership_fee = fields.Float(string='Price paid', digits='Product Price', required=True, help='Amount for the membership.')
+    first_purchase_date = fields.Date(string="First purchase date")
 

@@ -9,16 +9,16 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//sheet/div[@name='button_box']" position="after">
-                  <div class="alert alert-success alert-dismissible text-center o_form_header" role="alert" attrs="{'invisible': [('free_membership', '=', False)]}">
-                      <a class="close fa fa-times" aria-label="Alert" data-dismiss="alert" href="#" aria-hidden="true"></a>
-                      <div attrs="{'invisible': [('free_membership', '=', 'False')]}">
-                          <strong>You are a free member on our marketplace. Please purchase a seller membership plan according to your need.</strong>
-                          <br/>
-                          <span>For seller membership plans <a href="/seller-membership-plan" target="_blank">Click here</a>.</span>
-                      </div>
-                  </div>
-                </xpath>
+<!--                <xpath expr="//sheet/div[@name='button_box']" position="after">-->
+<!--                  <div class="alert alert-success alert-dismissible text-center o_form_header" role="alert" attrs="{'invisible': [('free_membership', '=', False)]}">-->
+<!--                      <a class="close fa fa-times" aria-label="Alert" data-dismiss="alert" href="#" aria-hidden="true"></a>-->
+<!--                      <div attrs="{'invisible': [('free_membership', '=', 'False')]}">-->
+<!--                          <strong>You are a free member on our marketplace. Please purchase a seller membership plan according to your need.</strong>-->
+<!--                          <br/>-->
+<!--                          <span>For seller membership plans <a href="/seller-membership-plan" target="_blank">Click here</a>.</span>-->
+<!--                      </div>-->
+<!--                  </div>-->
+<!--                </xpath>-->
                 <notebook position="inside">
                     <page string="MP Membership" groups="odoo_marketplace.marketplace_seller_group">
                         <group>
