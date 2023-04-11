@@ -54,8 +54,7 @@ class MassProductUpload(models.Model):
             if not zipfile.is_zipfile(zip_input):
                 raise UserError("Did not find zip file, please select zip file.")
         self.validate_header(vals['zip_file'])
-        val = super(MassProductUpload,self).create(vals)
-        return val
+        return super(MassProductUpload,self).create(vals)
 
     def validate_header(self,zip_file):
         zip,filenames = self.get_zipfile_obj(zip_file)
@@ -89,30 +88,23 @@ class MassProductUpload(models.Model):
 
     @api.model
     def get_image(self,img_name,zip,filenames):
-        image_name = filenames[0]+'images/'+img_name
-        if image_name in filenames:
-            return zip.read(image_name)    
-        return False
+        image_name = f'{filenames[0]}images/{img_name}'
+        return zip.read(image_name) if image_name in filenames else False
 
     def get_fields_name(self):
 
-        website_id = self.env['website'].get_current_website().id
-
-        if website_id:
+        if website_id := self.env['website'].get_current_website().id:
             settings_fields = self.env['mass.upload.settings'].search_read([('active','=',True),('website_id','=',website_id)],['mass_import_fields','is_required'],limit=1)
         else:
             # If website_id not found then fetch last created active record
             settings_fields = self.env['mass.upload.settings'].search_read([('active','=',True)],['mass_import_fields','is_required'],limit=1, order="id desc")
         if not settings_fields:
             raise UserError('No settings defined yet.')
-            
+
         ids = settings_fields[0].get('mass_import_fields')
-        name_list = []
         data = self.sudo().env['ir.model.fields'].search_read([('id','in',ids)],['name'])
 
-        # append name of fields in name_list
-        for name in data:
-            name_list.append(name['name'])
+        name_list = [name['name'] for name in data]
         # check name exist and it's index should be 0
         if 'name' not in name_list:
             name_list.insert(0,'name')
@@ -129,12 +121,32 @@ class MassProductUpload(models.Model):
         return name_list,settings_fields[0].get('is_required')
 
     def get_m2m_fields(self,headers):
-        fields = self.sudo().env['ir.model.fields'].search_read([('name','in',headers),('model_id.model','=','product.template'),('ttype','=','many2many')],['name','relation'])
-        return fields
+        return (
+            self.sudo()
+            .env['ir.model.fields']
+            .search_read(
+                [
+                    ('name', 'in', headers),
+                    ('model_id.model', '=', 'product.template'),
+                    ('ttype', '=', 'many2many'),
+                ],
+                ['name', 'relation'],
+            )
+        )
 
     def get_m2o_fields(self,headers):
-        fields = self.sudo().env['ir.model.fields'].search_read([('name','in',headers),('model_id.model','=','product.template'),('ttype','=','many2one')],['name','relation'])
-        return fields
+        return (
+            self.sudo()
+            .env['ir.model.fields']
+            .search_read(
+                [
+                    ('name', 'in', headers),
+                    ('model_id.model', '=', 'product.template'),
+                    ('ttype', '=', 'many2one'),
+                ],
+                ['name', 'relation'],
+            )
+        )
         
     def get_m2m_field_ids(self,vals,m2m_fields):
         """This method checks the given many2many value is list and records of the given ids in the list exist"""
@@ -152,9 +164,7 @@ class MassProductUpload(models.Model):
                 user_given_list = [int(i) for i in m2m_field_id_list.strip('[]').split(',') if i.isnumeric()]
             if user_given_list:
                 rec = self.env[field['relation']].browse(user_given_list)
-                ids_list = []
-                for record in rec.exists():
-                    ids_list.append(record.id)
+                ids_list = [record.id for record in rec.exists()]
                 existed_rec[field_name] = ids_list
         return existed_rec
 
@@ -165,12 +175,9 @@ class MassProductUpload(models.Model):
         for field in m2o_fields:
             field_name = field['name']
             m2o_field_id = vals[field_name]
-            if not m2o_field_id:
+            if not m2o_field_id or m2o_field_id and not m2o_field_id.isnumeric():
                 non_existed_rec[field_name] = m2o_field_id
                 continue
-            elif not m2o_field_id.isnumeric():
-                non_existed_rec[field_name] = m2o_field_id
-                continue 
             else:
                 int_id = int(m2o_field_id) if m2o_field_id.isnumeric() else m2o_field_id
                 rec = self.env[field['relation']].browse(int_id)
@@ -188,18 +195,17 @@ class MassProductUpload(models.Model):
             status_msg = 'All the records have been created successfully.'
         else:
             self.state = 'partial'
-            status_msg = '{} records have been created successfully.'.format(self.passes)
-            
+            status_msg = f'{self.passes} records have been created successfully.'
+
         status_rec = self.env['mass.upload.status'].create({'passed_rec':self.passes,'message':status_msg})
-        return_action = {
-                'name' : 'Mass Upload Wizard',
-                'type': 'ir.actions.act_window',
-                'res_model': 'mass.upload.status',
-                'view_mode': 'form',
-                'res_id': status_rec.id,
-                'target' : 'new'
+        return {
+            'name': 'Mass Upload Wizard',
+            'type': 'ir.actions.act_window',
+            'res_model': 'mass.upload.status',
+            'view_mode': 'form',
+            'res_id': status_rec.id,
+            'target': 'new',
         }
-        return return_action
         
    
     def upload_products(self):
@@ -218,9 +224,8 @@ class MassProductUpload(models.Model):
                 continue_loop = False
 
                 # vals['name'] will be None when an empty line added in csv
-                if vals['name'] == '' or vals['name'] == None:
+                if vals['name'] == '' or vals['name'] is None:
                     continue_loop = True
-                # check None values for correct comma separation
                 elif fields_required and '' in vals.values() or None in vals.values():
                     continue_loop = True
                 if m2m_fields:
@@ -236,8 +241,9 @@ class MassProductUpload(models.Model):
                             del vals[val['name']]
 
                 if m2o_fields:
-                    non_existed_rec = record.get_m2o_non_exis_rec(vals,m2o_fields)
-                    if non_existed_rec:
+                    if non_existed_rec := record.get_m2o_non_exis_rec(
+                        vals, m2o_fields
+                    ):
                         if fields_required:
                             continue_loop = True
                         else:
@@ -252,7 +258,7 @@ class MassProductUpload(models.Model):
                         temp_dscrptn.pop(-1)
                         temp_dscrptn.extend(list_data)
                     # remove multiple None value appended by csv reader in dict values
-                    for i in range(len(temp_dscrptn)):
+                    for _ in range(len(temp_dscrptn)):
                         if None in temp_dscrptn:
                             temp_dscrptn.remove(None)
                         else:
@@ -261,15 +267,14 @@ class MassProductUpload(models.Model):
                     continue
 
                 try:   
-                    img_name = vals['image']
-                    if img_name:
+                    if img_name := vals['image']:
                         image = record.get_image(img_name,zip,filenames)
                         vals['image_1920'] = base64.b64encode(image)
                     vals['marketplace_seller_id'] = record.seller_id.id
                     del vals['image']
                     if vals.__contains__(None):
                         del vals[None]
-                    
+
                     product = self.env['product.template'].create(vals)
 
                     product.auto_approve()
@@ -277,12 +282,8 @@ class MassProductUpload(models.Model):
                 except Exception as e:
                     _logger.info("=========Exception===============%r",e)
                     failed_rec += 1
-                    appnd_dscrptn = True
                     """check in any case except executes then all the values in list temp_dscrptn is string so that those values can be added in failed records message"""
-                    for i in temp_dscrptn:
-                        if type(i) != str:
-                            appnd_dscrptn = False
-                            break
+                    appnd_dscrptn = all(type(i) == str for i in temp_dscrptn)
                     if appnd_dscrptn:
                         dscrptn += '\n' + ','.join(temp_dscrptn)
 

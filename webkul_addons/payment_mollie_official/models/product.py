@@ -17,8 +17,7 @@ class ProductTemplate(models.Model):
         if self.mollie_voucher_category:
             return self.mollie_voucher_category
         mollie_voucher_category = False
-        category_id = self.categ_id
-        if category_id:
+        if category_id := self.categ_id:
             while not mollie_voucher_category and category_id:
                 mollie_voucher_category = category_id.mollie_voucher_category
                 category_id = category_id.parent_id

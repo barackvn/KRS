@@ -96,10 +96,7 @@ class SellerReview(models.Model):
     @api.depends('website_published')
     def _get_value_website_published(self):
         for record in self:
-            if record.website_published:
-                record.state = 'pub'
-            else:
-                record.state = 'unpub'
+            record.state = 'pub' if record.website_published else 'unpub'
 
     @api.model
     def _get_default_color(self):
@@ -166,7 +163,7 @@ class SellerReview(models.Model):
             'view_mode': action.view_mode,
             'target': action.target,
             'res_model': action.res_model,
-            'domain': "[('review_help','=','yes'),('seller_review_id','=',%s)]" % self._ids[0],
+            'domain': f"[('review_help','=','yes'),('seller_review_id','=',{self._ids[0]})]",
         }
 
     def action_review_not_helpful_fun(self):
@@ -187,7 +184,7 @@ class SellerReview(models.Model):
             'target': action.target,
             'context': "{'default_seller_review_id': " + str(self._ids[0]) + "}",
             'res_model': action.res_model,
-            'domain': "[('review_help','=','no'),('seller_review_id','=',%s)]" % self._ids[0],
+            'domain': f"[('review_help','=','no'),('seller_review_id','=',{self._ids[0]})]",
         }
 
     def toggle_website_published(self):
@@ -248,7 +245,4 @@ class SellerRecommendation(models.Model):
 
     def publish_unpublish_btn(self):
         for rec in self:
-            if rec.state == "pub":
-                rec.state = "unpub"
-            else:
-                rec.state = "pub"
+            rec.state = "unpub" if rec.state == "pub" else "pub"

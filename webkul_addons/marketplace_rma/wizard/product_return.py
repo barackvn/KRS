@@ -33,18 +33,18 @@ class ProductReturnWizard(models.TransientModel):
         marketplace_seller_obj = rma_obj.marketplace_seller_id
 
         if rma_obj and rma_obj.return_request_type in ('exchange','refund') and marketplace_seller_obj:
-            
+
             seller_warehouse_id = marketplace_seller_obj.get_seller_global_fields('warehouse_id')
             types = self.env['stock.picking.type'].search([('code', '=', 'incoming'), ('warehouse_id', '=', seller_warehouse_id)])
         else:
             types = self.env['stock.picking.type'].search(
                 [('code', '=', 'incoming'), ('warehouse_id.company_id', '=', company_id)])
-        
+
         if not types:
             types = self.env['stock.picking.type'].search(
                 [('code', '=', 'incoming'), ('warehouse_id', '=', False)])
-            if not types:
-                raise ValidationError(_("Make sure you have at least an incoming picking type defined"))
+        if not types:
+            raise ValidationError(_("Make sure you have at least an incoming picking type defined"))
         return types[0]
 
     picking_type_id = fields.Many2one('stock.picking.type', 'Picking Type',
@@ -58,21 +58,24 @@ class ProductReturnWizard(models.TransientModel):
         des_location_id = None
 
         if self.rma_id and self.rma_id.return_request_type == 'repair':
-            repair_location_id = self.env['ir.default'].sudo().get('res.config.settings', 'repair_location_id')
-            if repair_location_id:
+            if (
+                repair_location_id := self.env['ir.default']
+                .sudo()
+                .get('res.config.settings', 'repair_location_id')
+            ):
                 des_location_id = repair_location_id
 
         elif self.rma_id and self.rma_id.return_request_type in ('exchange','refund') and marketplace_seller_obj:
-            exchange_location_id = marketplace_seller_obj.get_seller_global_fields('location_id')
-
-            if exchange_location_id:
+            if exchange_location_id := marketplace_seller_obj.get_seller_global_fields(
+                'location_id'
+            ):
                 des_location_id = exchange_location_id
         elif self.picking_type_id:
             picktype = self.env["stock.picking.type"].browse(
                 self.picking_type_id.id)
             if picktype.default_location_dest_id:
                 des_location_id = picktype.default_location_dest_id.id
-        
+
         self.des_location_id = des_location_id
 
     def apply(self):

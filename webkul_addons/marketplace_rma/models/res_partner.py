@@ -36,9 +36,11 @@ class Respartner(models.Model):
 	@api.onchange("set_seller_wise_settings")
 	def on_change_seller_wise_rma_settings(self):
 		if self.set_seller_wise_settings:
-			vals = {}
-			vals["days_for_rma"] = self.env['ir.default'].get(
-				'res.config.settings', 'mp_days_for_rma')
+			vals = {
+				"days_for_rma": self.env['ir.default'].get(
+					'res.config.settings', 'mp_days_for_rma'
+				)
+			}
 			vals["rma_day_apply_on"] = self.env['ir.default'].get(
 				'res.config.settings', 'mp_rma_day_apply_on')
 			self.write(vals)

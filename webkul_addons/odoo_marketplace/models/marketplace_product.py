@@ -28,8 +28,9 @@ class ProductTemplate(models.Model):
     # Default methods
     def _get_default_category_id(self):
         if self.marketplace_seller_id:
-            mp_categ = self.env['res.config.settings'].get_mp_global_field_value('internal_categ')
-            if mp_categ:
+            if mp_categ := self.env[
+                'res.config.settings'
+            ].get_mp_global_field_value('internal_categ'):
                 return mp_categ.id
         elif self._context.get("pass_default_categ"):
             return False
@@ -80,7 +81,7 @@ class ProductTemplate(models.Model):
         for obj in self:
             mp_stock_obj = self.env["marketplace.stock"].search(
                 [('product_temp_id', '=', obj.id), ('state', '=', 'requested')])
-            obj.pending_qty_request = True if mp_stock_obj else False
+            obj.pending_qty_request = bool(mp_stock_obj)
 
     # Constraints and onchanges
 
@@ -104,11 +105,11 @@ class ProductTemplate(models.Model):
                 vals["status"] = "draft"
             if vals.get('type', False) and vals['type'] != 'service' and not vals.get("invoice_policy", False):
                 vals["invoice_policy"] = "delivery"
-            mp_categ = self.env['res.config.settings'].get_mp_global_field_value('internal_categ')
-            if mp_categ:
+            if mp_categ := self.env[
+                'res.config.settings'
+            ].get_mp_global_field_value('internal_categ'):
                 vals["categ_id"] = mp_categ
-        product_template = super(ProductTemplate, self).create(vals)
-        return product_template
+        return super(ProductTemplate, self).create(vals)
 
     # Action methods
 
@@ -162,8 +163,9 @@ class ProductTemplate(models.Model):
 
     def auto_approve(self):
         for obj in self:
-            auto_product_approve = obj.marketplace_seller_id.get_seller_global_fields('auto_product_approve')
-            if auto_product_approve:
+            if auto_product_approve := obj.marketplace_seller_id.get_seller_global_fields(
+                'auto_product_approve'
+            ):
                 obj.write({"status": "pending"})
                 obj.sudo().approved()
             else:
@@ -172,34 +174,35 @@ class ProductTemplate(models.Model):
 
     def check_state_send_mail(self):
         resConfig = self.env['res.config.settings']
-        for obj in self.filtered(lambda o: o.status in ["approved", "rejected"]):
+        for _ in self.filtered(lambda o: o.status in ["approved", "rejected"]):
             # Notify to admin by admin when product approved/reject
             if resConfig.get_mp_global_field_value("enable_notify_admin_on_product_approve_reject"):
-                temp_id = resConfig.get_mp_global_field_value("notify_admin_on_product_approve_reject_m_tmpl_id")
-                if temp_id:
+                if temp_id := resConfig.get_mp_global_field_value(
+                    "notify_admin_on_product_approve_reject_m_tmpl_id"
+                ):
                     self.send_mail_to_seller(temp_id)
             # Notify to Seller by admin  when product approved/reject
             if resConfig.get_mp_global_field_value("enable_notify_seller_on_product_approve_reject"):
-                temp_id = resConfig.get_mp_global_field_value("notify_seller_on_product_approve_reject_m_tmpl_id")
-                if temp_id:
+                if temp_id := resConfig.get_mp_global_field_value(
+                    "notify_seller_on_product_approve_reject_m_tmpl_id"
+                ):
                     self.send_mail_to_seller(temp_id)
 
     def approved(self):
         for obj in self:
             if not obj.marketplace_seller_id:
                 raise Warning(_("Marketplace seller id is not assign to this product."))
-            if obj.marketplace_seller_id.state == "approved":
-                login_user_obj = self.env.user
-                if login_user_obj.has_group('base.group_system'):
-                    obj.sudo().write({"website_published":True, "status": "approved", "sale_ok": True})
-                else:
-                    obj.sudo().write({"status": "approved", "sale_ok": True})
-                obj.check_state_send_mail()
-                if not obj.is_initinal_qty_set:
-                    obj.set_initial_qty()
-            else:
+            if obj.marketplace_seller_id.state != "approved":
                 raise Warning(
                     _("Marketplace seller of this product is not approved."))
+            login_user_obj = self.env.user
+            if login_user_obj.has_group('base.group_system'):
+                obj.sudo().write({"website_published":True, "status": "approved", "sale_ok": True})
+            else:
+                obj.sudo().write({"status": "approved", "sale_ok": True})
+            obj.check_state_send_mail()
+            if not obj.is_initinal_qty_set:
+                obj.set_initial_qty()
         return True
 
     def reject(self):
@@ -223,9 +226,8 @@ class ProductTemplate(models.Model):
     def set_initial_qty(self):
         for template_obj in self:
             location_id = template_obj.marketplace_seller_id.get_seller_global_fields('location_id')
-            if len(self) == 1:
-                if template_obj.qty < 0:
-                    raise Warning(_('Initial Quantity can not be negative'))
+            if len(self) == 1 and template_obj.qty < 0:
+                raise Warning(_('Initial Quantity can not be negative'))
             if not location_id:
                 raise Warning(_("Product seller has no location/warehouse."))
             if template_obj.qty > 0:
@@ -274,8 +276,9 @@ class ProductTemplate(models.Model):
             product = self.env['product.product'].sudo().browse(combination_info['product_id'])
             seller_obj = product.marketplace_seller_id
             if seller_obj and seller_obj.seller:
-                warehouse_id = seller_obj.get_seller_global_fields("warehouse_id")
-                if warehouse_id:
+                if warehouse_id := seller_obj.get_seller_global_fields(
+                    "warehouse_id"
+                ):
                     product.with_context(warehouse=warehouse_id)._compute_quantities()
                     combination_info.update({
                         'virtual_available': product.virtual_available,

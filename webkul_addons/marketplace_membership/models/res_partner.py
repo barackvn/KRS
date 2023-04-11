@@ -65,13 +65,30 @@ class ResPartner(models.Model):
     def _compute_mp_membership_start_stop(self):
         for partner in self:
 
-            x =  self.env['seller.membership'].sudo().search([('partner_id', '=', partner.id), ('mp_membership_cancel_date','=',False), ('is_active','=',True)], limit=1)
-            if x:
+            if (
+                x := self.env['seller.membership']
+                .sudo()
+                .search(
+                    [
+                        ('partner_id', '=', partner.id),
+                        ('mp_membership_cancel_date', '=', False),
+                        ('is_active', '=', True),
+                    ],
+                    limit=1,
+                )
+            ):
                 partner.mp_membership_start_date = x.mp_membership_date_from
                 partner.mp_membership_stop_date = x.mp_membership_date_to
 
-            y = self.env['seller.membership'].sudo().search([('partner_id', '=', partner.id), ('is_active','=',True)], limit=1, order='mp_membership_cancel_date')
-            if y:
+            if (
+                y := self.env['seller.membership']
+                .sudo()
+                .search(
+                    [('partner_id', '=', partner.id), ('is_active', '=', True)],
+                    limit=1,
+                    order='mp_membership_cancel_date',
+                )
+            ):
                 partner.membership_cancel_date = y.mp_membership_cancel_date
 
     @api.depends('mp_membership_plan_ids', 'mp_membership_plan_ids.account_invoice_line_id.move_id.state',
@@ -82,28 +99,38 @@ class ResPartner(models.Model):
     def _compute_mp_membership_state(self):
         for partner in self:
             if partner.free_membership:
-                partner.mp_membership_state = "free"
                 free_products = self.env['res.config.settings'].get_mp_global_field_value('mp_no_of_product')
+                partner.mp_membership_state = "free"
                 partner.write({"no_of_product": free_products})
-            else:
-                seller_membership_obj = self.env['seller.membership'].sudo().search([('partner_id', '=', partner.id), ('is_active','=',True)
-                ], limit=1)
-                if seller_membership_obj:
-                    partner.mp_membership_state = seller_membership_obj.state
-                    if seller_membership_obj.state == "paid":
-                        partner.write({"no_of_product": seller_membership_obj.no_of_product})
-                    else:
-                        partner.write({"no_of_product": 0})
+            elif (
+                seller_membership_obj := self.env['seller.membership']
+                .sudo()
+                .search(
+                    [('partner_id', '=', partner.id), ('is_active', '=', True)],
+                    limit=1,
+                )
+            ):
+                partner.mp_membership_state = seller_membership_obj.state
+                if seller_membership_obj.state == "paid":
+                    partner.write({"no_of_product": seller_membership_obj.no_of_product})
                 else:
-                    seller_membership_obj2 = self.env['seller.membership'].sudo().search([('partner_id', '=', partner.id)], limit=1, order='mp_membership_date_to desc')
-                    if seller_membership_obj2:
-                        partner.mp_membership_state = seller_membership_obj2.state
-                        if seller_membership_obj2.state == "paid":
-                            partner.write({"no_of_product": seller_membership_obj2.no_of_product})
-                        else:
-                            partner.write({"no_of_product": 0})
-                    else:
-                        partner.mp_membership_state = "free"
+                    partner.write({"no_of_product": 0})
+            elif (
+                seller_membership_obj2 := self.env['seller.membership']
+                .sudo()
+                .search(
+                    [('partner_id', '=', partner.id)],
+                    limit=1,
+                    order='mp_membership_date_to desc',
+                )
+            ):
+                partner.mp_membership_state = seller_membership_obj2.state
+                if seller_membership_obj2.state == "paid":
+                    partner.write({"no_of_product": seller_membership_obj2.no_of_product})
+                else:
+                    partner.write({"no_of_product": 0})
+            else:
+                partner.mp_membership_state = "free"
 
 
     def cancel_seller_mp_membership(self):

@@ -122,9 +122,9 @@ class ProductTemplateInherit(models.Model):
         for record in self:
             name = ''
             if record.name:
-                name += str(record.name) + ' '
+                name += f'{str(record.name)} '
             if record.net_weight_per_unit:
-                name += str(int(record.net_weight_per_unit)) + ' ' + str(record.net_weight_uom)
+                name += f'{int(record.net_weight_per_unit)} {str(record.net_weight_uom)}'
             record.complete_name = name
 
     @api.depends('cust_product_category', 'energy_kg', 'sugar', 'saturated_fat', 'sodium', 'protein', 'fiber',

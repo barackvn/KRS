@@ -26,16 +26,18 @@ class WebsiteSale(WebsiteSale):
     @http.route(['/shop/cart/update_cart_voucher'], type='json', auth="public", methods=['POST'], website=True, csrf=False)
     def cart_update_cart_voucher(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
         order = request.website.sale_get_order()
-        secret_code = request.session.get('secret_key_data')
-        if secret_code:
+        if secret_code := request.session.get('secret_key_data'):
             if set_qty == 0:
                 product_obj = request.env['product.product'].search([('id','=',product_id)])
-                if product_obj.marketplace_seller_id :
+                if product_obj.marketplace_seller_id:
                     count = 0
                     for line in order.order_line:
-                        if line.product_id.marketplace_seller_id:
-                            if line.product_id.marketplace_seller_id == product_obj.marketplace_seller_id :
-                                count = count+1
+                        if (
+                            line.product_id.marketplace_seller_id
+                            and line.product_id.marketplace_seller_id
+                            == product_obj.marketplace_seller_id
+                        ):
+                            count = count+1
 
                     if count == 1:
                         voucher_product_id = request.env['ir.default'].sudo().get('res.config.settings', 'wk_coupon_product_id')

@@ -71,37 +71,34 @@ class SellerMembership(models.Model):
 
     def _make_searchable_date_from(self, operator, value):
         self.env.cr.execute("""SELECT id FROM seller_membership""")
-        all_seller_membership_ids = []
-        ids = []
-        for dic in self.env.cr.dictfetchall():
-            all_seller_membership_ids.append(dic["id"])
-        for obj in self.sudo().browse(all_seller_membership_ids):
-            if obj.mp_membership_date_to == value:
-                ids.append(obj.id)
+        all_seller_membership_ids = [dic["id"] for dic in self.env.cr.dictfetchall()]
+        ids = [
+            obj.id
+            for obj in self.sudo().browse(all_seller_membership_ids)
+            if obj.mp_membership_date_to == value
+        ]
         return [('id', 'in', ids)]
 
 
     def _make_searchable_date_from(self, operator, value):
         self.env.cr.execute("""SELECT id FROM seller_membership""")
-        all_seller_membership_ids = []
-        ids = []
-        for dic in self.env.cr.dictfetchall():
-            all_seller_membership_ids.append(dic["id"])
-        for obj in self.sudo().browse(all_seller_membership_ids):
-            if obj.mp_membership_date_from == value:
-                ids.append(obj.id)
+        all_seller_membership_ids = [dic["id"] for dic in self.env.cr.dictfetchall()]
+        ids = [
+            obj.id
+            for obj in self.sudo().browse(all_seller_membership_ids)
+            if obj.mp_membership_date_from == value
+        ]
         return [('id', 'in', ids)]
 
 
     def _make_searchable_state(self, operator, value):
         self.env.cr.execute("""SELECT id FROM seller_membership""")
-        all_seller_membership_ids = []
-        ids = []
-        for dic in self.env.cr.dictfetchall():
-            all_seller_membership_ids.append(dic["id"])
-        for obj in self.sudo().browse(all_seller_membership_ids):
-            if obj.state == value:
-                ids.append(obj.id)
+        all_seller_membership_ids = [dic["id"] for dic in self.env.cr.dictfetchall()]
+        ids = [
+            obj.id
+            for obj in self.sudo().browse(all_seller_membership_ids)
+            if obj.state == value
+        ]
         return [('id', 'in', ids)]
 
     @api.depends('account_invoice_line_id.move_id.state',

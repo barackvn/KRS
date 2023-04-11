@@ -40,70 +40,65 @@ class AccountMove(models.Model):
         sale_order_obj = self.env['sale.order'].search([('name','=',self.invoice_origin)])
         seller_obj = self.env["res.partner"].browse(seller_id)
 
-        if comm_type == 'product' :
-            # or comm_type == 'default'
-            if invoice_line_obj:
-                invoice_line_obj.commission_type = "Product"
-                if invoice_line_obj.product_id.comm_method:
-                    product = invoice_line_obj.product_id
-                    price_unit = self.convert_currency_n_calc_comm(product.comm_method, list_price, invoice_line_obj.quantity, product.percent_commission, product.fix_commission, product.currency_id, sale_order_obj.currency_id, invoice_line_obj)
+        if comm_type == 'product' and invoice_line_obj:
+            invoice_line_obj.commission_type = "Product"
+            if invoice_line_obj.product_id.comm_method:
+                product = invoice_line_obj.product_id
+                return self.convert_currency_n_calc_comm(
+                    product.comm_method,
+                    list_price,
+                    invoice_line_obj.quantity,
+                    product.percent_commission,
+                    product.fix_commission,
+                    product.currency_id,
+                    sale_order_obj.currency_id,
+                    invoice_line_obj,
+                )
+            if invoice_line_obj.product_id.public_categ_ids:
+                comm_list = []
+                for category in invoice_line_obj.product_id.public_categ_ids:
+                    if category.comm_method:
+                        price = self.convert_currency_n_calc_comm(category.comm_method, list_price, invoice_line_obj.quantity, category.percent_commission, category.fix_commission, mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
+                        comm_list.append(price)
+                if comm_list != []:
+                    price_unit = max(comm_list) if category_comm == 'minimum' else min(comm_list)
+                    # code updated for showing in wizard the correct category commission if product has multiple category
+                    if len(invoice_line_obj.product_id.public_categ_ids)>1:
+                        self._get_applied_mp_categ_comm_details(list_price, invoice_line_obj.quantity, mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
+
                     return price_unit
 
-                if invoice_line_obj.product_id.public_categ_ids:
-                    comm_list = []
-                    for category in invoice_line_obj.product_id.public_categ_ids:
-                        if category.comm_method:
-                            price = self.convert_currency_n_calc_comm(category.comm_method, list_price, invoice_line_obj.quantity, category.percent_commission, category.fix_commission, mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
-                            comm_list.append(price)
-                    if comm_list != []:
-                        if category_comm == 'minimum':
-                            price_unit = max(comm_list)
-                        else:
-                            price_unit = min(comm_list)
+            price_unit = self.convert_currency_n_calc_comm(seller_obj.get_seller_global_fields('comm_method'), list_price, invoice_line_obj.quantity, seller_obj.get_seller_global_fields('commission'), seller_obj.get_seller_global_fields('fix_commission'), mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
+            return price_unit
 
-                        # code updated for showing in wizard the correct category commission if product has multiple category
-                        if len(invoice_line_obj.product_id.public_categ_ids)>1:
-                            self._get_applied_mp_categ_comm_details(list_price, invoice_line_obj.quantity, mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
+        if comm_type == 'category' and invoice_line_obj:
+            invoice_line_obj.commission_type = "Category"
+            if invoice_line_obj.product_id.public_categ_ids:
+                comm_list = []
+                for category in invoice_line_obj.product_id.public_categ_ids:
+                    if category.comm_method:
+                        price = self.convert_currency_n_calc_comm(category.comm_method, list_price, invoice_line_obj.quantity, category.percent_commission, category.fix_commission, mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
+                        comm_list.append(price)
+                if comm_list != []:
+                    price_unit = max(comm_list) if category_comm == 'minimum' else min(comm_list)
+                    # code updated for showing in wizard the correct category commission if product has multiple category
+                    if len(invoice_line_obj.product_id.public_categ_ids)>1:
+                        self._get_applied_mp_categ_comm_details(list_price, invoice_line_obj.quantity, mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
 
-                        return price_unit
-
-                price_unit = self.convert_currency_n_calc_comm(seller_obj.get_seller_global_fields('comm_method'), list_price, invoice_line_obj.quantity, seller_obj.get_seller_global_fields('commission'), seller_obj.get_seller_global_fields('fix_commission'), mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
-                return price_unit
-
-        if comm_type == 'category':
-            if invoice_line_obj:
-                invoice_line_obj.commission_type = "Category"
-                if invoice_line_obj.product_id.public_categ_ids:
-                    comm_list = []
-                    for category in invoice_line_obj.product_id.public_categ_ids:
-                        if category.comm_method:
-                            price = self.convert_currency_n_calc_comm(category.comm_method, list_price, invoice_line_obj.quantity, category.percent_commission, category.fix_commission, mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
-                            comm_list.append(price)
-                    if comm_list != []:
-                        if category_comm == 'minimum':
-                            price_unit = max(comm_list)
-                        else:
-                            price_unit = min(comm_list)
-
-                        # code updated for showing in wizard the correct category commission if product has multiple category
-                        if len(invoice_line_obj.product_id.public_categ_ids)>1:
-                            self._get_applied_mp_categ_comm_details(list_price, invoice_line_obj.quantity, mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
-
-                        return price_unit
-
-                if invoice_line_obj.product_id.comm_method:
-                    product = invoice_line_obj.product_id
-                    price_unit = self.convert_currency_n_calc_comm(product.comm_method, list_price, invoice_line_obj.quantity, product.percent_commission, product.fix_commission, product.currency_id, sale_order_obj.currency_id, invoice_line_obj)
                     return price_unit
 
-                price_unit = self.convert_currency_n_calc_comm(seller_obj.get_seller_global_fields('comm_method'), list_price, invoice_line_obj.quantity, seller_obj.get_seller_global_fields('commission'), seller_obj.get_seller_global_fields('fix_commission'), mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
+            if invoice_line_obj.product_id.comm_method:
+                product = invoice_line_obj.product_id
+                price_unit = self.convert_currency_n_calc_comm(product.comm_method, list_price, invoice_line_obj.quantity, product.percent_commission, product.fix_commission, product.currency_id, sale_order_obj.currency_id, invoice_line_obj)
                 return price_unit
 
-        if comm_type == 'seller':
-            if invoice_line_obj:
-                invoice_line_obj.commission_type = "Seller"
-                price_unit = self.convert_currency_n_calc_comm(seller_obj.get_seller_global_fields('comm_method'), list_price, invoice_line_obj.quantity, seller_obj.get_seller_global_fields('commission'), seller_obj.get_seller_global_fields('fix_commission'), mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
-                return price_unit
+            price_unit = self.convert_currency_n_calc_comm(seller_obj.get_seller_global_fields('comm_method'), list_price, invoice_line_obj.quantity, seller_obj.get_seller_global_fields('commission'), seller_obj.get_seller_global_fields('fix_commission'), mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
+            return price_unit
+
+        if comm_type == 'seller' and invoice_line_obj:
+            invoice_line_obj.commission_type = "Seller"
+            price_unit = self.convert_currency_n_calc_comm(seller_obj.get_seller_global_fields('comm_method'), list_price, invoice_line_obj.quantity, seller_obj.get_seller_global_fields('commission'), seller_obj.get_seller_global_fields('fix_commission'), mp_config_currency, sale_order_obj.currency_id, invoice_line_obj)
+            return price_unit
         return price_unit
 
 
@@ -147,40 +142,37 @@ class AccountMove(models.Model):
         comm_factor_list = []
         if invoice_line_obj:
             for category in invoice_line_obj.product_id.public_categ_ids:
-                comm_method = category.comm_method
                 percent_comm = category.percent_commission
-                fix_comm = from_currency.compute(category.fix_commission, to_currency)
                 comm_factor = 0
-                if comm_method:
-                    if comm_method == 'percent' :
-                        comm_factor = (list_price * (percent_comm / 100.0))
-                    elif comm_method == 'fix' :
+                if comm_method := category.comm_method:
+                    fix_comm = from_currency.compute(category.fix_commission, to_currency)
+                    if comm_method == 'fix':
                         comm_factor = fix_comm * qty
-                    elif comm_method == 'percent_and_fix' :
-                        percent_comm = (list_price * (percent_comm / 100.0))
-                        comm_factor = percent_comm + (fix_comm * qty)
-                    elif comm_method == 'fix_and_percent' :
+                    elif comm_method == 'fix_and_percent':
                         new_price = list_price - (fix_comm * qty)
                         percent_comm = (new_price * (percent_comm / 100.0))
                         comm_factor = percent_comm + fix_comm
+                    elif comm_method == 'percent':
+                        comm_factor = (list_price * (percent_comm / 100.0))
+                    elif comm_method == 'percent_and_fix':
+                        percent_comm = (list_price * (percent_comm / 100.0))
+                        comm_factor = percent_comm + (fix_comm * qty)
                     comm_factor_list.append((comm_factor,category.comm_method,category.fix_commission, category.percent_commission))
             if comm_factor_list != []:
-                if category_comm == 'minimum':
-                    item = min(comm_factor_list, key = lambda t: t[0])
-                    invoice_line_obj.comm_method = item[1]
-                    invoice_line_obj.fix_comm = item[2]
-                    invoice_line_obj.perc_comm = item[3]
-                else:
-                    item = max(comm_factor_list, key = lambda t: t[0])
-                    invoice_line_obj.comm_method = item[1]
-                    invoice_line_obj.fix_comm = item[2]
-                    invoice_line_obj.perc_comm = item[3]
+                item = (
+                    min(comm_factor_list, key=lambda t: t[0])
+                    if category_comm == 'minimum'
+                    else max(comm_factor_list, key=lambda t: t[0])
+                )
+                invoice_line_obj.perc_comm = item[3]
+                invoice_line_obj.fix_comm = item[2]
+                invoice_line_obj.comm_method = item[1]
         return
 
     def create_seller_invoice_new(self):
         for invoice_obj in self:
-            sellers = {"seller_ids": {}}
             if invoice_obj.type in ['out_invoice', 'out_refund']:
+                sellers = {"seller_ids": {}}
                 for invoice_line_obj in invoice_obj.invoice_line_ids:
                     seller_id = invoice_line_obj.product_id.marketplace_seller_id.id if invoice_line_obj.product_id.marketplace_seller_id else False
                     if seller_id:
@@ -198,16 +190,22 @@ class AccountMove(models.Model):
                                     }
                                 }
                             )
-                sellers.update({
+                sellers |= {
                     "invoive_type": invoice_obj.type,
                     "invoice_id": invoice_obj.id,
                     "invoice_currency": invoice_obj.currency_id,
-                    "payment_mode": "order_paid" if invoice_obj.type == "out_invoice" else "order_refund",
-                    "description": _("Order Invoice Payment") if invoice_obj.type == "out_invoice" else _("Order Invoice Refund"),
-                    "payment_type": "cr" if invoice_obj.type == "out_invoice" else "dr",
+                    "payment_mode": "order_paid"
+                    if invoice_obj.type == "out_invoice"
+                    else "order_refund",
+                    "description": _("Order Invoice Payment")
+                    if invoice_obj.type == "out_invoice"
+                    else _("Order Invoice Refund"),
+                    "payment_type": "cr"
+                    if invoice_obj.type == "out_invoice"
+                    else "dr",
                     "state": "draft",
                     "memo": invoice_obj.invoice_origin or invoice_obj.name,
-                })
+                }
                 self.create_seller_payment_new(sellers)
 
 class AccountInvoiceLine(models.Model):
@@ -220,28 +218,25 @@ class AccountInvoiceLine(models.Model):
 
     def button_view_comm_details(self):
         if self.comm_method and self.commission_type:
-            currency_symbol = ''
-            if self.currency_id:
-                currency_symbol = self.currency_id.symbol
-            if self.comm_method == 'percent':
-                desc = "Percent Commission" + " : " + str(self.perc_comm) + "%" + " = " + str(self.seller_commission)
+            currency_symbol = self.currency_id.symbol if self.currency_id else ''
             if self.comm_method == 'fix':
                 desc = "Fixed Commission" + " : " + str(self.fix_comm) + currency_symbol + " = " + str(self.seller_commission)
-            if self.comm_method == 'percent_and_fix':
-                desc = "Percent + Fixed Commission" + " : " + str(self.perc_comm) + "% + " + str(self.fix_comm) + currency_symbol + " = " + str(self.seller_commission)
-            if self.comm_method == 'fix_and_percent':
+            elif self.comm_method == 'fix_and_percent':
                 desc = "Fix + Percent Commission" + " : "  + str(self.fix_comm) + currency_symbol + " + " + str(self.perc_comm) + "%" + " = " + str(self.seller_commission)
-            desc = desc + " (" + str(self.commission_type) + " Commission)"
+            elif self.comm_method == 'percent':
+                desc = "Percent Commission" + " : " + str(self.perc_comm) + "%" + " = " + str(self.seller_commission)
+            elif self.comm_method == 'percent_and_fix':
+                desc = "Percent + Fixed Commission" + " : " + str(self.perc_comm) + "% + " + str(self.fix_comm) + currency_symbol + " = " + str(self.seller_commission)
+            desc = f"{desc} ({str(self.commission_type)} Commission)"
         else:
             desc = ''
         view_id= self.env["commtype.desc.wizard"].create({'desc': desc,})
-        vals= {
-            'name'  :  _("Description of Commission"),
-            'view_mode' : 'form',
-            'view_type' : 'form',
-            'res_model' : 'commtype.desc.wizard',
-            'res_id'    : view_id.id,
-            'type'  : "ir.actions.act_window",
-            'target'    : 'new',
+        return {
+            'name': _("Description of Commission"),
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_model': 'commtype.desc.wizard',
+            'res_id': view_id.id,
+            'type': "ir.actions.act_window",
+            'target': 'new',
         }
-        return vals

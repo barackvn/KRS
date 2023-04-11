@@ -36,13 +36,23 @@ class wk_ajax_signin(wk_ajax_signin):
 
     def custom_validate(self,qcontext):
         if qcontext.get('is_seller'):
-            values = dict((key, qcontext.get(key)) for key in ('login', 'name', 'password','is_seller', 'country_id', 'url_handler', 'mp_terms_conditions'))
+            values = {
+                key: qcontext.get(key)
+                for key in (
+                    'login',
+                    'name',
+                    'password',
+                    'is_seller',
+                    'country_id',
+                    'url_handler',
+                    'mp_terms_conditions',
+                )
+            }
         else:
-            values = dict((key, qcontext.get(key)) for key in ('login', 'name', 'password',))
+            values = {key: qcontext.get(key) for key in ('login', 'name', 'password',)}
         pattern = '^[a-zA-Z0-9._%-+]+@[a-zA-Z0-9._%-]+.[a-zA-Z]{2,6}$'
-        res={}
-        res['error']=""
-        if not all([k for k in values.values()]):
+        res = {'error': ""}
+        if not all(list(values.values())):
             res['error'] = res.setdefault('error', '') + ",filled"
             return res
         if not re.match(pattern, values.get('login')):
@@ -72,13 +82,10 @@ class wk_ajax_signin(wk_ajax_signin):
             group_portal = request.env['ir.model.data'].sudo().get_object_reference('base', 'group_portal')[1]
             read_data_list = user_obj.sudo().read()
             for data in read_data_list:
-                if read_data_list:
-                    groups_id = data['groups_id']
-                else :
-                    groups_id = []
+                groups_id = data['groups_id'] if read_data_list else []
             if user_obj and user_obj.partner_id.seller:
                 return "/my/marketplace"
-            elif user_obj and not user_obj.partner_id.seller and group_portal in groups_id:
+            elif user_obj and group_portal in groups_id:
                 return "/shop"
             else:
                 return "/web"
@@ -88,28 +95,26 @@ class wk_ajax_signin(wk_ajax_signin):
     @http.route('/shop/login/', type='json', auth='public', website=True)
     def wk_login(self,*args,**kwargs):
         res = super(wk_ajax_signin, self).wk_login(*args, **kwargs)
-        uid = res.get("uid", False)
-        if uid:
-            wk_url = self.get_redirect_url(res.get("uid"))
-            if wk_url :
+        if uid := res.get("uid", False):
+            if wk_url := self.get_redirect_url(res.get("uid")):
                 res.update({"redirect":wk_url})
         return res
 
 
     @http.route('/website_ajax_login/signup', type='json',auth="public",website=True)
-    def  wk_signup(self, *args,**kw):
+    def wk_signup(self, *args,**kw):
         res={}
         qcontext =  request.params.copy()
         country_id = qcontext.get('country_id')
-        try :
+        try:
             res=self.custom_validate(qcontext)
-            values = dict((key, qcontext.get(key)) for key in ('login', 'name', 'password'))
+            values = {key: qcontext.get(key) for key in ('login', 'name', 'password')}
             if qcontext.get('is_seller'):
-                values.update({
-                    'is_seller' : True,
-                    'country_id' : int(country_id) if country_id else country_id,
-                    'url_handler' : qcontext.get('url_handler'),
-                })
+                values |= {
+                    'is_seller': True,
+                    'country_id': int(country_id) if country_id else country_id,
+                    'url_handler': qcontext.get('url_handler'),
+                }
             if res['error']=="":
                 token=""
                 db, login, password = request.env['res.users'].sudo().signup(values, token)
@@ -133,10 +138,8 @@ class wk_ajax_signin(wk_ajax_signin):
     @http.route('/signup_as_seller_link/', type='json', auth='public', website=True)
     def signup_as_seller_link(self,is_seller,**kwargs):
         new_link = {}
-        for url in kwargs.keys():
-            link_url = kwargs[url]
-            srt = link_url.find('state')
-            if srt:
+        for url, link_url in kwargs.items():
+            if srt := link_url.find('state'):
                 end = link_url.find('&', srt)
                 if end == -1:
                     end = len(link_url)

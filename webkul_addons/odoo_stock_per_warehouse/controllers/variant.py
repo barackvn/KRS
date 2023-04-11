@@ -37,11 +37,10 @@ class VariantController(VariantController):
                     show_stocks = True
                 elif template.user_visibility == 'portal' and not request.website.is_public_user():
                     show_stocks = True
-            else:
-                if website_config.user_visibility == 'public':
-                    show_stocks = True
-                elif website_config.user_visibility == 'portal' and not request.website.is_public_user():
-                    show_stocks = True
+            elif website_config.user_visibility == 'public':
+                show_stocks = True
+            elif website_config.user_visibility == 'portal' and not request.website.is_public_user():
+                show_stocks = True
 
             if show_stocks and product_id:
                 product = template.product_variant_ids.filtered(

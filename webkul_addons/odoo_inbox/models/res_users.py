@@ -14,13 +14,23 @@ class ResUsers(models.Model):
     def set_inbox_setting_user(self, **kwargs):
         values = {}
         if kwargs.get('inbox_default_pane_view_type'):
-            values.update({'inbox_default_pane_view_type': kwargs.get('inbox_default_pane_view_type')})
+            values['inbox_default_pane_view_type'] = kwargs.get(
+                'inbox_default_pane_view_type'
+            )
         if kwargs.get('inbox_theme_backgroud_image'):
-            values.update({'inbox_theme_backgroud_image': kwargs.get('inbox_theme_backgroud_image'),
-                           'inbox_theme_backgroud_color': False})
+            values |= {
+                'inbox_theme_backgroud_image': kwargs.get(
+                    'inbox_theme_backgroud_image'
+                ),
+                'inbox_theme_backgroud_color': False,
+            }
         if kwargs.get('inbox_theme_backgroud_color'):
-            values.update({'inbox_theme_backgroud_color': kwargs.get('inbox_theme_backgroud_color'),
-                           'inbox_theme_backgroud_image': False})
+            values |= {
+                'inbox_theme_backgroud_color': kwargs.get(
+                    'inbox_theme_backgroud_color'
+                ),
+                'inbox_theme_backgroud_image': False,
+            }
         if values:
             self.sudo().write(values)
         return True

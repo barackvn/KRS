@@ -14,8 +14,11 @@ class FakeContactWizard(models.TransientModel):
     _name = "fake.contact.wizard"
 
     def defaultTotalContact(self):
-        count = self.env['res.partner'].sudo().search_count([('active','in',[False,True])])
-        return count
+        return (
+            self.env['res.partner']
+            .sudo()
+            .search_count([('active', 'in', [False, True])])
+        )
 
     total_contact_count = fields.Integer(string='Total Contacts',default=defaultTotalContact,readonly=True)
     create_contact_count = fields.Integer(string='Fake Contacts No.',default=defaultTotalContact,required=True)

@@ -75,9 +75,8 @@ class ProductImageTree(models.Model):
 
     @api.onchange('picture_html')
     def _onchange_picture_html(self):
-        if self.picture_html:
-            if str(self.filename).split('.')[-1] != 'html5':
-                raise ValidationError(_("Only HTML5 files can be selected."))
+        if self.picture_html and str(self.filename).split('.')[-1] != 'html5':
+            raise ValidationError(_("Only HTML5 files can be selected."))
 
 class SurveyLanding(models.Model):
     _name = 'survey.landing'
@@ -149,7 +148,7 @@ class SurveyLanding(models.Model):
         for record in self:
             if record.user_id.partner_id.email:
                 admin = self.env['res.users'].sudo().search([('id', '=', 2)])
-                email = str(record.user_id.partner_id.email) + ',' + str(admin.partner_id.email)
+                email = f'{str(record.user_id.partner_id.email)},{str(admin.partner_id.email)}'
                 mail_templ_id = self.env['ir.model.data'].sudo().get_object_reference(
                     'custom', 'template_seller_for_product_360_image')[1]
                 template_obj = self.env['mail.template'].browse(mail_templ_id)
@@ -187,7 +186,7 @@ class SurveyLanding(models.Model):
 
 
             admin = self.env['res.users'].sudo().search([('id', '=', 2)])
-            email = str(record.user_id.partner_id.email) + ',' + str(admin.partner_id.email)
+            email = f'{str(record.user_id.partner_id.email)},{str(admin.partner_id.email)}'
             mail_templ_id = self.env['ir.model.data'].sudo().get_object_reference(
                     'custom', 'template_seller_send_to_kairos')[1]
             template_obj = self.env['mail.template'].browse(mail_templ_id)
@@ -212,16 +211,17 @@ class SurveyLanding(models.Model):
                 record.enable_seller_mass_upload_group()
 
         email = self.user_id.partner_id.email
-        msg_vals_manager = {}
-
-        msg_vals_manager.update({
-            'body_html': """ HELLO""" + str(self.user_id.partner_id.name) + """  YOUR SELLER ID FOR COMPANY """ + str(self.company_id) + """ HAS BEEN CONFIRMED! <br/>
+        msg_vals_manager = (
+            {
+                'body_html': f""" HELLO{str(self.user_id.partner_id.name)}  YOUR SELLER ID FOR COMPANY {str(self.company_id)}"""
+                + """ HAS BEEN CONFIRMED! <br/>
                         You can start creating your new products through this link <a href='http://localhost:8074/web#id=&action=473&model=product.template&view_type=form&cids=1&menu_id=295'>here.</a>"""
-        })
-        msg_vals_manager.update({
-            'subject': 'SELLER ID APPROVAL',
-            'email_to': email,
-        })
+            }
+            | {
+                'subject': 'SELLER ID APPROVAL',
+                'email_to': email,
+            }
+        )
         msg_id_manager = self.env['mail.mail'].create(msg_vals_manager)
         msg_id_manager.send()
 
@@ -405,26 +405,25 @@ class SurveyLanding(models.Model):
                  'shop_id':seller_shop.id})
 
         for contact in self.contact_ids:
-            res_partner = self.env['res.partner'].create({
+            res_partner = self.env['res.partner'].create(
+                {
                     'parent_id': partner_id.id,
-                    'name': contact.first_name + '' + contact.last_name,
+                    'name': f'{contact.first_name}{contact.last_name}',
                     'function': contact.job_position,
                     'email': contact.email,
                     'phone': str(contact.phone),
-                    'mobile': str(contact.mobile)
-                })
+                    'mobile': str(contact.mobile),
+                }
+            )
 
 
     def action_reject(self):
         for record in self:
-            msg_vals_manager = {}
-
-            msg_vals_manager.update({
+            msg_vals_manager = {} | {
                 'body_html': """ Hello seller, your application for the shop has been rejected. You need to make a few changes in the application.""",
                 'subject': 'SELLER ID REJECTION',
                 'email_to': self.user_id.partner_id.email,
-            })
-
+            }
             msg_id_manager = self.env['mail.mail'].create(msg_vals_manager)
             msg_id_manager.send()
 
@@ -447,10 +446,10 @@ class SurveyLanding(models.Model):
             else:
                 action['views'] = [(self.env.ref('custom.survey_landing_form_view').id, 'form')]
                 action['domain'] = [('user_id', 'in', self.env.user.id)]
-            return action
         else:
             action['domain'] = [('state', '!=', 'draft')]
-            return action
+
+        return action
 
 
 class SellerShopInherit(models.Model):
@@ -468,10 +467,10 @@ class SellerShopInherit(models.Model):
             elif len(shop_id) == 1:
                 action['views'] = [(self.env.ref('odoo_marketplace.wk_seller_shop_form_view').id, 'form')]
                 action['res_id'] = shop_id.id
-            return action
         else:
             action = self.env.ref('odoo_marketplace.wk_seller_shop_action').read()[0]
-            return action
+
+        return action
 
 class EmailSent360(models.Model):
     _name = 'email.sent'

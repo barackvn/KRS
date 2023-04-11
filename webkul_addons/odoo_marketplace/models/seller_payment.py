@@ -49,13 +49,12 @@ class SellerPayment(models.Model):
 
     def _make_it_searchable(self, operator, value):
         self.env.cr.execute("""SELECT id FROM seller_payment""")
-        all_seller_payment_ids = []
-        ids = []
-        for dic in self.env.cr.dictfetchall():
-            all_seller_payment_ids.append(dic["id"])
-        for obj in self.sudo().browse(all_seller_payment_ids):
-            if obj.is_cashable:
-                ids.append(obj.id)
+        all_seller_payment_ids = [dic["id"] for dic in self.env.cr.dictfetchall()]
+        ids = [
+            obj.id
+            for obj in self.sudo().browse(all_seller_payment_ids)
+            if obj.is_cashable
+        ]
         return [('id', 'in', ids)]
 
     name = fields.Char(string="Record Reference",
@@ -134,9 +133,14 @@ class SellerPayment(models.Model):
         # Code For validation
         seller_obj = self.env["res.partner"].browse(vals.get("seller_id"))
         if seller_obj and vals.get("payment_mode", False) == "seller_payment" and vals.get("payment_type", False) == "dr":
-            seller_pending_payment_obj = self.search([("seller_id", "=", seller_obj.id), ("state", "in", [
-                                                     "requested", "confirm"]), ("payment_mode", "=", "seller_payment")], limit=1)
-            if seller_pending_payment_obj:
+            if seller_pending_payment_obj := self.search(
+                [
+                    ("seller_id", "=", seller_obj.id),
+                    ("state", "in", ["requested", "confirm"]),
+                    ("payment_mode", "=", "seller_payment"),
+                ],
+                limit=1,
+            ):
                 raise Warning(
                     _("This seller already has a pending request of payment."))
             seller_payment_obj = self.search(
@@ -145,19 +149,22 @@ class SellerPayment(models.Model):
             if seller_payment_obj:
                 last_payment_date = datetime.datetime.strptime(
                     str(seller_payment_obj.date), '%Y-%m-%d').date()
-                today_date = datetime.datetime.today().date()
+                today_date = datetime.datetime.now().date()
                 days_diff = today_date - last_payment_date
-                if days_diff.days >= seller_obj.get_seller_global_fields('next_payment_request') and abs(vals["payable_amount"]) >= seller_payment_limit and abs(vals["payable_amount"]) <= seller_obj.cashable_amount:
-                    pass
-                else:
+                if (
+                    days_diff.days
+                    < seller_obj.get_seller_global_fields('next_payment_request')
+                    or abs(vals["payable_amount"]) < seller_payment_limit
+                    or abs(vals["payable_amount"]) > seller_obj.cashable_amount
+                ):
                     raise Warning(
                         _("Seller is not eligible for payment request.... "))
-            else:
-                if abs(vals["payable_amount"]) >= seller_payment_limit and abs(vals["payable_amount"]) <= seller_obj.cashable_amount:
-                    pass
-                else:
-                    raise Warning(
-                        _("Seller is not eligible for payment request.... "))
+            elif (
+                abs(vals["payable_amount"]) < seller_payment_limit
+                or abs(vals["payable_amount"]) > seller_obj.cashable_amount
+            ):
+                raise Warning(
+                    _("Seller is not eligible for payment request.... "))
         return vals
 
     def action_invoice_register_payment(self):
@@ -191,8 +198,7 @@ class SellerPayment(models.Model):
         #This is for resolving error:a partner cannot follow twice the same object
         if vals.get("message_follower_ids", False):
             vals.pop("message_follower_ids")
-        res = super(SellerPayment, self).create(vals)
-        return res
+        return super(SellerPayment, self).create(vals)
 
     def write(self, vals):
         res = False
@@ -219,18 +225,16 @@ class SellerPayment(models.Model):
 
     def change_seller_id(self, seller_id):
         result = {}
-        if seller_id:
-            partner_obj = self.env['res.partner'].browse(seller_id)
-            payment_method = partner_obj.payment_method
-            if payment_method:
-                ids = payment_method.ids
-                result['domain'] = {'payment_method': [('id', 'in', ids)]}
-                return result
-            else:
-                raise Warning(
-                    _("Seller has no payment method. Please assign payment method to seller."))
-        else:
+        if not seller_id:
             return result
+        partner_obj = self.env['res.partner'].browse(seller_id)
+        if payment_method := partner_obj.payment_method:
+            ids = payment_method.ids
+            result['domain'] = {'payment_method': [('id', 'in', ids)]}
+            return result
+        else:
+            raise Warning(
+                _("Seller has no payment method. Please assign payment method to seller."))
 
     def do_validate(self):
         for rec in self:
@@ -238,9 +242,14 @@ class SellerPayment(models.Model):
                 rec.state = "requested"
 
             if rec.payment_type == "dr":
-                seller_pending_payment_obj = self.search([("seller_id", "=", rec.seller_id.id), ("state", "in", [
-                                                         "requested", "confirm"]), ("payment_mode", "=", "seller_payment")], limit=1)
-                if seller_pending_payment_obj:
+                if seller_pending_payment_obj := self.search(
+                    [
+                        ("seller_id", "=", rec.seller_id.id),
+                        ("state", "in", ["requested", "confirm"]),
+                        ("payment_mode", "=", "seller_payment"),
+                    ],
+                    limit=1,
+                ):
                     raise Warning(
                         _("This seller already has a pending request of payment."))
                 seller_payment_obj = self.search(
@@ -249,27 +258,27 @@ class SellerPayment(models.Model):
                 if seller_payment_obj:
                     last_payment_date = datetime.datetime.strptime(
                         str(seller_payment_obj.date), '%Y-%m-%d').date()
-                    today_date = datetime.datetime.today().date()
+                    today_date = datetime.datetime.now().date()
                     days_diff = today_date - last_payment_date
                     if days_diff.days >= rec.seller_id.get_seller_global_fields('next_payment_request') and abs(rec.payable_amount) >= seller_payment_limit and abs(rec.payable_amount) <= rec.seller_id.cashable_amount:
                         rec.state = "requested"
                     else:
                         raise Warning(
                             _("Not eligible for payment request.... "))
+                elif abs(rec.payable_amount) >= seller_payment_limit and abs(rec.payable_amount) <= rec.seller_id.cashable_amount:
+                    rec.state = "requested"
                 else:
-                    if abs(rec.payable_amount) >= seller_payment_limit and abs(rec.payable_amount) <= rec.seller_id.cashable_amount:
-                        rec.state = "requested"
-                    else:
-                        raise Warning(
-                            _("You are not eligible for payment request now.... "))
+                    raise Warning(
+                        _("You are not eligible for payment request now.... "))
 
     def do_Confirm(self):
         for rec in self:
             resConfig = self.env['res.config.settings']
             if rec.payment_type == "dr":
                 invoice_type = "in_invoice"
-                seller_journal_id = resConfig.get_mp_global_field_value("seller_payment_journal_id")
-                if seller_journal_id:
+                if seller_journal_id := resConfig.get_mp_global_field_value(
+                    "seller_payment_journal_id"
+                ):
                     journal_ids = self.env['account.journal'].browse([seller_journal_id])
                 else:
                     journal_ids = self.env['account.journal'].search(
@@ -290,8 +299,15 @@ class SellerPayment(models.Model):
                 "mp_seller_bill": True,
             }
             default_term = self.env.ref('account.account_payment_term_immediate').id
-            created_invoice_obj = self.env["account.move"].with_context(default_type='in_invoice', default_display_name='Seller Bill', default_invoice_payment_term_id=default_term).create(vals)
-            if created_invoice_obj:
+            if (
+                created_invoice_obj := self.env["account.move"]
+                .with_context(
+                    default_type='in_invoice',
+                    default_display_name='Seller Bill',
+                    default_invoice_payment_term_id=default_term,
+                )
+                .create(vals)
+            ):
                 line = {
                     "name": _("Seller Payment"),
                     "product_id": product_id,
@@ -301,9 +317,7 @@ class SellerPayment(models.Model):
                     "price_unit": abs(rec.payable_amount),
                 }
                 if not created_invoice_obj.company_id or created_invoice_obj.company_id.currency_id.id != rec.currency_id.id:
-                    line.update({
-                        "currency_id": rec.currency_id.id,
-                    })
+                    line["currency_id"] = rec.currency_id.id
                 invoice_line_obj = self.env["account.move.line"].with_context(check_move_validity=False).create(line)
                 # Link created invoice with payment
                 rec.write({

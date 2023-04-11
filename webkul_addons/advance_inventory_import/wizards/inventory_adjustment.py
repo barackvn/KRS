@@ -45,9 +45,9 @@ class InventoryImport(models.TransientModel):
     @api.model
     def _wk_default_location_id(self):
         company_user = self.env.user.company_id
-        warehouse = self.env['stock.warehouse'].search(
-            [('company_id', '=', company_user.id)], limit=1)
-        if warehouse:
+        if warehouse := self.env['stock.warehouse'].search(
+            [('company_id', '=', company_user.id)], limit=1
+        ):
             return warehouse.lot_stock_id.id
         else:
             raise UserError(
@@ -59,8 +59,8 @@ class InventoryImport(models.TransientModel):
             ext = vals.get('filename').split(".")
             if ext and ext[-1] != vals.get('import_type'):
                 raise UserError(
-                    "Could not find an %s file, please select a valid %s file"
-                    % (vals.get('import_type'), vals.get('import_type')))
+                    f"Could not find an {vals.get('import_type')} file, please select a valid {vals.get('import_type')} file"
+                )
             if vals.get('import_type') == 'csv':
                 zip_ref = base64.b64decode(vals['import_file'])
 
@@ -79,17 +79,17 @@ class InventoryImport(models.TransientModel):
         inventory.action_start()
         line_ids = []
         message = ''
-        if self.import_file:
-            if self.import_type == 'csv':
+        if self.import_type == 'csv':
+            if self.import_file:
                 file = base64.b64decode(self.import_file)
                 zip_input = io.BytesIO(file)
                 reader = csv.reader(codecs.iterdecode(zip_input, 'utf-8'))
                 header = next(reader)
-                if not any(hed in product for hed in header):
+                if all(hed not in product for hed in header):
                     raise UserError(_('Product Information Missing '))
                 if 'quantity' not in header:
                     raise UserError(_("Quantity Missing"))
-                if self.import_lot and not any(head in lot for head in header):
+                if self.import_lot and all(head not in lot for head in header):
                     raise UserError(_('Lot information missing'))
                 zip_input = io.BytesIO(file)
                 data_dict = csv.DictReader(
@@ -103,30 +103,28 @@ class InventoryImport(models.TransientModel):
                             vals['location_id'] = self.location_id.id if self.location_id else self._wk_default_location_id()
                         line_ids.append(vals)
                     message += "<br/>" + result.get('msg') if result.get('msg') else ''
-            elif self.import_type == 'xls':
-                header = []
+        elif self.import_type == 'xls':
+            if self.import_file:
                 file = base64.b64decode(self.import_file)
                 zip_input = io.BytesIO(file)
                 wb = xlrd.open_workbook(file_contents=zip_input.getvalue())
                 sheet = wb.sheet_by_index(0)
                 sheet.cell_value(0, 0)
-                for i in range(sheet.ncols):
-                    header.append(sheet.cell_value(0, i))
-                if not any(hed in product for hed in header):
+                header = [sheet.cell_value(0, i) for i in range(sheet.ncols)]
+                if all(hed not in product for hed in header):
                     raise UserError(_('Product Information Missing '))
                 if 'quantity' not in header:
                     raise UserError(_("Quantity Missing"))
-                if self.import_lot and not any(head in lot for head in header):
+                if self.import_lot and all(head not in lot for head in header):
                     raise UserError(_('Lot information missing'))
-                first_row = []  # The row where we stock the name of the column
-                for col in range(sheet.ncols):
-                    first_row.append(sheet.cell_value(0, col))
+                first_row = [sheet.cell_value(0, col) for col in range(sheet.ncols)]
                 # transform the workbook to a list of dictionaries
                 data_list = []
                 for row in range(1, sheet.nrows):
-                    elm = {}
-                    for col in range(sheet.ncols):
-                        elm[first_row[col]] = sheet.cell_value(row, col)
+                    elm = {
+                        first_row[col]: sheet.cell_value(row, col)
+                        for col in range(sheet.ncols)
+                    }
                     data_list.append(elm)
                 for data in data_list:
                     result = self.create_data(data, header)

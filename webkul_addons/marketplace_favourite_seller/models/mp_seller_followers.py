@@ -45,9 +45,12 @@ class MarketplaceSellerFollowers(models.Model):
     @api.model
     def create(self, vals):
         res= super(MarketplaceSellerFollowers, self).create(vals)
-        if vals.get("customer_id") and vals.get("marketplace_seller_id"):
-            if vals.get("customer_id") == vals.get("marketplace_seller_id"):
-                raise UserError(_("Customer and Seller cannot be same"))
+        if (
+            vals.get("customer_id")
+            and vals.get("marketplace_seller_id")
+            and vals.get("customer_id") == vals.get("marketplace_seller_id")
+        ):
+            raise UserError(_("Customer and Seller cannot be same"))
         # res._add_customer_in_mail_followers(vals.get("customer_id"))
         return res
 
@@ -55,8 +58,10 @@ class MarketplaceSellerFollowers(models.Model):
     def write(self, vals):
         res= super(MarketplaceSellerFollowers, self).write(vals)
         for rec in self:
-            customer_id = vals.get("customer_id") if vals.get("customer_id") else rec.customer_id.id
-            marketplace_seller_id = vals.get("marketplace_seller_id") if vals.get("marketplace_seller_id") else rec.marketplace_seller_id.id
+            customer_id = vals.get("customer_id") or rec.customer_id.id
+            marketplace_seller_id = (
+                vals.get("marketplace_seller_id") or rec.marketplace_seller_id.id
+            )
             if customer_id == marketplace_seller_id:
                 raise UserError(_("Customer and Seller cannot be same"))
         return res
@@ -81,7 +86,7 @@ class MarketplaceSellerFollowers(models.Model):
                 'default_composition_mode': 'mass_mail',
                 'default_res_id': self.ids[0],
                 'default_model': 'marketplace.seller.followers',
-                'default_use_template': bool(template_id),
+                'default_use_template': template_id,
                 'default_template_id': template_id,
                 'website_sale_send_recovery_email': True,
                 'active_ids': self.ids,

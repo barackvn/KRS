@@ -17,18 +17,16 @@ class ReportTax(models.AbstractModel):
         }
 
     def _sql_from_amls_one(self):
-        sql = """SELECT "account_move_line".tax_line_id, COALESCE(SUM("account_move_line".debit-"account_move_line".credit), 0)
+        return """SELECT "account_move_line".tax_line_id, COALESCE(SUM("account_move_line".debit-"account_move_line".credit), 0)
                     FROM %s
                     WHERE %s AND "account_move_line".tax_exigible GROUP BY "account_move_line".tax_line_id"""
-        return sql
 
     def _sql_from_amls_two(self):
-        sql = """SELECT r.account_tax_id, COALESCE(SUM("account_move_line".debit-"account_move_line".credit), 0)
+        return """SELECT r.account_tax_id, COALESCE(SUM("account_move_line".debit-"account_move_line".credit), 0)
                  FROM %s
                  INNER JOIN account_move_line_account_tax_rel r ON ("account_move_line".id = r.account_move_line_id)
                  INNER JOIN account_tax t ON (r.account_tax_id = t.id)
                  WHERE %s AND "account_move_line".tax_exigible GROUP BY r.account_tax_id"""
-        return sql
 
     def _compute_from_amls(self, options, taxes):
         #compute the tax amount
@@ -62,7 +60,7 @@ class ReportTax(models.AbstractModel):
             else:
                 taxes[tax.id] = {'tax': 0, 'net': 0, 'name': tax.name, 'type': tax.type_tax_use}
         self.with_context(date_from=options['date_from'], date_to=options['date_to'], strict_range=True)._compute_from_amls(options, taxes)
-        groups = dict((tp, []) for tp in ['sale', 'purchase'])
+        groups = {tp: [] for tp in ['sale', 'purchase']}
         for tax in taxes.values():
             if tax['tax']:
                 groups[tax['type']].append(tax)

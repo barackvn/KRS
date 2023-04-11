@@ -34,5 +34,5 @@ class SellerStatusReasonWizard(models.TransientModel):
         if self.seller_id:
             self.seller_id.deny()
             self.seller_id.status_msg = self.reason
-            reason_msg = "Deny Reason : " + self.reason
+            reason_msg = f"Deny Reason : {self.reason}"
             self.seller_id.message_post(body=reason_msg)

@@ -38,7 +38,9 @@ class MarketingCampaignTest(models.TransientModel):
     def _compute_resource_ref(self):
         for participant in self:
             if participant.model_name:
-                participant.resource_ref = '%s,%s' % (participant.model_name, participant.res_id or 0)
+                participant.resource_ref = (
+                    f'{participant.model_name},{participant.res_id or 0}'
+                )
 
     def _set_resource_ref(self):
         for participant in self:

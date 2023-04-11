@@ -229,7 +229,7 @@ class AccountMove(models.Model):
                     AND journal.post_at = 'bank_rec'
                     AND move.id IN %s
                 ''', [tuple(invoice_ids)])
-            in_payment_set = set(res[0] for res in self._cr.fetchall())
+            in_payment_set = {res[0] for res in self._cr.fetchall()}
         else:
             in_payment_set = {}
 
@@ -268,26 +268,19 @@ class AccountMove(models.Model):
                         total += line.balance
                         total_currency += line.amount_currency
                     elif line.is_global_line:
-                        # Discount amount.
-                        global_discount = line.balance
                         global_discount_currency = line.amount_currency
+                        global_discount = line.balance
                         total += line.balance
                         total_currency += line.amount_currency
                     elif line.account_id.user_type_id.type in ('receivable', 'payable'):
                         # Residual amount.
                         total_residual += line.amount_residual
                         total_residual_currency += line.amount_residual_currency
-                else:
-                    # === Miscellaneous journal entry ===
-                    if line.debit:
-                        total += line.balance
-                        total_currency += line.amount_currency
+                elif line.debit:
+                    total += line.balance
+                    total_currency += line.amount_currency
 
-            if move.type == 'entry' or move.is_outbound():
-                sign = 1
-            else:
-                sign = -1
-
+            sign = 1 if move.type == 'entry' or move.is_outbound() else -1
             total_discount += -1 * sign * (global_discount_currency if len(
                 currencies) == 1 else global_discount)
             move.total_discount = total_discount
@@ -596,7 +589,7 @@ class AccountMoveLine(models.Model):
                     'quantity': quantity or 1.0,
                     'price_unit': balance / discount_factor / (quantity or 1.0),
                 }
-            elif balance and not discount_factor:
+            elif balance:
                 # discount == 100%
                 vals = {
                     'quantity': quantity or 1.0,
@@ -615,5 +608,4 @@ class AccountMoveLine(models.Model):
     def create(self, vals_list):
         context = self._context.copy()
         context.update({'wk_vals_list': vals_list})
-        res = super(AccountMoveLine, self.with_context(context)).create(vals_list)
-        return res
+        return super(AccountMoveLine, self.with_context(context)).create(vals_list)

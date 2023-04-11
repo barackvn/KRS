@@ -28,8 +28,18 @@ class AccountingReport(models.TransientModel):
 
     def check_report(self):
         res = super(AccountingReport, self).check_report()
-        data = {}
-        data['form'] = self.read(['date_from', 'date_to', 'journal_ids', 'target_move','analytic_account_ids', 'company_id'])[0]
+        data = {
+            'form': self.read(
+                [
+                    'date_from',
+                    'date_to',
+                    'journal_ids',
+                    'target_move',
+                    'analytic_account_ids',
+                    'company_id',
+                ]
+            )[0]
+        }
         used_context = self._build_contexts(data)
         res['data']['form']['used_context'] = dict(used_context, lang=self.env.context.get('lang') or 'en_US')
         return res

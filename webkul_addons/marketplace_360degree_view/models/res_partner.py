@@ -42,20 +42,26 @@ class ResPartner(models.Model):
 
     def enable_seller_360degree_group(self):
         for obj in self:
-            user = self.env["res.users"].sudo().search(
-                [('partner_id', '=', obj.id)])
-            if user:
-                group = self.env.ref('marketplace_360degree_view.group_for_mp_360degree_view')
-                if group:
+            if (
+                user := self.env["res.users"]
+                .sudo()
+                .search([('partner_id', '=', obj.id)])
+            ):
+                if group := self.env.ref(
+                    'marketplace_360degree_view.group_for_mp_360degree_view'
+                ):
                     group.sudo().write({"users": [(4, user.id, 0)]})
 
     def disable_seller_360degree_group(self):
         for obj in self:
-            user = self.env["res.users"].sudo().search(
-                [('partner_id', '=', obj.id)])
-            if user:
-                group = self.env.ref('marketplace_360degree_view.group_for_mp_360degree_view')
-                if group:
+            if (
+                user := self.env["res.users"]
+                .sudo()
+                .search([('partner_id', '=', obj.id)])
+            ):
+                if group := self.env.ref(
+                    'marketplace_360degree_view.group_for_mp_360degree_view'
+                ):
                     group.sudo().write({"users": [(3, user.id, 0)]})
                     # disbale 360 view on website
                     user_products = self.env["product.template"].sudo().search([('marketplace_seller_id', '=', obj.id)])

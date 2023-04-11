@@ -75,8 +75,7 @@ class Website(models.Model):
 
     @api.model
     def get_mp_ajax_seller_countries(self):
-        countries = self.env['res.country'].sudo().search([])
-        return  countries
+        return self.env['res.country'].sudo().search([])
 
     def validate_mp_config_data(self, vals):
         recently_product = vals.get('mp_recently_product')

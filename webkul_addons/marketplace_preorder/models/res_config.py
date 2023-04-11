@@ -53,16 +53,15 @@ class MarketplacePreorderConfigSettings(models.Model):
         for rec in self:
             if 'is_active' in vals:
                 if vals.get('is_active'):
-                    if 'preorder_for_seller' in vals:
-                        if vals.get('preorder_for_seller'):
-                            rec.assign_preorder_to_seller()
-                        else:
-                            rec.remove_preorder_from_seller()
+                    if (
+                        'preorder_for_seller' in vals
+                        and vals.get('preorder_for_seller')
+                        or 'preorder_for_seller' not in vals
+                        and rec.preorder_for_seller
+                    ):
+                        rec.assign_preorder_to_seller()
                     else:
-                        if rec.preorder_for_seller:
-                            rec.assign_preorder_to_seller()
-                        else:
-                            rec.remove_preorder_from_seller()
+                        rec.remove_preorder_from_seller()
                 elif len(active_ids) == 0:
                     rec.remove_preorder_from_seller()
             elif rec.is_active and 'preorder_for_seller' in vals:

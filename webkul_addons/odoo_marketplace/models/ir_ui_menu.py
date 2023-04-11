@@ -43,7 +43,6 @@ class IrUiMenu(models.Model):
                 menu_ids.extend((self.env.ref('odoo_marketplace.wk_seller_payment_request').id,))
             except Exception as e:
                 _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
-                pass
         return menu_ids
 
     def update_mp_menus(self, res):

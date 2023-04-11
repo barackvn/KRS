@@ -54,10 +54,8 @@ class TodoList(models.Model):
         with (value, name) tuples.
         """
         new_read_group_result = []
-        states = []
         if groupby == 'state':
-            for result in read_group_result:
-                states.append(result.get('state'))
+            states = [result.get('state') for result in read_group_result]
             for state in self.STATES:
                 if state[0] not in states:
                     read_group_result.append(
@@ -133,9 +131,9 @@ class Project(models.Model):
         todo_data = self.env['todo.list'].read_group([
             ('project_id', 'in', self.ids), ('message_needaction', '=', True)
             ], ['project_id'], ['project_id'])
-        result = dict((
-            data['project_id'][0], data['project_id_count']
-            )for data in todo_data)
+        result = {
+            data['project_id'][0]: data['project_id_count'] for data in todo_data
+        }
         for project in self:
             project.todo_needaction_count = int(result.get(project.id, 0))
 

@@ -22,6 +22,5 @@ def pre_init_check(cr):
 	versionInfo = common.exp_version()
 	serverSerie =versionInfo.get('server_serie')
 	if serverSerie!='13.0':
-		raise Warning(
-		'Module support Odoo series 13.0, found {}.'.format(serverSerie))
+		raise Warning(f'Module support Odoo series 13.0, found {serverSerie}.')
 	return True

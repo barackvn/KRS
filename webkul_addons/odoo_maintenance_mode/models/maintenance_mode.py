@@ -64,10 +64,9 @@ class MaintenanceMode(models.Model):
             reciepts = ''
             for mail_id in maintenance_mode_obj.subscriber_email_ids:
                 if mail_id.state == 'pending':
-                    reciepts += mail_id.email + ','
+                    reciepts += f'{mail_id.email},'
                     mail_id.state = 'sent'
-            values = {}
-            values['email_to'] = reciepts
+            values = {'email_to': reciepts}
             template_obj.send_mail(maintenance_mode_obj.id, True, '', values)
 
     

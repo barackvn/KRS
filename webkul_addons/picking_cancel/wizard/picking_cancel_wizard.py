@@ -26,7 +26,7 @@ class PickingCancelWizard(models.TransientModel):
         task_obj = self.env['stock.picking'].browse(self._context.get('active_id'))
         for record in [task_obj]:
             record.action_cancel()
-            msg = "Reason for cancel the picking:- <b>%s</b><br/> <b>Comment:- </b> <br/>  %s" % (self.reason_id.name, self.reason)
+            msg = f"Reason for cancel the picking:- <b>{self.reason_id.name}</b><br/> <b>Comment:- </b> <br/>  {self.reason}"
             record.message_post(
                 body=msg,
                 subject=_('Stock Picking Cancel'),

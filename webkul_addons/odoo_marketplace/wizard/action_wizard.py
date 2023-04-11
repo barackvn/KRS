@@ -56,20 +56,22 @@ class ServerActionWizard(models.TransientModel):
         if self.product_ids:
             msg = "<p style='font-size: 15px'>Selected product(s) can't be approve, only pending product(s) will get approve.<p>"
             self.product_ids.approve_product()
-            approved_products = self.product_ids.filtered(lambda o: o.status == "approved" and o.marketplace_seller_id)
-            if approved_products:
+            if approved_products := self.product_ids.filtered(
+                lambda o: o.status == "approved" and o.marketplace_seller_id
+            ):
                 p_list = (', ').join(approved_products.mapped('name'))
-                msg = "<p style='font-size: 15px'>Product(s) approved successfully: <strong>" + p_list + "</strong></p>"
+                msg = f"<p style='font-size: 15px'>Product(s) approved successfully: <strong>{p_list}</strong></p>"
             return self.env["mp.wizard.message"].generated_message(msg, "Approved Status")
 
     def reject_all_products(self):
         if self.product_ids:
             msg = "<p style='font-size: 15px'>Selected product(s) can't be reject.<p>"
             self.product_ids.reject_product()
-            approved_products = self.product_ids.filtered(lambda o: o.status == "rejected" and o.marketplace_seller_id)
-            if approved_products:
+            if approved_products := self.product_ids.filtered(
+                lambda o: o.status == "rejected" and o.marketplace_seller_id
+            ):
                 p_list = (', ').join(approved_products.mapped('name'))
-                msg = "<p style='font-size: 15px'>Product(s) rejected successfully: <strong>" + p_list + "</strong></p>"
+                msg = f"<p style='font-size: 15px'>Product(s) rejected successfully: <strong>{p_list}</strong></p>"
             return self.env["mp.wizard.message"].generated_message(msg, "Reject Status")
 
 class ServerActionWizardStock(models.TransientModel):

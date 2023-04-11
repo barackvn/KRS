@@ -27,7 +27,9 @@ class ResPartner(models.Model):
     def on_change_seller_wise_settings(self):
         if self.set_seller_wise_settings:
             res = super(ResPartner, self).on_change_seller_wise_settings()
-            vals={}
-            vals["auto_blog_approve"] = self.env['ir.default'].get(
-                'res.config.settings', 'mp_auto_blog_approve')
+            vals = {
+                "auto_blog_approve": self.env['ir.default'].get(
+                    'res.config.settings', 'mp_auto_blog_approve'
+                )
+            }
             self.update(vals)

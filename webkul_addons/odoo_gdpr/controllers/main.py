@@ -28,14 +28,13 @@ class WebsiteOdooGdpr(http.Controller):
         gdpr_data_tmpl = request.env['gdpr.data.template'].sudo().search([])
         partner = request.env.user.partner_id
         gdprRequest = request.env['gdpr.request'].sudo().search([("partner_id","=",partner.id)])
-        values = {
+        return {
             'gdpr': gdpr,
             "gdpr_data_tmpl": gdpr_data_tmpl,
             'bootstrap_formatting': True,
             'partner_id': partner.id,
-            "gdprRequest":gdprRequest
+            "gdprRequest": gdprRequest,
         }
-        return values
 
     @http.route(['/my/personal_details'], type='http', auth="user", website=True)
     def payment_method(self, **kwargs):
@@ -77,8 +76,7 @@ class WebsiteOdooGdpr(http.Controller):
                     ("action_type","=",data.get("action_type")),
                     ("state", "=", "pending")
                  ]
-        req = requestObj.search(domain)
-        if req:
+        if req := requestObj.search(domain):
             return True
         else:
             False
@@ -97,10 +95,19 @@ class WebsiteOdooGdpr(http.Controller):
                 "state":    self._getstate("download")
             }
             requestObj.create(requestVals)
-            values.update({"alert": True,"alert_msg": _("Your 'DATA DOWNLOAD' request has been received, you can track the status of your request under 'Your Requests' tab.")})
+            values |= {
+                "alert": True,
+                "alert_msg": _(
+                    "Your 'DATA DOWNLOAD' request has been received, you can track the status of your request under 'Your Requests' tab."
+                ),
+            }
         else:
-            values.update({"alert": True,
-                           "alert_msg": _("Have Patience, we have already received your request, you can track the status of your request under 'Your Requests' tab.")})
+            values |= {
+                "alert": True,
+                "alert_msg": _(
+                    "Have Patience, we have already received your request, you can track the status of your request under 'Your Requests' tab."
+                ),
+            }
         return values
 
 
@@ -117,18 +124,25 @@ class WebsiteOdooGdpr(http.Controller):
                 "state": self._getstate("delete")
             }
             requestObj.create(requestVals)
-            values.update({"alert": True,
-                           "alert_msg": _("Your 'DATA REMOVAL' request has been received, you can track the status of your request under 'Your Requests' tab.")})
+            values |= {
+                "alert": True,
+                "alert_msg": _(
+                    "Your 'DATA REMOVAL' request has been received, you can track the status of your request under 'Your Requests' tab."
+                ),
+            }
         else:
-            values.update({"alert": True,
-                           "alert_msg": _("Have Patience, we have already received your request, you can track the status of your request under 'Your Requests' tab.")})
+            values |= {
+                "alert": True,
+                "alert_msg": _(
+                    "Have Patience, we have already received your request, you can track the status of your request under 'Your Requests' tab."
+                ),
+            }
         return values
 
 
 
     @http.route(['/my/address'], type='http', auth="user", website=True)
     def my_address(self,**kwargs):
-        values= {}
         PartnerObj = request.env['res.partner'].sudo()
         partner_id = request.env.user.partner_id
         # shippings = partner_id.child_ids
@@ -139,7 +153,7 @@ class WebsiteOdooGdpr(http.Controller):
 
         shippings = PartnerObj.search(domain, order="id desc")
 
-        values.update({"shippings":shippings,"partner_id":partner_id})
+        values = {} | {"shippings":shippings,"partner_id":partner_id}
         return request.render("odoo_gdpr.my_address_template", values)
 
     def _get_mandatory_shipping_fields(self):
@@ -155,17 +169,16 @@ class WebsiteOdooGdpr(http.Controller):
         partner_id = int(kw.get('partner_id', partnerObj.id))
         def_country_id = partnerObj.country_id
         values, errors = {}, {}
-        if partner_id > 0:
-            shippings = Partner.search([('id', 'child_of',partnerObj.commercial_partner_id.ids)])
-            if partner_id in shippings.mapped('id'):
-                mode = ('edit', 'shipping')
-            else:
-                return Forbidden()
-            if mode:
-                values = Partner.browse(partner_id)
-        else:  # no mode - refresh without post?
+        if partner_id <= 0:
             return request.redirect('/shop/checkout')
 
+        shippings = Partner.search([('id', 'child_of',partnerObj.commercial_partner_id.ids)])
+        if partner_id in shippings.mapped('id'):
+            mode = ('edit', 'shipping')
+        else:
+            return Forbidden()
+        if mode:
+            values = Partner.browse(partner_id)
         # IF POSTED
         if 'submitted' in kw:
             pre_values = self.values_preprocess(order, mode, kw)
@@ -205,9 +218,10 @@ class WebsiteOdooGdpr(http.Controller):
             # don't drop empty value, it could be a field to reset
             if k in authorized_fields and v is not None:
                 new_values[k] = v
-            else:  # DEBUG ONLY
-                if k not in ('field_required', 'partner_id', 'callback', 'submitted'):  # classic case
-                    _logger.debug("website_sale postprocess: %s value has been dropped (empty or not writable)" % k)
+            elif k not in ('field_required', 'partner_id', 'callback', 'submitted'):  # classic case
+                _logger.debug(
+                    f"website_sale postprocess: {k} value has been dropped (empty or not writable)"
+                )
 
         new_values['customer'] = True
         new_values['team_id'] = request.website.salesteam_id and request.website.salesteam_id.id
@@ -223,10 +237,6 @@ class WebsiteOdooGdpr(http.Controller):
         return new_values, errors, error_msg
 
     def checkout_form_validate(self, mode, all_form_values, data):
-        # mode: tuple ('new|edit', 'billing|shipping')
-        # all_form_values: all values before preprocess
-        # data: values after preprocess
-        error = dict()
         error_message = []
 
         # Required fields from form
@@ -241,11 +251,11 @@ class WebsiteOdooGdpr(http.Controller):
             if 'state_code' in country.get_address_fields() and country.state_ids:
                 required_fields += ['state_id']
 
-        # error message for empty required fields
-        for field_name in required_fields:
-            if not data.get(field_name):
-                error[field_name] = 'missing'
-
+        error = {
+            field_name: 'missing'
+            for field_name in required_fields
+            if not data.get(field_name)
+        }
         # email validation
         if data.get('email') and not tools.single_email_re.match(data.get('email')):
             error["email"] = 'error'

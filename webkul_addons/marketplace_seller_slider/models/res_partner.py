@@ -36,14 +36,15 @@ class ResPartner(models.Model):
                 wiz_id.sudo().write({
                     'banner_images': [(6, 0, rec.seller_banner_ids.ids)]
                 })
-            action = {
-                'name':'Seller Banners',
-                'type':'ir.actions.act_window',
-                'res_model':'banner.images.wizard',
-                'view_mode':'form',
-                'res_id':wiz_id.id,
-                'view_id':self.env.ref('marketplace_seller_slider.banner_images_wizard_form_view').id,
+            return {
+                'name': 'Seller Banners',
+                'type': 'ir.actions.act_window',
+                'res_model': 'banner.images.wizard',
+                'view_mode': 'form',
+                'res_id': wiz_id.id,
+                'view_id': self.env.ref(
+                    'marketplace_seller_slider.banner_images_wizard_form_view'
+                ).id,
                 'context': self._context,
-                'target':'new',
+                'target': 'new',
             }
-            return action

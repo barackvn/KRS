@@ -19,19 +19,18 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 def compute_login_userid(self):
-    login_ids = []
     seller_group = self.env['ir.model.data'].get_object_reference(
     'odoo_marketplace', 'marketplace_seller_group')[1]
     officer_group = self.env['ir.model.data'].get_object_reference(
     'odoo_marketplace', 'marketplace_officer_group')[1]
     groups_ids = self.env.user.sudo().groups_id.ids
-    if seller_group in groups_ids and officer_group not in groups_ids:
-        login_ids.append(self.env.user.sudo().partner_id.id)
-        return login_ids
-    elif seller_group in groups_ids and officer_group in groups_ids:
-        obj = self.env['res.partner'].search([('seller','=',True)])
-        for rec in obj:
-            login_ids.append(rec.id)
+    if seller_group in groups_ids:
+        login_ids = []
+        if officer_group not in groups_ids:
+            login_ids.append(self.env.user.sudo().partner_id.id)
+        else:
+            obj = self.env['res.partner'].search([('seller','=',True)])
+            login_ids.extend(rec.id for rec in obj)
         return login_ids
 
 class WebsiteCollectionalPage(models.Model):
@@ -57,7 +56,7 @@ class WebsiteCollectionalPage(models.Model):
         try:
             condition = [('sale_ok', '=', True), ("website_published", "=", True)]
             if self.condition_match == "or":
-                for obj in range(len(self.product_condition_ids) - 1):
+                for _ in range(len(self.product_condition_ids) - 1):
                     condition.append("|")
             for obj in self.product_condition_ids:
                 left_value = obj.field
@@ -118,8 +117,7 @@ class ProductCondition(models.Model):
     def _product_field_get(self):
         res = super(ProductCondition, self)._product_field_get()
         if self._context.get('mp_seller_collec_page'):
-            seller_ids = [item for item in res if 'seller_ids' in item]
-            if seller_ids:
+            if seller_ids := [item for item in res if 'seller_ids' in item]:
                 res.remove(seller_ids[0])
         return res
 

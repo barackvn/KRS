@@ -27,9 +27,9 @@ class ProjectTaskType(models.Model):
     def _check_unique_name(self):
         """ verifies unique name. """
         for stage in self:
-            stage_ids = self.search(
-                [('name', 'ilike', stage.name), ('id', '!=', stage.id)])
-            if stage_ids:
+            if stage_ids := self.search(
+                [('name', 'ilike', stage.name), ('id', '!=', stage.id)]
+            ):
                 raise ValidationError(_('Name must be Unique.'))
 
     @api.model
@@ -50,9 +50,7 @@ class ProjectTaskType(models.Model):
     def write(self, vals):
         if vals.get('name'):
             for obj in self:
-                if vals.get('name') == obj.name:
-                    pass
-                else:
+                if vals.get('name') != obj.name:
                     if obj.name.lower() in ["done", "cancel", "cancelled"]:
                         raise UserError(_(
                             "You are not allowed to modify the 'Done' and 'Cancel' Stage."))
@@ -134,13 +132,9 @@ class ProjectProject(models.Model):
         if vals.get('stage_group_id'):
             self.type_ids = [(6, 0, self.stage_group_id.stages_ids.ids)]
         if old_members != new_members:
-            self.message_post(
-                body="<b>Members:</b> %s &#8594; %s" % (
-                    old_members, new_members))
+            self.message_post(body=f"<b>Members:</b> {old_members} &#8594; {new_members}")
         if old_teams != new_teams:
-            self.message_post(
-                body="<b>Extra Teams:</b> %s &#8594; %s" % (
-                    old_teams, new_teams))
+            self.message_post(body=f"<b>Extra Teams:</b> {old_teams} &#8594; {new_teams}")
 
         return res
 
@@ -162,8 +156,7 @@ class Task(models.Model):
 
     @api.model
     def get_user_domin(self):
-        users = []
-        users.append(self._uid)
+        users = [self._uid]
         if self.project_id:
             if self.project_id.user_id:
                 users.append(self.project_id.user_id.id)
@@ -180,12 +173,14 @@ class Task(models.Model):
 
     @api.model
     def get_default_stage_group(self):
-        stage_group = self.env['project.stage.group'].search(
-            [('default', '=', True), ('stages_ids', '!=', False)], limit=1).id
-        if not stage_group:
-            stage_group = self.env['project.stage.group'].search(
-                [('stages_ids', '!=', False)], limit=1).id
-        return stage_group
+        return (
+            self.env['project.stage.group']
+            .search([('default', '=', True), ('stages_ids', '!=', False)], limit=1)
+            .id
+            or self.env['project.stage.group']
+            .search([('stages_ids', '!=', False)], limit=1)
+            .id
+        )
 
     @api.onchange('project_id')
     def _onchange_project(self):
@@ -217,10 +212,10 @@ class Task(models.Model):
                 return {'domain': {
                     'stage_id': [
                         ('id', 'in', self.stage_group_id.stages_ids.ids)]}}
-        elif not self.project_id and not self.stage_group_id:
+        elif not self.project_id:
             self.stage_id = False
             return {'domain': {'stage_id': [('id', 'in', [])]}}
-        elif self.project_id and self.stage_group_id:
+        elif self.stage_group_id:
             if self.project_id.stage_group_id:
                 self.stage_group_id = self.project_id.stage_group_id
                 self.stage_id = self.project_id.type_ids.ids[0]

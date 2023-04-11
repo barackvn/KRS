@@ -50,13 +50,13 @@ class GenerateCseFiles(models.TransientModel):
         title.text = "Odoo CSE"
         context = ET.SubElement(top, 'Context')
         backgroundLabels = ET.SubElement(context, 'BackgroundLabels')
-        cseDundle = '_cse_' + cseId
+        cseDundle = f'_cse_{cseId}'
         labelDict = {
             'name': cseDundle,
             'mode': "FILTER",
         }
         ET.SubElement(backgroundLabels, 'Label', labelDict)
-        cseExludeDunder = '_cse_exclude_' + cseId
+        cseExludeDunder = f'_cse_exclude_{cseId}'
         labelDict = {
             'name': cseExludeDunder,
             'mode': "ELIMINATE",
@@ -119,20 +119,17 @@ class GenerateCseFiles(models.TransientModel):
         ET.SubElement(lookFeel, 'Results', resultDict)
         ET.SubElement(top, 'AdSense')
         ET.SubElement(top, 'EnterpriseAccount')
-        enableImgSearch = configSudo.get_param(
+        if enableImgSearch := configSudo.get_param(
             'google_custom_search.cse_image_search'
-        )
-        if enableImgSearch:
+        ):
             ET.SubElement(top, 'ImageSearchSettings', enable="true")
-        autoComplete = configSudo.get_param(
+        if autoComplete := configSudo.get_param(
             'google_custom_search.cse_auto_complete'
-        )
-        if autoComplete :
+        ):
             ET.SubElement(top, 'autocomplete_settings')
-        orderSoritng = configSudo.get_param(
+        if orderSoritng := configSudo.get_param(
             'google_custom_search.cse_order_sorting'
-        )
-        if orderSoritng:
+        ):
             ET.SubElement(top, 'sort_by_keys', label="Relevance", key="")
             ET.SubElement(top, 'sort_by_keys', label="Date", key="date")
         self.create_xml_file(top)

@@ -31,7 +31,12 @@ class MarketingParticipant(models.Model):
         return [(model.model, model.name) for model in models]
 
     def _search_resource_ref(self, operator, value):
-        ir_models = set([model['model_name'] for model in self.env['marketing.campaign'].search([]).read(['model_name'])])
+        ir_models = {
+            model['model_name']
+            for model in self.env['marketing.campaign']
+            .search([])
+            .read(['model_name'])
+        }
         ir_model_ids = []
         for model in ir_models:
             if model in self.env:
@@ -65,7 +70,9 @@ class MarketingParticipant(models.Model):
     def _compute_resource_ref(self):
         for participant in self:
             if participant.model_name and participant.model_name in self.env:
-                participant.resource_ref = '%s,%s' % (participant.model_name, participant.res_id or 0)
+                participant.resource_ref = (
+                    f'{participant.model_name},{participant.res_id or 0}'
+                )
             else:
                 participant.resource_ref = None
 

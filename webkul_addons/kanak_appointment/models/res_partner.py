@@ -12,7 +12,12 @@ class ResPartner(models.Model):
 
     def get_tz(self):
         # put POSIX 'Etc/*' entries at the end to avoid confusing users - see bug 1086728
-        return [tz for tz in sorted(pytz.all_timezones, key=lambda tz: tz if not tz.startswith('Etc/') else '_')]
+        return list(
+            sorted(
+                pytz.all_timezones,
+                key=lambda tz: '_' if tz.startswith('Etc/') else tz,
+            )
+        )
 
     def get_tz_offset(self, name):
         return datetime.now(pytz.timezone(name or self.env.user.tz)).strftime('%z')
@@ -119,8 +124,7 @@ class ResPartner(models.Model):
         dtime = datetime.strptime(utc_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT), DEFAULT_SERVER_DATETIME_FORMAT)
         tz_time = self.get_tz_date(dtime, timezone)
         dt = tz_time
-        slots = []
-        slots.append(dt.strftime('%H:%M'))
+        slots = [dt.strftime('%H:%M')]
         while (dt.time() < datetime.strptime(end, "%H:%M").time()):
             dt = dt + timedelta(minutes=slot)
             slots.append(dt.strftime('%H:%M'))
@@ -139,27 +143,27 @@ class ResPartner(models.Model):
     def get_booked_time(self, start_date, offset_min, timezone):
         self.ensure_one()
         user_today_appointment = []
-        partner_appointment = self.appointment_ids.filtered(lambda app: app.app_state == 'pending' or app.app_state == 'done')
-        if partner_appointment:
+        if partner_appointment := self.appointment_ids.filtered(
+            lambda app: app.app_state in ['pending', 'done']
+        ):
             for my_appointment in partner_appointment:
                 my_appointment_datetime = self.get_tz_date(datetime.strptime(str(my_appointment.app_date), DEFAULT_SERVER_DATETIME_FORMAT), timezone)
                 my_appoint_date = my_appointment_datetime.strftime(DEFAULT_SERVER_DATE_FORMAT)
                 tody_date = start_date.strftime(DEFAULT_SERVER_DATE_FORMAT)
                 if my_appoint_date == tody_date:
-                        total_min = self.string_to_minutes(my_appointment_datetime.strftime('%H:%M'))
-                        dims = my_appointment.stop - my_appointment.start
-                        duration = dims.seconds/60
-                        start_tz_time = self.get_tz_date(my_appointment.start, timezone).replace(tzinfo=None)
-                        end_tz_time = self.get_tz_date(my_appointment.stop, timezone).replace(tzinfo=None)
-                        my_appointment_range = self.get_book_info_slots(start_tz_time, self.minutes_slot, duration)
-                        user_today_appointment = user_today_appointment + [a for a in my_appointment_range]
+                    total_min = self.string_to_minutes(my_appointment_datetime.strftime('%H:%M'))
+                    dims = my_appointment.stop - my_appointment.start
+                    duration = dims.seconds/60
+                    start_tz_time = self.get_tz_date(my_appointment.start, timezone).replace(tzinfo=None)
+                    end_tz_time = self.get_tz_date(my_appointment.stop, timezone).replace(tzinfo=None)
+                    my_appointment_range = self.get_book_info_slots(start_tz_time, self.minutes_slot, duration)
+                    user_today_appointment = user_today_appointment + list(my_appointment_range)
         return user_today_appointment
 
     def get_exception_time(self, start_date, offset, timezone):
         self.ensure_one()
         user_unavailable = []
-        partner_exception = self.exception_ids
-        if partner_exception:
+        if partner_exception := self.exception_ids:
             for my_appointment in partner_exception:
                 # DATE START
                 my_appointment_datetime = self.get_tz_date(datetime.strptime(str(my_appointment.start_datetime), DEFAULT_SERVER_DATETIME_FORMAT), timezone)
@@ -171,38 +175,28 @@ class ResPartner(models.Model):
                 exception_to_string = my_exception_to_datetime.strftime(DEFAULT_SERVER_DATE_FORMAT)
                 exception_to_date = datetime.strptime(exception_to_string, DEFAULT_SERVER_DATE_FORMAT)
                 # RANGE OF UNAVAILABLE DAYS
-                exception_range = [(exception_start_date + timedelta(days=i)).strftime(DEFAULT_SERVER_DATE_FORMAT) for i in range(0, int(my_appointment.number_of_days_temp))]
+                exception_range = [
+                    (exception_start_date + timedelta(days=i)).strftime(
+                        DEFAULT_SERVER_DATE_FORMAT
+                    )
+                    for i in range(int(my_appointment.number_of_days_temp))
+                ]
                 tody_date = start_date.strftime(DEFAULT_SERVER_DATE_FORMAT)
                 if tody_date in exception_range:
                     # MATCH WITH START DATE
                     if exception_start_string == tody_date:
                         total_min = self.string_to_minutes(my_appointment_datetime.strftime('%H:%M'))
-                        start_tz_time = self.get_tz_date(my_appointment.start, timezone).replace(tzinfo=None)
-                        end_tz_time = self.get_tz_date(my_appointment.stop, timezone).replace(tzinfo=None)
-                        dims = my_appointment.stop - my_appointment.start
-                        duration = dims.seconds/60
-                        my_appointment_range = self.get_book_info_slots(start_tz_time, self.minutes_slot, duration)
-                        user_unavailable = [a for a in my_appointment_range]
-                    # MATCH WITH END DATE
                     elif exception_to_string == tody_date:
                         total_min = self.string_to_minutes(my_exception_to_datetime.strftime('%H:%M'))
-                        start_tz_time = self.get_tz_date(my_appointment.start, timezone).replace(tzinfo=None)
-                        end_tz_time = self.get_tz_date(my_appointment.stop, timezone).replace(tzinfo=None)
-                        dims = my_appointment.stop - my_appointment.start
-                        duration = dims.seconds/60
-                        my_appointment_range = self.get_book_info_slots(start_tz_time, self.minutes_slot, duration)
-                        user_unavailable = [a for a in my_appointment_range]
-                    else:
-                        start_tz_time = self.get_tz_date(my_appointment.start, timezone).replace(tzinfo=None)
-                        end_tz_time = self.get_tz_date(my_appointment.stop, timezone).replace(tzinfo=None)
-                        dims = my_appointment.stop - my_appointment.start
-                        duration = dims.seconds/60
-                        my_appointment_range = self.get_book_info_slots(start_tz_time, self.minutes_slot, duration)
-                        user_unavailable = [a for a in my_appointment_range]
+                    start_tz_time = self.get_tz_date(my_appointment.start, timezone).replace(tzinfo=None)
+                    end_tz_time = self.get_tz_date(my_appointment.stop, timezone).replace(tzinfo=None)
+                    dims = my_appointment.stop - my_appointment.start
+                    duration = dims.seconds/60
+                    my_appointment_range = self.get_book_info_slots(start_tz_time, self.minutes_slot, duration)
+                    user_unavailable = list(my_appointment_range)
         return user_unavailable
 
     @api.constrains('minutes_slot', 'team_member')
     def check_minutes_slot(self):
-        if self.team_member:
-            if self.minutes_slot == 0 or self.minutes_slot < 0:
-                raise ValidationError(_('please enter valid timeslot '))
+        if self.team_member and (self.minutes_slot == 0 or self.minutes_slot < 0):
+            raise ValidationError(_('please enter valid timeslot '))

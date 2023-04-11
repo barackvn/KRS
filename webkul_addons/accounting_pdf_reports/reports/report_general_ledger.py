@@ -80,9 +80,10 @@ class ReportGeneralLedger(models.AbstractModel):
         cr.execute(sql, params)
 
         for row in cr.dictfetchall():
-            balance = 0
-            for line in move_lines.get(row['account_id']):
-                balance += line['debit'] - line['credit']
+            balance = sum(
+                line['debit'] - line['credit']
+                for line in move_lines.get(row['account_id'])
+            )
             row['balance'] += balance
             move_lines[row.pop('account_id')].append(row)
 
@@ -90,7 +91,7 @@ class ReportGeneralLedger(models.AbstractModel):
         account_res = []
         for account in accounts:
             currency = account.currency_id and account.currency_id or account.company_id.currency_id
-            res = dict((fn, 0.0) for fn in ['credit', 'debit', 'balance'])
+            res = {fn: 0.0 for fn in ['credit', 'debit', 'balance']}
             res['code'] = account.code
             res['name'] = account.name
             res['move_lines'] = move_lines[account.id]

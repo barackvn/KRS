@@ -28,12 +28,17 @@ class SellerPaymentWizard(models.TransientModel):
     @api.model
     def _get_seller(self):
         if self._context.get('active_model',False) and self._context.get('active_model') == 'res.partner':
-            result = self.env['res.partner'].browse(
-                self._context.get('active_id', False)).id
-        else:
-            partner_id = self.env.user.partner_id
-            result = partner_id.id if partner_id.seller and partner_id.state == 'approved' else False
-        return result
+            return (
+                self.env['res.partner']
+                .browse(self._context.get('active_id', False))
+                .id
+            )
+        partner_id = self.env.user.partner_id
+        return (
+            partner_id.id
+            if partner_id.seller and partner_id.state == 'approved'
+            else False
+        )
 
     @api.model
     def _get_payment_method(self):
@@ -42,14 +47,15 @@ class SellerPaymentWizard(models.TransientModel):
             payment_method = seller_id.payment_method.ids[0]
         else:
             try:
-                payment_method_cheque_id = self.env['ir.model.data'].get_object_reference(
-                    'odoo_marketplace', 'marketplace_seller_payment_method_data1')
-                if payment_method_cheque_id:
+                if payment_method_cheque_id := self.env[
+                    'ir.model.data'
+                ].get_object_reference(
+                    'odoo_marketplace', 'marketplace_seller_payment_method_data1'
+                ):
                     payment_method = payment_method_cheque_id[1]
             except Exception as e:
                 _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
-                pass
-        return payment_method if payment_method else False
+        return payment_method or False
 
     @api.depends('seller_id')
     def get_cashable_amount(self):
@@ -80,26 +86,33 @@ class SellerPaymentWizard(models.TransientModel):
         if seller_payment_obj:
             last_payment_date = datetime.datetime.strptime(
                 str(seller_payment_obj.date), '%Y-%m-%d').date()
-            today_date = datetime.datetime.today().date()
+            today_date = datetime.datetime.now().date()
             days_diff = today_date - last_payment_date
-            if days_diff.days >= self.seller_id.get_seller_global_fields('next_payment_request') and self.amount >= seller_payment_limit and self.amount <= self.seller_id.cashable_amount:
-                return True
-            else:
-                return False
+            return (
+                days_diff.days
+                >= self.seller_id.get_seller_global_fields('next_payment_request')
+                and self.amount >= seller_payment_limit
+                and self.amount <= self.seller_id.cashable_amount
+            )
         else:
-            if self.amount >= seller_payment_limit and self.amount <= self.seller_id.cashable_amount:
-                return True
-            else:
-                return False
+            return (
+                self.amount >= seller_payment_limit
+                and self.amount <= self.seller_id.cashable_amount
+            )
 
     def is_payment_request_pending(self):
         if len(self) > 1:
             self.ensure_one()
-        seller_payment_obj = self.env["seller.payment"].search([("seller_id", "=", self.seller_id.id), (
-            "state", "in", ["requested", "confirm"]), ("payment_mode", "=", "seller_payment")], limit=1)
-        if seller_payment_obj:
-            return True
-        return False
+        return bool(
+            seller_payment_obj := self.env["seller.payment"].search(
+                [
+                    ("seller_id", "=", self.seller_id.id),
+                    ("state", "in", ["requested", "confirm"]),
+                    ("payment_mode", "=", "seller_payment"),
+                ],
+                limit=1,
+            )
+        )
 
     def do_request(self):
         msg = False
@@ -124,32 +137,38 @@ class SellerPaymentWizard(models.TransientModel):
                 msg = _("Your one request of payment is not done yet, so please wait...")
             else:
                 msg = _("One request of payment is not done yet for this seller, so please wait...")
-        if not msg and self.validate_payment_request():
-            vals = {
-                "date" : self.date,
-                "seller_id": self.seller_id.id,
-                "payment_method": self.payment_method_id.id or self.seller_id.payment_method.ids[0] if self.seller_id.payment_method else False,
-                "payment_mode": "seller_payment",
-                "description": self.description or  _("Seller requested for payment..."),
-                "payment_type": "dr",
-                "state": "requested",
-                "memo" : self.memo,
-                "payable_amount": self.amount,
-            }
-            payment_id = self.env["seller.payment"].sudo().create(vals)
-            seller_payment_menu_id = self.env[
-                'ir.model.data'].get_object_reference('odoo_marketplace', 'wk_seller_payment_method')[1]
-            seller_payment_action_id = self.env[
-                'ir.model.data'].get_object_reference('odoo_marketplace', 'wk_seller_payment_action')[1]
-            return {
-                'type' : 'ir.actions.act_url',
-                'url': '/web#id=%s&view_type=form&model=seller.payment&menu_id=%s&action=%s' % (payment_id.id, seller_payment_menu_id, seller_payment_action_id),
-                'target': 'self',
-            }
-        elif not msg:
-            if self._context.get("by_seller", False):
-                msg = _("You can't request now due to one of following reason,\n 1. Amount is less than the amount limit.  OR\n 2. Minimum gap for next payment is not followed.")
+        if not msg:
+            if self.validate_payment_request():
+                vals = {
+                    "date" : self.date,
+                    "seller_id": self.seller_id.id,
+                    "payment_method": self.payment_method_id.id or self.seller_id.payment_method.ids[0] if self.seller_id.payment_method else False,
+                    "payment_mode": "seller_payment",
+                    "description": self.description or  _("Seller requested for payment..."),
+                    "payment_type": "dr",
+                    "state": "requested",
+                    "memo" : self.memo,
+                    "payable_amount": self.amount,
+                }
+                payment_id = self.env["seller.payment"].sudo().create(vals)
+                seller_payment_menu_id = self.env[
+                    'ir.model.data'].get_object_reference('odoo_marketplace', 'wk_seller_payment_method')[1]
+                seller_payment_action_id = self.env[
+                    'ir.model.data'].get_object_reference('odoo_marketplace', 'wk_seller_payment_action')[1]
+                return {
+                    'type' : 'ir.actions.act_url',
+                    'url': '/web#id=%s&view_type=form&model=seller.payment&menu_id=%s&action=%s' % (payment_id.id, seller_payment_menu_id, seller_payment_action_id),
+                    'target': 'self',
+                }
             else:
-                msg = _("You can't pay to this seller now due to one of following reason,\n 1. Amount is less than the amount limit.  OR\n 2. Minimum gap for next payment is not followed.")
+                msg = (
+                    _(
+                        "You can't request now due to one of following reason,\n 1. Amount is less than the amount limit.  OR\n 2. Minimum gap for next payment is not followed."
+                    )
+                    if self._context.get("by_seller", False)
+                    else _(
+                        "You can't pay to this seller now due to one of following reason,\n 1. Amount is less than the amount limit.  OR\n 2. Minimum gap for next payment is not followed."
+                    )
+                )
         msg = "<p style='font-size: 15px'>" + msg + "</p>"
         return self.env["mp.wizard.message"].generated_message(msg, "Warning")

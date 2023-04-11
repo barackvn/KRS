@@ -101,9 +101,14 @@ class StockPickingInherit(models.Model):
     @api.onchange('partner_id','picking_type_id','location_id')
     def _onchange_get_seller_location(self):
         for record in self:
-            if record.pre_advice and record.partner_id and record.picking_type_id:
-                if record.picking_type_id.default_location_src_id == record.location_id:
-                    record.location_id = record.partner_id.seller_location_id.id
+            if (
+                record.pre_advice
+                and record.partner_id
+                and record.picking_type_id
+                and record.picking_type_id.default_location_src_id
+                == record.location_id
+            ):
+                record.location_id = record.partner_id.seller_location_id.id
 
 
     @api.onchange('pre_advice_type')
@@ -445,13 +450,13 @@ class StockProductionLotInherit(models.Model):
                 product_name = self.env['product.template'].search([('name', '=', record.product_id.name)], limit=1)
                 seller_email = product_name.marketplace_seller_id.email
 
-                alert_vals.update({
-                    'body_html': """ Hello Your Product """ + product_name.name + """ is going to Expire in 7 Days """
-                })
-                alert_vals.update({
+                alert_vals[
+                    'body_html'
+                ] = f""" Hello Your Product {product_name.name} is going to Expire in 7 Days """
+                alert_vals |= {
                     'subject': 'Product Expiry Reminder',
                     'email_to': seller_email,
-                })
+                }
                 if alert_vals.get('email_to'):
                     msg_id_manager = self.env['mail.mail'].create(alert_vals)
                     msg_id_manager.send()
@@ -460,13 +465,13 @@ class StockProductionLotInherit(models.Model):
                 product_name = self.env['product.template'].search([('name', '=', current.product_id.name)],
                                                                    limit=1)
                 seller_email1 = product_name.marketplace_seller_id.email
-                alert_vals2.update({
-                    'body_html': """ Hello Your Product """ + product_name.name + """ is going to Expire Today """
-                })
-                alert_vals2.update({
+                alert_vals2[
+                    'body_html'
+                ] = f""" Hello Your Product {product_name.name} is going to Expire Today """
+                alert_vals2 |= {
                     'subject': 'Product Expiry Reminder',
                     'email_to': seller_email1,
-                })
+                }
                 if alert_vals2.get('email_to'):
                     msg_id_manager2 = self.env['mail.mail'].create(alert_vals2)
                     msg_id_manager2.send()
@@ -475,13 +480,13 @@ class StockProductionLotInherit(models.Model):
                 product_name = self.env['product.template'].search([('name', '=', record.product_id.name)], limit=1)
                 r_seller_email = product_name.marketplace_seller_id.email
 
-                removal_vals.update({
-                    'body_html': """ Hello Your Product """ + product_name.name + """ is going to Remove in 7 Days """
-                })
-                removal_vals.update({
+                removal_vals[
+                    'body_html'
+                ] = f""" Hello Your Product {product_name.name} is going to Remove in 7 Days """
+                removal_vals |= {
                     'subject': 'Product Removal Reminder',
                     'email_to': r_seller_email,
-                })
+                }
                 if removal_vals.get('email_to'):
                     msg_id_removal = self.env['mail.mail'].create(removal_vals)
                     msg_id_removal.send()
@@ -490,13 +495,13 @@ class StockProductionLotInherit(models.Model):
                 product_name = self.env['product.template'].search([('name', '=', record.product_id.name)], limit=1)
                 r_seller_email1 = product_name.marketplace_seller_id.email
 
-                removal_vals2.update({
-                    'body_html': """ Hello Your Product """ + product_name.name + """ is going to Removed Today """
-                })
-                removal_vals2.update({
+                removal_vals2[
+                    'body_html'
+                ] = f""" Hello Your Product {product_name.name} is going to Removed Today """
+                removal_vals2 |= {
                     'subject': 'Product Removal Reminder',
                     'email_to': r_seller_email1,
-                })
+                }
                 if removal_vals2.get('email_to'):
                     msg_id_removal2 = self.env['mail.mail'].create(removal_vals2)
                     msg_id_removal2.send()

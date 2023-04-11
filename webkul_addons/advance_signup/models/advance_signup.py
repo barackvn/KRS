@@ -45,8 +45,9 @@ class AdvSignupSettings(models.Model):
 
     @api.model
     def get_active_website_setting(self, website_id):
-        active_rec = self.search([('website_id','=',int(website_id)),('active','=',True)], limit=1)
-        return active_rec
+        return self.search(
+            [('website_id', '=', int(website_id)), ('active', '=', True)], limit=1
+        )
 
     def _default_website(self):
         return self.env['website'].search([
@@ -123,9 +124,9 @@ class AdvSignupSettings(models.Model):
     def toggle_active(self):
         if self.active:
             raise UserError(_("You have already set this settings as active."))
-        active_website_setting = self.search(
-            [('active', '=', True),('website_id', 'in', [self.website_id.id])])
-        if active_website_setting:
+        if active_website_setting := self.search(
+            [('active', '=', True), ('website_id', 'in', [self.website_id.id])]
+        ):
             active_website_setting.write({'active': False})
         self.active = True
         return
@@ -137,8 +138,7 @@ class AdvSignupSettings(models.Model):
                 [('active', '=', True),('website_id', 'in', [int(vals.get("website_id"))])])
             if not active_website_setting:
                 vals.update({'active':True,})
-        res = super(AdvSignupSettings, self).create(vals)
-        return res
+        return super(AdvSignupSettings, self).create(vals)
 
 class AdvSignupFields(models.Model):
     _name = "adv.signup.fields"
@@ -147,8 +147,7 @@ class AdvSignupFields(models.Model):
     @api.depends("field_type")
     def _compute_field_input_type(self):
         for rec in self:
-            field_type = rec.field_type
-            if field_type:
+            if field_type := rec.field_type:
                 input_type = [item for item in FIELDS_INPUT_TYPE if field_type in item[0]]
                 if input_type and input_type[0] and input_type[0][1]:
                     rec.field_input_type = input_type[0][1]
@@ -199,14 +198,13 @@ class AdvSignupFields(models.Model):
     def action_add_domain(self):
         obj_relation = self.get_field_obj_relation()
         view_id = self.env["field.add.domain"].create({})
-        vals = {
-            'name' : _("Add Domain"),
-            'view_mode' : 'form',
+        return {
+            'name': _("Add Domain"),
+            'view_mode': 'form',
             # 'view_type' : 'form',
-            'res_model' : 'field.add.domain',
-            'res_id' : view_id.id,
-            'context' : "{'obj_relation': '%s'}" % obj_relation,
-            'type' : "ir.actions.act_window",
-            'target' : 'new',
-         }
-        return vals
+            'res_model': 'field.add.domain',
+            'res_id': view_id.id,
+            'context': "{'obj_relation': '%s'}" % obj_relation,
+            'type': "ir.actions.act_window",
+            'target': 'new',
+        }

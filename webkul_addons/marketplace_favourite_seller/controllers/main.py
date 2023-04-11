@@ -59,10 +59,10 @@ class MarketplaceFavouriteSeller(http.Controller):
 
         url_parts = list(urlparse.urlparse(url))
         query = dict(urlparse.parse_qsl(url_parts[4]))
-        if query.get("add_favourite_success") or query.get("add_favourite_error"):
-            pass
-        else:
-            query.update(params)
+        if not query.get("add_favourite_success") and not query.get(
+            "add_favourite_error"
+        ):
+            query |= params
         url_parts[4] = urlencode(query)
         url = urlparse.urlunparse(url_parts)
 
@@ -75,8 +75,13 @@ class MarketplaceFavouriteSeller(http.Controller):
         customer_id = request.env.user.partner_id.id
         seller_id = int(kwargs.get("marketplace_seller_id"))
         FavSeller = request.env['marketplace.seller.followers'].sudo()
-        fav_seller_obj = FavSeller.search([('customer_id', '=',customer_id),('marketplace_seller_id', '=',seller_id),('active', '=', True)])
-        if fav_seller_obj:
+        if fav_seller_obj := FavSeller.search(
+            [
+                ('customer_id', '=', customer_id),
+                ('marketplace_seller_id', '=', seller_id),
+                ('active', '=', True),
+            ]
+        ):
             fav_seller_obj.sudo().active = False
-            url = url + "?seller_remove_success=1"
+            url += "?seller_remove_success=1"
         return request.redirect(url)

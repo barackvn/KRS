@@ -28,20 +28,20 @@ class NewDeliveryOrderWizard(models.TransientModel):
     @api.model
     def default_get(self, default_fields):
         res = super(NewDeliveryOrderWizard, self).default_get(default_fields)
-        rma_obj = self.env['rma.rma'].browse(self._context['active_id'])
-        if rma_obj:
-            is_repaired = True if rma_obj.mrp_repair_id else False
+        if rma_obj := self.env['rma.rma'].browse(self._context['active_id']):
+            is_repaired = bool(rma_obj.mrp_repair_id)
             company_id = self.env.user.company_id.id
             picking_type = self.env['stock.picking.type'].search([('code', '=', 'outgoing'), ('warehouse_id.company_id', '=', company_id)], limit=1)
             if not picking_type:
                 picking_type = self.env['stock.picking.type'].search([('code', '=', 'outgoing'), ('warehouse_id', '=', False)], limit=1)
-                if not picking_type:
-                    raise ValidationError(_("Make sure you have at least an outgoing picking type defined"))
+            if not picking_type:
+                raise ValidationError(_("Make sure you have at least an outgoing picking type defined"))
             source_location_id = None
             des_location_id = rma_obj.partner_id.property_stock_customer.id
             if is_repaired:
-                mrp_repair_id = self.env["repair.order"].browse(int(rma_obj.mrp_repair_id))
-                if mrp_repair_id:
+                if mrp_repair_id := self.env["repair.order"].browse(
+                    int(rma_obj.mrp_repair_id)
+                ):
                     source_location_id = mrp_repair_id.location_id.id
                     des_location_id = mrp_repair_id.location_dest_id.id
 
@@ -50,7 +50,7 @@ class NewDeliveryOrderWizard(models.TransientModel):
                 seller_warehouse_id = rma_obj.marketplace_seller_id.get_seller_global_fields('warehouse_id')
                 picking_type = self.env['stock.picking.type'].search([('code', '=', 'outgoing'), ('warehouse_id.company_id', '=', seller_warehouse_id)], limit=1)
 
-            elif picking_type:
+            else:
                 if picking_type.default_location_dest_id:
                     des_location_id = picking_type.default_location_dest_id.id
                 if picking_type.default_location_src_id:

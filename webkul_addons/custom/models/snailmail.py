@@ -174,7 +174,7 @@ class ResPartner(models.Model):
         for record in self:
             if record.email:
                 admin = self.env['res.users'].sudo().search([('id', '=', 2)])
-                email = str(record.email) + ',' + str(admin.email)
+                email = f'{str(record.email)},{str(admin.email)}'
                 mail_templ_id = self.env['ir.model.data'].sudo().get_object_reference(
                     'custom', 'template_seller_for_product_360_image')[1]
                 template_obj = self.env['mail.template'].browse(mail_templ_id)
@@ -195,8 +195,11 @@ class ResPartner(models.Model):
 
     def action_create_seller_location(self):
         if not self.seller_location_id:
-            parent_location = self.env['stock.location'].sudo().search([('name', '=', 'WH')], limit=1)
-            if parent_location:
+            if (
+                parent_location := self.env['stock.location']
+                .sudo()
+                .search([('name', '=', 'WH')], limit=1)
+            ):
                 location = self.env['stock.location'].sudo().create(
                     {'name': self.name, 'location_id': parent_location.id, 'usage': 'internal', 'seller_id': self.id})
                 self.seller_location_id = location.id
@@ -232,8 +235,11 @@ class ResPartner(models.Model):
                     res.with_context(default_is_buyer=True).create_crm_lead()
             if self._context.get('is_seller') and not res.parent_id:
                 res.write({'contact_id': self.env['ir.sequence'].next_by_code('seller.contact') or ''})
-                seller_user = self.env["res.users"].sudo().search([('partner_id', '=', res.id)])
-                if seller_user:
+                if (
+                    seller_user := self.env["res.users"]
+                    .sudo()
+                    .search([('partner_id', '=', res.id)])
+                ):
                     contact_group_obj = self.env.ref('base.group_partner_manager')
                     contact_group_obj.sudo().write({"users": [(4, seller_user.id, 0)]})
                 if res.seller and res.state == 'new' and not res.lead_id:
@@ -309,11 +315,31 @@ class ResPartner(models.Model):
 
     def create_crm_lead(self):
         if self._context.get('is_seller'):
-            crm_lead = self.env['crm.lead'].sudo().create(
-                {'name': self.name + ' (Seller)', 'partner_id': self.id, 'email_from': self.email, 'phone': self.phone})
+            crm_lead = (
+                self.env['crm.lead']
+                .sudo()
+                .create(
+                    {
+                        'name': f'{self.name} (Seller)',
+                        'partner_id': self.id,
+                        'email_from': self.email,
+                        'phone': self.phone,
+                    }
+                )
+            )
         else:
-            crm_lead = self.env['crm.lead'].sudo().create(
-                {'name': self.name + ' (Buyer)', 'partner_id': self.id, 'email_from': self.email, 'phone': self.phone})
+            crm_lead = (
+                self.env['crm.lead']
+                .sudo()
+                .create(
+                    {
+                        'name': f'{self.name} (Buyer)',
+                        'partner_id': self.id,
+                        'email_from': self.email,
+                        'phone': self.phone,
+                    }
+                )
+            )
         self.lead_id = crm_lead.id
         if crm_lead:
             values = {
@@ -322,7 +348,7 @@ class ResPartner(models.Model):
             if crm_lead.partner_id:
                 values['partner_id'] = crm_lead.partner_id.id
             leads = crm_lead
-            values.update({'lead_ids': leads.ids, 'user_ids': [crm_lead.user_id.id]})
+            values |= {'lead_ids': leads.ids, 'user_ids': [leads.user_id.id]}
             res = False
             leads = self.env['crm.lead'].sudo().browse(values.get('lead_ids'))
             for lead in leads:

@@ -42,7 +42,6 @@ class ResPartner(models.Model):
                 return_list.append(payment_method_cheque_id[1])
         except Exception as e:
             _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
-            pass
         try:
             payment_method_bank_transfer_id = self.env['ir.model.data'].get_object_reference(
                 'odoo_marketplace', 'marketplace_seller_payment_method_data5')
@@ -50,11 +49,10 @@ class ResPartner(models.Model):
                 return_list.append(payment_method_bank_transfer_id[1])
         except Exception as e:
             _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
-            pass
-        return return_list if return_list else self.env['seller.payment.method']
+        return return_list or self.env['seller.payment.method']
 
     def _default_website_sequence(self):
-        self._cr.execute("SELECT MIN(website_sequence) FROM %s" % self._table)
+        self._cr.execute(f"SELECT MIN(website_sequence) FROM {self._table}")
         min_sequence = self._cr.fetchone()[0]
         return min_sequence and min_sequence - 1 or 10
 
@@ -213,10 +211,7 @@ class ResPartner(models.Model):
             user_groups = user_obj.read(['groups_id'])
             if user_groups and user_groups[0].get("groups_id"):
                 user_groups_ids = user_groups[0].get("groups_id")
-                if product_variant_group.id in user_groups_ids:
-                    obj.allow_product_variants = True
-                else:
-                    obj.allow_product_variants = False
+                obj.allow_product_variants = product_variant_group.id in user_groups_ids
             else:
                 obj.allow_product_variants = False
 
@@ -224,8 +219,8 @@ class ResPartner(models.Model):
         for obj in self:
             if obj.seller:
                 base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-                base_url = base_url + "/seller/profile/"
-                url_handler = str(obj.id) if not obj.url_handler else obj.url_handler
+                base_url = f"{base_url}/seller/profile/"
+                url_handler = obj.url_handler or str(obj.id)
                 obj.url = base_url + url_handler
             else:
                 obj.url = False
@@ -246,9 +241,8 @@ class ResPartner(models.Model):
             return {'domain': {'state_id': [('country_id', '=', self.country_id.id)]}}
         if self.country_id:
             return {'domain': {'state_id': [('country_id', '=', self.country_id.id)]}}
-        else:
-            self.state_id = False
-            return {'domain': {'state_id': []}}
+        self.state_id = False
+        return {'domain': {'state_id': []}}
 
     @api.onchange('commission', 'seller_payment_limit', 'next_payment_request')
     def on_change_payment_assest(self):
@@ -263,8 +257,9 @@ class ResPartner(models.Model):
     def on_change_location_id(self):
         wl_obj = self.env["stock.location"].browse(self.location_id.id)
         wh_obj = self.env["stock.warehouse"]
-        whs = wh_obj.search([('view_location_id', 'parent_of', wl_obj.ids)], limit=1)
-        if whs:
+        if whs := wh_obj.search(
+            [('view_location_id', 'parent_of', wl_obj.ids)], limit=1
+        ):
             self.warehouse_id = whs.id
         else:
             self.warehouse_id = None
@@ -272,9 +267,11 @@ class ResPartner(models.Model):
     @api.onchange("set_seller_wise_settings")
     def on_change_seller_wise_settings(self):
         if self.set_seller_wise_settings:
-            vals = {}
-            vals["commission"] = self.env['ir.default'].get(
-                'res.config.settings', 'mp_commission')
+            vals = {
+                "commission": self.env['ir.default'].get(
+                    'res.config.settings', 'mp_commission'
+                )
+            }
             vals["location_id"] = self.env['ir.default'].get(
                 'res.config.settings', 'mp_location_id', company_id=True)
             vals["auto_product_approve"] = self.env['ir.default'].get(
@@ -298,7 +295,6 @@ class ResPartner(models.Model):
                     return_list.append(payment_method_cheque_id[1])
             except Exception as e:
                 _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
-                pass
             try:
                 payment_method_bank_transfer_id = self.env['ir.model.data'].get_object_reference(
                     'odoo_marketplace', 'marketplace_seller_payment_method_data5')
@@ -306,7 +302,6 @@ class ResPartner(models.Model):
                     return_list.append(payment_method_bank_transfer_id[1])
             except Exception as e:
                 _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
-                pass
         resConfig = self.env['res.config.settings']
         self.state = "new"
         self.commission = resConfig.get_mp_global_field_value("mp_commission")
@@ -325,8 +320,9 @@ class ResPartner(models.Model):
         if vals.get('url_handler'):
             if not re.match('^[a-zA-Z0-9-_]+$', vals.get('url_handler')) or re.match('^[-_][a-zA-Z0-9-_]*$', vals.get('url_handler')) or re.match('^[a-zA-Z0-9-_]*[-_]$', vals.get('url_handler')):
                 raise UserError(_("Please enter URL handler correctly!"))
-            sameurl = self.search([('url_handler', '=', vals.get('url_handler'))])
-            if sameurl:
+            if sameurl := self.search(
+                [('url_handler', '=', vals.get('url_handler'))]
+            ):
                 raise UserError(_("Url already registered!"))
             vals["url_handler"] = vals.get('url_handler').lower().replace(" ","-") or ""
         return super(ResPartner, self).create(vals)
@@ -358,11 +354,15 @@ class ResPartner(models.Model):
                 if vals.get('url_handler'):
                     if not re.match('^[a-zA-Z0-9-_]+$', vals.get('url_handler')) or re.match('^[-_][a-zA-Z0-9-_]*$', vals.get('url_handler')) or re.match('^[a-zA-Z0-9-_]*[-_]$', vals.get('url_handler')):
                         raise UserError(_("Please enter URL handler correctly!"))
-                    sameurl = self.search([ ('url_handler', '=', vals['url_handler']) , ('id', '!=', rec.id)])
-                    if sameurl:
+                    if sameurl := self.search(
+                        [
+                            ('url_handler', '=', vals['url_handler']),
+                            ('id', '!=', rec.id),
+                        ]
+                    ):
                         raise UserError(_("Url already registered!"))
                     vals["url_handler"] = (vals.get('url_handler').lower().replace(" ","-") or rec.url_handler.lower().replace(" ","-") or "") if vals.get('url_handler') else ""
-                    # vals['url'] = base_url + (vals.get('url_handler') or "")
+                                # vals['url'] = base_url + (vals.get('url_handler') or "")
         res = super(ResPartner, self).write(vals)
         for rec in self:
             if rec.seller and change_state_to == "approved":
@@ -377,7 +377,7 @@ class ResPartner(models.Model):
     def get_seller_global_fields(self, field_name):
         self.ensure_one()
         if not hasattr(self, field_name):
-            MissingError(_("%s field doesn't exist in res.partner model." % field_name))
+            MissingError(_(f"{field_name} field doesn't exist in res.partner model."))
         if self.set_seller_wise_settings:
             field_type = self._fields[field_name].type
             field_value = getattr(self, field_name)
@@ -386,9 +386,9 @@ class ResPartner(models.Model):
             if field_type in ('one2many', 'many2many'):
                 field_value = field_value.ids
         else:
-            field_key = 'mp_%s' % field_name
+            field_key = f'mp_{field_name}'
             field_value = self.env['res.config.settings'].get_mp_global_field_value(field_key)
-            # field_value = self.env['ir.default'].sudo().get('res.config.settings', field_key)
+                # field_value = self.env['ir.default'].sudo().get('res.config.settings', field_key)
         return field_value
 
     # Action methods
@@ -454,39 +454,49 @@ class ResPartner(models.Model):
         self.website_sequence = self.sudo().search([], order='website_sequence', limit=1).website_sequence - 1
 
     def set_sequence_up(self):
-        previous_seller = self.sudo().search(
-            [('website_sequence', '>', self.website_sequence), ('website_published', '=', self.website_published)],
-            order='website_sequence', limit=1)
-        if previous_seller:
+        if previous_seller := self.sudo().search(
+            [
+                ('website_sequence', '>', self.website_sequence),
+                ('website_published', '=', self.website_published),
+            ],
+            order='website_sequence',
+            limit=1,
+        ):
             previous_seller.website_sequence, self.website_sequence = self.website_sequence, previous_seller.website_sequence
         else:
             self.set_sequence_top()
 
     def set_sequence_down(self):
-        next_seller = self.search([('website_sequence', '<', self.website_sequence), ('website_published', '=', self.website_published)], order='website_sequence desc', limit=1)
-        if next_seller:
+        if next_seller := self.search(
+            [
+                ('website_sequence', '<', self.website_sequence),
+                ('website_published', '=', self.website_published),
+            ],
+            order='website_sequence desc',
+            limit=1,
+        ):
             next_seller.website_sequence, self.website_sequence = self.website_sequence, next_seller.website_sequence
         else:
             return self.set_sequence_bottom()
 
     def enable_product_variant_group(self):
         for obj in self:
-            user = self.env["res.users"].sudo().search(
-                [('partner_id', '=', obj.id)])
-            if user:
-                # Add user to product variant group
-                group = self.env.ref('product.group_product_variant')
-                if group:
+            if (
+                user := self.env["res.users"]
+                .sudo()
+                .search([('partner_id', '=', obj.id)])
+            ):
+                if group := self.env.ref('product.group_product_variant'):
                     group.sudo().write({"users": [(4, user.id, 0)]})
 
     def disable_product_variant_group(self):
         for obj in self:
-            user = self.env["res.users"].sudo().search(
-                [('partner_id', '=', obj.id)])
-            if user:
-                # Remove user from product variant group
-                group = self.env.ref('product.group_product_variant')
-                if group:
+            if (
+                user := self.env["res.users"]
+                .sudo()
+                .search([('partner_id', '=', obj.id)])
+            ):
+                if group := self.env.ref('product.group_product_variant'):
                     group.sudo().write({"users": [(3, user.id, 0)]})
 
     def action_seller_sol(self):
@@ -505,7 +515,7 @@ class ResPartner(models.Model):
             'view_mode': action.view_mode,
             'target': action.target,
             'res_model': action.res_model,
-            'domain': "[('marketplace_seller_id','=',%s), ('state','in',('sale','done'))]" % self._ids[0],
+            'domain': f"[('marketplace_seller_id','=',{self._ids[0]}), ('state','in',('sale','done'))]",
         }
 
     def action_seller_globel_settings(self):
@@ -574,14 +584,14 @@ class ResPartner(models.Model):
 
             #Send mail to admin/seller on seller approval
             if resConfig.get_mp_global_field_value("enable_notify_admin_on_seller_approve_reject"):
-                # Notify to admin by admin on new seller approval
-                temp_id = resConfig.get_mp_global_field_value("notify_admin_on_seller_approve_reject_m_tmpl_id")
-                if temp_id:
+                if temp_id := resConfig.get_mp_global_field_value(
+                    "notify_admin_on_seller_approve_reject_m_tmpl_id"
+                ):
                     self.notify_via_mail_to_seller(temp_id)
             if resConfig.get_mp_global_field_value("enable_notify_seller_on_approve_reject"):
-                # Notify to Seller by admin on new seller approval
-                temp_id = resConfig.get_mp_global_field_value("notify_seller_on_approve_reject_m_tmpl_id")
-                if temp_id:
+                if temp_id := resConfig.get_mp_global_field_value(
+                    "notify_seller_on_approve_reject_m_tmpl_id"
+                ):
                     self.notify_via_mail_to_seller(temp_id)
         elif self.seller and self.state in ["pending", "denied"]:
             #Change seller to draft seller group(marketplace_draft_seller_group)
@@ -592,26 +602,26 @@ class ResPartner(models.Model):
             if self._context.get("new_to_pending", False):
                 #Send mail to admin/seller on seller approval
                 if resConfig.get_mp_global_field_value("enable_notify_admin_4_new_seller"):
-                    # Notify to admin by admin on new seller creation
-                    temp_id = resConfig.get_mp_global_field_value("notify_admin_4_new_seller_m_tmpl_id")
-                    if temp_id:
+                    if temp_id := resConfig.get_mp_global_field_value(
+                        "notify_admin_4_new_seller_m_tmpl_id"
+                    ):
                         self.notify_via_mail_to_seller(temp_id)
                 if resConfig.get_mp_global_field_value("enable_notify_seller_4_new_seller"):
-                    # Notify to Seller by admin on new seller creation
-                    temp_id = resConfig.get_mp_global_field_value("notify_seller_4_new_seller_m_tmpl_id")
-                    if temp_id:
+                    if temp_id := resConfig.get_mp_global_field_value(
+                        "notify_seller_4_new_seller_m_tmpl_id"
+                    ):
                         self.notify_via_mail_to_seller(temp_id)
             else:
                 #Send mail to admin/seller on seller reject
                 if resConfig.get_mp_global_field_value("enable_notify_admin_on_seller_approve_reject"):
-                    # Notify to admin by admin on new seller reject
-                    temp_id = resConfig.get_mp_global_field_value("notify_admin_on_seller_approve_reject_m_tmpl_id")
-                    if temp_id:
+                    if temp_id := resConfig.get_mp_global_field_value(
+                        "notify_admin_on_seller_approve_reject_m_tmpl_id"
+                    ):
                         self.notify_via_mail_to_seller(temp_id)
                 if resConfig.get_mp_global_field_value("enable_notify_seller_on_approve_reject"):
-                    # Notify to Seller by admin on new seller reject
-                    temp_id = resConfig.get_mp_global_field_value("notify_seller_on_approve_reject_m_tmpl_id")
-                    if temp_id:
+                    if temp_id := resConfig.get_mp_global_field_value(
+                        "notify_seller_on_approve_reject_m_tmpl_id"
+                    ):
                         self.notify_via_mail_to_seller(temp_id)
         else:
             _logger.info(_("Seller is not in approved, denied, pending state. So you can't change seller group and notify to seller"))
@@ -652,9 +662,12 @@ class ResPartner(models.Model):
 
     def fetch_active_review(self, seller_id):
         if seller_id:
-            review_ids = self.env["seller.review"].search(
-                [('marketplace_seller_id', '=', seller_id), ('website_published', '=', True)])
-            return review_ids
+            return self.env["seller.review"].search(
+                [
+                    ('marketplace_seller_id', '=', seller_id),
+                    ('website_published', '=', True),
+                ]
+            )
         else:
             return []
 
@@ -678,9 +691,9 @@ class ResPartner(models.Model):
         if filter_by == 5:
             review_ids = self.env["seller.review"].search([('marketplace_seller_id', '=', seller_id), ('website_published', '=', True), (
                 'rating', '=', 5)], order="helpful desc" if sort_by == "most_helpful" else "create_date desc")
-        # review_ids = self.env["seller.review"].search([('marketplace_seller_id','=',seller_id),('website_published','=',True)])
-        return_obj = []
         if review_ids and offset < len(review_ids):
+            # review_ids = self.env["seller.review"].search([('marketplace_seller_id','=',seller_id),('website_published','=',True)])
+            return_obj = []
             while offset < len(review_ids) and limit != 0:
                 return_obj.append(review_ids[offset])
                 offset += 1
@@ -690,11 +703,10 @@ class ResPartner(models.Model):
             return []
 
     def avg_review(self):
-        val = 0.0
         length = 0.0
         if self._ids:
-            reviews_obj = self.fetch_active_review(self._ids[0])
-            if reviews_obj:
+            if reviews_obj := self.fetch_active_review(self._ids[0]):
+                val = 0.0
                 for obj in reviews_obj:
                     val += float(obj.rating)
                     length = float(len(reviews_obj))
@@ -702,40 +714,40 @@ class ResPartner(models.Model):
         return 0
 
     def temp_review(self):
-        value = self.avg_review()
-        if value:
+        if value := self.avg_review():
             dec = int(value)
             frac = int((value - dec) / .1)
-            if frac in [1, 2]:
+            if frac in {1, 2}:
                 frac = 2
-            elif frac in [3, 4]:
+            elif frac in {3, 4}:
                 frac = 4
-            elif frac in [5, 6]:
+            elif frac in {5, 6}:
                 frac = 6
-            elif frac in [7, 8, 9]:
+            elif frac in {7, 8, 9}:
                 frac = 8
             return [dec, frac]
         return [0, 0]
 
     def fetch_user_vote(self, seller_review_id):
         like_dislike = self.env["review.help"]
-        review_help_ids = like_dislike.search(
-            [('customer_id', '=', self._uid), ('seller_review_id', '=', seller_review_id)])
-        if review_help_ids:
-            result = [True if review_help_ids[0].review_help == "yes" else False,
-                      True if review_help_ids[0].review_help == "no" else False]
-            return result
+        if review_help_ids := like_dislike.search(
+            [
+                ('customer_id', '=', self._uid),
+                ('seller_review_id', '=', seller_review_id),
+            ]
+        ):
+            return [
+                review_help_ids[0].review_help == "yes",
+                review_help_ids[0].review_help == "no",
+            ]
         return [False, False]
 
     @api.model
     def get_review_current_time(self, seller_review_id):
-        review_pool = self.env["seller.review"]
         if seller_review_id:
+            review_pool = self.env["seller.review"]
             seller_review_obj = review_pool.browse(seller_review_id)
-            # iso_format = datetime.strptime(
-            #     seller_review_obj.create_date, "%Y-%m-%d %H:%M:%S").strftime('%Y-%m-%dT%H:%M:%SZ')
-            iso_format = seller_review_obj.create_date.strftime('%Y-%m-%dT%H:%M:%SZ')
-            return iso_format
+            return seller_review_obj.create_date.strftime('%Y-%m-%dT%H:%M:%SZ')
 
     def action_avg_seller_review_fun(self):
         self.ensure_one()
@@ -753,7 +765,7 @@ class ResPartner(models.Model):
             'view_mode': action.view_mode,
             'target': action.target,
             'res_model': action.res_model,
-            'domain': "[('marketplace_seller_id','=',%s)]" % self._ids[0],
+            'domain': f"[('marketplace_seller_id','=',{self._ids[0]})]",
         }
 
     def total_star_count(self, no_of_star):
@@ -764,17 +776,16 @@ class ResPartner(models.Model):
         return len(review_ids.ids) if review_ids else 0
 
     def total_active_recommendation(self):
-        return_list = []
         recommendation_ids = self.env[
             "seller.recommendation"].search([('state', '=', "pub"),("seller_id","=",self.id)])
         recommendation_yes_ids = self.env["seller.recommendation"].search(
             [('state', '=', "pub"), ("recommend_state", "=", "yes"),("seller_id","=",self.id)])
         yes_percentage = len(recommendation_yes_ids.ids) * 100 / \
-            len(recommendation_ids.ids) if recommendation_ids else 0
-        return_list.append(len(recommendation_ids.ids)
-                           if recommendation_ids else 0)
-        return_list.append(yes_percentage)
-        return return_list
+                len(recommendation_ids.ids) if recommendation_ids else 0
+        return [
+            len(recommendation_ids.ids) if recommendation_ids else 0,
+            yes_percentage,
+        ]
 
     def _set_active_recommendation(self):
         for obj in self:
@@ -796,7 +807,7 @@ class ResPartner(models.Model):
             'view_mode': action.view_mode,
             'target': action.target,
             'res_model': action.res_model,
-            'domain': "[('marketplace_seller_id','=',%s)]" % self._ids[0],
+            'domain': f"[('marketplace_seller_id','=',{self._ids[0]})]",
         }
 
     @api.model
@@ -812,13 +823,9 @@ class ResPartner(models.Model):
         return result
 
     def seller_sales_count(self):
-        # Calculate seller total sales count
-        sales_count = 0
         all_products = self.env['product.template'].sudo().search(
             [("marketplace_seller_id", "=", self.sudo().id)])
-        for prod in all_products.with_user(SUPERUSER_ID):
-            sales_count += prod.sales_count
-        return sales_count
+        return sum(prod.sales_count for prod in all_products.with_user(SUPERUSER_ID))
 
     def seller_products_count(self):
         # Calculate seller total products count
@@ -868,7 +875,11 @@ class SellerSocialMedia(models.Model):
                 if obj.social_media_id.base_url.endswith('/'):
                     url = obj.social_media_id.base_url + str(obj.social_profile_id) if obj.social_profile_id else ""
                 else:
-                    url = obj.social_media_id.base_url + '/' + str(obj.social_profile_id) if obj.social_profile_id else ""
+                    url = (
+                        f'{obj.social_media_id.base_url}/{str(obj.social_profile_id)}'
+                        if obj.social_profile_id
+                        else ""
+                    )
             obj.complete_url = url
 
     # Constraints and onchanges

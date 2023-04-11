@@ -78,13 +78,12 @@ class StockMove(models.Model):
                 # only cancel the next move if all my siblings are also cancelled
                 if all(state == 'cancel' for state in siblings_states):
                     move.move_dest_ids._action_cancel()
-            else:
-                if all(state in ('done', 'cancel')
+            elif all(state in ('done', 'cancel')
                        for state in siblings_states):
-                    move.move_dest_ids.write(
-                        {'procure_method': 'make_to_stock'})
-                    move.move_dest_ids.write(
-                        {'move_orig_ids': [(3, move.id, 0)]})
+                move.move_dest_ids.write(
+                    {'procure_method': 'make_to_stock'})
+                move.move_dest_ids.write(
+                    {'move_orig_ids': [(3, move.id, 0)]})
         self.write({'state': 'cancel', 'move_orig_ids': [(5, 0, 0)]})
         for line in self.mapped('sale_line_id'):
             line.qty_delivered = 0.0

@@ -42,18 +42,24 @@ class ResPartner(models.Model):
 
     def enable_seller_mass_upload_group(self):
         for obj in self:
-            user = self.env["res.users"].sudo().search(
-                [('partner_id', '=', obj.id)])
-            if user:
-                group = self.env.ref('marketplace_mass_upload.group_marketplace_mass_upload')
-                if group:
+            if (
+                user := self.env["res.users"]
+                .sudo()
+                .search([('partner_id', '=', obj.id)])
+            ):
+                if group := self.env.ref(
+                    'marketplace_mass_upload.group_marketplace_mass_upload'
+                ):
                     group.sudo().write({"users": [(4, user.id, 0)]})
 
     def disable_seller_mass_upload_group(self):
         for obj in self:
-            user = self.env["res.users"].sudo().search(
-                [('partner_id', '=', obj.id)])
-            if user:
-                group = self.env.ref('marketplace_mass_upload.group_marketplace_mass_upload')
-                if group:
+            if (
+                user := self.env["res.users"]
+                .sudo()
+                .search([('partner_id', '=', obj.id)])
+            ):
+                if group := self.env.ref(
+                    'marketplace_mass_upload.group_marketplace_mass_upload'
+                ):
                     group.sudo().write({"users": [(3, user.id, 0)]})

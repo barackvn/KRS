@@ -35,8 +35,7 @@ class CalendarEvent(models.Model):
         from_dt = fields.Datetime.from_string(date_from)
         to_dt = fields.Datetime.from_string(date_to)
         diff = to_dt - from_dt
-        diff_day = diff.days + float(diff.seconds) / 86400
-        return diff_day
+        return diff.days + float(diff.seconds) / 86400
 
     def write(self, values):
         for rec in self:
@@ -84,13 +83,22 @@ class CalendarEvent(models.Model):
             appointment_with = self.env['res.partner'].browse(vals.get('app_partner_id'))
             utc_date = fields.Datetime.from_string(vals.get('start_datetime'))
             date = appointment_with.get_tz_date(utc_date, appointment_with.tz)
-            vals.update({
-                'app_date': utc_date,
-                'app_time': str(utc_date.strftime('%H:%M')),
-                'date_appointment': str(date.strftime('%A, %B %d, %Y %H:%M')),
-                'app_duration': str(timedelta(minutes=int(appointment_with.minutes_slot)))[0:4],
-                'stop_datetime': fields.Datetime.to_string((utc_date + timedelta(minutes=int(appointment_with.minutes_slot)))),
-            })
+            vals.update(
+                {
+                    'app_date': utc_date,
+                    'app_time': str(utc_date.strftime('%H:%M')),
+                    'date_appointment': str(date.strftime('%A, %B %d, %Y %H:%M')),
+                    'app_duration': str(
+                        timedelta(minutes=int(appointment_with.minutes_slot))
+                    )[:4],
+                    'stop_datetime': fields.Datetime.to_string(
+                        (
+                            utc_date
+                            + timedelta(minutes=int(appointment_with.minutes_slot))
+                        )
+                    ),
+                }
+            )
         return super(CalendarEvent, self).create(vals)
 
 

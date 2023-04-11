@@ -32,24 +32,34 @@ class AuthSignupHome(AuthSignupHome):
 
             # check for country state required i.e. remove state_id from required if no states in country
             required_fields_list = required_fields.mapped(lambda self: self.field.name)
-            if all(item in required_fields_list for item in ['country_id','state_id']):
-                if qcontext.get("country_id") and not qcontext.get("state_id"):
-                    country_obj = request.env['res.country'].sudo().browse(int(qcontext.get("country_id")))
-                    states = self.adv_signup_country_infos(country_obj)
-                    # remove state_id from required if selected country has no states
-                    if not len(states.get("states")):
-                        required_fields = required_fields - required_fields.filtered(lambda l: l.field.name == "state_id")
+            if (
+                all(
+                    item in required_fields_list
+                    for item in ['country_id', 'state_id']
+                )
+                and qcontext.get("country_id")
+                and not qcontext.get("state_id")
+            ):
+                country_obj = request.env['res.country'].sudo().browse(int(qcontext.get("country_id")))
+                states = self.adv_signup_country_infos(country_obj)
+                # remove state_id from required if selected country has no states
+                if not len(states.get("states")):
+                    required_fields = required_fields - required_fields.filtered(lambda l: l.field.name == "state_id")
 
             if required_fields:
                 field_names = tuple(required_fields.mapped(lambda self: self.field.name))
                 if qcontext.get('buyer_signup') or qcontext.get('seller_signup'):
                     values = { key: qcontext.get(key) for key in field_names }
-                    for k,v in values.items():
-                        if v == '' or v == None:
+                    for v in values.values():
+                        if v == '' or v is None:
                             raise UserError(_("Some required fields was not properly filled in."))
-        if qcontext.get('buyer_signup') or qcontext.get('seller_signup'):
-            if signup_obj and signup_obj.show_t_n_c and not qcontext.get('adv_signup_t_n_c'):
-                raise UserError(_("Please agree to the Terms and Conditions"))
+        if (
+            (qcontext.get('buyer_signup') or qcontext.get('seller_signup'))
+            and signup_obj
+            and signup_obj.show_t_n_c
+            and not qcontext.get('adv_signup_t_n_c')
+        ):
+            raise UserError(_("Please agree to the Terms and Conditions"))
         return super(AuthSignupHome, self).do_signup(qcontext)
 
     def _signup_with_values(self, token, values):
@@ -60,10 +70,10 @@ class AuthSignupHome(AuthSignupHome):
             del params['adv_signup_t_n_c']
         if params:
             if params.get('country_id'):
-                params.update({'country_id':int(params.get('country_id')) })
+                params['country_id'] = int(params.get('country_id'))
             if params.get('state_id'):
-                params.update({'state_id':int(params.get('state_id')) })
-            values.update(dict((k, params[k]) for k in fields_list if k in params))
+                params['state_id'] = int(params.get('state_id'))
+            values.update({k: params[k] for k in fields_list if k in params})
         return super(AuthSignupHome, self)._signup_with_values(token, values)
 
     @http.route(['/adv_signup/country_infos/<model("res.country"):country>'], type='json', auth="public", methods=['POST'], website=True)

@@ -29,12 +29,17 @@ class CustomSearchEngine(http.Controller):
             'google_custom_search.cse_filename'
         )
         filecontent = base64.b64decode(cseFile or '')
-        if not filecontent:
-            return request.not_found()
-        else:
-            return request.make_response(filecontent,
-                                        [('Content-Type', 'application/octet-stream'),
-                                            ('Content-Disposition', content_disposition(cseFileName))])
+        return (
+            request.make_response(
+                filecontent,
+                [
+                    ('Content-Type', 'application/octet-stream'),
+                    ('Content-Disposition', content_disposition(cseFileName)),
+                ],
+            )
+            if filecontent
+            else request.not_found()
+        )
 
     @http.route(['/get/engine_id/'], type='json', auth="public", methods=['POST'], website=True)
     def get_engine_id(self):

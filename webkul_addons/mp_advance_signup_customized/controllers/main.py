@@ -40,7 +40,7 @@ class  MpAdvSignupCustomize(http.Controller):
         # OrderBy will be parsed in orm and so no direct sql injection
         # id is added to be sure that order is a unique sort key
         order = post.get('order') or 'website_sequence ASC'
-        return 'is_published desc, %s, id desc' % order
+        return f'is_published desc, {order}, id desc'
 
     def _get_search_domain(self, search, category, attrib_values, search_in_description=True):
         domains = [request.website.sale_product_domain()]
@@ -76,15 +76,15 @@ class  MpAdvSignupCustomize(http.Controller):
 
         return expression.AND(domains)
 
-    def sitemap_shop(env, rule, qs):
+    def sitemap_shop(self, rule, qs):
         if not qs or qs.lower() in '/shop':
             yield {'loc': '/shop'}
 
-        Category = env['product.public.category']
+        Category = self['product.public.category']
         dom = sitemap_qs2dom(qs, '/shop/category', Category._rec_name)
-        dom += env['website'].get_current_website().website_domain()
+        dom += self['website'].get_current_website().website_domain()
         for cat in Category.search(dom):
-            loc = '/shop/category/%s' % slug(cat)
+            loc = f'/shop/category/{slug(cat)}'
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
 
@@ -150,7 +150,7 @@ class  MpAdvSignupCustomize(http.Controller):
         categs = Category.search(categs_domain)
 
         if category:
-            url = "/exclusive_products/category/%s" % slug(category)
+            url = f"/exclusive_products/category/{slug(category)}"
 
         product_count = len(search_product)
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)

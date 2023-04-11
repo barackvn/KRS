@@ -56,8 +56,8 @@ class ProductTemplate(models.Model):
         if self.wk_mp_membership:
             msg = "Under this membership plan you will get following features: \n"
             msg += "1. You can upload/create %s products.\n" % self.no_of_product
-            msg += "2. Duration for this will be %s " % self.plan_duration
-            msg += "%s." % self.duration_type
+            msg += f"2. Duration for this will be {self.plan_duration} "
+            msg += f"{self.duration_type}."
             self.description = self.description_sale = msg
 
     def get_mp_membership_plan_date_range(self, wk_date=None):
@@ -68,25 +68,24 @@ class ProductTemplate(models.Model):
             wk_date = datetime.datetime.strptime(wk_date, "%Y-%m-%d")
         if not wk_date:
             wk_date = date.today()
-        result = {}
-        result.update({"date_from": str(wk_date)})
+        result = {"date_from": str(wk_date)}
         duration_type = self.duration_type
-        if duration_type == "year":
-            years = self.plan_duration
-            date_after_given_years = wk_date + relativedelta(years=+years)
-            result.update({"date_to": str(date_after_given_years)})
-        elif duration_type == "month":
+        if duration_type == "month":
             months = self.plan_duration
             date_after_given_months = wk_date + relativedelta(months=+months)
-            result.update({"date_to": str(date_after_given_months)})
+            result["date_to"] = str(date_after_given_months)
         elif duration_type == "week":
             weeks = timedelta(weeks=self.plan_duration)
             date_after_given_weeks = wk_date + weeks
-            result.update({"date_to": str(date_after_given_weeks)})
+            result["date_to"] = str(date_after_given_weeks)
+        elif duration_type == "year":
+            years = self.plan_duration
+            date_after_given_years = wk_date + relativedelta(years=+years)
+            result["date_to"] = str(date_after_given_years)
         else:
             days = timedelta(days=self.plan_duration)
             date_after_given_days = wk_date + days
-            result.update({"date_to": str(date_after_given_days)})
+            result["date_to"] = str(date_after_given_days)
         return result
 
     def validate_product_limit(self, seller_id):
@@ -97,12 +96,10 @@ class ProductTemplate(models.Model):
         groups_ids = self.env.user.sudo().groups_id.ids
         if officer_group in groups_ids and seller_id == self.env.user.partner_id.id:
             return True
-        else:
-            seller_obj = self.env["res.partner"].browse(seller_id)
-            if seller_obj:
-                seller_all_products = self.search([("marketplace_seller_id", "=", seller_obj.id)])
-                if seller_obj.no_of_product <= len(seller_all_products):
-                    return False
+        if seller_obj := self.env["res.partner"].browse(seller_id):
+            seller_all_products = self.search([("marketplace_seller_id", "=", seller_obj.id)])
+            if seller_obj.no_of_product <= len(seller_all_products):
+                return False
         return True
 
     @api.model

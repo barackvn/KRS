@@ -22,11 +22,15 @@ class Message(models.Model):
                                      help='Partners that have a notification pushing this message in their mailboxes')
 
     def get_messages_time(self, your_time=None):
-        if your_time == 'tomorrow':
-            snooze = fields.Datetime.context_timestamp(self, datetime.now() + timedelta(days=1)).strftime("%a %I:%M %p")
-        else:
-            snooze = fields.Datetime.context_timestamp(self, datetime.now() + timedelta(hours=2)).strftime("%I:%M %p")
-        return snooze
+        return (
+            fields.Datetime.context_timestamp(
+                self, datetime.now() + timedelta(days=1)
+            ).strftime("%a %I:%M %p")
+            if your_time == 'tomorrow'
+            else fields.Datetime.context_timestamp(
+                self, datetime.now() + timedelta(hours=2)
+            ).strftime("%I:%M %p")
+        )
 
     @api.model
     def set_to_inbox(self):

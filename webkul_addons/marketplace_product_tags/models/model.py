@@ -26,9 +26,6 @@ class ProductTemplate(models.Model):
     def toggle_tag_published(self):
         """ Inverse the value of the field ``tags_published`` on the records in ``self``. """
         for record in self:
-            if record.website_publish:
-                record.website_publish = False
-            else:
-                record.website_publish = True
+            record.website_publish = not record.website_publish
         
 

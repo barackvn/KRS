@@ -35,14 +35,12 @@ class MassUploadStatus(models.TransientModel):
         if self._context.get('active_model') == 'mass.product.upload':
             view_id = self.sudo().env.ref('marketplace_mass_upload.product_mass_upload_form_view').read()[0]['id']
             res_model = 'mass.product.upload'
-        
-        return_act = {
+
+        return {
             'type': 'ir.actions.act_window',
             'res_model': res_model,
             'view_mode': 'form',
-            'context' : {'mass_upload_view' : True},
+            'context': {'mass_upload_view': True},
             'view_id': view_id,
             'res_id': self._context.get('active_id'),
         }
-
-        return return_act

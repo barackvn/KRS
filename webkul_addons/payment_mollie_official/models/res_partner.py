@@ -13,18 +13,14 @@ class ResPartner(models.Model):
 
     def _prepare_mollie_address(self):
         self.ensure_one()
-        result = {}
-
         # Name
         name_parts = self.name.split(" ")
-        result['givenName'] = name_parts[0]
+        result = {'givenName': name_parts[0]}
         result['familyName'] = ' '.join(name_parts[1:]) if len(name_parts) > 1 else result['givenName']
 
-        # Phone
-        phone = self._mollie_phone_format(self.phone)
-        if not phone:
-            phone = self._mollie_phone_format(self.mobile)
-        if phone:
+        if phone := self._mollie_phone_format(
+            self.phone
+        ) or self._mollie_phone_format(self.mobile):
             result['phone'] = phone
         result['email'] = self.email
 
@@ -48,8 +44,7 @@ class ResPartner(models.Model):
         phone = False
         if phone:
             try:
-                parse_phone = phonenumbers.parse(self.phone, None)
-                if parse_phone:
+                if parse_phone := phonenumbers.parse(self.phone, None):
                     phone = phonenumbers.format_number(
                         parse_phone, phonenumbers.PhoneNumberFormat.E164
                     )

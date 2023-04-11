@@ -36,28 +36,26 @@ class Home(Home):
             maintainance_mode = request.env['website'].odoo_maintainance_mode()
             if maintainance_mode['is_sigin_clicked']:
                 context = dict(request.session.context)
-                context.update({'login_clicked': True})
+                context['login_clicked'] = True
                 request.session.context = context
                 return http.redirect_with_hash(redirect)
         return response
 
     @http.route('/subscriber/email', type='json', auth="public", website=True)
     def subscriber_email(self, email=False, **kw):
-        if email:
-            email = email.strip()
-            subscriber_obj = request.env['wk.subscriber.emails']
-            maintenance_mode_id = False
-            obj = request.env['website'].get_config_id()
-            if obj:
-                maintenance_mode_id = obj.id
-            exists = subscriber_obj.sudo().search([('email', '=', email)])
-            if exists:
-                if exists.state == 'pending':
-                    return 'already_exists'
-                else:
-                    exists.write({'state': 'pending'})
+        if not email:
+            return False
+        email = email.strip()
+        subscriber_obj = request.env['wk.subscriber.emails']
+        maintenance_mode_id = False
+        if obj := request.env['website'].get_config_id():
+            maintenance_mode_id = obj.id
+        if exists := subscriber_obj.sudo().search([('email', '=', email)]):
+            if exists.state == 'pending':
+                return 'already_exists'
             else:
-                subscriber_obj.sudo().create(
-                    {'email': email, 'state': 'pending', 'maintenance_mode_id': maintenance_mode_id})
-            return 'new_customer'
-        return False
+                exists.write({'state': 'pending'})
+        else:
+            subscriber_obj.sudo().create(
+                {'email': email, 'state': 'pending', 'maintenance_mode_id': maintenance_mode_id})
+        return 'new_customer'

@@ -84,16 +84,17 @@ class CustomHangoutsMeet(models.Model):
 
     def action_id_calendar_view(self):
         calendar_view = self.env.ref('calendar.view_calendar_event_calendar')
-        action_id = self.env['ir.actions.act_window'].search([('view_id', '=', calendar_view.id)], limit=1).id
-        return action_id
+        return (
+            self.env['ir.actions.act_window']
+            .search([('view_id', '=', calendar_view.id)], limit=1)
+            .id
+        )
 
     def base_url(self):
-        url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        return url
+        return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
 
     def db_name(self):
-        db_name = self._cr.dbname
-        return db_name
+        return self._cr.dbname
 
     
     
@@ -128,8 +129,7 @@ class CustomHangoutsMeet(models.Model):
                     # values['author_id'] = self.env['res.users'].browse(request.env.uid).partner_id.id
                     values['author_id'] = login_user_id.partner_id.id
                     mail_mail_obj = self.env['mail.mail']
-                    msg_id = mail_mail_obj.sudo().create(values)
-                    if msg_id:
+                    if msg_id := mail_mail_obj.sudo().create(values):
                         mail_mail_obj.sudo().send([msg_id])
         return True
 
@@ -163,23 +163,19 @@ class CustomHangoutsMeet(models.Model):
         end_datetime = fields.Datetime.context_timestamp(self,self.end_date_time).isoformat('T')
         # print("\n\nstart_datetime\t\t",start_datetime,"\n")
         if login_user_id.access_token and login_user_id.refresh_token:
-            bearer = 'Bearer '+login_user_id.access_token
+            bearer = f'Bearer {login_user_id.access_token}'
             payload = {}
             headers = {
                 'Content-Type': "application/json",
                 'Authorization': bearer
             }
-            
-            attendees_list = []
+
             attendees = self.sudo().partner_ids
-            for i in attendees:
-
-                attendees_list.append({"email": i.email})
-
+            attendees_list = [{"email": i.email} for i in attendees]
             ############## Note: requestId is just a unique string #########################
             body = {
                     "conferenceData": {"createRequest": {"requestId": "7qxalsvy036"}},
-  	                "summary" : self.name,
+            "summary" : self.name,
                     "start": {"dateTime": start_datetime, "timeZone": "UTC"},
                     "end": {"dateTime": end_datetime, "timeZone": "UTC"},
                     "attendees": attendees_list,
@@ -189,7 +185,7 @@ class CustomHangoutsMeet(models.Model):
 
             data_json = json.dumps(body)
 
-            url = 'https://www.googleapis.com/calendar/v3/calendars/'+login_user_id.calendar_id+'/events?conferenceDataVersion=1';
+            url = f'https://www.googleapis.com/calendar/v3/calendars/{login_user_id.calendar_id}/events?conferenceDataVersion=1';
             # print("\n\n\nurl\n\n",url,"\n\n\n")
             hangout_meet_response = requests.request("POST", url, headers=headers, data=data_json)
             # print("Hang out meet response #@#@#@#@#@#@#@",hangout_meet_response)
@@ -197,11 +193,8 @@ class CustomHangoutsMeet(models.Model):
                 data_rec = hangout_meet_response.json()
 
                 self.write({"meet_url": data_rec.get('hangoutLink'), "meet_id": data_rec.get('id')})
-                hangout_meet_link = data_rec.get('hangoutLink')
-                # print("Hang out meet link 222222222222222222 #@#@#@#@#@#@#@", hangout_meet_link)
-                if hangout_meet_link:
+                if hangout_meet_link := data_rec.get('hangoutLink'):
                     self.write({"meet_code": hangout_meet_link.split('/')[3]})
-                    # print("Hang out meet link 222222222222222222 #@#@#@#@#@#@#@", hangout_meet_link)
             elif hangout_meet_response.status_code == 401:
                 raise UserError("Please Authenticate with Hangouts Meet.")
 

@@ -44,5 +44,5 @@ class ResPartner(models.Model):
             'view_mode': action.view_mode,
             'target': action.target,
             'res_model': action.res_model,
-            'domain': "[('marketplace_seller_id','=',%s), ('active','=', True )]" % self._ids[0],
+            'domain': f"[('marketplace_seller_id','=',{self._ids[0]}), ('active','=', True )]",
         }

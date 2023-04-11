@@ -207,7 +207,7 @@ class MailComposer(models.TransientModel):
                             add_sign=not bool(wizard.template_id),
                             mail_auto_delete=wizard.template_id.auto_delete if wizard.template_id else False,
                             model_description=model_description)
-                        post_params.update(mail_values)
+                        post_params |= mail_values
                         if ActiveModel._name == 'mail.thread':
                             if wizard.model:
                                 post_params['model'] = wizard.model
@@ -253,16 +253,12 @@ class Message(models.Model):
         res = super(Message, self).message_format()
         partners_dict = {}
         for obj in res:
-            cc_partners = ''
-            bcc_partners = ''
             cc_partners_list = self.env['res.partner'].browse(
                 obj.get('cc_recipient_ids', [])).read(['name'])
-            for item in cc_partners_list:
-                cc_partners += item.get('name') + ', '
+            cc_partners = ''.join(item.get('name') + ', ' for item in cc_partners_list)
             bcc_partners_list = self.env['res.partner'].browse(
                 obj.get('bcc_recipient_ids', [])).read(['name'])
-            for item in bcc_partners_list:
-                bcc_partners += item.get('name') + ', '
+            bcc_partners = ''.join(item.get('name') + ', ' for item in bcc_partners_list)
             obj['cc_partners'] = cc_partners
             obj['bcc_partners'] = bcc_partners
         return res
@@ -336,7 +332,7 @@ class Mail(models.Model):
                         headers['Return-Path'] = '%s+%d@%s' % (bounce_alias, mail.id, catchall_domain)
                 if mail.headers:
                     try:
-                        headers.update(safe_eval(mail.headers))
+                        headers |= safe_eval(mail.headers)
                     except Exception:
                         pass
 
@@ -347,15 +343,13 @@ class Mail(models.Model):
                     'state': 'exception',
                     'failure_reason': _('Error without exception. Probably due do sending an email without computed recipients.'),
                 })
-                # Update notification in a transient exception state to avoid concurrent
-                # update in case an email bounces while sending all emails related to current
-                # mail record.
-                notifs = self.env['mail.notification'].search([
-                    ('notification_type', '=', 'email'),
-                    ('mail_id', 'in', mail.ids),
-                    ('notification_status', 'not in', ('sent', 'canceled'))
-                ])
-                if notifs:
+                if notifs := self.env['mail.notification'].search(
+                    [
+                        ('notification_type', '=', 'email'),
+                        ('mail_id', 'in', mail.ids),
+                        ('notification_status', 'not in', ('sent', 'canceled')),
+                    ]
+                ):
                     notif_msg = _('Error without exception. Probably due do concurrent access update of notification records. Please see with an administrator.')
                     notifs.sudo().write({
                         'notification_status': 'exception',
@@ -375,16 +369,17 @@ class Mail(models.Model):
                         subject=mail.subject,
                         body=email.get('body'),
                         body_alternative=email.get('body_alternative'),
-                        email_cc=tools.email_split(mail.email_cc)+ cc_list,
+                        email_cc=tools.email_split(mail.email_cc) + cc_list,
                         email_bcc=tools.email_split(mail.email_bcc) + bcc_list,
                         reply_to=mail.reply_to,
                         attachments=attachments,
                         message_id=mail.message_id,
                         references=mail.references,
-                        object_id=mail.res_id and ('%s-%s' % (mail.res_id, mail.model)),
+                        object_id=mail.res_id and f'{mail.res_id}-{mail.model}',
                         subtype='html',
                         subtype_alternative='plain',
-                        headers=headers)
+                        headers=headers,
+                    )
 
                     processing_pid = email.pop("partner_id", None)
                     try:
@@ -394,16 +389,15 @@ class Mail(models.Model):
                             success_pids.append(processing_pid)
                         processing_pid = None
                     except AssertionError as error:
-                        if str(error) == IrMailServer.NO_VALID_RECIPIENT:
-                            failure_type = "RECIPIENT"
-                            # No valid recipient found for this particular
-                            # mail item -> ignore error to avoid blocking
-                            # delivery to next recipients, if any. If this is
-                            # the only recipient, the mail will show as failed.
-                            _logger.info("Ignoring invalid recipients for mail.mail %s: %s",
-                                         mail.message_id, email.get('email_to'))
-                        else:
+                        if str(error) != IrMailServer.NO_VALID_RECIPIENT:
                             raise
+                        failure_type = "RECIPIENT"
+                        # No valid recipient found for this particular
+                        # mail item -> ignore error to avoid blocking
+                        # delivery to next recipients, if any. If this is
+                        # the only recipient, the mail will show as failed.
+                        _logger.info("Ignoring invalid recipients for mail.mail %s: %s",
+                                     mail.message_id, email.get('email_to'))
                 if res:  # mail has been sent at least once, no major exception occured
                     mail.write({'state': 'sent', 'message_id': res, 'failure_reason': False})
                     _logger.info('Mail with ID %r and Message-Id %r successfully sent', mail.id, mail.message_id)
@@ -433,7 +427,7 @@ class Mail(models.Model):
                 if raise_exception:
                     if isinstance(e, (AssertionError, UnicodeEncodeError)):
                         if isinstance(e, UnicodeEncodeError):
-                            value = "Invalid text: %s" % e.object
+                            value = f"Invalid text: {e.object}"
                         else:
                             # get the args of the original error, wrap into a value and throw a MailDeliveryException
                             # that is an except_orm, with name and value as arguments
@@ -472,9 +466,11 @@ class Thread(models.AbstractModel):
         if partner and partner.id in [val[0] for val in result[self.ids[0]]]:  # already existing partner ID -> skip
             return result
         if partner and partner.email:  # complete profile: id, name <email>
-            result[self.ids[0]].append((partner.id, '%s<%s>' % (partner.name, partner.email), reason))
+            result[self.ids[0]].append(
+                (partner.id, f'{partner.name}<{partner.email}>', reason)
+            )
         elif partner:  # incomplete profile: id, name
-            result[self.ids[0]].append((partner.id, '%s' % (partner.name), reason))
+            result[self.ids[0]].append((partner.id, f'{partner.name}', reason))
         else:  # unknown partner, we are probably managing an email address
             result[self.ids[0]].append((False, email, reason))
         return result
@@ -524,8 +520,14 @@ class Thread(models.AbstractModel):
         """
         self.ensure_one()  # should always be posted on a record, use message_notify if no record
         # split message additional values from notify additional values
-        msg_kwargs = dict((key, val) for key, val in kwargs.items() if key in self.env['mail.message']._fields)
-        notif_kwargs = dict((key, val) for key, val in kwargs.items() if key not in msg_kwargs)
+        msg_kwargs = {
+            key: val
+            for key, val in kwargs.items()
+            if key in self.env['mail.message']._fields
+        }
+        notif_kwargs = {
+            key: val for key, val in kwargs.items() if key not in msg_kwargs
+        }
 
         if self._name == 'mail.thread' or not self.id or message_type == 'user_notification':
             raise ValueError('message_post should only be call to post message on record. Use message_notify instead')
@@ -553,7 +555,7 @@ class Thread(models.AbstractModel):
         if not subtype_id:
             subtype = subtype or 'mt_note'
             if '.' not in subtype:
-                subtype = 'mail.%s' % subtype
+                subtype = f'mail.{subtype}'
             subtype_id = self.env['ir.model.data'].xmlid_to_res_id(subtype)
 
         # automatically subscribe recipients if asked to
@@ -568,11 +570,12 @@ class Thread(models.AbstractModel):
             parent_id = parent_message.id if parent_message else False
         elif parent_id:
             old_parent_id = parent_id
-            parent_message = MailMessage_sudo.search([('id', '=', parent_id), ('parent_id', '!=', False)], limit=1)
-            # avoid loops when finding ancestors
-            processed_list = []
-            if parent_message:
+            if parent_message := MailMessage_sudo.search(
+                [('id', '=', parent_id), ('parent_id', '!=', False)], limit=1
+            ):
                 new_parent_id = parent_message.parent_id and parent_message.parent_id.id
+                # avoid loops when finding ancestors
+                processed_list = []
                 while (new_parent_id and new_parent_id not in processed_list):
                     processed_list.append(new_parent_id)
                     parent_message = parent_message.parent_id
@@ -582,15 +585,13 @@ class Thread(models.AbstractModel):
         cc_recipient_ids = kwargs.pop('cc_recipient_ids', [])
         for partner_id in cc_recipient_ids:
             if isinstance(partner_id, (list, tuple)) and partner_id[0] == 4 \
-                    and len(partner_id) == 2:
+                        and len(partner_id) == 2:
                 cc_partner_ids.add(partner_id[1])
             if isinstance(partner_id, (list, tuple)) and partner_id[0] == 6 \
-                    and len(partner_id) == 3:
+                        and len(partner_id) == 3:
                 cc_partner_ids |= set(partner_id[2])
             elif isinstance(partner_id, int):
                 cc_partner_ids.add(partner_id)
-            else:
-                pass
         bcc_partner_ids = set()
         bcc_recipient_ids = kwargs.pop('bcc_recipient_ids', [])
         for partner_id in bcc_recipient_ids:
@@ -600,11 +601,7 @@ class Thread(models.AbstractModel):
                 bcc_partner_ids |= set(partner_id[2])
             elif isinstance(partner_id, int):
                 bcc_partner_ids.add(partner_id)
-            else:
-                pass
-
-        values = dict(msg_kwargs)
-        values.update({
+        values = msg_kwargs | {
             'author_id': author_id,
             'email_from': email_from,
             'model': self._name,
@@ -619,12 +616,12 @@ class Thread(models.AbstractModel):
             'add_sign': add_sign,
             'record_name': record_name,
             'cc_recipient_ids': [(4, pid.id) for pid in cc_recipient_ids],
-            'bcc_recipient_ids': [(4, pid.id) for pid in bcc_recipient_ids]
-        })
+            'bcc_recipient_ids': [(4, pid.id) for pid in bcc_recipient_ids],
+        }
         attachments = attachments or []
         attachment_ids = attachment_ids or []
         attachement_values = self._message_post_process_attachments(attachments, attachment_ids, values)
-        values.update(attachement_values)  # attachement_ids, [body]
+        values |= attachement_values
 
         new_message = self._message_create(values)
 
@@ -665,20 +662,20 @@ class Thread(models.AbstractModel):
                 if active is False:
                     continue
                 pdata = {'id': pid, 'active': active, 'share': pshare, 'groups': groups}
-                if notif == 'inbox':
-                    recipient_data['partners'].append(dict(pdata, notif=notif, type='user'))
-                elif not pshare and notif:  # has an user and is not shared, is therefore user
+                if notif == 'inbox' or not pshare and notif:
                     recipient_data['partners'].append(dict(pdata, notif=notif, type='user'))
                 elif pshare and notif:  # has an user but is shared, is therefore portal
                     recipient_data['partners'].append(dict(pdata, notif=notif, type='portal'))
                 else:  # has no user, is therefore customer
-                    recipient_data['partners'].append(dict(pdata, notif=notif if notif else 'email', type='customer'))
+                    recipient_data['partners'].append(
+                        dict(pdata, notif=notif or 'email', type='customer')
+                    )
             elif cid:
                 recipient_data['channels'].append({'id': cid, 'notif': notif, 'type': ctype})
 
-        # add partner ids in email channels
-        email_cids = [r['id'] for r in recipient_data['channels'] if r['notif'] == 'email']
-        if email_cids:
+        if email_cids := [
+            r['id'] for r in recipient_data['channels'] if r['notif'] == 'email'
+        ]:
             # we are doing a similar search in ocn_client
             # Could be interesting to make everything in a single query.
             # ocn_client: (searching all partners linked to channels of type chat).

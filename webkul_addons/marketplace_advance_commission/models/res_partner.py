@@ -55,16 +55,18 @@ class ResPartner(models.Model):
     def on_change_seller_wise_settings(self):
         res = super(ResPartner, self).on_change_seller_wise_settings()
         if self.set_seller_wise_settings:
-            vals={}
-            vals["comm_method"] = self.env['ir.default'].get(
-                'res.config.settings', 'mp_comm_method')
+            vals = {
+                "comm_method": self.env['ir.default'].get(
+                    'res.config.settings', 'mp_comm_method'
+                )
+            }
             vals["fix_commission"] = self.env['ir.default'].get(
                 'res.config.settings', 'mp_fix_commission')
             self.update(vals)
 
     def write(self, vals):
         res = super(ResPartner, self).write(vals)
-        for rec in self:
+        for _ in self:
             if vals.get("fix_commission") and vals.get("fix_commission", "") < 0.0:
                 raise Warning(_("Fix Commission should be greater than 0."))
         return res

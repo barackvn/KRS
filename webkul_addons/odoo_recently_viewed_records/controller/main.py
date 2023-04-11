@@ -29,22 +29,30 @@ class RecentlyViewedRecord(http.Controller):
             self, name=False, url=False, record_id=False, model=False,
             action=False, **post):
         result = {'status': True}
-        records = request.env['recently.viewed.record'].search([
-            ('record_id', '=', record_id), ('model', '=', model),
-            ('user_id', '=', request._uid)], limit=1)
-        if not records:
-            if action and name and record_id and model:
-                action_name = request.env['ir.actions.act_window'].browse(
-                    action).name
-                request.env['recently.viewed.record'].create({
-                    'name': action_name + '/' + name, 'url': url,
-                    'record_id': record_id, 'model': model,
-                    'user_id': request._uid})
-            else:
-                return {}
-        else:
+        if records := request.env['recently.viewed.record'].search(
+            [
+                ('record_id', '=', record_id),
+                ('model', '=', model),
+                ('user_id', '=', request._uid),
+            ],
+            limit=1,
+        ):
             records.write({'url': url, })
             result['status'] = False
+        elif action and name and record_id and model:
+            action_name = request.env['ir.actions.act_window'].browse(
+                action).name
+            request.env['recently.viewed.record'].create(
+                {
+                    'name': f'{action_name}/{name}',
+                    'url': url,
+                    'record_id': record_id,
+                    'model': model,
+                    'user_id': request._uid,
+                }
+            )
+        else:
+            return {}
         request._cr.commit()
         return result
 

@@ -29,10 +29,8 @@ class marketplace_dashboard(models.Model):
         manager_group = self.env['ir.model.data'].get_object_reference(
             'odoo_marketplace', 'marketplace_officer_group')[1]
         groups_ids = self.env.user.sudo().groups_id.ids
-        if seller_group in groups_ids and manager_group in groups_ids:
-            return False
-        if seller_group in groups_ids and manager_group not in groups_ids:
-            return True
+        if seller_group in groups_ids:
+            return manager_group not in groups_ids
 
     def _is_seller_or_manager(self):
         for rec in self:

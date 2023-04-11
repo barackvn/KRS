@@ -37,9 +37,7 @@ class ReminderHistory(models.Model):
 	)
 
 	def sendReminderEmails(self,retry=False):
-		emails = list(filter(None,self.reminder.mapped('recipients.email')))
-
-		if emails:
+		if emails := list(filter(None, self.reminder.mapped('recipients.email'))):
 			mail_template = self.env.ref('odoo_reminder.mail_reminder')
 			mail_template.email_to = ','.join(emails)
 

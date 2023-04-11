@@ -35,8 +35,12 @@ class SaleOrderLine(models.Model):
     def write(self, vals):
         res = super(SaleOrderLine, self).write(vals)
         for rec in self:
-            ad_display_type = vals.get("ad_display_type") if vals.get("ad_display_type") else rec.ad_display_type
-            if ad_display_type == "ad_products":
-                if vals.get("ad_product_ids") and vals.get("ad_product_ids")[0] and len(vals.get("ad_product_ids")[0][2])<3 or len(rec.ad_product_ids)<3:
-                    raise UserError(_("Please add atleast 3 products for display type products."))
+            ad_display_type = vals.get("ad_display_type") or rec.ad_display_type
+            if ad_display_type == "ad_products" and (
+                vals.get("ad_product_ids")
+                and vals.get("ad_product_ids")[0]
+                and len(vals.get("ad_product_ids")[0][2]) < 3
+                or len(rec.ad_product_ids) < 3
+            ):
+                raise UserError(_("Please add atleast 3 products for display type products."))
         return res

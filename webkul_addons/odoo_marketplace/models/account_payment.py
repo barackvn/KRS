@@ -54,7 +54,7 @@ class AccountPayment(models.Model):
             if not rec.name and rec.payment_type != 'transfer' and rec.partner_type == 'seller':
                 if rec.payment_type == 'inbound':
                     sequence_code = 'seller.payment.seller.refund'
-                if rec.payment_type == 'outbound':
+                elif rec.payment_type == 'outbound':
                     sequence_code = 'seller.payment.seller.invoice'
             if sequence_code:
                 rec.name = self.env['ir.sequence'].with_context(ir_sequence_date=rec.payment_date).next_by_code(sequence_code)

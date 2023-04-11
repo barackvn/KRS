@@ -36,7 +36,4 @@ class GdprDataTemplate(models.Model):
     # @api.multi
     def _compressDesc(self):
         for o in self:
-            if len(o.desc) > 125:
-                o.small_desc = o.desc[:125]+"..."
-            else:
-                o.small_desc = o.desc
+            o.small_desc = f"{o.desc[:125]}..." if len(o.desc) > 125 else o.desc

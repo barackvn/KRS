@@ -26,8 +26,22 @@ class MassUploadSettings(models.Model):
     _description = "Settings for mass uplaod"
 
     def _get_fields():
-        fields_list = ['name','lst_price','type','default_code','categ_id','barcode','hs_code','description_sale','volume','weight','description_picking','description_pickingout','website_id','sale_delay']
-        return fields_list
+        return [
+            'name',
+            'lst_price',
+            'type',
+            'default_code',
+            'categ_id',
+            'barcode',
+            'hs_code',
+            'description_sale',
+            'volume',
+            'weight',
+            'description_picking',
+            'description_pickingout',
+            'website_id',
+            'sale_delay',
+        ]
         
     name = fields.Char('Name',required="True")
     mass_import_fields = fields.Many2many("ir.model.fields","ir_model_fields_mass_upload_settings_rel",string="Choose CSV Fields", domain=[('model_id.model','=','product.template'),('name' ,'in', _get_fields())],required="True")
@@ -45,12 +59,11 @@ class MassUploadSettings(models.Model):
 
             ids = fields_rec.mapped('id')
             vals['mass_import_fields'] = [(6,0,ids)]
-        
+
         prev_rec = self.search_count([('website_id','=',vals['website_id'])])
         if not prev_rec:
             vals['active'] = True
-        res = super(MassUploadSettings,self).create(vals)
-        return res
+        return super(MassUploadSettings,self).create(vals)
 
 
     def unlink(self):

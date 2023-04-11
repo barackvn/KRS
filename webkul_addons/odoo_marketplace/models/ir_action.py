@@ -44,7 +44,6 @@ class IrActionWindow(models.Model):
                                 domain_list.pop(index)
                             else:
                                 domain_list[index] =  (var,'!=', False)
-                        updated_domain = str(domain_list)
                     else:
                         seller_id = obj_user.partner_id.id
                         for index in list_of_index:
@@ -54,12 +53,11 @@ class IrActionWindow(models.Model):
                                 r["res_id"] = seller_id
                                 r["views"] = [(self.env.ref('odoo_marketplace.wk_seller_form_view').id, "form")]
                             domain_list[index] =  (var,'in', [seller_id])
-                        updated_domain = str(domain_list)
+                    updated_domain = str(domain_list)
                     if SELLER_DOMAIN_STRING in (r.get('domain', '[]') or ''):
                         r['domain'] = updated_domain
         except Exception as e:
             _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
-            pass
         return res
 
     def read(self, fields=None, load='_classic_read'):

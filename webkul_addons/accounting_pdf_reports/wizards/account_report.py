@@ -25,9 +25,14 @@ class AccountingReport(models.TransientModel):
     debit_credit = fields.Boolean(string='Display Debit/Credit Columns', help="This option allows you to get more details about the way your balances are computed. Because it is space consuming, we do not allow to use it while doing a comparison.")
 
     def _build_comparison_context(self, data):
-        result = {}
-        result['journal_ids'] = 'journal_ids' in data['form'] and data['form']['journal_ids'] or False
-        result['state'] = 'target_move' in data['form'] and data['form']['target_move'] or ''
+        result = {
+            'journal_ids': 'journal_ids' in data['form']
+            and data['form']['journal_ids']
+            or False,
+            'state': 'target_move' in data['form']
+            and data['form']['target_move']
+            or '',
+        }
         if data['form']['filter_cmp'] == 'filter_date':
             result['date_from'] = data['form']['date_from_cmp']
             result['date_to'] = data['form']['date_to_cmp']
@@ -36,8 +41,18 @@ class AccountingReport(models.TransientModel):
 
     def check_report(self):
         res = super(AccountingReport, self).check_report()
-        data = {}
-        data['form'] = self.read(['account_report_id', 'date_from_cmp', 'date_to_cmp', 'journal_ids', 'filter_cmp', 'target_move'])[0]
+        data = {
+            'form': self.read(
+                [
+                    'account_report_id',
+                    'date_from_cmp',
+                    'date_to_cmp',
+                    'journal_ids',
+                    'filter_cmp',
+                    'target_move',
+                ]
+            )[0]
+        }
         for field in ['account_report_id']:
             if isinstance(data['form'][field], tuple):
                 data['form'][field] = data['form'][field][0]

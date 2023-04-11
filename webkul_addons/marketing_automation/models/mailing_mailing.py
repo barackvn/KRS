@@ -32,7 +32,7 @@ class MassMailing(models.Model):
                     blacklist=['/unsubscribe_from_list']
                 )
                 done |= mass_mailing
-        res.update(super(MassMailing, self - done).convert_links())
+        res |= super(MassMailing, self - done).convert_links()
         return res
 
     def _get_link_tracker_values(self):

@@ -27,5 +27,6 @@ class res_users(models.Model):
         context = dict(self._context or {})
         state = json.loads(params['state'])
         context["is_seller"] = state.get('s',False)
-        test = super(res_users, self.with_context(context))._auth_oauth_signin(provider, validation, params)
-        return test
+        return super(res_users, self.with_context(context))._auth_oauth_signin(
+            provider, validation, params
+        )

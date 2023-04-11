@@ -61,7 +61,12 @@ class SellerConfirmation(models.TransientModel):
 
 
 	def get_seller_profile(self):
-		var_url = '/web#id='+ str(self.partner_id.id) + '&view_type=form&model=res.partner&menu_id='+str(self.env.ref('odoo_marketplace.wk_seller_dashboard').id)+'&action='+str(self.env.ref('odoo_marketplace.wk_seller_action').id)
+		var_url = (
+			f'/web#id={str(self.partner_id.id)}&view_type=form&model=res.partner&menu_id='
+			+ str(self.env.ref('odoo_marketplace.wk_seller_dashboard').id)
+			+ '&action='
+			+ str(self.env.ref('odoo_marketplace.wk_seller_action').id)
+		)
 		return {'type': 'ir.actions.act_url',
 				'name': "Sellers",
 				'target': 'new',
@@ -71,19 +76,19 @@ class SellerConfirmation(models.TransientModel):
 	def confirm_supplier_as_seller(self):
 		try:
 			current_user_id = self.user_id
-			partner_id = self.partner_id
 			if not current_user_id:
-				values = {
-						'name':partner_id.name,
-						'login':partner_id.email,
-						'partner_id':partner_id.id,
-					}
+				partner_id = self.partner_id
 				IrConfigParam = self.env['ir.config_parameter']
 				template_user_id = literal_eval(IrConfigParam.get_param('base.template_portal_user_id', 'False'))
 				template_user = self.env['res.users'].browse(template_user_id)
 				assert template_user.exists(), 'Signup: invalid template user'
 
-				values['active'] = True
+				values = {
+					'name': partner_id.name,
+					'login': partner_id.email,
+					'partner_id': partner_id.id,
+					'active': True,
+				}
 				current_user_id = template_user.with_context(no_reset_password=True).copy(values)
 
 			wk_valse = {
@@ -100,8 +105,7 @@ class SellerConfirmation(models.TransientModel):
 			current_user_id.partner_id.write(wk_valse)
 
 			draft_seller_group_id = self.env['ir.model.data'].get_object_reference('odoo_marketplace', 'marketplace_draft_seller_group')[1]
-			groups_obj = self.env["res.groups"].browse(draft_seller_group_id)
-			if groups_obj:
+			if groups_obj := self.env["res.groups"].browse(draft_seller_group_id):
 				for group_obj in groups_obj:
 					group_obj.sudo().write({"users": [(4, current_user_id.id, 0)]})
 

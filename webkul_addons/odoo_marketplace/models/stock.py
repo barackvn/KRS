@@ -60,8 +60,9 @@ class MarketplaceStock(models.Model):
                 [('product_tmpl_id', '=', self._context.get('active_id'))])
             return self.env['product.product'].browse(product_ids.ids[0]).id
         else:
-            product_obj = self.env['product.product'].search([('id', '=', self._context.get('active_id'))])
-            if product_obj:
+            if product_obj := self.env['product.product'].search(
+                [('id', '=', self._context.get('active_id'))]
+            ):
                 return product_obj.id
 
 
@@ -81,10 +82,8 @@ class MarketplaceStock(models.Model):
 
     @api.model
     def _set_title(self):
-        msg = "Stock added on "
-        current_date = datetime.today().strftime('%d-%B-%Y')
-        title = msg + current_date
-        return title
+        current_date = datetime.now().strftime('%d-%B-%Y')
+        return f"Stock added on {current_date}"
 
     name = fields.Char(string="Title", default=_set_title,
                        required=True,  translate=True)
@@ -129,10 +128,14 @@ class MarketplaceStock(models.Model):
             doc = etree.XML(res['arch'])
             for node in doc.xpath("//field[@name='product_temp_id']"):
                 node.set(
-                    'domain', "[('type', '=', 'product'), ('status','=','approved'),('marketplace_seller_id', '=', %s)]" % marketplace_seller_id)
+                    'domain',
+                    f"[('type', '=', 'product'), ('status','=','approved'),('marketplace_seller_id', '=', {marketplace_seller_id})]",
+                )
             for node in doc.xpath("//field[@name='product_id']"):
                 node.set(
-                    'domain', "[('type', '=', 'product'), ('status','=','approved'),('marketplace_seller_id', '=', %s)]" % marketplace_seller_id)
+                    'domain',
+                    f"[('type', '=', 'product'), ('status','=','approved'),('marketplace_seller_id', '=', {marketplace_seller_id})]",
+                )
             res['arch'] = etree.tostring(doc)
         return res
 
@@ -268,15 +271,32 @@ class StockMove(models.Model):
 
     def _search_picking_for_assignation(self):
         self.ensure_one()
-        picking = self.env['stock.picking'].search([
+        return self.env['stock.picking'].search(
+            [
                 ('group_id', '=', self.group_id.id),
                 ('location_id', '=', self.location_id.id),
                 ('location_dest_id', '=', self.location_dest_id.id),
                 ('picking_type_id', '=', self.picking_type_id.id),
-                ('marketplace_seller_id', '=', self.product_id.marketplace_seller_id.id),
+                (
+                    'marketplace_seller_id',
+                    '=',
+                    self.product_id.marketplace_seller_id.id,
+                ),
                 ('printed', '=', False),
-                ('state', 'in', ['draft', 'confirmed', 'waiting', 'partially_available', 'assigned'])], limit=1)
-        return picking
+                (
+                    'state',
+                    'in',
+                    [
+                        'draft',
+                        'confirmed',
+                        'waiting',
+                        'partially_available',
+                        'assigned',
+                    ],
+                ),
+            ],
+            limit=1,
+        )
 
     def _get_new_picking_values(self):
         values = super(StockMove, self)._get_new_picking_values()
@@ -290,9 +310,17 @@ class StockMove(models.Model):
     def shipped_mp_move(self):
         for rec in self:
             rec.sudo().action_done()
-            sol_obj = self.env["sale.order.line"].sudo().search(
-                [('order_id.name', '=', rec.origin), ('product_id', '=', rec.product_id.id)], limit=1)
-            if sol_obj:
+            if (
+                sol_obj := self.env["sale.order.line"]
+                .sudo()
+                .search(
+                    [
+                        ('order_id.name', '=', rec.origin),
+                        ('product_id', '=', rec.product_id.id),
+                    ],
+                    limit=1,
+                )
+            ):
                 sol_obj.marketplace_state = "shipped"
 
     def check_availability(self):
@@ -303,8 +331,17 @@ class StockMove(models.Model):
         result = super(StockMove, self).write(values)
         for rec in self:
             if rec.state == "cancel":
-                sol_obj = self.env["sale.order.line"].sudo().search([('order_id.name', '=', rec.origin), ('product_id', '=', rec.product_id.id)], limit=1)
-                if sol_obj:
+                if (
+                    sol_obj := self.env["sale.order.line"]
+                    .sudo()
+                    .search(
+                        [
+                            ('order_id.name', '=', rec.origin),
+                            ('product_id', '=', rec.product_id.id),
+                        ],
+                        limit=1,
+                    )
+                ):
                     sol_obj.marketplace_state = "cancel"
             if rec.state == "done" and rec.sale_line_id:
                 if rec.sale_line_id.qty_delivered == rec.sale_line_id.product_uom_qty:

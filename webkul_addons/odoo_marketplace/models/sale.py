@@ -29,8 +29,9 @@ class SaleOrder(models.Model):
         result = super(SaleOrder,self).action_cancel()
         for rec in self:
             if rec.state == 'cancel' and rec.order_line:
-                mp_order_line = rec.order_line.filtered(lambda line: line.marketplace_seller_id != False)
-                if mp_order_line:
+                if mp_order_line := rec.order_line.filtered(
+                    lambda line: line.marketplace_seller_id != False
+                ):
                     mp_order_line.write({'marketplace_state':'cancel'})
         return result
 
@@ -38,8 +39,9 @@ class SaleOrder(models.Model):
         result = super(SaleOrder,self).action_draft()
         for rec in self:
             if rec.state == 'draft' and rec.order_line:
-                mp_order_line = rec.order_line.filtered(lambda line: line.marketplace_seller_id != False)
-                if mp_order_line:
+                if mp_order_line := rec.order_line.filtered(
+                    lambda line: line.marketplace_seller_id != False
+                ):
                     mp_order_line.write({'marketplace_state':'new'})
         return result
 
@@ -54,8 +56,9 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self).action_confirm()
         resConfig = self.env['res.config.settings']
         if resConfig.get_mp_global_field_value("enable_notify_seller_on_new_order"):
-            temp_id = resConfig.get_mp_global_field_value("notify_seller_on_new_order_m_tmpl_id")
-            if temp_id:
+            if temp_id := resConfig.get_mp_global_field_value(
+                "notify_seller_on_new_order_m_tmpl_id"
+            ):
                 template_obj = self.env['mail.template'].browse(temp_id)
                 for order in self:
                     _logger.info(">>>>>>>>>>>>>>>>>confirm sale order>>>>%s>>>>",order.order_line)
@@ -70,10 +73,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     def name_get(self):
-        result = []
-        for record in self:
-            result.append((record.id, record.order_id.name))
-        return result
+        return [(record.id, record.order_id.name) for record in self]
 
     marketplace_seller_id = fields.Many2one(
         related='product_id.marketplace_seller_id', string='Marketplace Seller', store=True, copy=False)
@@ -162,10 +162,10 @@ class SaleOrderLine(models.Model):
     def _prepare_procurement_values(self, group_id=False):
         values = super(SaleOrderLine, self)._prepare_procurement_values(group_id)
         self.ensure_one()
-        marketplace_seller_obj = self.marketplace_seller_id
-        if marketplace_seller_obj:
-            seller_warehouse_id = marketplace_seller_obj.get_seller_global_fields('warehouse_id')
-            if seller_warehouse_id:
+        if marketplace_seller_obj := self.marketplace_seller_id:
+            if seller_warehouse_id := marketplace_seller_obj.get_seller_global_fields(
+                'warehouse_id'
+            ):
                 seller_warehouse_obj = self.env['stock.warehouse'].browse(seller_warehouse_id)
                 values["warehouse_id"] = seller_warehouse_obj
         return values
@@ -177,10 +177,10 @@ def new_cart_update(self, product_id=None, line_id=None, add_qty=0, set_qty=0, *
     for line in self.order_line:
         if line.product_id.type == 'product' and line.product_id.inventory_availability in ['always', 'threshold']:
             warehouse_id = self.warehouse_id.id
-            seller_obj = line.marketplace_seller_id
-            if seller_obj:
-                seller_warehouse_id = seller_obj.get_seller_global_fields("warehouse_id")
-                if seller_warehouse_id:
+            if seller_obj := line.marketplace_seller_id:
+                if seller_warehouse_id := seller_obj.get_seller_global_fields(
+                    "warehouse_id"
+                ):
                     warehouse_id = seller_warehouse_id
             cart_qty = sum(self.order_line.filtered(lambda p: p.product_id.id == line.product_id.id).mapped('product_uom_qty'))
             available_qty = line.product_id.with_context(warehouse=warehouse_id).virtual_available

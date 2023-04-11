@@ -32,9 +32,10 @@ class SellerBannerImage(models.Model):
     shop_id = fields.Many2one('seller.shop',string="Shop")
 
     def write(self,vals):
-        if vals.get('image') != None and not vals.get('image'):
+        if vals.get('image') is None or vals.get('image'):
+            return super(SellerBannerImage , self).write(vals)
+        else:
             raise UserError('No image is uploaded in Slider image record, please upload it before saving.')
-        return super(SellerBannerImage , self).write(vals)
 
     @api.model
     def create(self,vals):

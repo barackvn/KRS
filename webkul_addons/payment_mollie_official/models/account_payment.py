@@ -26,7 +26,11 @@ class AccountPayment(models.Model):
             if not self.max_mollie_amount:
                 raise UserError(_("Full amount is already refunded for this payment"))
             if self.amount > self.max_mollie_amount:
-                raise UserError(_("Maximum amount you can refund is %s. Please change the refund amount." % self.max_mollie_amount))
+                raise UserError(
+                    _(
+                        f"Maximum amount you can refund is {self.max_mollie_amount}. Please change the refund amount."
+                    )
+                )
 
             payment_record = self.mollie_transecion_id.acquirer_id._mollie_get_payment_data(self.mollie_transecion_id.acquirer_reference, force_payment=True)
             refund = self.mollie_transecion_id.acquirer_id._api_mollie_refund(self.amount, self.currency_id, payment_record)
@@ -36,7 +40,7 @@ class AccountPayment(models.Model):
                 self.write({'mollie_refund_reference': description})
 
                 if self.reconciled_invoice_ids and self.reconciled_invoice_ids.mollie_refund_reference:
-                    description = "%s,%s" % (self.reconciled_invoice_ids.mollie_refund_reference, description)
+                    description = f"{self.reconciled_invoice_ids.mollie_refund_reference},{description}"
                 self.reconciled_invoice_ids.write({'mollie_refund_reference': refund['id']})
 
         return sup

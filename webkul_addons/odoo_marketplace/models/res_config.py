@@ -164,8 +164,9 @@ class ResConfigSettings(models.TransientModel):
             wl_obj = self.env["stock.location"].sudo().browse(
                 self.mp_location_id.id)
             wh_obj = self.env["stock.warehouse"]
-            whs = wh_obj.search([('view_location_id', 'parent_of', wl_obj.ids)], limit=1)
-            if whs:
+            if whs := wh_obj.search(
+                [('view_location_id', 'parent_of', wl_obj.ids)], limit=1
+            ):
                 self.mp_warehouse_id = whs.id
 
     def set_values(self):
@@ -282,10 +283,8 @@ class ResConfigSettings(models.TransientModel):
         return ['mp_location_id', 'mp_warehouse_id', 'seller_payment_journal_id']
 
     def get_mp_global_field_value(self, default_key):
-        company = False
         company_fields = self.get_mp_company_dependent_fields()
-        if default_key in company_fields:
-            company = True
+        company = default_key in company_fields
         field_value = self.env['ir.default'].get('res.config.settings', default_key, company_id=company)
         if default_key == 'internal_categ' and not field_value:
             field_value = self._default_category().id
@@ -310,8 +309,7 @@ class ResConfigSettings(models.TransientModel):
     @api.model
     def _default_location(self):
         """ Set default location """
-        user_obj = self.env.user
-        if user_obj:
+        if user_obj := self.env.user:
             company_id = self.env.company.id or user_obj.company_id.id
             location_ids = self.env["stock.location"].sudo().search(
                 [("company_id", '=', company_id), ("name", "=", "Stock"), ('usage', '=', 'internal')])

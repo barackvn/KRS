@@ -37,7 +37,7 @@ CUSTOM_QUERY = """UPDATE %s SET %s = '%s';"""
 def random_Char():
     # the token has an entropy of about 120 bits (6 bits/char * 20 chars)
     chars = '7894561230ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    return ''.join(random.SystemRandom().choice(chars) for i in range(20))
+    return ''.join(random.SystemRandom().choice(chars) for _ in range(20))
 
 def random_Bool():
     return random.choice([True, False])
@@ -50,8 +50,6 @@ def _getFormatedValue(model_name,field_name,field_type,state,fixed_value=False):
         make_query = CUSTOM_QUERY%(model_name,field_name,fixed_value)
     elif state == 'clear':
         make_query = CUSTOM_QUERY%(model_name,field_name," ")
-    else:
-        pass
     return make_query
 
 MESSAGE = _("<div> <b>Operation :</b> %s </br><b>Status :</b> %s </br> <b>Message : </b> %s </div>")
@@ -70,13 +68,12 @@ class DatabaseBackup(models.Model):
     _name = "database.backup"
 
     def _getDefaultDbName(self):
-        db_original_name = self._cr.dbname
-        return db_original_name
+        return self._cr.dbname
     def _getDefaultCompany(self):
         return 1
 
     def _getDefaultCloneDbName(self):
-        return "an_db(%s)"%fields.datetime.now().strftime("%Y-%m-%d_%H:%M")
+        return f'an_db({fields.datetime.now().strftime("%Y-%m-%d_%H:%M")})'
 
     def _getDefaultPgHost(self):
         return tools.config['db_host'] or 'localhost'
@@ -91,8 +88,7 @@ class DatabaseBackup(models.Model):
         return tools.config['db_password'] or 'postgres'
 
     def _getMAilTemplate(self):
-        id = self.env.ref('db_anonymization.send_credential_email_email').id
-        return id
+        return self.env.ref('db_anonymization.send_credential_email_email').id
 
     def show_msg_wizard(self,msg):
             partial_id = self.env['wk.wizard.message'].create({'text': msg})
@@ -175,7 +171,7 @@ class DatabaseBackup(models.Model):
     def action_create_backup(self):
         db_original_name = self.current_db_name
         db_name = self.clone_db_name
-        operation = "Cloning of Database (%s)"%db_original_name
+        operation = f"Cloning of Database ({db_original_name})"
         status = "Success"
         msg = ""
         if db_name in list_dbs():
@@ -198,7 +194,7 @@ class DatabaseBackup(models.Model):
     def check_resote_db_exist(self):
         db_original_name = self.current_db_name
         db_name = self.clone_db_name
-        operation = "Cloning of Database (%s)"%db_original_name
+        operation = f"Cloning of Database ({db_original_name})"
         status = "Success"
         msg = ""
         if self.clone_db_name in list_dbs():
@@ -228,9 +224,15 @@ class DatabaseBackup(models.Model):
         success_query = 0
         fail_query = 0
         for query in queries_all:
-            query_history = qHitoryObj.search([('anonymize_query_id','=',query.id),('database_backup_id','=',self.id)],limit =1)
-            if not query_history:
-                query_history = qHitoryObj.create({'anonymize_query_id':query.id,'database_backup_id':self.id})
+            query_history = qHitoryObj.search(
+                [
+                    ('anonymize_query_id', '=', query.id),
+                    ('database_backup_id', '=', self.id),
+                ],
+                limit=1,
+            ) or qHitoryObj.create(
+                {'anonymize_query_id': query.id, 'database_backup_id': self.id}
+            )
             cr = db.cursor()
             operation = query.name
             status = "failure"
@@ -238,17 +240,15 @@ class DatabaseBackup(models.Model):
             msg = ""
             make_query = False
             try:
-                if query.query_type == 'raw':
-                    make_query = query.database_query
-                elif query.query_type == 'custom':
+                if query.query_type == 'custom':
                     make_query = _getFormatedValue(model_name=query.model_id.model.replace(".","_"),
                                                    field_name= query.field_id.name,
                                                    field_type=query.field_ttype,
                                                    state=query.state,
                                                    fixed_value=query.fixed_text
                                                     )
-                else:
-                    pass
+                elif query.query_type == 'raw':
+                    make_query = query.database_query
                 if make_query:
                     self.is_execute_anonymise = True
                     cr.execute(make_query)
@@ -294,7 +294,9 @@ class DatabaseBackup(models.Model):
         threading.current_thread().dbname = db_name
         try:
             cr0 = db.cursor()
-            cr0.execute("UPDATE res_users SET login='%s',password='%s' WHERE id = 2;"%(self.clone_db_login,self.clone_db_passowrd))
+            cr0.execute(
+                f"UPDATE res_users SET login='{self.clone_db_login}',password='{self.clone_db_passowrd}' WHERE id = 2;"
+            )
 
             cr0.commit()
             affect = cr0.rowcount
@@ -310,9 +312,9 @@ class DatabaseBackup(models.Model):
         username = self.clone_db_login
         password = self.clone_db_passowrd
         import xmlrpc.client
-        common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
+        common = xmlrpc.client.ServerProxy(f'{url}/xmlrpc/2/common')
         uid = common.authenticate(db, username, password, {})
-        models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
+        models = xmlrpc.client.ServerProxy(f'{url}/xmlrpc/2/object')
         # Cannot call private functions remotely like _compute_display_name. Created a non private method and then made the xmlrpc call to that
         models.execute_kw(db, uid, password,'res.partner', 'rpc_compute_display_name',[SUPERUSER_ID])
         ret = models.execute_kw(db, uid, password,'ir.module.module', 'button_immediate_uninstall',[[module.id]])

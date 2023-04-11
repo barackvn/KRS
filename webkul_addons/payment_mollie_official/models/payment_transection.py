@@ -42,10 +42,11 @@ class PaymentTransaction(models.Model):
         transaction = self.search([("acquirer_reference", "=", acquirer_reference)])
         if len(transaction) != 1:
             error_msg = _("Mollie:received response for reference %s") % (transaction.reference)
-            if not transaction:
-                error_msg += _(": no order found")
-            else:
-                error_msg += _(": multiple order found")
+            error_msg += (
+                _(": multiple order found")
+                if transaction
+                else _(": no order found")
+            )
             _logger.info(error_msg)
             raise ValidationError(error_msg)
         return transaction
@@ -101,7 +102,7 @@ class PaymentTransaction(models.Model):
         elif state in ["open", "pending"]:
             self._set_transaction_pending()
         else:
-            msg = "Error %s %s" % (acquirer_reference, self.reference)
+            msg = f"Error {acquirer_reference} {self.reference}"
             self._set_transaction_error(msg)
 
         return True
@@ -128,15 +129,19 @@ class PaymentTransaction(models.Model):
                     if len(payment_list):
                         mollie_payment = payment_list[0]
 
-                remainder_method_code = mollie_payment['details'].get('remainderMethod')
-                if remainder_method_code:  # if there is remainder amount
+                if remainder_method_code := mollie_payment['details'].get(
+                    'remainderMethod'
+                ):
                     primary_journal = method.journal_id or self.acquirer_id.journal_id
                     remainder_method = self.acquirer_id.mollie_methods_ids.filtered(lambda m: m.method_id_code == remainder_method_code)
                     remainder_journal = remainder_method.journal_id or self.acquirer_id.journal_id
 
                     # if both journals are diffrent then we need to split the payment
                     if primary_journal != remainder_journal:
-                        voucher_amount = sum([float(voucher['amount']['value']) for voucher in mollie_payment['details']['vouchers']])
+                        voucher_amount = sum(
+                            float(voucher['amount']['value'])
+                            for voucher in mollie_payment['details']['vouchers']
+                        )
                         voucher_amount = tools.float_round(voucher_amount, precision_digits=2)
 
                         result['amount'] = voucher_amount

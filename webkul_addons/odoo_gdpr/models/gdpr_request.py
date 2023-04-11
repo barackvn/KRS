@@ -27,11 +27,9 @@ PARTNER_RELATED_FIELDS = ["state_id","country_id"]
 # PARTNER_ADDRESS_FIELD =["child_ids"]
 
 def GetWipedVals():
-    vals={}
-    for field in PARTNER_FIELDS:
-        vals.update({field : "N/A"})
+    vals = {field: "N/A" for field in PARTNER_FIELDS}
     for field in PARTNER_RELATED_FIELDS:
-        vals.update({field : False})
+        vals[field] = False
     return vals
 
 class OdooGdpr(models.Model):
@@ -69,8 +67,7 @@ class OdooGdpr(models.Model):
                 }
                 attach_id = gdpr_request.env['ir.attachment'].create(attachmentValue)
             vals.update({"attach_id":attach_id.id})
-        result=super(OdooGdpr,self).write(vals)
-        return result
+        return super(OdooGdpr,self).write(vals)
 
     @api.onchange('attachment')
     def _check_attachment(self):
@@ -103,27 +100,28 @@ class OdooGdpr(models.Model):
             address.write(GetWipedVals())
 
     def wipe_data(self):
-        if self.state in ["pending","cancel"]:
-            result = 0
-            if self.action_type == "delete":
-                if self.operation_type == "all":
+        if self.state not in ["pending", "cancel"]:
+            return
+        result = 0
+        if self.action_type == "delete":
+            if self.operation_type == "all":
+                self.partner_id.write(GetWipedVals())
+                self._removeAddress()
+                result += 1
+            elif self.operation_type == "object":
+                if self.object_id.type == "user":
                     self.partner_id.write(GetWipedVals())
+                    result += 1
+                elif self.object_id.type == "address":
                     self._removeAddress()
                     result += 1
-                elif self.operation_type == "object":
-                    if self.object_id.type == "user":
-                        self.partner_id.write(GetWipedVals())
-                        result += 1
-                    elif self.object_id.type == "address":
-                        self._removeAddress()
-                        result += 1
-            if result > 0:
-                self.is_wiped = True
+        if result > 0:
+            self.is_wiped = True
 
     # @api.multi
     def _getname(self):
         for o in self:
-            o.name = "All Object" if not o.object_id else o.object_id.name
+            o.name = o.object_id.name if o.object_id else "All Object"
 
     # @api.multi
     def _getWebsite_action_type(self):

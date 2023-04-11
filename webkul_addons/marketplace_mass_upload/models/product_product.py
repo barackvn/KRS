@@ -27,10 +27,10 @@ class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     def download_sample_variants_csv(self):
-       return {
-            'type':'ir.actions.act_url',
-            "target":'self',
-            "url":'/download/sample/csv/{}'.format(self._context['active_ids'])
+        return {
+            'type': 'ir.actions.act_url',
+            "target": 'self',
+            "url": f"/download/sample/csv/{self._context['active_ids']}",
         }
 
 

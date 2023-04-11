@@ -31,13 +31,16 @@ class PaymentAcquirerMollie(models.Model):
     def _compute_mollie_voucher_enabled(self):
         for acquirer in self:
             acquirer.mollie_voucher_enabled = False
-            if acquirer.provider == 'mollie':
-                if acquirer.mollie_methods_ids.filtered(lambda m: m.method_id_code == 'voucher' and m.active_on_shop):
-                    acquirer.mollie_voucher_enabled = True
+            if (
+                acquirer.provider == 'mollie'
+                and acquirer.mollie_methods_ids.filtered(
+                    lambda m: m.method_id_code == 'voucher' and m.active_on_shop
+                )
+            ):
+                acquirer.mollie_voucher_enabled = True
 
     def action_mollie_sync_methods(self):
-        methods = self._api_mollie_get_active_payment_methods()
-        if methods:
+        if methods := self._api_mollie_get_active_payment_methods():
             self._sync_mollie_methods(methods)
 
     def _sync_mollie_methods(self, methods_dict):
@@ -167,7 +170,9 @@ class PaymentAcquirerMollie(models.Model):
             # in that case we have fall back on payment method.
             if (result and result.get('error') or result is None) and method_record.supports_payment_api:
                 if result and result.get('error'):
-                    _logger.warning("Can not use order api due to '%s' fallback on payment" % (result.get('error')))
+                    _logger.warning(
+                        f"Can not use order api due to '{result.get('error')}' fallback on payment"
+                    )
                 result = self._mollie_create_payment(transaction)
 
             if result.get('error'):
@@ -201,23 +206,18 @@ class PaymentAcquirerMollie(models.Model):
             'method': transaction.mollie_payment_method,
             'amount': {
                 'currency': transaction.currency_id.name,
-                'value': "%.2f" % transaction.amount
+                'value': "%.2f" % transaction.amount,
             },
-
             'billingAddress': order_source.partner_id._prepare_mollie_address(),
-            "orderNumber": "%s (%s)" % (order_type, transaction.reference),
+            "orderNumber": f"{order_type} ({transaction.reference})",
             'lines': self._mollie_get_order_lines(order_source, transaction),
-
             'metadata': {
                 'transaction_id': transaction.id,
                 'reference': transaction.reference,
                 'type': order_type,
-
-                # V12 fallback
-                "order_id": "ODOO-%s" % (transaction.reference),
-                "description": order_source.name
+                "order_id": f"ODOO-{transaction.reference}",
+                "description": order_source.name,
             },
-
             'locale': self._mollie_user_locale(),
             'redirectUrl': self._mollie_redirect_url(transaction.id),
         }
@@ -296,8 +296,7 @@ class PaymentAcquirerMollie(models.Model):
 
         transection_id = False
         if mollie_data['resource'] == 'order':
-            payments = mollie_data.get('_embedded', {}).get('payments', [])
-            if payments:
+            if payments := mollie_data.get('_embedded', {}).get('payments', []):
                 # TODO: handle multiple payment for same order
                 transection_id = payments[0]['id']
         elif mollie_data['resource'] == 'payment':
@@ -374,13 +373,9 @@ class PaymentAcquirerMollie(models.Model):
 
     def _api_mollie_refund(self, amount, currency, payment_record):
         mollie_client = self._api_mollie_get_client()
-        refund = mollie_client.payment_refunds.on(payment_record).create({
-            'amount': {
-                'value': "%.2f" % amount,
-                'currency': currency.name
-            }
-        })
-        return refund
+        return mollie_client.payment_refunds.on(payment_record).create(
+            {'amount': {'value': "%.2f" % amount, 'currency': currency.name}}
+        )
 
     # -----------------------------------------------
     # Methods that create mollie order payload
@@ -418,8 +413,9 @@ class PaymentAcquirerMollie(models.Model):
             })
 
             if transaction.mollie_payment_method == 'voucher':
-                category = line.product_template_id._get_mollie_voucher_category()
-                if category:
+                if (
+                    category := line.product_template_id._get_mollie_voucher_category()
+                ):
                     line_data.update({
                         'category': category
                     })
@@ -463,8 +459,9 @@ class PaymentAcquirerMollie(models.Model):
             })
 
             if transaction.mollie_payment_method == 'voucher':
-                category = line.product_id.product_tmpl_id._get_mollie_voucher_category()
-                if category:
+                if (
+                    category := line.product_id.product_tmpl_id._get_mollie_voucher_category()
+                ):
                     line_data.update({
                         'category': category
                     })
@@ -509,12 +506,12 @@ class PaymentAcquirerMollie(models.Model):
     def _mollie_redirect_url(self, tx_id):
         base_url = self.get_base_url()
         redirect_url = urls.url_join(base_url, MollieController._redirect_url)
-        return "%s?tx=%s" % (redirect_url, tx_id)
+        return f"{redirect_url}?tx={tx_id}"
 
     def _mollie_webhook_url(self, tx_id):
         base_url = self.get_base_url()
         redirect_url = urls.url_join(base_url, MollieController._notify_url)
-        return "%s?tx=%s" % (redirect_url, tx_id)
+        return f"{redirect_url}?tx={tx_id}"
 
     def _mollie_get_method_record(self, method_code):
         return self.env['mollie.payment.method'].search([('method_id_code', '=', method_code)], limit=1)
@@ -527,6 +524,7 @@ class PaymentAcquirerMollie(models.Model):
     def _mollie_update_hook(self):
         # Mollie no longer supporing inghomepay
         _logger.info("Mollie update hook called")
-        inghomepay_method = self.env['mollie.payment.method'].search([('method_id_code', '=', 'inghomepay')])
-        if inghomepay_method:
+        if inghomepay_method := self.env['mollie.payment.method'].search(
+            [('method_id_code', '=', 'inghomepay')]
+        ):
             inghomepay_method.write({'active': False})

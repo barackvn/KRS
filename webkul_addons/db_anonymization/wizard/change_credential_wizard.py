@@ -28,14 +28,15 @@ class ChangeCredentialWizard(models.TransientModel):
         status = False
         msg = False
         operation = "Reset Users Password"
-        alter_user_id = self.isUserExist(self.user_name,self.user_password)
-        if alter_user_id:
+        if alter_user_id := self.isUserExist(self.user_name, self.user_password):
             db_name = self.database_backup_id.clone_db_name
             db = odoo.sql_db.db_connect(db_name)
             threading.current_thread().dbname = db_name
             cr = db.cursor()
             try:
-                cr.execute("UPDATE res_users SET password = '%s' WHERE id = %s"%(self.user_password,alter_user_id))
+                cr.execute(
+                    f"UPDATE res_users SET password = '{self.user_password}' WHERE id = {alter_user_id}"
+                )
                 cr.commit()
                 row_affected = cr.rowcount
                 status = "success"
@@ -43,12 +44,15 @@ class ChangeCredentialWizard(models.TransientModel):
             except Exception as e:
                 _logger.exception('Unexpected exception while processing anonymization job %r', e)
                 status = "failure"
-                msg = "Exception occurs : "
-                msg += str(e)
+                msg = f"Exception occurs : {str(e)}"
             finally:
                 cr.close()
             if status == "success":
-                raise UserError(_("Password Updated Successfully. For User '%s'"%self.user_name))
+                raise UserError(
+                    _(
+                        f"Password Updated Successfully. For User '{self.user_name}'"
+                    )
+                )
             else:
                 raise UserError(_("Something went wrong.."))
         else:
@@ -63,12 +67,9 @@ class ChangeCredentialWizard(models.TransientModel):
         threading.current_thread().dbname = db_name
         cr = db.cursor()
         try:
-            cr.execute("SELECT id from res_users where login = '%s'"%user_name)
+            cr.execute(f"SELECT id from res_users where login = '{user_name}'")
             data = cr.fetchone()
-            if not data:
-                result = False
-            else:
-                result = data[0]
+            result = data[0] if data else False
         except Exception as e:
             _logger.exception('Unexpected exception while processing anonymization job %r', e)
             _logger.info('< EXCEPTION : Unexpected exception while processing anonymization job %r >', e)

@@ -47,7 +47,9 @@ class BlogPost(models.Model):
             if reset:
                 cover_properties['background-image'] = "none"
             else:
-                cover_properties['background-image'] = "url(/web/image/blog.post/"+str(rec.id)+"/cover_images)"
+                cover_properties[
+                    'background-image'
+                ] = f"url(/web/image/blog.post/{str(rec.id)}/cover_images)"
                 cover_properties['resize_class'] = "cover"
             rec.cover_properties = json.dumps(cover_properties)
 
@@ -99,8 +101,7 @@ class BlogPost(models.Model):
 
     def find_url(self, blog_id, tag_id):
         blog_url = QueryURL('', ['blog', 'tag'])
-        url = blog_url(blog= blog_id, tag= tag_id, date_begin=False, date_end=False)
-        return url
+        return blog_url(blog= blog_id, tag= tag_id, date_begin=False, date_end=False)
 
 class Blog(models.Model):
     _inherit = 'blog.blog'
@@ -113,19 +114,18 @@ class BlogTag(models.Model):
         domain = lambda self: [('marketplace_seller_id','in',self.env['blog.tag'].compute_login_userid()),('state','=','approved')] if self._context.get('mp_blog_tag') else [],)
 
     def compute_login_userid(self):
-        login_ids = []
         seller_group = self.env['ir.model.data'].get_object_reference(
             'odoo_marketplace', 'marketplace_seller_group')[1]
         officer_group = self.env['ir.model.data'].get_object_reference(
             'odoo_marketplace', 'marketplace_officer_group')[1]
         groups_ids = self.env.user.sudo().groups_id.ids
-        if seller_group in groups_ids and officer_group not in groups_ids:
-            login_ids.append(self.env.user.sudo().partner_id.id)
-            return login_ids
-        elif seller_group in groups_ids and officer_group in groups_ids:
-            obj = self.env['res.partner'].search([('seller','=',True)])
-            for rec in obj:
-                login_ids.append(rec.id)
+        if seller_group in groups_ids:
+            login_ids = []
+            if officer_group not in groups_ids:
+                login_ids.append(self.env.user.sudo().partner_id.id)
+            else:
+                obj = self.env['res.partner'].search([('seller','=',True)])
+                login_ids.extend(rec.id for rec in obj)
             return login_ids
 
     @api.model
@@ -138,6 +138,8 @@ class BlogTag(models.Model):
         if self._context.get('mp_blog_tag'):
             for node in doc.xpath("//field[@name='post_ids']"):
                 node.set(
-                    'domain', "[('marketplace_seller_id','in',%s),('state','=','approved')]" % login_ids)
+                    'domain',
+                    f"[('marketplace_seller_id','in',{login_ids}),('state','=','approved')]",
+                )
         res['arch'] = etree.tostring(doc)
         return res

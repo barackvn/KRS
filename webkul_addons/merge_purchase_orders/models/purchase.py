@@ -27,7 +27,7 @@ class PurchaseOrder(models.Model):
             if actionType == 'merge_exist_delete_other':
                 filterOrder.unlink()
         except Exception as e:
-            text = 'Failed to merge: \nError : {}'.format(str(e))
+            text = f'Failed to merge: \nError : {str(e)}'
         return text
 
     @api.model
@@ -44,5 +44,5 @@ class PurchaseOrder(models.Model):
                 selectedOrdrs.unlink()
             purchaseOrder._amount_all()
         except Exception as e:
-            text = 'Failed to merge: \nError : {}'.format(str(e))
+            text = f'Failed to merge: \nError : {str(e)}'
         return text

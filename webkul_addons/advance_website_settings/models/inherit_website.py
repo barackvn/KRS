@@ -22,4 +22,4 @@ class website(models.Model):
 
 	def show_subTotal(self):
 		ir_default = self.env['website'].sudo().get_current_website().sub_total
-		return True if ir_default == None else ir_default
+		return True if ir_default is None else ir_default

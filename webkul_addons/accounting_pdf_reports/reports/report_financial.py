@@ -17,9 +17,7 @@ class ReportFinancial(models.AbstractModel):
             'credit': "COALESCE(SUM(credit), 0) as credit",
         }
 
-        res = {}
-        for account in accounts:
-            res[account.id] = dict.fromkeys(mapping, 0.0)
+        res = {account.id: dict.fromkeys(mapping, 0.0) for account in accounts}
         if accounts:
             tables, where_clause, where_params = self.env['account.move.line']._query_get()
             tables = tables.replace('"', '') if tables else "account_move_line"
@@ -28,10 +26,10 @@ class ReportFinancial(models.AbstractModel):
                 wheres.append(where_clause.strip())
             filters = " AND ".join(wheres)
             request = "SELECT account_id as id, " + ', '.join(mapping.values()) + \
-                       " FROM " + tables + \
-                       " WHERE account_id IN %s " \
-                            + filters + \
-                       " GROUP BY account_id"
+                           " FROM " + tables + \
+                           " WHERE account_id IN %s " \
+                                + filters + \
+                           " GROUP BY account_id"
             params = (tuple(accounts._ids),) + tuple(where_params)
             self.env.cr.execute(request, params)
             for row in self.env.cr.dictfetchall():
@@ -50,7 +48,7 @@ class ReportFinancial(models.AbstractModel):
         for report in reports:
             if report.id in res:
                 continue
-            res[report.id] = dict((fn, 0.0) for fn in fields)
+            res[report.id] = {fn: 0.0 for fn in fields}
             if report.type == 'accounts':
                 # it's the sum of the linked accounts
                 res[report.id]['account'] = self._compute_account_balance(report.account_ids)
@@ -87,8 +85,7 @@ class ReportFinancial(models.AbstractModel):
             comparison_res = self.with_context(data.get('comparison_context'))._compute_report_balance(child_reports)
             for report_id, value in comparison_res.items():
                 res[report_id]['comp_bal'] = value['balance']
-                report_acc = res[report_id].get('account')
-                if report_acc:
+                if report_acc := res[report_id].get('account'):
                     for account_id, val in comparison_res[report_id].get('account').items():
                         report_acc[account_id]['comp_bal'] = val['balance']
         for report in child_reports:
@@ -119,10 +116,11 @@ class ReportFinancial(models.AbstractModel):
                     flag = False
                     account = self.env['account.account'].browse(account_id)
                     vals = {
-                        'name': account.code + ' ' + account.name,
+                        'name': f'{account.code} {account.name}',
                         'balance': value['balance'] * float(report.sign) or 0.0,
                         'type': 'account',
-                        'level': report.display_detail == 'detail_with_hierarchy' and 4,
+                        'level': report.display_detail == 'detail_with_hierarchy'
+                        and 4,
                         'account_type': account.internal_type,
                     }
                     if data['debit_credit']:

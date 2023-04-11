@@ -23,7 +23,7 @@ import string
 from faker import Faker
 
 def _default_unique_key(size, chars=string.digits):
-	return ''.join(random.choice(chars) for x in range(size))
+	return ''.join(random.choice(chars) for _ in range(size))
 
 
 
@@ -46,9 +46,8 @@ class FakerContact(models.Model):
 		if not count :
 			count = self.env['res.partner'].sudo().search_count([('active','in',[False,True])])
 		_logger.info("<== CREATE %r FAKE RECORDS ==>",count)
-		for i in range(0, count):
-			vals= {}
-			vals['name'] = fake.name()
+		for _ in range(count):
+			vals = {'name': fake.name()}
 			vals['street'] = fake.address()
 			vals['city'] = fake.city()
 			vals['street2'] = vals['street'] + " " + vals['city']
@@ -60,6 +59,6 @@ class FakerContact(models.Model):
 			try:
 				self.create(vals)
 			except Exceptions as e:
-				_logger.info("<EXCEPTION WHILE CREATE FAKE RECORD : %s >"%str(e))
+				_logger.info(f"<EXCEPTION WHILE CREATE FAKE RECORD : {str(e)} >")
 
 		_logger.info("<== END CREATE FAKE RECORD ==>")

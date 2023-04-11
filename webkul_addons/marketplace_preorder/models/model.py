@@ -36,9 +36,13 @@ class Website(models.Model):
 
         res = super(Website,self).get_preorder_config_settings_values()
         if result:
-            preorder_config_values = self.env['website.preorder.config.settings'].sudo(
-            ).search([('is_active', '=', True)], limit=1)
-            if preorder_config_values:
+            if (
+                preorder_config_values := self.env[
+                    'website.preorder.config.settings'
+                ]
+                .sudo()
+                .search([('is_active', '=', True)], limit=1)
+            ):
                 res.update({'preorder_for_seller':preorder_config_values.preorder_for_seller,})
         return res
 

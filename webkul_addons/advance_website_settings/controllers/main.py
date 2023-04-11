@@ -22,9 +22,8 @@ class website_sale(WebsiteSale):
 		redirect_to_cart = request.website.redirect_to_cart
 
 		if redirect_to_cart == 'same' and product_id:
-			product = request.env['product.product'].sudo().browse(int(product_id))
-			if product:
-				url = '/shop/product/%s' % slug(product.product_tmpl_id)
+			if product := request.env['product.product'].sudo().browse(int(product_id)):
+				url = f'/shop/product/{slug(product.product_tmpl_id)}'
 		elif redirect_to_cart == "previous_page":
 			url = request.httprequest.referrer
 
@@ -39,8 +38,7 @@ class website_sale(WebsiteSale):
 
 	@http.route("/wk_get_redirect_val", type='json', auth="public",website=True)
 	def wk_get_redirect_val(self, product_id):
-		url = self.get_redirect_url(product_id)
-		return url
+		return self.get_redirect_url(product_id)
 
 	@http.route(["/website/wk_lang"], type='json', auth="public", methods=['POST'], website=True)
 	def website_langauge(self, code=False, **kw):
@@ -54,7 +52,7 @@ class website_sale(WebsiteSale):
 
 
 	def checkout_redirection(self, order):
-		minimum_order_value = 1 if not request.website.minimum_order_value else request.website.minimum_order_value
+		minimum_order_value = request.website.minimum_order_value or 1
 		if  minimum_order_value and order.amount_total < minimum_order_value:
 			return request.redirect('/shop/cart')
 		return super(website_sale, self).checkout_redirection(order)

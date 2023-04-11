@@ -62,12 +62,9 @@ class MassInventoryUpload(models.Model):
     def validate_header(self,csv_file):
         required_header = ['variant_id','default_code','quantity']
         headers,csv_data = self.read_csv_file(csv_file)
-        # count is used to check 'variant_id','default_code','quantity' is in the same order
-        count = 0
-        for value in headers:
+        for count, value in enumerate(headers):
             if value != required_header[count]:
                 raise UserError('Your CSV File is not in the correct Format. Please download sample CSV.')
-            count += 1
         return True        
  
 
@@ -79,8 +76,9 @@ class MassInventoryUpload(models.Model):
             # get first line of csv file as a list
             headers = data.splitlines()[0].decode('ascii').split(',')
 
-            for lines in data.splitlines()[1:]:
-                csv_data.append(lines.decode('ascii').split(','))            
+            csv_data.extend(
+                lines.decode('ascii').split(',') for lines in data.splitlines()[1:]
+            )
         except Exception as e:
             _logger.info("=========EXCEPTION===============%r",e)
             raise UserError('Your CSV File is not in the correct Format. Please download sample CSV.')
@@ -96,19 +94,17 @@ class MassInventoryUpload(models.Model):
             status_msg = 'All the records have been created successfully.'
         else:
             self.state = 'partial'
-            status_msg = '{} records have been created successfully.'.format(self.passes)
-            
-        status_rec = self.env['mass.upload.status'].create({'passed_rec':self.passes,'message':status_msg})
-        return_action = {
-                'name' : 'Mass Upload Wizard',
-                'type': 'ir.actions.act_window',
-                'res_model': 'mass.upload.status',
-                'view_mode': 'form',
-                'res_id': status_rec.id,
-                'target' : 'new'
-        }
+            status_msg = f'{self.passes} records have been created successfully.'
 
-        return return_action
+        status_rec = self.env['mass.upload.status'].create({'passed_rec':self.passes,'message':status_msg})
+        return {
+            'name': 'Mass Upload Wizard',
+            'type': 'ir.actions.act_window',
+            'res_model': 'mass.upload.status',
+            'view_mode': 'form',
+            'res_id': status_rec.id,
+            'target': 'new',
+        }
 
     def uploadInventory(self):
         for record in self:
@@ -116,21 +112,21 @@ class MassInventoryUpload(models.Model):
             passed = 0
             failed = 0
             dscrptn = '____Failed_Records____'
-            
+
             for line in csv_data:
                 # if len(line) < 3 then comma separation is not correct
                 if len(line) < 3:
                     failed += 1
                     dscrptn += '\n' + ','.join(line)
                     continue
-                
+
                 product_id, default_code, new_quantity= line[0], line[1], line[2]
 
                 if new_quantity == '' or not new_quantity.isnumeric():
                     failed += 1
                     dscrptn += '\n' + ','.join(line)
                     continue
-                
+
                 seller_product = False
                 if product_id != '' and product_id.isnumeric():
                     seller_product = self.env['product.product'].search([('id','=',int(product_id)),('marketplace_seller_id','=',record.seller_id.id)],limit=1)
@@ -144,9 +140,10 @@ class MassInventoryUpload(models.Model):
                         'location_id' : record.seller_id.get_seller_global_fields('location_id'),
                         'note' : record.note,
                     }
-                        
-                    new_stock_inventory = self.env['marketplace.stock'].create(values)
-                    if new_stock_inventory:
+
+                    if new_stock_inventory := self.env['marketplace.stock'].create(
+                        values
+                    ):
                         new_stock_inventory.request()
                         passed += 1
                 else:

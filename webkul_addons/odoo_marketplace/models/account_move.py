@@ -64,13 +64,12 @@ class AccountMove(models.Model):
         seller_obj = self.env["res.partner"].browse(seller_id)
         commission = seller_obj.get_seller_global_fields('commission')
         comm_factor = (list_price * (commission / 100.0))
-        price_unit = list_price - comm_factor
-        return price_unit
+        return list_price - comm_factor
 
     def create_seller_invoice_new(self):
         for invoice_obj in self:
-            sellers = {"seller_ids": {}}
             if invoice_obj.type in ['out_invoice', 'out_refund']:
+                sellers = {"seller_ids": {}}
                 for invoice_line_obj in invoice_obj.invoice_line_ids:
                     seller_id = invoice_line_obj.product_id.marketplace_seller_id.id if invoice_line_obj.product_id.marketplace_seller_id else False
                     if seller_id:
@@ -89,17 +88,23 @@ class AccountMove(models.Model):
                                     }
                                 }
                             )
-                sellers.update({
+                sellers |= {
                     "invoive_type": invoice_obj.type,
                     "invoice_id": invoice_obj.id,
                     "invoice_currency": invoice_obj.currency_id,
-                    "payment_mode": "order_paid" if invoice_obj.type == "out_invoice" else "order_refund",
-                    "description": _("Order Invoice Payment") if invoice_obj.type == "out_invoice" else _("Order Invoice Refund"),
-                    "payment_type": "cr" if invoice_obj.type == "out_invoice" else "dr",
+                    "payment_mode": "order_paid"
+                    if invoice_obj.type == "out_invoice"
+                    else "order_refund",
+                    "description": _("Order Invoice Payment")
+                    if invoice_obj.type == "out_invoice"
+                    else _("Order Invoice Refund"),
+                    "payment_type": "cr"
+                    if invoice_obj.type == "out_invoice"
+                    else "dr",
                     "state": "draft",
                     # "memo": invoice_obj.origin or invoice_obj.name, #13
                     "memo": invoice_obj.name,
-                })
+                }
                 self.create_seller_payment_new(sellers)
 
     @api.model
@@ -112,14 +117,13 @@ class AccountMove(models.Model):
                 ("seller_id", "=",  seller_id)
             ]
             try:
-                seller_payment_obj = self.env["seller.payment"].search(search_domain, limit=1)
-                if seller_payment_obj:
+                if seller_payment_obj := self.env["seller.payment"].search(
+                    search_domain, limit=1
+                ):
                     seller_payment_obj.write({"invoice_id": sellers_dict.get("invoice_id")})
                     sellers_dict["seller_ids"].pop(seller_id)
             except Exception as e:
                 _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
-                pass
-
         if sellers_dict:
             vals = {
                 "invoice_id": sellers_dict["invoice_id"],
@@ -131,23 +135,31 @@ class AccountMove(models.Model):
             }
             invoice_currency = sellers_dict["invoice_currency"]
             for seller in sellers_dict["seller_ids"].keys():
-                payment_method_ids = self.env[
-                    "res.partner"].browse(seller).payment_method.ids
-                if payment_method_ids:
+                if (
+                    payment_method_ids := self.env["res.partner"]
+                    .browse(seller)
+                    .payment_method.ids
+                ):
                     payment_method = payment_method_ids[0]
                 else:
                     payment_method = False
-                vals.update({"seller_id": seller})
-                vals.update({"payment_method": payment_method})
-                total_amount = 0
-                for amount in sellers_dict["seller_ids"][seller]["invoice_line_payment"]:
-                    total_amount += amount
+                vals["seller_id"] = seller
+                vals["payment_method"] = payment_method
+                total_amount = sum(sellers_dict["seller_ids"][seller]["invoice_line_payment"])
                 mp_currency_obj = self.env["res.currency"].browse(self.env['ir.default'].get('res.config.settings', 'mp_currency_id')) or self.env.user.currency_id
-                vals.update({
+                vals |= {
                     "invoiced_amount": total_amount,
-                    "payable_amount": invoice_currency.compute(total_amount, mp_currency_obj),
-                    "invoice_line_ids": [(6, 0,sellers_dict["seller_ids"][seller]["invoice_line_ids"])],
-                })
+                    "payable_amount": invoice_currency.compute(
+                        total_amount, mp_currency_obj
+                    ),
+                    "invoice_line_ids": [
+                        (
+                            6,
+                            0,
+                            sellers_dict["seller_ids"][seller]["invoice_line_ids"],
+                        )
+                    ],
+                }
                 seller_payment_id = self.env['seller.payment'].create(vals)
 
     #This method is not in use
@@ -156,9 +168,11 @@ class AccountMove(models.Model):
 
         if invoice_line_obj.invoice_id.type in ["in_refund", "in_invoice"]:
             return
-        payment_method_ids = self.env["res.partner"].browse(
-            seller_id).payment_method.ids
-        if payment_method_ids:
+        if (
+            payment_method_ids := self.env["res.partner"]
+            .browse(seller_id)
+            .payment_method.ids
+        ):
             payment_method = payment_method_ids[0]
         else:
             payment_method = False
@@ -179,9 +193,9 @@ class AccountMove(models.Model):
             }
 
         if invoice_line_obj.invoice_id.type == 'out_refund':
-            invoice_obj = self.env["account.move"].search(
-                [("number", '=', invoice_line_obj.invoice_id.origin)])
-            if invoice_obj:
+            if invoice_obj := self.env["account.move"].search(
+                [("number", '=', invoice_line_obj.invoice_id.origin)]
+            ):
                 sale_order_obj = self.env["sale.order"].search(
                     [("name", '=', invoice_obj.origin)])
             vals = {
@@ -198,8 +212,7 @@ class AccountMove(models.Model):
                 "invoice_id": invoice_line_obj.invoice_id.id,
             }
 
-        seller_payment_id = self.env['seller.payment'].create(vals)
-        return seller_payment_id
+        return self.env['seller.payment'].create(vals)
 
     def post(self):
         not_paid_invoices = self.filtered(lambda move: move.is_invoice(include_receipts=True) and move.invoice_payment_state not in ('paid', 'in_payment'))

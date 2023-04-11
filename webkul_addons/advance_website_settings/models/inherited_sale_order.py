@@ -34,24 +34,39 @@ class SaleOrder(models.Model):
 
 		
 		ir_default = self.env['website'].sudo().get_current_website().sub_total
-		return True if ir_default == None else ir_default
+		return True if ir_default is None else ir_default
 	def get_minimun_cart_value(self):
 		
 		ir_default = self.env['website'].get_current_website().c_id._convert(
-                    self.env['website'].get_current_website().minimum_order_value, request.env['website'].get_current_website().pricelist_id.currency_id, self.env.user.company_id,
-                    fields.Date.today()
-                    )
-		
-		return 1 if ir_default == None else round(ir_default, 2)
+		self.env['website'].get_current_website().minimum_order_value, request.env['website'].get_current_website().pricelist_id.currency_id, self.env.user.company_id,
+		fields.Date.today()
+		)
+
+		return 1 if ir_default is None else round(ir_default, 2)
 	@api.model
 	def _get_errors(self, order):
 		
-		minimum_order_value =1 if self.env['website'].sudo().get_current_website().minimum_order_value == None else self.env['website'].sudo().get_current_website().c_id._convert(
-                    self.env['website'].sudo().get_current_website().minimum_order_value, self.env['website'].sudo().get_current_pricelist().currency_id, self.env.user.company_id,
-                    fields.Date.today()
-                    )
+		minimum_order_value = (
+			1
+			if self.env['website'].sudo().get_current_website().minimum_order_value
+			is None
+			else self.env['website']
+			.sudo()
+			.get_current_website()
+			.c_id._convert(
+				self.env['website'].sudo().get_current_website().minimum_order_value,
+				self.env['website'].sudo().get_current_pricelist().currency_id,
+				self.env.user.company_id,
+				fields.Date.today(),
+			)
+		)
 		minimum_order_value = round(minimum_order_value,2)
 		errors = []
 		if order and order.amount_total < minimum_order_value:
-			errors.append(['Invalid Cart Value',"A minimum purchase total of %s%s is required to confirm your order, current purchase total is %s%s "%(order.currency_id.symbol ,minimum_order_value, order.currency_id.symbol ,order.amount_total)])
+			errors.append(
+				[
+					'Invalid Cart Value',
+					f"A minimum purchase total of {order.currency_id.symbol}{minimum_order_value} is required to confirm your order, current purchase total is {order.currency_id.symbol}{order.amount_total} ",
+				]
+			)
 		return errors

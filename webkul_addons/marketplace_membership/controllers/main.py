@@ -61,10 +61,8 @@ class WebsiteSale(WebsiteSale):
     @http.route(['/shop/cart/update_json'], type='json', auth="public", methods=['POST'], website=True)
     def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
         product_obj = request.env["product.product"].browse(product_id)
-        if product_obj.wk_mp_membership:
-            if set_qty:
-                if set_qty > 1:
-                    set_qty = 1
+        if product_obj.wk_mp_membership and set_qty and set_qty > 1:
+            set_qty = 1
         return super(WebsiteSale, self).cart_update_json(product_id, line_id, add_qty, set_qty)
 
     @http.route(['/shop/cart/update'], type='http', auth="public", methods=['POST'], website=True)
@@ -95,8 +93,8 @@ class SellerMembership(http.Controller):
 
         attrib_list = request.httprequest.args.getlist('attrib')
         attrib_values = [map(int, v.split("-")) for v in attrib_list if v]
-        attributes_ids = set([v[0] for v in attrib_values])
-        attrib_set = set([v[1] for v in attrib_values])
+        attributes_ids = {v[0] for v in attrib_values}
+        attrib_set = {v[1] for v in attrib_values}
 
         domain = [('sale_ok', '=', True), ('wk_mp_membership', '=', True), ("website_published", "=", True)]
 
@@ -116,7 +114,7 @@ class SellerMembership(http.Controller):
             post["search"] = search
         if category:
             category = request.env['product.public.category'].browse(int(category))
-            url = "/shop/category/%s" % slug(category)
+            url = f"/shop/category/{slug(category)}"
         if attrib_list:
             post['attrib'] = attrib_list
 
@@ -134,10 +132,9 @@ class SellerMembership(http.Controller):
         c_login_user=request.env['res.users'].browse(request.uid)
         product_count=0
         products=''
-        if c_login_user:
-            if c_login_user.partner_id.assign_membership:
-                product_count=len(c_login_user.partner_id.assign_membership)
-                products = c_login_user.partner_id.assign_membership
+        if c_login_user and c_login_user.partner_id.assign_membership:
+            product_count=len(c_login_user.partner_id.assign_membership)
+            products = c_login_user.partner_id.assign_membership
         # added End
         # below line comment by hasan to exclude to show all membership count
         # product_count = Product.search_count(domain)
@@ -193,6 +190,11 @@ class SellerMembership(http.Controller):
         sale_order = request.env['sale.order'].sudo().browse(sale_order_id) if sale_order_id else None
         membership_in_cart = sale_order.is_order_has_already_membership() if sale_order else None
 
-        if (product_id and membership_in_cart and membership_in_cart == product_id) or (membership_product_obj.wk_mp_membership and membership_in_cart):
-            return True
-        return False
+        return bool(
+            (
+                product_id
+                and membership_in_cart
+                and membership_in_cart == product_id
+            )
+            or (membership_product_obj.wk_mp_membership and membership_in_cart)
+        )

@@ -34,8 +34,9 @@ class AccountMove(models.Model):
                 mp_membership_obj = self.env["seller.membership"].sudo().search([('account_invoice_id', '=', rec.id)])
                 for mp_member in mp_membership_obj:
                     mp_member.disable_all_make_active_membership()
-                    mp_membership_plan_dates = mp_member.mp_membership_plan_id.product_tmpl_id.get_mp_membership_plan_date_range()
-                    if mp_membership_plan_dates:
+                    if (
+                        mp_membership_plan_dates := mp_member.mp_membership_plan_id.product_tmpl_id.get_mp_membership_plan_date_range()
+                    ):
                         mp_member.date_from = mp_membership_plan_dates.get("date_from", False)
                         mp_member.date_to = mp_membership_plan_dates.get("date_to", False)
         return res

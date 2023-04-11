@@ -13,8 +13,14 @@ class MailThread(models.AbstractModel):
 
     @api.returns('mail.message', lambda value: value.id)
     def message_post(self, **kwargs):
-        kwargs.update({'email_cc_ids': [(6, 0, kwargs.get('email_cc_ids'))] if kwargs.get('email_cc_ids') else False,
-                       'email_bcc_ids': [(6, 0, kwargs.get('email_bcc_ids'))] if kwargs.get('email_bcc_ids') else False})
+        kwargs |= {
+            'email_cc_ids': [(6, 0, kwargs.get('email_cc_ids'))]
+            if kwargs.get('email_cc_ids')
+            else False,
+            'email_bcc_ids': [(6, 0, kwargs.get('email_bcc_ids'))]
+            if kwargs.get('email_bcc_ids')
+            else False,
+        }
         return super(MailThread, self).message_post(**kwargs)
 
     def _notify_record_by_email(self, message, recipients_data, msg_vals=False,
@@ -51,14 +57,18 @@ class MailThread(models.AbstractModel):
         template_values = self._notify_prepare_template_context(message, msg_vals, model_description=model_description)  # 10 queries
 
         email_layout_xmlid = msg_vals.get('email_layout_xmlid') if msg_vals else message.email_layout_xmlid
-        template_xmlid = email_layout_xmlid if email_layout_xmlid else 'mail.message_notification_email'
+        template_xmlid = email_layout_xmlid or 'mail.message_notification_email'
         try:
             base_template = self.env.ref(template_xmlid, raise_if_not_found=True).with_context(lang=template_values['lang'])  # 1 query
         except ValueError:
-            _logger.warning('QWeb template %s not found when sending notification emails. Sending without layouting.' % (template_xmlid))
+            _logger.warning(
+                f'QWeb template {template_xmlid} not found when sending notification emails. Sending without layouting.'
+            )
             base_template = False
 
-        mail_subject = message.subject or (message.record_name and 'Re: %s' % message.record_name)  # in cache, no queries
+        mail_subject = (
+            message.subject or message.record_name and f'Re: {message.record_name}'
+        )
         # prepare notification mail values
         base_mail_values = {
             'mail_message_id': message.id,

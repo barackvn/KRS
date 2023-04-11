@@ -254,7 +254,10 @@ class MarketingCampaign(models.Model):
 
             # Fetch existing participants
             participants_data = participants.search_read([('campaign_id', '=', campaign.id)], ['res_id'])
-            existing_rec_ids = set([live_participant['res_id'] for live_participant in participants_data])
+            existing_rec_ids = {
+                live_participant['res_id']
+                for live_participant in participants_data
+            }
 
             record_domain = safe_eval(campaign.domain or [])
             db_rec_ids = set(RecordModel.search(record_domain).ids)
@@ -430,7 +433,7 @@ class MarketingActivity(models.Model):
     @api.depends('activity_type', 'trace_ids')
     def _compute_statistics_graph_data(self):
         if not self.ids:
-            date_range = [date.today() - timedelta(days=d) for d in range(0, 15)]
+            date_range = [date.today() - timedelta(days=d) for d in range(15)]
             date_range.reverse()
             default_values = [{'x': date_item.strftime('%d %b'), 'y': 0} for date_item in date_range]
             self.statistics_graph_data = json.dumps([
@@ -497,9 +500,8 @@ class MarketingActivity(models.Model):
     def _get_graph_statistics(self):
         """ Compute activities statistics based on their traces state for the last fortnight """
         past_date = (Datetime.from_string(Datetime.now()) + timedelta(days=-14)).strftime('%Y-%m-%d 00:00:00')
-        stat_map = {}
         base = date.today() + timedelta(days=-14)
-        date_range = [base + timedelta(days=d) for d in range(0, 15)]
+        date_range = [base + timedelta(days=d) for d in range(15)]
 
         self.env.cr.execute("""
             SELECT
@@ -520,8 +522,10 @@ class MarketingActivity(models.Model):
             ORDER BY dt;
         """, (tuple(self.ids), past_date))
 
-        for stat in self.env.cr.dictfetchall():
-            stat_map[(stat['activity_id'], stat['dt'], stat['state'])] = stat['total']
+        stat_map = {
+            (stat['activity_id'], stat['dt'], stat['state']): stat['total']
+            for stat in self.env.cr.dictfetchall()
+        }
         graph_data = {}
         for activity in self:
             success = []
@@ -555,7 +559,7 @@ class MarketingActivity(models.Model):
         traces = self.env['marketing.trace'].search(trace_domain)
 
         # organize traces by activity
-        trace_to_activities = dict()
+        trace_to_activities = {}
         for trace in traces:
             if trace.activity_id not in trace_to_activities:
                 trace_to_activities[trace.activity_id] = trace
@@ -601,7 +605,7 @@ class MarketingActivity(models.Model):
             traces_rejected = self.env['marketing.trace']
 
         if traces_allowed:
-            activity_method = getattr(self, '_execute_%s' % (self.activity_type))
+            activity_method = getattr(self, f'_execute_{self.activity_type}')
             activity_method(traces_allowed)
             new_traces |= self._generate_children_traces(traces_allowed)
             traces.mapped('participant_id').check_completed()
@@ -648,7 +652,7 @@ class MarketingActivity(models.Model):
         return True
 
     def _execute_email(self, traces):
-        res_ids = [r for r in set(traces.mapped('res_id'))]
+        res_ids = list(set(traces.mapped('res_id')))
 
         mailing = self.mass_mailing_id.with_context(
             default_marketing_activity_id=self.ids[0],

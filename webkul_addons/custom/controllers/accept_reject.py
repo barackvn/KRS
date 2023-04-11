@@ -27,36 +27,39 @@ class ApproveSample(http.Controller):
         for crm in sample_data:
             crm.sudo().write({'stage_id': stage.id})
             crm.partner_id.sudo().write({'accept_mail_proposal':True})
-            seller_user = request.env["res.users"].sudo().search([('partner_id', '=', crm.partner_id.id)])
-            if seller_user:
+            if (
+                seller_user := request.env["res.users"]
+                .sudo()
+                .search([('partner_id', '=', crm.partner_id.id)])
+            ):
                 survey_group_obj = request.env.ref('custom.group_survey_access')
                 survey_group_obj.sudo().write({"users": [(4, seller_user.id, 0)]})
 
-            msg_vals_manager_seller.update({
-                'body_html': """ Thanks for approving the membership.<br/> Here are your details:<br/> 
+            msg_vals_manager_seller[
+                'body_html'
+            ] = """ Thanks for approving the membership.<br/> Here are your details:<br/> 
                                         Text: Sending samples to Kairos for 360° view pictures<br/>
                                         Attachment: Excel file about the calculation of the fulfilment<br/>
                                         Link: <a href='http://18.198.93.210//web#id=&action=969&model=survey.landing&view_type=form&cids=&menu_id=295'>Enter shop details here.</a><br/>
                                         Purchase Your Membership Plan Here: <a href='http://18.198.93.210//seller-membership-plan'>Purchase Membership</a><br/>"""
-            })
 
-            msg_vals_manager_seller.update({
+            msg_vals_manager_seller |= {
                 'subject': 'Membership Approval',
                 'email_to': crm.email_from,
-                'email_from': 'admin@sophiesgarden.be'
-            })
+                'email_from': 'admin@sophiesgarden.be',
+            }
             msg_id_manager_seller = request.env['mail.mail'].sudo().create(msg_vals_manager_seller)
             msg_id_manager_seller.send()
 
-            msg_vals_manager_admin.update({
-                'body_html': """ Seller has approved the membership."""
-            })
+            msg_vals_manager_admin[
+                'body_html'
+            ] = """ Seller has approved the membership."""
 
-            msg_vals_manager_admin.update({
+            msg_vals_manager_admin |= {
                 'subject': 'Membership Approval',
                 'email_to': 'admin@sophiesgarden.be',
                 'email_from': 'admin@sophiesgarden.be',
-            })
+            }
             msg_id_manager_admin = request.env['mail.mail'].sudo().create(msg_vals_manager_admin)
             msg_id_manager_admin.send()
 
@@ -75,25 +78,25 @@ class ApproveSample(http.Controller):
         for sale in sample_data:
             sale.sudo().write({'stage_id': stage.id})
 
-            msg_vals_manager_seller.update({
-                'body_html': """ Sorry we could not meet your expectations."""
-            })
+            msg_vals_manager_seller[
+                'body_html'
+            ] = """ Sorry we could not meet your expectations."""
 
-            msg_vals_manager_admin.update({
-                'body_html': """ Seller has rejected the membership."""
-            })
+            msg_vals_manager_admin[
+                'body_html'
+            ] = """ Seller has rejected the membership."""
 
-            msg_vals_manager_seller.update({
+            msg_vals_manager_seller |= {
                 'subject': 'Membership Rejection',
                 'email_to': sale.email_from,
-            })
+            }
             msg_id_manager_seller = request.env['mail.mail'].create(msg_vals_manager_seller)
             msg_id_manager_seller.send()
 
-            msg_vals_manager_admin.update({
+            msg_vals_manager_admin |= {
                 'subject': 'Membership Rejection',
                 'email_to': 'admin@sophiesgarden.be',
-            })
+            }
             msg_id_manager_admin = request.env['mail.mail'].create(msg_vals_manager_admin)
             msg_id_manager_admin.send()
 

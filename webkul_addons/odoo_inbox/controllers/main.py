@@ -21,8 +21,8 @@ class WebsiteOdooInbox(http.Controller):
         query = model_object._where_calc(domain)
         # model_object._apply_ir_rules(query, 'read')
         from_clause, where_clause, where_clause_params = query.get_sql()
-        where_str = where_clause and (" WHERE %s" % where_clause) or ''
-        query_str = 'SELECT "%s".id FROM ' % 'mail_message' + from_clause + where_str
+        where_str = where_clause and f" WHERE {where_clause}" or ''
+        query_str = f'SELECT "mail_message".id FROM {from_clause}{where_str}'
         request._cr.execute(query_str, where_clause_params)
         message_ids = request._cr.fetchall()
         message_ids = message_ids and [x[0] for x in message_ids] or []
@@ -51,10 +51,9 @@ class WebsiteOdooInbox(http.Controller):
         # if label == 'sent':
         #     partner_id = request.env.user.partner_id
         if user_id:
-            partner_id = request.env.user.partner_id
             default_inbox_pane_type = request.env.user.inbox_default_pane_view_type
-            if partner_id:
-                if label != 'sent' and label != 'trash':
+            if partner_id := request.env.user.partner_id:
+                if label not in ['sent', 'trash']:
                     domain += ['|', '|', ('partner_ids', 'in', partner_id.ids), ('notified_partner_ids', 'in', partner_id.ids), ('starred_partner_ids', 'in', partner_id.ids)]
 
                 # In Trash show only own author_id messages only
@@ -100,7 +99,7 @@ class WebsiteOdooInbox(http.Controller):
         for fid in folder_ids.ids:
             ffolder_domain = counter_domain + [('msg_unread', '=', False), ('folder_id', '=', fid)]
             ct = len(self.get_message_counter_domain(MailMessage, ffolder_domain))
-            counter_fd_msgs.update({str(fid): str(ct)})
+            counter_fd_msgs[str(fid)] = str(ct)
 
         total = 0
         if label == 'inbox':
@@ -166,8 +165,7 @@ class WebsiteOdooInbox(http.Controller):
         MailMessage = request.env['mail.message'].sudo()
         user_id = request.env.user
         if user_id:
-            partner_id = request.env.user.partner_id
-            if partner_id:
+            if partner_id := request.env.user.partner_id:
                 domain = ['|', '|', ('partner_ids', 'in', partner_id.ids), ('notified_partner_ids', 'in', partner_id.ids), ('starred_partner_ids', 'in', partner_id.ids)]
 
         inbox_domain = domain + [('msg_unread', '=', False), ('message_label', 'in', ['inbox', 'starred']), ('folder_id', '=', False)]
@@ -184,20 +182,25 @@ class WebsiteOdooInbox(http.Controller):
         for fid in folder_ids.ids:
             ffolder_domain = domain + [('msg_unread', '=', False), ('folder_id', '=', fid)]
             ct = len(self.get_message_counter_domain(MailMessage, ffolder_domain))
-            counter_fd_msgs.update({str(fid): str(ct)})
+            counter_fd_msgs[str(fid)] = str(ct)
 
-        uid = request.env.uid
         message_dict = {}
         if message:
             record = False
             if message.model and message.res_id:
                 record = request.env[message.model].browse(message.res_id)
+            uid = request.env.uid
             try:
                 if record:
                     record.with_user(uid).check_access_rule('read')
             except AccessError:
                 pass
-            message_dict.update({'parent_id': message, 'child_ids': sorted(message.child_ids, key=lambda r: r.date, reverse=True)})
+            message_dict |= {
+                'parent_id': message,
+                'child_ids': sorted(
+                    message.child_ids, key=lambda r: r.date, reverse=True
+                ),
+            }
         message_body = request.env['ir.ui.view'].render_template("odoo_inbox.inbox_message_detail", {
             'mail': message_dict,
         })
@@ -269,16 +272,16 @@ class WebsiteOdooInbox(http.Controller):
                         attachment_ids.append(attachment.id)
 
             message = message_object.message_post(
-                    body=body,
-                    subject=subject,
-                    email_from='%s <%s>' % (request.env.user.name, request.env.user.email),
-                    author_id=request.env.user.partner_id.id,
-                    parent_id=messageObj.id,
-                    subtype_id=messageObj.subtype_id.id,
-                    attachment_ids=attachment_ids,
-                    partner_ids=[partner.id],
-                    message_type=messageObj.message_type,
-                )
+                body=body,
+                subject=subject,
+                email_from=f'{request.env.user.name} <{request.env.user.email}>',
+                author_id=request.env.user.partner_id.id,
+                parent_id=messageObj.id,
+                subtype_id=messageObj.subtype_id.id,
+                attachment_ids=attachment_ids,
+                partner_ids=[partner.id],
+                message_type=messageObj.message_type,
+            )
 
             message.write({'msg_unread': False})
         return request.redirect('/mail/inbox')
@@ -314,8 +317,7 @@ class WebsiteOdooInbox(http.Controller):
                 email_bcc_ids = request.env['res.partner'].browse(map(int, bcc_partners))
             # for partner in request.env['res.partner'].browse(map(int, partners)):
             attachment_ids = []
-            files = request.httprequest.files.getlist('compose_attachments')
-            if files:
+            if files := request.httprequest.files.getlist('compose_attachments'):
                 for i in files:
                     if i.filename != '':
                         attachments = {
@@ -331,7 +333,7 @@ class WebsiteOdooInbox(http.Controller):
             message = message_object.message_post(
                 body=body,
                 subject=subject,
-                email_from='%s <%s>' % (request.env.user.name, request.env.user.email),
+                email_from=f'{request.env.user.name} <{request.env.user.email}>',
                 author_id=request.env.user.partner_id.id,
                 attachment_ids=attachment_ids,
                 partner_ids=partner_ids.ids,
@@ -508,26 +510,26 @@ class WebsiteOdooInbox(http.Controller):
     def slide_download(self, attachment):
         filecontent = base64.b64decode(attachment.datas)
         main_type, sub_type = attachment.mimetype.split('/', 1)
-        disposition = 'attachment; filename=%s.%s' % (werkzeug.urls.url_quote(attachment.name), sub_type)
+        disposition = f'attachment; filename={werkzeug.urls.url_quote(attachment.name)}.{sub_type}'
         return request.make_response(
             filecontent,
             [('Content-Type', attachment.mimetype),
              ('Content-Length', len(filecontent)),
              ('Content-Disposition', disposition)])
-        return request.render("website.403")
 
     @http.route('/mail/partner_create', type="json", auth="user", website=True)
     def odoo_partner_create(self, email_address, **post):
-        if email_address:
-            partner_id = request.env['res.partner'].sudo().search([('name', '=', email_address.split('@')[0]), ('email', '=', email_address)])
-            if not partner_id:
-                partner_id = request.env['res.partner'].sudo().create({
-                    'name': email_address.split('@')[0],
-                    'email': email_address
-                    })
-            return {'success': True, 'partner_id': partner_id.id, 'partner_name': partner_id.name, 'email': partner_id.email}
-        else:
+        if not email_address:
             return {'error': 'email address is wrong'}
+        partner_id = request.env['res.partner'].sudo().search(
+            [
+                ('name', '=', email_address.split('@')[0]),
+                ('email', '=', email_address),
+            ]
+        ) or request.env['res.partner'].sudo().create(
+            {'name': email_address.split('@')[0], 'email': email_address}
+        )
+        return {'success': True, 'partner_id': partner_id.id, 'partner_name': partner_id.name, 'email': partner_id.email}
 
     @http.route('/mail/message_tag_assign', type="json", auth="user", website=True)
     def odoo_message_tag_assign(self, message_id, tag_ids=[], create_tag_input=None, **post):
@@ -548,19 +550,18 @@ class WebsiteOdooInbox(http.Controller):
 
     @http.route('/mail/message_tag_assign/all', type="json", auth="user", website=True)
     def odoo_message_tag_assign_all(self, message_id=[], tag_ids=[], create_tag_input=None, **post):
-        if message_id:
-            message_ids = request.env['mail.message'].sudo().browse(message_id)
-            user_id = request.env.user
-            if create_tag_input:
-                new_tag_id = request.env['message.tag'].create({'name': create_tag_input,
-                                                                'user_id': user_id.id})
-                tag_ids += [new_tag_id.id]
-            for message in message_ids:
-                tttag_ids = list(set(tag_ids + message.tag_ids.ids))
-                message.tag_ids = [(6, 0, tttag_ids)]
-            return True
-        else:
+        if not message_id:
             return {'error': 'Message is not find'}
+        message_ids = request.env['mail.message'].sudo().browse(message_id)
+        if create_tag_input:
+            user_id = request.env.user
+            new_tag_id = request.env['message.tag'].create({'name': create_tag_input,
+                                                            'user_id': user_id.id})
+            tag_ids += [new_tag_id.id]
+        for message in message_ids:
+            tttag_ids = list(set(tag_ids + message.tag_ids.ids))
+            message.tag_ids = [(6, 0, tttag_ids)]
+        return True
 
     @http.route('/mail/message_tag_delete', type="json", auth="user", website=True)
     def odoo_message_tag_delete(self, message_id, tag_id, **post):
@@ -579,7 +580,14 @@ class WebsiteOdooInbox(http.Controller):
                  '/mail/tag/<model("message.tag"):tag>/page/<int:page>'], type='http', auth="user", website=True)
     def odoo_tags(self, tag, page=1, **kw):
         domain = [('tag_ids', '=', tag.id)]
-        return self._render_odoo_message(domain, '/mail/tag/' + str(tag.id), page, tag.name, 'bluecolor', existing_tag=tag.id)
+        return self._render_odoo_message(
+            domain,
+            f'/mail/tag/{str(tag.id)}',
+            page,
+            tag.name,
+            'bluecolor',
+            existing_tag=tag.id,
+        )
 
     @http.route(['/mail/tag_edit'], type='http', auth="user", method=['POST'], website=True)
     def odoo_tags_edit(self, **kw):
@@ -599,7 +607,14 @@ class WebsiteOdooInbox(http.Controller):
                  '/mail/folder/<model("message.folder"):folder>/page/<int:page>'], type='http', auth="user", website=True)
     def odoo_folders(self, folder, page=1, **kw):
         domain = [('folder_id', '=', folder.id)]
-        return self._render_odoo_message(domain, '/mail/folder/' + str(folder.id), page, folder.name, 'bluecolor', existing_folder=folder.id)
+        return self._render_odoo_message(
+            domain,
+            f'/mail/folder/{str(folder.id)}',
+            page,
+            folder.name,
+            'bluecolor',
+            existing_folder=folder.id,
+        )
 
     @http.route(['/mail/folder_edit'], type='http', auth="user", method=['POST'], website=True)
     def odoo_folder_edit(self, **kw):
@@ -658,9 +673,11 @@ class WebsiteOdooInbox(http.Controller):
             followers = request.env['mail.followers'].sudo().search([
                         ('res_model', '=', kw.get('document_model')),
                         ('res_id', '=', int(kw.get('res_id')))])
-            for follower in followers:
-                if follower.partner_id:
-                    followers_dict.append({'id': follower.partner_id.id, 'name': follower.partner_id.name})
+            followers_dict.extend(
+                {'id': follower.partner_id.id, 'name': follower.partner_id.name}
+                for follower in followers
+                if follower.partner_id
+            )
         return followers_dict
 
     @http.route('/mail/get_res_partners', type="http", auth="user", methods=['POST', 'GET'], website=True, csrf=False)
@@ -676,7 +693,7 @@ class WebsiteOdooInbox(http.Controller):
                 if partner.name:
                     text_name += partner.name
                 if partner.email:
-                    email_name = ' <' + partner.email + '>'
+                    email_name = f' <{partner.email}>'
                     text_name += email_name
                 partner_list.append({'id': partner.id,
                                      'text': text_name})
@@ -685,11 +702,11 @@ class WebsiteOdooInbox(http.Controller):
 
     @http.route('/mail/get_mail_templates', type="json", auth="user", website=True)
     def get_mail_templates(self, **kw):
-        templates_dict = []
         mail_template_ids = request.env['mail.template'].sudo().search([('model', 'in', ('inbox.mail.template', kw.get('document_model', False)))])
-        for mail_template in mail_template_ids:
-            templates_dict.append({'id': mail_template.id, 'name': mail_template.name})
-        return templates_dict
+        return [
+            {'id': mail_template.id, 'name': mail_template.name}
+            for mail_template in mail_template_ids
+        ]
 
     @http.route('/mail/get_mail_template_body', type="json", auth="user", website=True)
     def get_mail_template_body(self, **kw):
@@ -698,27 +715,22 @@ class WebsiteOdooInbox(http.Controller):
             template = request.env['mail.template'].with_context(tpl_partners_only=True).browse(int(kw.get('mail_template_id')))
         if kw.get('res_id'):
             res_id = int(kw.get('res_id'))
-        else:
-            if template and template.model_id and template.model_id.model == 'inbox.mail.template':
-                res_id = request.env.ref('odoo_inbox.data_inbox_mail_template').id
+        elif template and template.model_id and template.model_id.model == 'inbox.mail.template':
+            res_id = request.env.ref('odoo_inbox.data_inbox_mail_template').id
         if res_id and template:
-            if template:
-                fields = ['subject', 'body_html', 'email_from', 'email_to', 'partner_to', 'email_cc',  'reply_to', 'attachment_ids', 'mail_server_id']
-                template_values = template.generate_email([res_id], fields=fields)
-                template_value = template_values[res_id]
+            fields = ['subject', 'body_html', 'email_from', 'email_to', 'partner_to', 'email_cc',  'reply_to', 'attachment_ids', 'mail_server_id']
+            template_values = template.generate_email([res_id], fields=fields)
+            template_value = template_values[res_id]
         return template_value
 
     @http.route('/mail/create_mail_template', type="json", auth="user", website=True)
     def create_mail_template(self, **kw):
-        if kw.get('model_name'):
-            document_model_name = kw.get('model_name')
-        else:
-            document_model_name = 'inbox.mail.template'
+        document_model_name = kw.get('model_name') or 'inbox.mail.template'
         subject = kw.get('subject')
         body_html = kw.get('body_html')
         model = request.env['ir.model']._get(document_model_name)
         model_name = model.name or ''
-        template_name = "%s: %s" % (model_name, tools.ustr(subject))
+        template_name = f"{model_name}: {tools.ustr(subject)}"
         values = {
             'name': template_name,
             'subject': subject or False,
@@ -727,5 +739,5 @@ class WebsiteOdooInbox(http.Controller):
             # 'attachment_ids': [(6, 0, [att.id for att in record.attachment_ids])],
         }
         template = request.env['mail.template'].create(values)
-        _logger.info("Mail Template is created: %s" % [template])
+        _logger.info(f"Mail Template is created: {[template]}")
         return True

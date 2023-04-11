@@ -24,9 +24,7 @@ class EmailNow(models.TransientModel):
 		for reminder in self.env['reminder.reminder'].browse(
 			self.env.context.get('active_ids')
 		):
-			emails = list(filter(None,reminder.mapped('recipients.email')))
-
-			if emails:
+			if emails := list(filter(None, reminder.mapped('recipients.email'))):
 				mail_template = self.mail_template
 				mail_template.email_to = ','.join(emails)
 

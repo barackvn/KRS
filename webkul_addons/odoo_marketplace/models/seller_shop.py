@@ -39,16 +39,20 @@ class SellerShop(models.Model):
     def _get_page_url(self):
         for obj in self:
             base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            base_url = base_url + "/seller/shop/"
-            url_handler = str(obj.id) if not obj.url_handler else obj.url_handler
+            base_url = f"{base_url}/seller/shop/"
+            url_handler = obj.url_handler or str(obj.id)
             obj.url = base_url + url_handler
 
     @api.depends("seller_id")
     def _get_seller_products(self):
         for rec in self:
-            product_objs = self.env["product.template"].search([('sale_ok', '=', True), (
-                'status', '=', 'approved'), ("marketplace_seller_id", "=", rec.seller_id.id)])
-            if product_objs:
+            if product_objs := self.env["product.template"].search(
+                [
+                    ('sale_ok', '=', True),
+                    ('status', '=', 'approved'),
+                    ("marketplace_seller_id", "=", rec.seller_id.id),
+                ]
+            ):
                 rec.seller_product_ids = product_objs.ids
             else:
                 rec.seller_product_ids = False
@@ -59,7 +63,7 @@ class SellerShop(models.Model):
             rec.total_product = len(rec.seller_product_ids.ids)
 
     def _default_website_sequence(self):
-        self._cr.execute("SELECT MIN(website_sequence) FROM %s" % self._table)
+        self._cr.execute(f"SELECT MIN(website_sequence) FROM {self._table}")
         min_sequence = self._cr.fetchone()[0]
         return min_sequence and min_sequence - 1 or 10
 
@@ -125,9 +129,12 @@ class SellerShop(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get('url_handler'):
-            if not re.match('^[a-zA-Z0-9-_]+$', vals.get('url_handler')) or re.match('^[-_][a-zA-Z0-9-_]*$', vals.get('url_handler')) or re.match('^[a-zA-Z0-9-_]*[-_]$', vals.get('url_handler')):
-                raise UserError(_("Please enter URL handler correctly!"))
+        if vals.get('url_handler') and (
+            not re.match('^[a-zA-Z0-9-_]+$', vals.get('url_handler'))
+            or re.match('^[-_][a-zA-Z0-9-_]*$', vals.get('url_handler'))
+            or re.match('^[a-zA-Z0-9-_]*[-_]$', vals.get('url_handler'))
+        ):
+            raise UserError(_("Please enter URL handler correctly!"))
         res = super(SellerShop, self).create(vals)
         if vals.get("seller_id") and res:
             self.env["res.partner"].browse(vals.get("seller_id")).write({"seller_shop_id": res.id})
@@ -136,29 +143,27 @@ class SellerShop(models.Model):
 
     def write(self, vals):
         for obj in self:
-            if vals.get('url_handler'):
-                if not re.match('^[a-zA-Z0-9-_]+$', vals.get('url_handler')) or re.match('^[-_][a-zA-Z0-9-_]*$', vals.get('url_handler')) or re.match('^[a-zA-Z0-9-_]*[-_]$', vals.get('url_handler')):
-                    raise UserError(_("Please enter URL handler correctly!"))
+            if vals.get('url_handler') and (
+                not re.match('^[a-zA-Z0-9-_]+$', vals.get('url_handler'))
+                or re.match('^[-_][a-zA-Z0-9-_]*$', vals.get('url_handler'))
+                or re.match('^[a-zA-Z0-9-_]*[-_]$', vals.get('url_handler'))
+            ):
+                raise UserError(_("Please enter URL handler correctly!"))
             if vals.get("seller_id"):
                 self.env["res.partner"].browse(vals.get("seller_id")).write({"seller_shop_id": obj.id})
-        res = super(SellerShop, self).write(vals)
-        return res
+        return super(SellerShop, self).write(vals)
 
     def save(self):
         self.ensure_one()
-        seller_obj = self.env["res.partner"].browse(
-            self._context.get("active_id"))
-        if seller_obj:
+        if seller_obj := self.env["res.partner"].browse(
+            self._context.get("active_id")
+        ):
             seller_obj .write({"seller_shop_id": self.id})
 
     def seller_sales_count(self):
-        # Calculate seller total sales count
-        sales_count = 0
         all_products = self.env['product.template'].sudo().search(
             [("marketplace_seller_id", "=", self.seller_id.sudo().id)])
-        for prod in all_products.with_user(SUPERUSER_ID):
-            sales_count += prod.sales_count
-        return sales_count
+        return sum(prod.sales_count for prod in all_products.with_user(SUPERUSER_ID))
 
     def set_sequence_top(self):
         self.website_sequence = self.sudo().search([], order='website_sequence desc', limit=1).website_sequence + 1
@@ -167,17 +172,27 @@ class SellerShop(models.Model):
         self.website_sequence = self.sudo().search([], order='website_sequence', limit=1).website_sequence - 1
 
     def set_sequence_up(self):
-        previous_shop = self.sudo().search(
-            [('website_sequence', '>', self.website_sequence), ('website_published', '=', self.website_published)],
-            order='website_sequence', limit=1)
-        if previous_shop:
+        if previous_shop := self.sudo().search(
+            [
+                ('website_sequence', '>', self.website_sequence),
+                ('website_published', '=', self.website_published),
+            ],
+            order='website_sequence',
+            limit=1,
+        ):
             previous_shop.website_sequence, self.website_sequence = self.website_sequence, previous_shop.website_sequence
         else:
             self.set_sequence_top()
 
     def set_sequence_down(self):
-        next_shop = self.search([('website_sequence', '<', self.website_sequence), ('website_published', '=', self.website_published)], order='website_sequence desc', limit=1)
-        if next_shop:
+        if next_shop := self.search(
+            [
+                ('website_sequence', '<', self.website_sequence),
+                ('website_published', '=', self.website_published),
+            ],
+            order='website_sequence desc',
+            limit=1,
+        ):
             next_shop.website_sequence, self.website_sequence = self.website_sequence, next_shop.website_sequence
         else:
             return self.set_sequence_bottom()

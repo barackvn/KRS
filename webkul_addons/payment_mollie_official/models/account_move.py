@@ -73,9 +73,9 @@ class AccountMove(models.Model):
 
         # We will not get `amountRemaining` key if payment is not paid (only authorized)
         if payment_record and payment_record.get('amountRemaining'):
-            # TO-DO: check the case where amount is refunded in another currency or raise warning
-            remaining_amount = float(payment_record['amountRemaining']['value'])
-            if remaining_amount:
+            if remaining_amount := float(
+                payment_record['amountRemaining']['value']
+            ):
                 context = {
                     'default_journal_id': mollie_transactions.payment_id.journal_id.id,
                     'default_payment_method_id': mollie_transactions.payment_id.payment_method_id.id,
@@ -84,6 +84,6 @@ class AccountMove(models.Model):
                     'default_max_mollie_amount': remaining_amount,
                     'default_mollie_transecion_id': mollie_transactions.id
                 }
-                context.update(result['context'])
+                context |= result['context']
                 result['context'] = context
         return result

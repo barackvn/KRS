@@ -53,7 +53,7 @@ class SellerWebsiteEventController(http.Controller):
         def sd(date):
             return fields.Datetime.to_string(date)
 
-        today = datetime.today()
+        today = datetime.now()
         dates = [
             ['cdate', _(c_date), [('date_begin','>',sd(sel_date)),('date_begin','<',sdn(sel_date))], 0],
             ['all', _('Next Events'), [("date_end", ">", sd(today))], 0],
@@ -94,7 +94,7 @@ class SellerWebsiteEventController(http.Controller):
             current_type = EventType.browse(int(searches['type']))
             domain_search["type"] = [("event_type_id", "=", int(searches["type"]))]
 
-        if searches["country"] != 'all' and searches["country"] != 'online':
+        if searches["country"] not in ['all', 'online']:
             current_country = request.env['res.country'].browse(int(searches['country']))
             domain_search["country"] = ['|', ("country_id", "=", int(searches["country"])), ("country_id", "=", False)]
         elif searches["country"] == 'online':
@@ -113,17 +113,27 @@ class SellerWebsiteEventController(http.Controller):
 
         domain = dom_without('type')
         types = Event.read_group(domain, ["id", "event_type_id"], groupby=["event_type_id"], orderby="event_type_id")
-        types.insert(0, {
-            'event_type_id_count': sum([int(type['event_type_id_count']) for type in types]),
-            'event_type_id': ("all", _("All Categories"))
-        })
+        types.insert(
+            0,
+            {
+                'event_type_id_count': sum(
+                    int(type['event_type_id_count']) for type in types
+                ),
+                'event_type_id': ("all", _("All Categories")),
+            },
+        )
 
         domain = dom_without('country')
         countries = Event.read_group(domain, ["id", "country_id"], groupby="country_id", orderby="country_id")
-        countries.insert(0, {
-            'country_id_count': sum([int(country['country_id_count']) for country in countries]),
-            'country_id': ("all", _("All Countries"))
-        })
+        countries.insert(
+            0,
+            {
+                'country_id_count': sum(
+                    int(country['country_id_count']) for country in countries
+                ),
+                'country_id': ("all", _("All Countries")),
+            },
+        )
 
         step = 10
         event_count = Event.search_count(dom_without("none"))
@@ -165,16 +175,14 @@ class SellerEvents(http.Controller):
         base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         list1 = []
         for rec in seller_event:
-            dic = {}
             name = rec.name
-            title_name = name[:50]+'...' if len(name) > 50 else name
-            event_url = base_url+"/event/%s" % slug(rec)
+            title_name = f'{name[:50]}...' if len(name) > 50 else name
+            event_url = f"{base_url}/event/{slug(rec)}"
             date = rec.date_begin
             l1 = [date.year,date.month-1,date.day]
             if l1 not in list1:
                 list1.append(l1)
-                dic['date'] = l1
-                dic['title'] = '<a href="'+event_url+'">'+title_name+'</a>'
+                dic = {'date': l1, 'title': f'<a href="{event_url}">{title_name}</a>'}
                 events.append(dic)
             else:
                 for event in events:

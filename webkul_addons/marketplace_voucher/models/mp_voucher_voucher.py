@@ -47,17 +47,16 @@ class VoucherVoucher(models.Model):
         )
 
     def compute_login_userid(self):
-        login_ids = []
         seller_group = self.env['ir.model.data'].get_object_reference(
             'odoo_marketplace', 'marketplace_seller_group')[1]
         officer_group = self.env['ir.model.data'].get_object_reference(
             'odoo_marketplace', 'marketplace_officer_group')[1]
         groups_ids = self.env.user.sudo().groups_id.ids
-        if seller_group in groups_ids and officer_group not in groups_ids:
-            login_ids.append(self.env.user.sudo().partner_id.id)
-            return login_ids
-        elif seller_group in groups_ids and officer_group in groups_ids:
-            obj = self.env['res.partner'].search([('seller','=',True)])
-            for rec in obj:
-                login_ids.append(rec.id)
+        if seller_group in groups_ids:
+            login_ids = []
+            if officer_group not in groups_ids:
+                login_ids.append(self.env.user.sudo().partner_id.id)
+            else:
+                obj = self.env['res.partner'].search([('seller','=',True)])
+                login_ids.extend(rec.id for rec in obj)
             return login_ids

@@ -31,27 +31,30 @@ class ResPartner(models.Model):
             user_groups = user_obj.read(['groups_id'])
             if user_groups and user_groups[0].get("groups_id"):
                 user_groups_ids = user_groups[0].get("groups_id")
-                if seller_coll_group.id in user_groups_ids:
-                    obj.allow_seller_for_collection = True
-                else:
-                    obj.allow_seller_for_collection = False
+                obj.allow_seller_for_collection = seller_coll_group.id in user_groups_ids
             else:
                 obj.allow_seller_for_collection = False
 
     def enable_seller_coll_group(self):
         for obj in self:
-            user = self.env["res.users"].sudo().search(
-                [('partner_id', '=', obj.id)])
-            if user:
-                group = self.env.ref('marketplace_seller_collection_page.group_for_mp_collections')
-                if group:
+            if (
+                user := self.env["res.users"]
+                .sudo()
+                .search([('partner_id', '=', obj.id)])
+            ):
+                if group := self.env.ref(
+                    'marketplace_seller_collection_page.group_for_mp_collections'
+                ):
                     group.sudo().write({"users": [(4, user.id, 0)]})
 
     def disable_seller_coll_group(self):
         for obj in self:
-            user = self.env["res.users"].sudo().search(
-                [('partner_id', '=', obj.id)])
-            if user:
-                group = self.env.ref('marketplace_seller_collection_page.group_for_mp_collections')
-                if group:
+            if (
+                user := self.env["res.users"]
+                .sudo()
+                .search([('partner_id', '=', obj.id)])
+            ):
+                if group := self.env.ref(
+                    'marketplace_seller_collection_page.group_for_mp_collections'
+                ):
                     group.sudo().write({"users": [(3, user.id, 0)]})

@@ -95,14 +95,13 @@ class CommunicationEwms(models.Model):
 
     def get_export_xml_filename(self):
         self.ensure_one()
-        filename = 'Pre Advice.{ext}'.format(
+        return 'Pre Advice.{ext}'.format(
             ext='xml',
         )
-        return filename
 
 
     def get_export_xml(self):
         data_in = self.send_xml_pre_advice()
-        xml_string = etree.tostring(
-            data_in, encoding='UTF-8', method='xml', pretty_print=True)
-        return xml_string
+        return etree.tostring(
+            data_in, encoding='UTF-8', method='xml', pretty_print=True
+        )

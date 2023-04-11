@@ -56,6 +56,6 @@ class MarketplaceMassUpload(http.Controller):
             records = request.env['product.product'].browse(int_ids)
             list_dict_rec = []
             for rec in records:
-                csv_content += '\n{},{},{}'.format(rec.id,rec.default_code,'')
+                csv_content += f'\n{rec.id},{rec.default_code},'
 
         return request.make_response(csv_content,[('Content-Type', 'application/octet-stream'),('Content-Disposition', 'attachment; filename=sample.csv')])

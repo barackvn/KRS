@@ -73,7 +73,7 @@ class AuthSignupHome(Website):
             current_user = request.env['res.users'].browse(request.uid)
             if not current_user.has_group('base.group_user') and current_user.has_group('odoo_marketplace.marketplace_draft_seller_group') and current_user.partner_id.seller:
                 seller_dashboard_menu_id = request.env['ir.model.data'].get_object_reference('odoo_marketplace', 'wk_seller_dashboard')[1]
-                redirect = "/web#menu_id=" + str(seller_dashboard_menu_id)
+                redirect = f"/web#menu_id={str(seller_dashboard_menu_id)}"
                 return http.redirect_with_hash(redirect)
         return response
 
@@ -129,16 +129,14 @@ class website_marketplace_dashboard(http.Controller):
         partner = request.env.user.partner_id
         if request.env.user.id == request.website.user_id.id:
             return request.redirect('/seller')
-        if partner.user_id:
-            sales_rep = partner.user_id
-        else:
-            sales_rep = False
+        sales_rep = partner.user_id or False
         values = {
             'sales_rep': sales_rep,
             'company': request.website.company_id,
             'user': request.env.user,
             'countries': request.env['res.country'].sudo().search([]),
-            'country' : partner.sudo().country_id if partner.sudo().country_id else partner.sudo().company_id.country_id,
+            'country': partner.sudo().country_id
+            or partner.sudo().company_id.country_id,
         }
         return request.render('odoo_marketplace.convert_user_into_seller',values)
 
@@ -146,9 +144,9 @@ class website_marketplace_dashboard(http.Controller):
     def submit_as_seller(self, **post):
         country_id = post.get('country_id',False)
         url_handler = post.get('url_handler',False)
-        current_user = request.env.user
-
         if country_id and url_handler:
+            current_user = request.env.user
+
             _logger.info(">>>>>>>>>>>>>> /my/marketplace/seller'>>>%s>>>", current_user.partner_id)
             current_user.partner_id.write({
                 'country_id': int(country_id),
@@ -157,8 +155,9 @@ class website_marketplace_dashboard(http.Controller):
             })
             _logger.info(">>>>>>>>>>>>>> /my/marketplace/seller' done>>>%s>>>", current_user.partner_id.seller)
             draft_seller_group_id = request.env['ir.model.data'].get_object_reference('odoo_marketplace', 'marketplace_draft_seller_group')[1]
-            groups_obj = request.env["res.groups"].browse(draft_seller_group_id)
-            if groups_obj:
+            if groups_obj := request.env["res.groups"].browse(
+                draft_seller_group_id
+            ):
                 for group_obj in groups_obj:
                     group_obj.sudo().write({"users": [(4, current_user.id, 0)]})
 
@@ -168,7 +167,7 @@ class website_marketplace_dashboard(http.Controller):
     def account(self):
         seller_dashboard_menu_id = request.env[
             'ir.model.data'].get_object_reference('odoo_marketplace', 'wk_seller_dashboard')[1]
-        new_url = "/web#menu_id=" + str(seller_dashboard_menu_id)
+        new_url = f"/web#menu_id={str(seller_dashboard_menu_id)}"
         return request.redirect(new_url)
 
 
@@ -185,10 +184,7 @@ class MarketplaceSellerProfile(http.Controller):
                 sameurl = request.env[model].sudo().search([('url_handler', '=', url_handler)])
         else:
             sameurl = request.env["res.partner"].sudo().search([('url_handler', '=', url_handler)])
-        if len(sameurl) == 0:
-            return True
-        else:
-            return False
+        return len(sameurl) == 0
 
     @http.route(['/seller/profile/<int:seller_id>',
         '/seller/profile/<int:seller_id>/page/<int:page>',
@@ -200,11 +196,11 @@ class MarketplaceSellerProfile(http.Controller):
         uid, context, env = request.uid, dict(request.env.context), request.env
         if seller_url_handler:
             seller = request.env["res.partner"].sudo().search([("url_handler", "=", str(seller_url_handler))], limit=1)
-            url = "/seller/profile/" + str(seller.url_handler)
+            url = f"/seller/profile/{str(seller.url_handler)}"
         elif seller_id:
             seller = env['res.partner'].sudo().browse(seller_id)
             wk_name = seller.sudo().name.strip().replace(" ", "-")
-            url = '/seller/profile/' + wk_name + '-' + str(seller.id)
+            url = f'/seller/profile/{wk_name}-{str(seller.id)}'
         if not seller or not seller.seller or not seller.website_published:
             return request.render("http_routing.403")
         if not ppg:
@@ -226,13 +222,11 @@ class MarketplaceSellerProfile(http.Controller):
         else:
             pricelist = env['product.pricelist'].sudo().browse(context['pricelist'])
 
-        # Calculate seller total sales count
-        sales_count = 0
         all_products = request.env['product.template'].sudo().search(
             [("marketplace_seller_id", "=", seller.sudo().id)])
-        for prod in all_products.with_user(SUPERUSER_ID):
-            sales_count += prod.sales_count
-
+        sales_count = sum(
+            prod.sales_count for prod in all_products.with_user(SUPERUSER_ID)
+        )
         attrib_list = request.httprequest.args.getlist('attrib')
         url_for_keep = url
         keep = QueryURL(url_for_keep, category=category and int(
@@ -273,7 +267,7 @@ class MarketplaceSellerProfile(http.Controller):
         if not seller_id:
             return False
         uid, context, env = request.uid, dict(request.env.context), request.env
-        url = "/seller/" + str(seller_id)
+        url = f"/seller/{str(seller_id)}"
         seller_obj = env["res.partner"].sudo().browse(seller_id)
         recently_product = request.website.mp_recently_product
 
@@ -359,7 +353,7 @@ class MarketplaceSellerProfile(http.Controller):
     def _get_search_order(self, post):
         # OrderBy will be parsed in orm and so no direct sql injection
         # id is added to be sure that order is a unique sort key
-        return 'is_published desc,%s , id desc' % post.get('order', 'website_sequence desc')
+        return f"is_published desc,{post.get('order', 'website_sequence desc')} , id desc"
 
     def _get_seller_search_domain(self, search):
         domain = [("website_published", "=", True), ("seller", '=', True), ("state", "=", "approved")]
@@ -473,7 +467,7 @@ class MarketplaceSellerShop(http.Controller):
             return request.env['product.template'].browse(product_obj.ids)
 
         uid, context, env = request.uid, dict(request.env.context), request.env
-        url = "/seller/shop/" + str(shop_obj.url_handler)
+        url = f"/seller/shop/{str(shop_obj.url_handler)}"
         if search:
             post["search"] = search
 
@@ -504,7 +498,7 @@ class MarketplaceSellerShop(http.Controller):
             sales_count += prod.sales_count
 
         attrib_list = request.httprequest.args.getlist('attrib')
-        url_for_keep = '/seller/shop/' + str(shop_obj.url_handler)
+        url_for_keep = f'/seller/shop/{str(shop_obj.url_handler)}'
         keep = QueryURL(url_for_keep, category=category and int(
             category), search=search, attrib=attrib_list)
 
@@ -521,11 +515,13 @@ class MarketplaceSellerShop(http.Controller):
             'shop_obj': shop_obj,
             'search': search,
             'rows': PPR,
-            'bins': TableCompute().process(products if not search else _get_search_domain(search), ppg, PPR),
+            'bins': TableCompute().process(
+                _get_search_domain(search) if search else products, ppg, PPR
+            ),
             'ppg': ppg,
             'ppr': PPR,
             'pager': pager,
-            'products': products if not search else _get_search_domain(search),
+            'products': _get_search_domain(search) if search else products,
             "keep": keep,
             'compute_currency': compute_currency,
             "pricelist": pricelist,
@@ -558,7 +554,7 @@ class MarketplaceSellerShop(http.Controller):
     @http.route('/seller/shop/recently-product/', type='json', auth="public", website=True)
     def seller_shop_recently_product(self, shop_id, page=0, category=None, search='', ppg=False, **post):
         uid, context, env = request.uid, dict(request.env.context), request.env
-        url = "/seller/shop/" + str(shop_id)
+        url = f"/seller/shop/{str(shop_id)}"
         shop_obj = env["seller.shop"].sudo().browse(shop_id)
         recently_product = request.website.mp_recently_product
 
@@ -655,7 +651,7 @@ class MarketplaceSellerShop(http.Controller):
     def _get_search_order(self, post):
         # OrderBy will be parsed in orm and so no direct sql injection
         # id is added to be sure that order is a unique sort key
-        return 'is_published desc,%s , id desc' % post.get('order', 'website_sequence desc')
+        return f"is_published desc,{post.get('order', 'website_sequence desc')} , id desc"
 
     def _get_seller_shop_search_domain(self, search):
             domain = [("website_published", "=", True)]
@@ -716,21 +712,26 @@ class SellerReview(http.Controller):
 
     @http.route(['/seller/review'], type='json', auth="public", website=True)
     def review(self, **post):
-        if post.get('review') and post.get('title') and post.get('stars'):
-            review_dict = {}
-            review_dict['msg'] = post.get('review')
-            review_dict['rating'] = int(post.get('stars'))
-            review_dict['title'] = post.get('title')
-            review_dict['marketplace_seller_id'] = post.get('seller_id')
-            review_dict["partner_id"] = request.env.user.partner_id.id
-            review_dict["website_published"] = request.website.mp_review_auto_publish
-            review_obj = request.env['seller.review'].sudo().create(review_dict)
-            message_to_publish = request.website.mp_message_to_publish
-            if message_to_publish:
-                return message_to_publish
-            else:
-                return "  Congratulation!!! your review has been submitted successfully."
-        return "  Congratulation!!! your review has been submitted successfully."
+        if (
+            not post.get('review')
+            or not post.get('title')
+            or not post.get('stars')
+        ):
+            return "  Congratulation!!! your review has been submitted successfully."
+        review_dict = {
+            'msg': post.get('review'),
+            'rating': int(post.get('stars')),
+            'title': post.get('title'),
+            'marketplace_seller_id': post.get('seller_id'),
+            "partner_id": request.env.user.partner_id.id,
+            "website_published": request.website.mp_review_auto_publish,
+        }
+        review_obj = request.env['seller.review'].sudo().create(review_dict)
+        return (
+            message_to_publish
+            if (message_to_publish := request.website.mp_message_to_publish)
+            else "  Congratulation!!! your review has been submitted successfully."
+        )
 
     @http.route(['/seller/shop/change_styles'], type='json', auth="public")
     def change_styles(self, id, style_id):
@@ -761,31 +762,28 @@ class SellerReview(http.Controller):
             return False
         if review_help == 0:
             return False
-        if seller_review_id and review_help:
-            review_help_ids = request.env['review.help'].search(
-                [('seller_review_id', '=', seller_review_id), ('customer_id', '=', request.env.user.partner_id.id)])
-            if review_help_ids:
+        if review_help:
+            if review_help_ids := request.env['review.help'].search(
+                [
+                    ('seller_review_id', '=', seller_review_id),
+                    ('customer_id', '=', request.env.user.partner_id.id),
+                ]
+            ):
                 review_help_id = review_help_obj.browse(review_help_ids[0])
-                if review_help == 1:
-                    review_help_ids[0].write({"review_help": "yes"})
-                if review_help == -1:
+                if review_help in [-1, 2]:
                     review_help_ids[0].write({"review_help": "no"})
-                if review_help == 2:
-                    review_help_ids[0].write({"review_help": "no"})
-                if review_help == -2:
+                elif review_help in [1, -2]:
                     review_help_ids[0].write({"review_help": "yes"})
-            else:
-                if review_help == 1:
-                    review_help_obj.sudo().create(
-                        {"customer_id": request.env.user.partner_id.id, "seller_review_id": seller_review_id, "review_help": "yes"})
-                if review_help == -1:
-                    review_help_obj.sudo().create(
-                        {"customer_id": request.env.user.partner_id.id, "seller_review_id": seller_review_id, "review_help": "no"})
+            elif review_help == -1:
+                review_help_obj.sudo().create(
+                    {"customer_id": request.env.user.partner_id.id, "seller_review_id": seller_review_id, "review_help": "no"})
+            elif review_help == 1:
+                review_help_obj.sudo().create(
+                    {"customer_id": request.env.user.partner_id.id, "seller_review_id": seller_review_id, "review_help": "yes"})
             review_obj = request.env['seller.review'].browse(seller_review_id)
             review_obj.sudo()._set_total_helpful()  # Call depends method manually
             review_obj.sudo()._set_total_not_helpful()  # Call depends method manually
-            res.append(review_obj.helpful)
-            res.append(review_obj.not_helpful)
+            res.extend((review_obj.helpful, review_obj.not_helpful))
         return res
 
     @http.route(['/seller/load/review'], type='json', auth="public", website=True)
@@ -830,9 +828,12 @@ class SellerReview(http.Controller):
         if not seller_id:
             return False
 
-        recommend_ids = recommend_obj.search(
-            [('seller_id', '=', seller_id), ('customer_id', '=', request.env.user.partner_id.id)])
-        if recommend_ids:
+        if recommend_ids := recommend_obj.search(
+            [
+                ('seller_id', '=', seller_id),
+                ('customer_id', '=', request.env.user.partner_id.id),
+            ]
+        ):
             for rec in recommend_ids:
                 rec.sudo().write({"recommend_state": recommend_state})
         else:
@@ -850,13 +851,9 @@ class SellerReview(http.Controller):
 
         # This code must be used in create of review
         if len(sol_objs.ids) == 0:
-            return_message = _(
-                "You have to purchase a product of this seller first.")
-            return return_message
+            return _("You have to purchase a product of this seller first.")
         elif len(for_seller_total_review_obj.ids) >= len(sol_objs.ids):
-            return_message = _(
-                "According to your purchase your review limit is over.")
-            return return_message
+            return _("According to your purchase your review limit is over.")
         else:
             return True
 
@@ -874,8 +871,7 @@ class MarketplaceMail(http.Controller):
     @http.route(['/marketplace_mail/post/json'], type='json', auth='public', website=True)
     def mp_chatter_json(self, res_model='', res_id=None, message='', **kw):
         res_id = int(res_id) if res_id else res_id
-        data = WebsiteMail().chatter_json(res_model, res_id, message, **kw)
-        if data:
+        if data := WebsiteMail().chatter_json(res_model, res_id, message, **kw):
             return request.env.ref("odoo_marketplace.mp_chatter_mail_append").render(data, engine='ir.qweb')
         else:
             return False

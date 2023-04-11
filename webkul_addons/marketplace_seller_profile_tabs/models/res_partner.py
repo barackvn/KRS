@@ -27,10 +27,7 @@ class ResPartner(models.Model):
             user_groups = user_obj.read(['groups_id'])
             if user_groups and user_groups[0].get("groups_id"):
                 user_groups_ids = user_groups[0].get("groups_id")
-                if product_variant_group.id in user_groups_ids:
-                    obj.allow_profile_tabs = True
-                else:
-                    obj.allow_profile_tabs = False
+                obj.allow_profile_tabs = product_variant_group.id in user_groups_ids
             else:
                 obj.allow_profile_tabs = False
 
@@ -39,20 +36,24 @@ class ResPartner(models.Model):
 
     def enable_profile_tabs_group(self):
         for obj in self:
-            user = self.env["res.users"].sudo().search(
-                [('partner_id', '=', obj.id)])
-            if user:
-                # Add seller to profile tabs group
-                group = self.env.ref('marketplace_seller_profile_tabs.mp_seller_profile_tab_group')
-                if group:
+            if (
+                user := self.env["res.users"]
+                .sudo()
+                .search([('partner_id', '=', obj.id)])
+            ):
+                if group := self.env.ref(
+                    'marketplace_seller_profile_tabs.mp_seller_profile_tab_group'
+                ):
                     group.sudo().write({"users": [(4, user.id, 0)]})
 
     def disable_profile_tabs_group(self):
         for obj in self:
-            user = self.env["res.users"].sudo().search(
-                [('partner_id', '=', obj.id)])
-            if user:
-                # Remove seller from profile tabs group
-                group = self.env.ref('marketplace_seller_profile_tabs.mp_seller_profile_tab_group')
-                if group:
+            if (
+                user := self.env["res.users"]
+                .sudo()
+                .search([('partner_id', '=', obj.id)])
+            ):
+                if group := self.env.ref(
+                    'marketplace_seller_profile_tabs.mp_seller_profile_tab_group'
+                ):
                     group.sudo().write({"users": [(3, user.id, 0)]})
